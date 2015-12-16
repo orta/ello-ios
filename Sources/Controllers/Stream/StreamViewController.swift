@@ -20,13 +20,13 @@ public protocol SimpleStreamDelegate: NSObjectProtocol {
     func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
-public protocol StreamImageCellDelegate : NSObjectProtocol {
+public protocol StreamImageCellDelegate: NSObjectProtocol {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
 
 @objc
 public protocol StreamScrollDelegate: NSObjectProtocol {
-    func streamViewDidScroll(scrollView : UIScrollView)
+    func streamViewDidScroll(scrollView: UIScrollView)
     optional func streamViewWillBeginDragging(scrollView: UIScrollView)
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
@@ -70,28 +70,28 @@ public class StreamViewController: BaseElloViewController {
             titleParagraphStyle.lineSpacing = 17
 
             let titleAttributes = [
-                NSFontAttributeName : UIFont.defaultBoldFont(18),
-                NSForegroundColorAttributeName : UIColor.blackColor(),
-                NSParagraphStyleAttributeName : titleParagraphStyle
+                NSFontAttributeName: UIFont.defaultBoldFont(18),
+                NSForegroundColorAttributeName: UIColor.blackColor(),
+                NSParagraphStyleAttributeName: titleParagraphStyle
             ]
 
             let bodyParagraphStyle = NSMutableParagraphStyle()
             bodyParagraphStyle.lineSpacing = 8
 
             let bodyAttributes = [
-                NSFontAttributeName : UIFont.defaultFont(),
-                NSForegroundColorAttributeName : UIColor.blackColor(),
-                NSParagraphStyleAttributeName : bodyParagraphStyle
+                NSFontAttributeName: UIFont.defaultFont(),
+                NSForegroundColorAttributeName: UIColor.blackColor(),
+                NSParagraphStyleAttributeName: bodyParagraphStyle
             ]
 
-            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes:titleAttributes)
-            let body = NSAttributedString(string: self.noResultsMessages.body, attributes:bodyAttributes)
+            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes: titleAttributes)
+            let body = NSAttributedString(string: self.noResultsMessages.body, attributes: bodyAttributes)
             self.noResultsLabel.attributedText = title.append(body)
         }
     }
 
-    public var dataSource:StreamDataSource!
-    public var postbarController:PostbarController?
+    public var dataSource: StreamDataSource!
+    public var postbarController: PostbarController?
     var relationshipController: RelationshipController?
     public var responseConfig: ResponseConfig?
     public let streamService = StreamService()
@@ -125,16 +125,16 @@ public class StreamViewController: BaseElloViewController {
     var settingChangedNotification: NotificationObserver?
     var currentUserChangedNotification: NotificationObserver?
 
-    weak var createPostDelegate : CreatePostDelegate?
-    weak var postTappedDelegate : PostTappedDelegate?
-    weak var userTappedDelegate : UserTappedDelegate?
-    weak var streamScrollDelegate : StreamScrollDelegate?
-    var notificationDelegate:NotificationDelegate? {
+    weak var createPostDelegate: CreatePostDelegate?
+    weak var postTappedDelegate: PostTappedDelegate?
+    weak var userTappedDelegate: UserTappedDelegate?
+    weak var streamScrollDelegate: StreamScrollDelegate?
+    var notificationDelegate: NotificationDelegate? {
         get { return dataSource.notificationDelegate }
         set { dataSource.notificationDelegate = newValue }
     }
 
-    var streamFilter:StreamDataSource.StreamFilter {
+    var streamFilter: StreamDataSource.StreamFilter {
         get { return dataSource.streamFilter }
         set {
             dataSource.streamFilter = newValue
@@ -183,7 +183,7 @@ public class StreamViewController: BaseElloViewController {
         super.viewDidLoad()
 
         pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)
-        pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
+        pullToRefreshView?.contentView = ElloPullToRefreshView(frame: CGRectZero)
         pullToRefreshView?.hidden = !pullToRefreshEnabled
 
         setupCollectionView()
@@ -457,7 +457,7 @@ public class StreamViewController: BaseElloViewController {
         currentUserChangedNotification?.removeObserver()
     }
 
-    private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
+    private func updateCellHeight(indexPath: NSIndexPath, height: CGFloat) {
         let existingHeight = dataSource.heightForIndexPath(indexPath, numberOfColumns: streamKind.columnCount)
         if height != existingHeight {
             collectionView.performBatchUpdates({
@@ -616,12 +616,12 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     }
 }
 
-// MARK: StreamViewController : StreamCollectionViewLayoutDelegate
-extension StreamViewController : StreamCollectionViewLayoutDelegate {
+// MARK: StreamViewController: StreamCollectionViewLayoutDelegate
+extension StreamViewController: StreamCollectionViewLayoutDelegate {
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSizeMake(UIWindow.windowWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
+            return CGSizeMake(UIWindow.windowWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns: 1))
     }
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
@@ -631,7 +631,7 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
-            return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
+            return dataSource.heightForIndexPath(indexPath, numberOfColumns: numberOfColumns)
     }
 
     public func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -663,8 +663,15 @@ extension StreamViewController: StreamImageCellDelegate {
     }
 }
 
-// MARK: StreamViewController : UserDelegate
-extension StreamViewController : UserDelegate {
+// MARK: StreamViewController: Commenting
+extension StreamViewController {
+    public func createCommentTapped(post: Post) {
+        createPostDelegate?.createComment(post, text: nil, fromController: self)
+    }
+}
+
+// MARK: StreamViewController: UserDelegate
+extension StreamViewController: UserDelegate {
 
     public func userTappedText(cell: UICollectionViewCell) {
         if streamKind.tappingTextOpensDetail {
@@ -674,11 +681,15 @@ extension StreamViewController : UserDelegate {
         }
     }
 
+    public func userTapped(user: User) {
+        userTappedDelegate?.userTapped(user)
+    }
+
     public func userTappedAvatar(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell),
            user = dataSource.userForIndexPath(indexPath)
         {
-            userTappedDelegate?.userTapped(user)
+            userTapped(user)
         }
     }
 
@@ -688,8 +699,8 @@ extension StreamViewController : UserDelegate {
 
 }
 
-// MARK: StreamViewController : WebLinkDelegate
-extension StreamViewController : WebLinkDelegate {
+// MARK: StreamViewController: WebLinkDelegate
+extension StreamViewController: WebLinkDelegate {
 
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
@@ -753,59 +764,59 @@ extension StreamViewController : WebLinkDelegate {
     }
 }
 
-// MARK: StreamViewController : UICollectionViewDelegate
-extension StreamViewController : UICollectionViewDelegate {
+// MARK: StreamViewController: UICollectionViewDelegate
+extension StreamViewController: UICollectionViewDelegate {
 
     public func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         dataSource.willDisplayCell(cell, forItemAtIndexPath: indexPath)
     }
 
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
+        let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
 
-            if tappedCell is StreamToggleCell {
-                dataSource.toggleCollapsedForIndexPath(indexPath)
-                collectionView.reloadData()
+        if tappedCell is StreamToggleCell {
+            dataSource.toggleCollapsedForIndexPath(indexPath)
+            collectionView.reloadData()
+        }
+        else if tappedCell is UserListItemCell {
+            if let user = dataSource.userForIndexPath(indexPath) {
+                userTapped(user)
             }
-            else if tappedCell is UserListItemCell {
-                if let user = dataSource.userForIndexPath(indexPath) {
-                    userTappedDelegate?.userTapped(user)
-                }
-            }
-            else if tappedCell is StreamSeeMoreCommentsCell {
-                if  let comment = dataSource.commentForIndexPath(indexPath),
-                    let post = comment.parentPost
-                {
-                    postTappedDelegate?.postTapped(post)
-                }
-            }
-            else if tappedCell is StreamRepostHeaderCell {
-                if let post = dataSource.postForIndexPath(indexPath),
-                    user = post.author
-                {
-                    userTappedDelegate?.userTapped(user)
-                }
-            }
-            else if let post = dataSource.postForIndexPath(indexPath) {
-                postTappedDelegate?.postTapped(post)
-            }
-            else if let item = dataSource.visibleStreamCellItem(at: indexPath),
-                let notification = item.jsonable as? Notification,
-                let postId = notification.postId
-            {
-                postTappedDelegate?.postTapped(postId: postId)
-            }
-            else if let item = dataSource.visibleStreamCellItem(at: indexPath),
-                let notification = item.jsonable as? Notification,
-                let user = notification.subject as? User
-            {
-                userTappedDelegate?.userTapped(user)
-            }
-            else if let comment = dataSource.commentForIndexPath(indexPath),
+        }
+        else if tappedCell is StreamSeeMoreCommentsCell {
+            if  let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
             {
-                createPostDelegate?.createComment(post, text: nil, fromController: self)
+                postTappedDelegate?.postTapped(post)
             }
+        }
+        else if tappedCell is StreamRepostHeaderCell {
+            if let post = dataSource.postForIndexPath(indexPath),
+                user = post.author
+            {
+                userTapped(user)
+            }
+        }
+        else if let post = dataSource.postForIndexPath(indexPath) {
+            postTappedDelegate?.postTapped(post)
+        }
+        else if let item = dataSource.visibleStreamCellItem(at: indexPath),
+            let notification = item.jsonable as? Notification,
+            let postId = notification.postId
+        {
+            postTappedDelegate?.postTapped(postId: postId)
+        }
+        else if let item = dataSource.visibleStreamCellItem(at: indexPath),
+            let notification = item.jsonable as? Notification,
+            let user = notification.subject as? User
+        {
+            userTapped(user)
+        }
+        else if let comment = dataSource.commentForIndexPath(indexPath),
+            let post = comment.parentPost
+        {
+            createCommentTapped(post)
+        }
     }
 
     public func collectionView(collectionView: UICollectionView,
@@ -817,10 +828,10 @@ extension StreamViewController : UICollectionViewDelegate {
     }
 }
 
-// MARK: StreamViewController : UIScrollViewDelegate
-extension StreamViewController : UIScrollViewDelegate {
+// MARK: StreamViewController: UIScrollViewDelegate
+extension StreamViewController: UIScrollViewDelegate {
 
-    public func scrollViewDidScroll(scrollView : UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         streamScrollDelegate?.streamViewDidScroll(scrollView)
         if !noResultsLabel.hidden {
             noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
