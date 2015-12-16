@@ -68,7 +68,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="S9N-jg-uFq" userLabel="usernameButton">
-                                        <rect key="frame" x="272" y="10" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="46" y="0.0" width="288" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
                                         <connections>
@@ -114,7 +114,7 @@
                 <outlet property="timestampLabel" destination="zST-5M-mHb" id="rz7-sL-nBo"/>
                 <outlet property="usernameButton" destination="S9N-jg-uFq" id="6qx-UK-Ym9"/>
             </connections>
-            <point key="canvasLocation" x="131.5" y="663"/>
+            <point key="canvasLocation" x="131.5" y="665"/>
         </collectionViewCell>
     </objects>
 </document>
