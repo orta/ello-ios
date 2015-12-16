@@ -663,6 +663,13 @@ extension StreamViewController: StreamImageCellDelegate {
     }
 }
 
+// MARK: StreamViewController: Commenting
+extension StreamViewController {
+    public func createCommentTapped(post: Post) {
+        createPostDelegate?.createComment(post, text: nil, fromController: self)
+    }
+}
+
 // MARK: StreamViewController: UserDelegate
 extension StreamViewController: UserDelegate {
 
@@ -804,7 +811,7 @@ extension StreamViewController: UICollectionViewDelegate {
         else if let comment = dataSource.commentForIndexPath(indexPath),
             let post = comment.parentPost
         {
-            createPostDelegate?.createComment(post, text: nil, fromController: self)
+            createCommentTapped(post)
         }
     }
 
