@@ -124,7 +124,7 @@ platform :ios do
       app_identifier: "co.ello.ElloDev", 
       adhoc: true, 
       output_path: "./fastlane/profiles",
-      development: true
+      development: false
     )
 
     # use the UDID of the newly created provisioning profile

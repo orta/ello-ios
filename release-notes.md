@@ -1,3 +1,18 @@
+### Ello Build 1.3.0(3654) December 15, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #656 - A couple tweaks to the Fastlane config
+
+------
+
+#### #657 - I guess Lucian wants to test this?
+So here goes!
+    
+------------
+
 ### Ello Build 1.3.0(3647) December 14, 2015
 
     RELEASE NOTES
