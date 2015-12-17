@@ -82,6 +82,11 @@ public class StreamContainerViewController: StreamableViewController {
         Tracker.sharedTracker.streamAppeared(stream.name)
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        streamsSegmentedControl.frame.size.height = 19
+    }
+
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         addTemporaryNotificationObservers()
