@@ -84,6 +84,10 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        // Rotating the phone after opening a web page results in the
+        // streamsSegmentedControl "flattening" to 1pt height.  So we just fix
+        // it when the controller is shown again (e.g. when hiding the web page)
         streamsSegmentedControl.frame.size.height = 19
     }
 
