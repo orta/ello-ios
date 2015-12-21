@@ -30,7 +30,7 @@ public protocol OmnibarScreenProtocol: class {
     var currentUser: User? { get set }
     var canGoBack: Bool { get set }
     var isEditing: Bool { get set }
-    func reportSuccess(title: String)
+    func resetAfterSuccessfulPost()
     func reportError(title: String, error: NSError)
     func reportError(title: String, errorMessage: String)
     func keyboardWillShow()
@@ -397,17 +397,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
 // MARK: Public interface
 
-    public func reportSuccess(title: String) {
-        let alertController = AlertViewController(message: title)
-
-        let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
-        alertController.addAction(cancelAction)
-
-        delegate?.omnibarPresentController(alertController)
-        self.resetAfterSuccessfulPost()
-    }
-
-    private func resetAfterSuccessfulPost() {
+    public func resetAfterSuccessfulPost() {
         resetEditor()
     }
 

@@ -190,7 +190,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else {
             let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
-            if !isShowingNarration && presentedViewController == nil {
+            let isPosting = (view.userInteractionEnabled == false)
+            if !isShowingNarration && !isPosting && presentedViewController == nil {
                 // desired behavior: animate the keyboard in when this screen is
                 // shown.  without the delay, the keyboard just appears suddenly.
                 delay(0) {
@@ -345,10 +346,19 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarSubmitted(regions: [OmnibarRegion]) {
         let content = generatePostContent(regions)
-        if content.count == 0 {
+        guard content.count > 0 else {
             return
         }
 
+        if let authorId = currentUser?.id {
+            startPosting(authorId, content)
+        }
+        else {
+            contentCreationFailed(NSLocalizedString("You must be logged in", comment: "You must be logged in"))
+        }
+    }
+
+    private func startPosting(authorId: String, _ content: [PostEditingService.PostContentRegion]) {
         let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
@@ -361,43 +371,39 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else {
             service = PostEditingService()
+
+            goToPreviousTab()
         }
 
-        if content.count > 0 {
-            ElloHUD.showLoadingHudInView(view)
-            if let authorId = currentUser?.id {
-                service.create(
-                    content: content,
-                    authorId: authorId,
-                    success: { postOrComment in
-                        ElloHUD.hideLoadingHudInView(self.view)
-
-                        if self.editPost != nil || self.editComment != nil {
-                            NSURLCache.sharedURLCache().removeAllCachedResponses()
-                        }
-
-                        if self.parentPost != nil || self.editComment != nil {
-                            let comment = postOrComment as! Comment
-                            self.emitCommentSuccess(comment)
-                        }
-                        else {
-                            let post = postOrComment as! Post
-                            self.emitPostSuccess(post)
-                        }
-                    },
-                    failure: { error, statusCode in
-                        ElloHUD.hideLoadingHudInView(self.view)
-                        self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
-                    }
-                )
-            }
-            else {
+        ElloHUD.showLoadingHudInView(view)
+        view.userInteractionEnabled = false
+        service.create(
+            content: content,
+            authorId: authorId,
+            success: { postOrComment in
                 ElloHUD.hideLoadingHudInView(self.view)
-                contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+                self.view.userInteractionEnabled = true
+
+                if self.editPost != nil || self.editComment != nil {
+                    NSURLCache.sharedURLCache().removeAllCachedResponses()
+                }
+
+                self.emitSuccess(postOrComment)
+            },
+            failure: { error, statusCode in
+                ElloHUD.hideLoadingHudInView(self.view)
+                self.view.userInteractionEnabled = true
+                self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
             }
+        )
+    }
+
+    private func emitSuccess(postOrComment: AnyObject) {
+        if let comment = postOrComment as? Comment {
+            self.emitCommentSuccess(comment)
         }
-        else {
-            contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+        else if let post = postOrComment as? Post {
+            self.emitPostSuccess(post)
         }
     }
 
@@ -437,8 +443,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             listener(post: post)
         }
         else {
-            goToPreviousTab()
-            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+            self.screen.resetAfterSuccessfulPost()
+            NotificationBanner.displayAlert(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
         }
     }
 
