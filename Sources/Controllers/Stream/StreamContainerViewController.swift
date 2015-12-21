@@ -93,6 +93,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
         addTemporaryNotificationObservers()
         if !loggedPromptEventForThisSession {
             Rate.sharedRate.logEvent()

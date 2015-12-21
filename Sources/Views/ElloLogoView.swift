@@ -9,13 +9,16 @@
 import QuartzCore
 import FLAnimatedImage
 
+private let AngleToValue = (360.0 * M_PI) / 180.0
+
 public class ElloLogoView: FLAnimatedImageView {
     struct Size {
         static let natural = CGSize(width: 60, height: 60)
         static let big = CGSize(width: 166, height: 166)
     }
 
-    let toValue = (360.0 * M_PI) / 180.0
+    var wasAnimating = false
+    var shouldReanimate = true
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,25 +33,45 @@ public class ElloLogoView: FLAnimatedImageView {
         self.image = Interface.Image.ElloLogo.normalImage
     }
 
+    override public func willMoveToWindow(newWindow: UIWindow?) {
+        super.willMoveToWindow(newWindow)
+        if wasAnimating && newWindow == nil {
+            shouldReanimate = true
+        }
+    }
+
+    override public func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil && shouldReanimate {
+            shouldReanimate = false
+            animateLogo()
+        }
+    }
+
     func animateLogo() {
+        wasAnimating = true
+
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
         rotate.fromValue = 0.0
-        rotate.toValue = self.toValue
+        rotate.toValue = AngleToValue
         rotate.duration = 0.35
         rotate.repeatCount = 1_000_000
         self.layer.addAnimation(rotate, forKey: "logo-spin")
     }
 
     func stopAnimatingLogo() {
+        wasAnimating = false
+
+        self.layer.removeAllAnimations()
+
         let endAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         if let layer = self.layer.presentationLayer() as? CALayer {
             let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
             endAnimation.fromValue = angle.floatValue
-            endAnimation.toValue = self.toValue
+            endAnimation.toValue = AngleToValue
             endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             endAnimation.duration = 0.25
         }
-        self.layer.removeAllAnimations()
         self.layer.addAnimation(endAnimation, forKey: "logo-finish")
     }
 }
