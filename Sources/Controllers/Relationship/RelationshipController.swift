@@ -63,11 +63,13 @@ extension RelationshipController: RelationshipDelegate {
                     complete(status: .Success, relationship: relationship, isFinalValue: responseConfig.isFinalValue)
 
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: relationship)
-                    if let owner = relationship.owner {
-                        postNotification(RelationshipChangedNotification, value: owner)
-                    }
-                    if let subject = relationship.subject {
-                        postNotification(RelationshipChangedNotification, value: subject)
+                    if responseConfig.isFinalValue {
+                        if let owner = relationship.owner {
+                            postNotification(RelationshipChangedNotification, value: owner)
+                        }
+                        if let subject = relationship.subject {
+                            postNotification(RelationshipChangedNotification, value: subject)
+                        }
                     }
                 }
                 else {
