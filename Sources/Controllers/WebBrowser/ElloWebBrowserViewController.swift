@@ -73,7 +73,7 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         break
         case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
         case .Discover: self.selectTab(.Discovery)
-        case .Enter, .Exit, .Root: self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        case .Enter, .Exit, .Root, .Explore: self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
         case .Friends, .Following, .Noise, .Starred: self.selectTab(.Stream)
         case .Notifications: self.selectTab(.Notifications)
         case .Post,

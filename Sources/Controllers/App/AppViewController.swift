@@ -449,7 +449,7 @@ extension AppViewController {
              .DiscoverRandom,
              .DiscoverRelated:
             showDiscoverScreen(vc)
-        case .Enter, .Exit, .Root:
+        case .Enter, .Exit, .Root, .Explore:
             break
         case .Friends,
              .Following:

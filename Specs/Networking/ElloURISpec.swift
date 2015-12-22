@@ -249,6 +249,7 @@ class ElloURISpec: QuickSpec {
                         "with DiscoverRelated urls": (input: "discover/related", output: .DiscoverRelated),
                         "with Downloads urls": (input: "downloads", output: .Downloads),
                         "with Enter urls": (input: "enter", output: .Enter),
+                        "with Explore urls": (input: "explore", output: .Explore),
                         "with Exit urls": (input: "exit", output: .Exit),
                         "with FaceMaker urls": (input: "facemaker", output: .FaceMaker),
                         "with ForgotMyPassword urls": (input: "forgot-my-password", output: .ForgotMyPassword),

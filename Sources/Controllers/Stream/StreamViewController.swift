@@ -709,7 +709,7 @@ extension StreamViewController: WebLinkDelegate {
         case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, value: data)
         case .Discover: selectTab(.Discovery)
         case .Email: break // this is handled in ElloWebViewHelper
-        case .Enter, .Exit, .Root: break // do nothing since we should already be in app
+        case .Enter, .Exit, .Root, .Explore: break // do nothing since we should already be in app
         case .Friends, .Following, .Noise, .Starred: selectTab(.Stream)
         case .Notifications: selectTab(.Notifications)
         case .Post,

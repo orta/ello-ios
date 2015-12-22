@@ -36,6 +36,7 @@ public enum ElloURI: String {
     case BetaPublicProfiles = "beta-public-profiles"
     case Downloads = "downloads"
     case Exit = "exit"
+    case Explore = "explore"
     case FaceMaker = "facemaker"
     case ForgotMyPassword = "forgot-my-password"
     case FreedomOfSpeech = "freedom-of-speech"
@@ -63,7 +64,7 @@ public enum ElloURI: String {
 
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover, .Email, .Enter, .Explore, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
         default: return true
         }
     }
@@ -206,6 +207,7 @@ public enum ElloURI: String {
         Downloads,
         Enter,
         Exit,
+        Explore,
         ForgotMyPassword,
         FreedomOfSpeech,
         FaceMaker,
