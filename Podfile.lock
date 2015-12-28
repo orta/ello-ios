@@ -13,11 +13,10 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.1.0-rc):
     - CocoaLumberjack/Default
-  - Crashlytics (3.3.4)
+  - Crashlytics (3.4.1):
+    - Fabric (~> 1.6.0)
   - CRToast (0.0.7)
-  - Fabric (1.5.5):
-    - Fabric/Base (= 1.5.5)
-  - Fabric/Base (1.5.5)
+  - Fabric (1.6.1)
   - FBSnapshotTestCase (2.0.7):
     - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
   - FBSnapshotTestCase/Core (2.0.7)
@@ -80,9 +79,9 @@ DEPENDENCIES:
   - 1PasswordExtension (from `https://github.com/ello/onepassword-app-extension`)
   - Alamofire (~> 2.0)
   - Analytics/Segmentio
-  - Crashlytics (~> 3.3)
+  - Crashlytics (~> 3.4)
   - CRToast (from `https://github.com/ello/CRToast`)
-  - Fabric (~> 1.5)
+  - Fabric (~> 1.6)
   - Firebase
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - iRate (~> 1.11)
@@ -175,9 +174,9 @@ SPEC CHECKSUMS:
   Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
   Analytics: 06433a3f5a7932bb819ef2595471ce5ad03742df
   CocoaLumberjack: 79c854060d1a04176ea18b9bae2a3f15da80ceb0
-  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
+  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
-  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
   Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
