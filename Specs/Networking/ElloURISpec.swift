@@ -134,6 +134,7 @@ class ElloURISpec: QuickSpec {
                 describe("app loadable routes with query params") {
                     let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
                         "with Search(query param) urls": (input: "search?terms=%23hashtag", outputURI: .Search, outputData: "#hashtag"),
+                        "with Find(query param) urls": (input: "find?terms=%23hashtag", outputURI: .Search, outputData: "#hashtag"),
                         "with Profile(query param) urls": (input: "666?expanded=true", outputURI: .Profile, outputData: "666"),
                         "with Post(query param) urls": (input: "777/post/123?expanded=true", outputURI: .Post, outputData: "123"),
                     ]
@@ -176,6 +177,7 @@ class ElloURISpec: QuickSpec {
                 describe("app loadable routes") {
                     let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
                         "with Search urls": (input: "search", outputURI: .Search, outputData: ""),
+                        "with Find urls": (input: "find", outputURI: .Search, outputData: ""),
                         "with Profile urls": (input: "666", outputURI: .Profile, outputData: "666"),
                         "with ProfileFollowers urls": (input: "777/followers", outputURI: .ProfileFollowers, outputData: "777"),
                         "with ProfileFollowing urls": (input: "888/following", outputURI: .ProfileFollowing, outputData: "888"),
@@ -268,7 +270,9 @@ class ElloURISpec: QuickSpec {
                         "with RequestInvitations urls": (input: "request_invitations", output: .RequestInvitations),
                         "with ResetMyPassword urls": (input: "reset-my-password", output: .ResetMyPassword),
                         "with SearchPeople urls": (input: "search/people", output: .SearchPeople),
+                        "with FindPeople urls": (input: "find/people", output: .SearchPeople),
                         "with SearchPosts urls": (input: "search/posts", output: .SearchPosts),
+                        "with FindPosts urls": (input: "find/posts", output: .SearchPosts),
                         "with Settings urls": (input: "settings", output: .Settings),
                         "with Unblock urls": (input: "unblock", output: .Unblock),
                         "with WhoMadeThis urls": (input: "who-made-this", output: .WhoMadeThis),
