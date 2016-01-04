@@ -27,9 +27,9 @@ public enum ElloURI: String {
     case ProfileFollowers = "followers\\/?$"
     case ProfileFollowing = "following\\/?$"
     case ProfileLoves = "loves\\/?$"
-    case Search = "search\\b\\/?(\\?*.)?"
-    case SearchPeople = "search/people"
-    case SearchPosts = "search/posts"
+    case Search = "(search|find)\\b\\/?(\\?*.)?"
+    case SearchPeople = "(search|find)/people"
+    case SearchPosts = "(search|find)/posts"
     case Settings = "settings"
     // other ello pages
     case Confirm = "confirm"
