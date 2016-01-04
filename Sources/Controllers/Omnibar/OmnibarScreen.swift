@@ -30,6 +30,7 @@ public protocol OmnibarScreenProtocol: class {
     var currentUser: User? { get set }
     var canGoBack: Bool { get set }
     var isEditing: Bool { get set }
+    var interactionEnabled: Bool { get set }
     func resetAfterSuccessfulPost()
     func reportError(title: String, error: NSError)
     func reportError(title: String, errorMessage: String)
@@ -78,6 +79,16 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public var isEditing = false
     public var reordering = false
+
+    public var interactionEnabled: Bool = true {
+        didSet {
+            userInteractionEnabled = interactionEnabled
+            boldButton.userInteractionEnabled = interactionEnabled
+            italicButton.userInteractionEnabled = interactionEnabled
+            linkButton.userInteractionEnabled = interactionEnabled
+            keyboardSubmitButton.userInteractionEnabled = interactionEnabled
+        }
+    }
 
     public typealias IndexedRegion = (Int?, OmnibarRegion)
     public var regions: [OmnibarRegion] {

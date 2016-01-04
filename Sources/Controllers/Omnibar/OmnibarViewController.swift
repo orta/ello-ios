@@ -190,7 +190,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else {
             let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
-            let isPosting = (view.userInteractionEnabled == false)
+            let isPosting = !screen.interactionEnabled
             if !isShowingNarration && !isPosting && presentedViewController == nil {
                 // desired behavior: animate the keyboard in when this screen is
                 // shown.  without the delay, the keyboard just appears suddenly.
@@ -382,13 +382,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         ElloHUD.showLoadingHudInView(view)
-        view.userInteractionEnabled = false
+        screen.interactionEnabled = false
         service.create(
             content: content,
             authorId: authorId,
             success: { postOrComment in
                 ElloHUD.hideLoadingHudInView(self.view)
-                self.view.userInteractionEnabled = true
+                self.screen.interactionEnabled = true
 
                 if self.editPost != nil || self.editComment != nil {
                     NSURLCache.sharedURLCache().removeAllCachedResponses()
@@ -398,7 +398,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             },
             failure: { error, statusCode in
                 ElloHUD.hideLoadingHudInView(self.view)
-                self.view.userInteractionEnabled = true
+                self.screen.interactionEnabled = true
                 self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
             }
         )
