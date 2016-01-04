@@ -17,8 +17,8 @@ public class ElloLogoView: FLAnimatedImageView {
         static let big = CGSize(width: 166, height: 166)
     }
 
-    var wasAnimating = false
-    var shouldReanimate = true
+    private var wasAnimating = false
+    private var shouldReanimate = false
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
