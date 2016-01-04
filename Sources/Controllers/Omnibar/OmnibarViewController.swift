@@ -360,19 +360,25 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     private func startPosting(authorId: String, _ content: [PostEditingService.PostContentRegion]) {
         let service : PostEditingService
+        let didGoToPreviousTab: Bool
+
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
+            didGoToPreviousTab = false
         }
         else if let editPost = editPost {
             service = PostEditingService(editPost: editPost)
+            didGoToPreviousTab = false
         }
         else if let editComment = editComment {
             service = PostEditingService(editComment: editComment)
+            didGoToPreviousTab = false
         }
         else {
             service = PostEditingService()
 
             goToPreviousTab()
+            didGoToPreviousTab = true
         }
 
         ElloHUD.showLoadingHudInView(view)
@@ -388,7 +394,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     NSURLCache.sharedURLCache().removeAllCachedResponses()
                 }
 
-                self.emitSuccess(postOrComment)
+                self.emitSuccess(postOrComment, didGoToPreviousTab: didGoToPreviousTab)
             },
             failure: { error, statusCode in
                 ElloHUD.hideLoadingHudInView(self.view)
@@ -398,12 +404,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         )
     }
 
-    private func emitSuccess(postOrComment: AnyObject) {
+    private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {
         if let comment = postOrComment as? Comment {
             self.emitCommentSuccess(comment)
         }
         else if let post = postOrComment as? Post {
-            self.emitPostSuccess(post)
+            self.emitPostSuccess(post, didGoToPreviousTab: didGoToPreviousTab)
         }
     }
 
@@ -424,7 +430,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    private func emitPostSuccess(post: Post) {
+    private func emitPostSuccess(post: Post, didGoToPreviousTab: Bool) {
         if let user = currentUser, postsCount = user.postsCount {
             user.postsCount = postsCount + 1
             postNotification(CurrentUserChangedNotification, value: user)
@@ -442,8 +448,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let listener = postSuccessListener {
             listener(post: post)
         }
-        else {
-            self.screen.resetAfterSuccessfulPost()
+
+        self.screen.resetAfterSuccessfulPost()
+
+        if didGoToPreviousTab {
             NotificationBanner.displayAlert(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
         }
     }
