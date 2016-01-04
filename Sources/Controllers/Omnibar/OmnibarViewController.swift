@@ -400,6 +400,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 ElloHUD.hideLoadingHudInView(self.view)
                 self.screen.interactionEnabled = true
                 self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
+
+                if let vc = self.parentViewController as? ElloTabBarController
+                where didGoToPreviousTab {
+                    vc.selectedTab = .Post
+                }
             }
         )
     }
