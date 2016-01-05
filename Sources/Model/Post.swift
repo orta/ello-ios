@@ -82,7 +82,7 @@ public final class Post: JSONAble, Authorable {
     public var isRepost: Bool {
         return (repostContent?.count ?? 0) > 0
     }
-
+    private var commentsCountChangedNotification:NotificationObserver?
 
 // MARK: Initialization
 
@@ -113,6 +113,16 @@ public final class Post: JSONAble, Authorable {
         self.loved = loved
         self.summary = summary
         super.init(version: PostVersion)
+
+        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { (post, delta) in
+            if post.id == self.id {
+                self.commentsCount = (self.commentsCount ?? 0) + delta
+            }
+        }
+    }
+
+    deinit {
+        commentsCountChangedNotification?.removeObserver()
     }
 
 // MARK: NSCoding
@@ -145,6 +155,12 @@ public final class Post: JSONAble, Authorable {
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
         self.lovesCount = decoder.decodeOptionalKey("lovesCount")
         super.init(coder: decoder.coder)
+
+        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { (post, delta) in
+            if post.id == self.id {
+                self.commentsCount = (self.commentsCount ?? 0) + delta
+            }
+        }
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {

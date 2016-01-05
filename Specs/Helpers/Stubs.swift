@@ -220,6 +220,8 @@ extension Comment: Stubbable {
         ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
         let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": values["parentPostId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
+        let loadedFromPost: Post = (values["loadedFromPost"] as? Post) ?? parentPost
+        ElloLinkedStore.sharedInstance.setObject(loadedFromPost, forKey: loadedFromPost.id, inCollection: MappingType.PostsType.rawValue)
 
         let comment = Comment(
             id: (values["id"] as? String) ?? NSUUID().UUIDString,
@@ -228,6 +230,8 @@ extension Comment: Stubbable {
             postId: parentPost.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
         )
+
+        comment.loadedFromPostId = loadedFromPost.id
 
         // links
         if let assets = values["assets"] as? [Asset] {
