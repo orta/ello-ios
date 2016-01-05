@@ -42,7 +42,7 @@ public struct ElloProvider {
     )
 
     public enum ErrorStatusCode: Int {
-        case Status401 = 401
+        case Status401_Unauthorized = 401
         case Status403 = 403
         case Status404 = 404
         case Status410 = 410
@@ -72,10 +72,10 @@ public struct ElloProvider {
         let parameters = target.parameters
 
         let sampleResponse = { () -> (EndpointSampleResponse)   in
-            return .Error(ElloProvider.errorStatusCode.rawValue, NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]), { ElloProvider.errorStatusCode.defaultData })
+            return .NetworkError(NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
         }()
 
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: { return sampleResponse }, method: method, parameters: parameters)
 
         return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
 
@@ -84,26 +84,30 @@ public struct ElloProvider {
     public static var endpointClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
         let method = target.method
         let parameters = target.parameters
-        let sampleResponse = EndpointSampleResponse.Success(200, { target.sampleData })
+        let sampleResponse = EndpointSampleResponse.NetworkResponse(200, target.sampleData)
 
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: target.encoding)
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: { return sampleResponse }, method: method, parameters: parameters, parameterEncoding: target.encoding)
         return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
     }
 
+    public static var requestClosure = { (endpoint: Endpoint<ElloAPI>, closure: NSURLRequest -> Void) in
+        return closure(endpoint.urlRequest)
+    }
+
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, requestClosure: requestClosure, manager: manager)
     }
 
     public static func StubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub, manager: manager)
     }
 
     public static func DelayedStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.DelayedStubbingBehaviour(1))
+        return MoyaProvider(endpointClosure: endpointClosure, stubClosure: MoyaProvider.DelayedStub(1))
     }
 
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub, manager: manager)
     }
 
     private struct SharedProvider {

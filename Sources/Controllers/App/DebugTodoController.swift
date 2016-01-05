@@ -34,10 +34,16 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
 
         let appController = UIApplication.sharedApplication().keyWindow!.rootViewController as! AppViewController
         addAction("Logout") {
-            appController.dismissViewControllerAnimated(false, completion: nil)
+            appController.closeTodoController()
             delay(0.1) {
                 appController.userLoggedOut()
             }
+        }
+        addAction("Invalidate token") {
+            var token = AuthToken()
+            token.token = "nil"
+            token.refreshToken = "nil"
+            appController.closeTodoController()
         }
         addAction("Reset Tab bar Tooltips") {
             Defaults[ElloTab.Discovery.narrationDefaultKey] = nil
@@ -62,7 +68,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         }
 
         addAction("Show Notification") {
-            appController.dismissViewControllerAnimated(false, completion: nil)
+            appController.closeTodoController()
             delay(0.5) {
                 PushNotificationController.sharedController.receivedNotification(UIApplication.sharedApplication(), userInfo: [
                     "application_target": "notifications/posts/6178",
@@ -81,7 +87,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             PushNotificationController.sharedController.permissionDenied = false
             PushNotificationController.sharedController.needsPermission = true
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
-                appController.dismissViewControllerAnimated(false, completion: nil)
+                appController.closeTodoController()
                 delay(0.1) {
                     appController.presentViewController(alert, animated: true, completion: .None)
                 }

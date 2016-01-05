@@ -15,6 +15,8 @@ public protocol KeychainType {
     var authTokenExpires: NSDate? { get set }
     var authTokenType: String? { get set }
     var isAuthenticated: Bool? { get set }
+    var username: String? { get set }
+    var password: String? { get set }
 }
 
 private let PushToken = "ElloPushToken"
@@ -23,6 +25,8 @@ private let AuthTokenRefresh = "ElloAuthTokenRefresh"
 private let AuthTokenExpires = "ElloAuthTokenExpires"
 private let AuthTokenType = "ElloAuthTokenType"
 private let AuthTokenAuthenticated = "ElloAuthTokenAuthenticated"
+private let AuthUsername = "ElloAuthUsername"
+private let AuthPassword = "ElloAuthPassword"
 
 struct Keychain: KeychainType {
     var pushToken: NSData? {
@@ -69,5 +73,19 @@ struct Keychain: KeychainType {
     var isAuthenticated: Bool? {
         get { return LUKeychainAccess.standardKeychainAccess().boolForKey(AuthTokenAuthenticated) as Bool? }
         set { LUKeychainAccess.standardKeychainAccess().setBool(newValue ?? false, forKey: AuthTokenAuthenticated) }
+    }
+
+    var username: String? {
+        get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthUsername) as String? }
+        set {
+            LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthUsername)
+        }
+    }
+
+    var password: String? {
+        get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthPassword) as String? }
+        set {
+            LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthPassword)
+        }
     }
 }
