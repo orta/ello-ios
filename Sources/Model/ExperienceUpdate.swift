@@ -22,4 +22,23 @@ public enum ContentChange {
     case Loved
     case Replaced
     case Delete
+
+    public static func updateCommentCount(comment: Comment, delta: Int) {
+        var affectedPosts: [Post?]
+        if comment.postId == comment.loadedFromPostId {
+            affectedPosts = [comment.parentPost]
+        }
+        else {
+            affectedPosts = [comment.parentPost, comment.loadedFromPost]
+        }
+        for post in affectedPosts {
+            if let post = post, let count = post.commentsCount {
+                post.commentsCount = count + delta
+                ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+                postNotification(PostChangedNotification, value: (post, .Update))
+            }
+        }
+
+    }
+
 }

@@ -17,7 +17,7 @@ public struct StreamCreateCommentCellPresenter {
     {
         if let cell = cell as? StreamCreateCommentCell,
             comment = streamCellItem.jsonable as? Comment,
-            post = comment.parentPost,
+            post = comment.loadedFromPost,
             user = comment.author
         {
             let ownPost = currentUser?.id == post.authorId

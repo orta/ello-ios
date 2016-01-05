@@ -161,15 +161,12 @@ public class PostbarController: NSObject, PostbarDelegate {
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
-            if let comment = self.commentForIndexPath(indexPath), let postId = comment.parentPost?.id {
+            if let comment = self.commentForIndexPath(indexPath) {
                 // comment deleted
                 postNotification(CommentChangedNotification, value: (comment, .Delete))
                 // post comment count updated
-                if let post = comment.parentPost, let count = post.commentsCount {
-                    post.commentsCount = count - 1
-                    postNotification(PostChangedNotification, value: (post, .Update))
-                }
-                PostService().deleteComment(postId, commentId: comment.id,
+                ContentChange.updateCommentCount(comment, delta: -1)
+                PostService().deleteComment(comment.postId, commentId: comment.id,
                     success: nil,
                     failure: { (error, statusCode)  in
                         // TODO: add error handling
@@ -371,7 +368,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             // controller's createPostDelegate. Can this use the responder chain when we have
             // parameters to pass?
             if let presentingController = presentingController,
-                let post = comment.parentPost,
+                let post = comment.loadedFromPost,
                 let atName = comment.author?.atName
             {
                 presentingController.createPostDelegate?.createComment(post, text: "\(atName) ", fromController: presentingController)
@@ -385,7 +382,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         // parameters to pass?
         if let comment = commentForIndexPath(indexPath),
             presentingController = presentingController,
-            post = comment.parentPost
+            post = comment.loadedFromPost
         {
             var names = [String]()
             if let content = post.content {

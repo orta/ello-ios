@@ -785,7 +785,7 @@ extension StreamViewController: UICollectionViewDelegate {
         }
         else if tappedCell is StreamSeeMoreCommentsCell {
             if  let comment = dataSource.commentForIndexPath(indexPath),
-                let post = comment.parentPost
+                let post = comment.loadedFromPost
             {
                 postTappedDelegate?.postTapped(post)
             }
@@ -813,7 +813,7 @@ extension StreamViewController: UICollectionViewDelegate {
             userTapped(user)
         }
         else if let comment = dataSource.commentForIndexPath(indexPath),
-            let post = comment.parentPost
+            let post = comment.loadedFromPost
         {
             createCommentTapped(post)
         }

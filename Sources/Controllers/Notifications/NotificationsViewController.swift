@@ -115,7 +115,7 @@ public class NotificationsViewController: StreamableViewController, Notification
     }
 
     public func commentTapped(comment: Comment) {
-        if let post = comment.parentPost {
+        if let post = comment.loadedFromPost {
             postTapped(post)
         }
         else {

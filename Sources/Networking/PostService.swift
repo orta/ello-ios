@@ -46,6 +46,7 @@ public struct PostService {
             ElloAPI.CommentDetail(postId: postId, commentId: commentId),
             success: { (data, responseConfig) in
                 if let comment = data as? Comment {
+                    comment.loadedFromPostId = postId
                     success(comment: comment, responseConfig: responseConfig)
                 }
                 else {

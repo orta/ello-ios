@@ -33,11 +33,14 @@ public final class Comment: JSONAble, Authorable {
     public var parentPost: Post? {
         return ElloLinkedStore.sharedInstance.getObject(self.postId, inCollection: MappingType.PostsType.rawValue) as? Post
     }
+    public var loadedFromPost: Post? {
+        return (ElloLinkedStore.sharedInstance.getObject(self.loadedFromPostId, inCollection: MappingType.PostsType.rawValue) as? Post) ?? parentPost
+    }
     // computed properties
     public var groupId: String {
         get { return postId }
     }
-    // to show hide in the stream
+    // to show hide in the stream, and for comment replies
     public var loadedFromPostId: String
 
 // MARK: Initialization
@@ -52,6 +55,7 @@ public final class Comment: JSONAble, Authorable {
         self.createdAt = createdAt
         self.authorId = authorId
         self.postId = postId
+        self.loadedFromPostId = postId
         self.content = content
         self.loadedFromPostId = postId
         super.init(version: CommentVersion)
