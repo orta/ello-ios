@@ -14,7 +14,7 @@ import Nimble
 class ExperienceUpdateSpec: QuickSpec {
     override func spec() {
         describe("ExperienceUpdate") {
-            fit("should update post comment counts") {
+            it("should update post comment counts") {
                 let post1 = Post.stub(["id": "post1", "commentsCount": 1])
                 let post2 = Post.stub(["id": "post2", "commentsCount": 1])
                 let comment = Comment.stub([
