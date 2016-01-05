@@ -106,7 +106,7 @@ public struct NotificationAttributedTitle {
                 }
             case .CommentOnOriginalPostNotification:
                 if let comment = subject as? Comment,
-                    let repost = comment.parentPost,
+                    let repost = comment.loadedFromPost,
                     let repostAuthor = repost.author,
                     let source = repost.repostSource
                 {

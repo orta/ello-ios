@@ -403,10 +403,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     private func emitCommentSuccess(comment: Comment) {
         postNotification(CommentChangedNotification, value: (comment, .Create))
-        if let post = comment.parentPost, let count = post.commentsCount {
-            post.commentsCount = count + 1
-            postNotification(PostChangedNotification, value: (post, .Update))
-        }
+        ContentChange.updateCommentCount(comment, delta: 1)
 
         if editComment != nil {
             Tracker.sharedTracker.commentEdited(comment)

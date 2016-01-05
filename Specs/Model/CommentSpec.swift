@@ -34,10 +34,36 @@ class CommentSpec: QuickSpec {
                 // links
                 expect(comment.author).to(beAKindOf(User.self))
                 expect(comment.parentPost).to(beAKindOf(Post.self))
+                expect(comment.loadedFromPost).to(beAKindOf(Post.self))
                 expect(comment.assets!.count) == 1
                 expect(comment.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(comment.groupId) == comment.postId
+            }
+        }
+
+        context("parentPost vs loadedFromPost") {
+            it("defaults to parentPost") {
+                let post = Post.stub([:])
+                let comment = Comment.stub([
+                    "parentPost": post,
+                    ])
+                expect(comment.postId) == post.id
+                expect(comment.loadedFromPostId) == post.id
+                expect(comment.parentPost).toNot(beNil())
+                expect(comment.loadedFromPost).toNot(beNil())
+            }
+            it("can have both") {
+                let post1 = Post.stub([:])
+                let post2 = Post.stub([:])
+                let comment = Comment.stub([
+                    "parentPost": post1,
+                    "loadedFromPost": post2
+                    ])
+                expect(comment.postId) == post1.id
+                expect(comment.loadedFromPostId) == post2.id
+                expect(comment.parentPost).toNot(beNil())
+                expect(comment.loadedFromPost).toNot(beNil())
             }
         }
 

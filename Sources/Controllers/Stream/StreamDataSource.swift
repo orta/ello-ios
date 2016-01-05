@@ -100,7 +100,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         if let notification = item?.jsonable as? Notification {
             if let comment = notification.activity.subject as? Comment {
-                return comment.parentPost
+                return comment.loadedFromPost
             }
             return notification.activity.subject as? Post
         }
@@ -307,7 +307,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             // if comment, add new comment cells
             if  let comment = jsonable as? Comment,
-                let parentPost = comment.parentPost
+                let parentPost = comment.loadedFromPost
             {
                 let indexPaths = self.commentIndexPathsForPost(parentPost)
                 if let first = indexPaths.first {
@@ -555,7 +555,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }
                     else if let itemComment = item.jsonable as? Comment {
                         if  user.id == itemComment.authorId ||
-                            user.id == itemComment.parentPost?.authorId
+                            user.id == itemComment.loadedFromPost?.authorId
                         {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)

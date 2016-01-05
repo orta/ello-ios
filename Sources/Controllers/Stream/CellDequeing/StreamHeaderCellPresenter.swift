@@ -41,7 +41,7 @@ public struct StreamHeaderCellPresenter {
                 if comment.authorId == currentUser.id {
                     cell.ownComment = true
                 }
-                else if comment.parentPost?.authorId == currentUser.id {
+                else if comment.loadedFromPost?.authorId == currentUser.id {
                     cell.ownPost = true
                 }
             }
