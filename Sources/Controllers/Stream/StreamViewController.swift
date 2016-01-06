@@ -738,6 +738,7 @@ extension StreamViewController: WebLinkDelegate {
              .DiscoverRecent,
              .DiscoverRelated,
              .DiscoverTrending,
+             .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
             selectTab(.Discovery)

@@ -450,6 +450,7 @@ extension AppViewController {
              .DiscoverRecent,
              .DiscoverRelated,
              .DiscoverTrending,
+             .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
             showDiscoverScreen(vc)

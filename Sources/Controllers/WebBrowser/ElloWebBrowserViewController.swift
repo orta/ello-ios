@@ -103,6 +103,7 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
              .DiscoverRecent,
              .DiscoverRelated,
              .DiscoverTrending,
+             .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
             self.selectTab(.Discovery)

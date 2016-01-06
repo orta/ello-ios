@@ -39,6 +39,7 @@ public enum ElloURI: String {
     case Downloads = "downloads"
     case Exit = "exit"
     case Explore = "explore"
+    case ExploreRecommended = "explore/recommended"
     case ExploreRecent = "explore/recent"
     case ExploreTrending = "explore/trending"
     case FaceMaker = "facemaker"
@@ -154,15 +155,29 @@ public enum ElloURI: String {
 
     private var regexPattern: String {
         switch self {
-        case .Email, .External: return rawValue
-        case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
-        case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .PushNotificationComment, .PushNotificationPost, .PushNotificationUser: return "\(rawValue)"
-        case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
-        case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
-        default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
+        case .Email,
+             .External:
+            return rawValue
+        case .Notifications:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
+        case .Post:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .PushNotificationComment,
+             .PushNotificationPost,
+             .PushNotificationUser:
+            return "\(rawValue)"
+        case .Profile:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .ProfileFollowers,
+             .ProfileFollowing,
+             .ProfileLoves:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .Search:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
+        case .Subdomain:
+            return "\(rawValue)\(ElloURI.fuzzyDomain)"
+        default:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
         }
     }
 
@@ -225,6 +240,7 @@ public enum ElloURI: String {
         Enter,
         Exit,
         Explore,
+        ExploreRecommended,
         ExploreRecent,
         ExploreTrending,
         ForgotMyPassword,

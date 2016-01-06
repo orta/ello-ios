@@ -256,6 +256,7 @@ class ElloURISpec: QuickSpec {
                         "with Explore urls": (input: "explore", output: .Explore),
                         "with Explore Trending urls": (input: "explore/trending", output: .ExploreTrending),
                         "with Explore Recent urls": (input: "explore/recent", output: .ExploreRecent),
+                        "with Explore Recommended urls": (input: "explore/recommended", output: .ExploreRecommended),
                         "with Exit urls": (input: "exit", output: .Exit),
                         "with FaceMaker urls": (input: "facemaker", output: .FaceMaker),
                         "with ForgotMyPassword urls": (input: "forgot-my-password", output: .ForgotMyPassword),
