@@ -25,7 +25,6 @@ public class NewContentService {
 public extension NewContentService {
 
     public func startPolling() {
-        timer?.invalidate()
         checkForNewNotifications()
         timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
     }
@@ -35,7 +34,7 @@ public extension NewContentService {
     }
 
     public func stopPolling() {
-        timer = nil
+        timer?.invalidate()
     }
 
     @objc
