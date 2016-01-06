@@ -68,7 +68,7 @@ public class ReAuthService: NSObject {
             endpoint = .AnonymousCredentials
         }
 
-        ElloProvider.sharedProvider.request(endpoint, completion: { (result) in
+        ElloProvider.sharedProvider.request(endpoint) { (result) in
             switch result {
             case let .Success(moyaResponse):
                 let statusCode = moyaResponse.statusCode
@@ -90,14 +90,14 @@ public class ReAuthService: NSObject {
             case .Failure:
                 self._reAuthenticateUsername(success, failure: failure)
             }
-        })
+        }
     }
 
     private func _reAuthenticateUsername(success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
         var token = AuthToken()
         if let email = token.username, password = token.password {
             let endpoint: ElloAPI = .Auth(email: email, password: password)
-            ElloProvider.sharedProvider.request(endpoint, completion: { (result) in
+            ElloProvider.sharedProvider.request(endpoint) { (result) in
                 switch result {
                 case let .Success(moyaResponse):
                     switch moyaResponse.statusCode {
@@ -114,7 +114,7 @@ public class ReAuthService: NSObject {
                 case let .Failure(error):
                     failure(error: error as NSError, statusCode: nil)
                 }
-            })
+            }
         }
         else {
             ElloProvider.failedToMapObjects(failure)

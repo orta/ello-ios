@@ -178,9 +178,9 @@ extension ElloProvider {
     // MARK: - Public
 
     public static func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target, completion: { (result) in
+        ElloProvider.sharedProvider.request(target) { (result) in
             ElloProvider.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
-        })
+        }
         Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
     }
 
@@ -239,9 +239,9 @@ extension ElloProvider {
     }
 
     static private func retryRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target, completion: { (result) in
+        ElloProvider.sharedProvider.request(target) { (result) in
             ElloProvider.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
-        })
+        }
     }
 
     static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {
