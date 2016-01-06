@@ -46,19 +46,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             appController.closeTodoController()
 
             let profileService = ProfileService()
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
-                success: { _ in
-                    print("=============== \(__FILE__) line \(__LINE__) ===============")
-                }, failure: { _ in })
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
-                success: { _ in
-                    print("=============== \(__FILE__) line \(__LINE__) ===============")
-                }, failure: { _ in })
+            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: nil)
+            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: nil)
             nextTick {
-                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
-                    success: { _ in
-                        print("=============== \(__FILE__) line \(__LINE__) ===============")
-                    }, failure: { _ in })
+                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: nil)
             }
         }
         addAction("Reset Tab bar Tooltips") {
