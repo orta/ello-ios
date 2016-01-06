@@ -156,7 +156,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         }
     }
 
-    private func join() {
+    func join() {
         Tracker.sharedTracker.tappedJoin()
 
         emailField.resignFirstResponder()

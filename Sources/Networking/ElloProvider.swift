@@ -21,7 +21,7 @@ public typealias ElloEmptyCompletion = () -> Void
 
 public struct ElloProvider {
 
-    public static var errorStatusCode:ErrorStatusCode = .Status404
+    public static var errorStatusCode: ErrorStatusCode = .Status404
     public static var responseHeaders: NSString = ""
     public static var responseJSON: NSString = ""
 

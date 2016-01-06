@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -13,8 +14,6 @@ import Nimble
 
 class JoinViewControllerSpec: QuickSpec {
     override func spec() {
-
-        var controller: JoinViewController!
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -24,82 +23,111 @@ class JoinViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization") {
+        describe("JoinViewController") {
+            var subject: JoinViewController!
 
             beforeEach {
-                controller = JoinViewController()
+                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+                let keychain = FakeKeychain()
+                keychain.authToken = "abcde"
+                keychain.authTokenExpires = NSDate().dateByAddingTimeInterval(3600)
+                keychain.authTokenType = "grant"
+                keychain.refreshAuthToken = "abcde"
+                keychain.isAuthenticated = true
+                AuthToken.sharedKeychain = keychain
+
+                subject = JoinViewController()
+                showController(subject)
             }
 
-            it("can be instantiated from storyboard") {
-                expect(controller).notTo(beNil())
+            afterEach {
+                AuthToken.sharedKeychain = Keychain()
             }
 
-            it("is a BaseElloViewController") {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
-            }
+            describe("initialization") {
 
-            it("is a JoinViewController") {
-                expect(controller).to(beAKindOf(JoinViewController.self))
-            }
-        }
-
-        describe("storyboard") {
-
-            beforeEach {
-                controller = JoinViewController()
-                _ = controller.view
-            }
-
-            it("IBOutlets are  not nil") {
-                expect(controller.scrollView).notTo(beNil())
-                expect(controller.emailField).notTo(beNil())
-                expect(controller.usernameField).notTo(beNil())
-                expect(controller.passwordField).notTo(beNil())
-                expect(controller.onePasswordButton).notTo(beNil())
-                expect(controller.loginButton).notTo(beNil())
-                expect(controller.joinButton).notTo(beNil())
-                expect(controller.termsButton).notTo(beNil())
-            }
-
-            it("IBActions are wired up") {
-                let onePasswordActions = controller.onePasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                expect(onePasswordActions).to(contain("findLoginFrom1Password:"))
-                expect(onePasswordActions?.count) == 1
-
-                let loginActions = controller.loginButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                expect(loginActions).to(contain("loginTapped:"))
-                expect(loginActions?.count) == 1
-
-                let joinActions = controller.joinButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                expect(joinActions).to(contain("joinTapped:"))
-                expect(joinActions?.count) == 1
-            }
-        }
-
-        describe("validation") {
-
-            beforeEach {
-                controller = JoinViewController()
-                showController(controller)
-            }
-
-            describe("initial state") {
-                it("starts with joinButton enabled") {
-                    expect(controller.joinButton.enabled) == true
+                it("can be instantiated from storyboard") {
+                    expect(subject).notTo(beNil())
                 }
-                it("starts with empty messages") {
-                    expect(controller.emailField.text ?? "") == ""
-                    expect(controller.usernameField.text ?? "") == ""
-                    expect(controller.passwordField.text ?? "") == ""
+
+                it("is a BaseElloViewController") {
+                    expect(subject).to(beAKindOf(BaseElloViewController.self))
                 }
-                it("has all the views located sensibly") {
-                    // expect(controller.emailView).toBeBelow(130)
-                    expect(controller.emailField.frame.minY) > 130
-                    expect(controller.usernameField.frame.height) == controller.emailField.frame.height
-                    expect(controller.passwordField.frame.height) == controller.emailField.frame.height
+
+                it("is a JoinViewController") {
+                    expect(subject).to(beAKindOf(JoinViewController.self))
                 }
             }
 
+            describe("storyboard") {
+
+                it("IBOutlets are  not nil") {
+                    expect(subject.scrollView).notTo(beNil())
+                    expect(subject.emailField).notTo(beNil())
+                    expect(subject.usernameField).notTo(beNil())
+                    expect(subject.passwordField).notTo(beNil())
+                    expect(subject.onePasswordButton).notTo(beNil())
+                    expect(subject.loginButton).notTo(beNil())
+                    expect(subject.joinButton).notTo(beNil())
+                    expect(subject.termsButton).notTo(beNil())
+                }
+
+                it("IBActions are wired up") {
+                    let onePasswordActions = subject.onePasswordButton.actionsForTarget(subject, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(onePasswordActions).to(contain("findLoginFrom1Password:"))
+                    expect(onePasswordActions?.count) == 1
+
+                    let loginActions = subject.loginButton.actionsForTarget(subject, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(loginActions).to(contain("loginTapped:"))
+                    expect(loginActions?.count) == 1
+
+                    let joinActions = subject.joinButton.actionsForTarget(subject, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(joinActions).to(contain("joinTapped:"))
+                    expect(joinActions?.count) == 1
+                }
+            }
+
+            describe("submitting successful credentials") {
+                it("stores the email and password") {
+                    let email = "email@email.com"
+                    let username = "username"
+                    let password = "password"
+                    subject.emailField.text = email
+                    subject.usernameField.text = username
+                    subject.passwordField.text = password
+                    subject.join()
+
+                    let token = AuthToken()
+                    expect(token.username) == email
+                    expect(token.password) == password
+                }
+            }
+
+            describe("validation") {
+
+                beforeEach {
+                    subject = JoinViewController()
+                    showController(subject)
+                }
+
+                describe("initial state") {
+                    it("starts with joinButton enabled") {
+                        expect(subject.joinButton.enabled) == true
+                    }
+                    it("starts with empty messages") {
+                        expect(subject.emailField.text ?? "") == ""
+                        expect(subject.usernameField.text ?? "") == ""
+                        expect(subject.passwordField.text ?? "") == ""
+                    }
+                    it("has all the views located sensibly") {
+                        // expect(subject.emailView).toBeBelow(130)
+                        expect(subject.emailField.frame.minY) > 130
+                        expect(subject.usernameField.frame.height) == subject.emailField.frame.height
+                        expect(subject.passwordField.frame.height) == subject.emailField.frame.height
+                    }
+                }
+
+            }
         }
     }
 }

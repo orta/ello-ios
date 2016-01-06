@@ -83,6 +83,20 @@ class SignInViewControllerSpec: QuickSpec {
                 }
             }
 
+            describe("submitting successful credentials") {
+                it("stores the email and password") {
+                    let email = "email@email.com"
+                    let password = "password"
+                    subject.emailTextField.text = email
+                    subject.passwordTextField.text = password
+                    subject.submit()
+
+                    let token = AuthToken()
+                    expect(token.username) == email
+                    expect(token.password) == password
+                }
+            }
+
             describe("text fields") {
 
                 context("emailTextField") {

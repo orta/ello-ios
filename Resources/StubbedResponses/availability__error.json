@@ -1,6 +1,6 @@
 {
     "availability": {
-        "username": true,
+        "username": false,
         "email": true,
         "invitation_code": true,
         "suggestions": {
