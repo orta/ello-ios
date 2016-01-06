@@ -69,12 +69,55 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .NativeRedirect, .Onboarding, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .ProfileFollowers, .ProfileFollowing, .ProfileLoves, .DiscoverRandom, .DiscoverRelated, .Unblock:
-        break
-        case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
-        case .Discover: self.selectTab(.Discovery)
-        case .Enter, .Exit, .Root, .Explore: self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-        case .Friends, .Following, .Noise, .Starred: self.selectTab(.Stream)
+        case .Confirm,
+             .Downloads,
+             .Email,
+             .External,
+             .ForgotMyPassword,
+             .FreedomOfSpeech,
+             .FaceMaker,
+             .Invitations,
+             .Join,
+             .Login,
+             .Manifesto,
+             .NativeRedirect,
+             .Onboarding,
+             .PasswordResetError,
+             .ProfileFollowers,
+             .ProfileFollowing,
+             .ProfileLoves,
+             .RandomSearch,
+             .RequestInvite,
+             .RequestInvitation,
+             .RequestInvitations,
+             .ResetMyPassword,
+             .SearchPeople,
+             .SearchPosts,
+             .Subdomain,
+             .Unblock,
+             .WhoMadeThis,
+             .WTF:
+            break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
+        case .Discover,
+             .DiscoverRandom,
+             .DiscoverRecent,
+             .DiscoverRelated,
+             .DiscoverTrending,
+             .ExploreRecommended,
+             .ExploreRecent,
+             .ExploreTrending:
+            self.selectTab(.Discovery)
+        case .BetaPublicProfiles,
+             .Enter,
+             .Exit,
+             .Root,
+             .Explore:
+            self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        case .Friends,
+             .Following,
+             .Noise,
+             .Starred:
+            self.selectTab(.Stream)
         case .Notifications: self.selectTab(.Notifications)
         case .Post,
              .PushNotificationPost,

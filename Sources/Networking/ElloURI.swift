@@ -13,7 +13,9 @@ public enum ElloURI: String {
     // matching stream or page in app
     case Discover = "discover"
     case DiscoverRandom = "discover/random"
+    case DiscoverRecent = "discover/recent"
     case DiscoverRelated = "discover/related"
+    case DiscoverTrending = "discover/trending"
     case Enter = "enter"
     case Friends = "friends"
     case Following = "following"
@@ -37,6 +39,9 @@ public enum ElloURI: String {
     case Downloads = "downloads"
     case Exit = "exit"
     case Explore = "explore"
+    case ExploreRecommended = "explore/recommended"
+    case ExploreRecent = "explore/recent"
+    case ExploreTrending = "explore/trending"
     case FaceMaker = "facemaker"
     case ForgotMyPassword = "forgot-my-password"
     case FreedomOfSpeech = "freedom-of-speech"
@@ -64,15 +69,26 @@ public enum ElloURI: String {
 
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Explore, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover,
+             .Email,
+             .Enter,
+             .Explore,
+             .Following,
+             .Starred,
+             .Notifications,
+             .Post,
+             .Profile,
+             .Root,
+             .Search,
+             .Settings:
+            return false
         default: return true
         }
     }
 
     public var shouldLoadInApp: Bool {
         switch self {
-        case .BetaPublicProfiles,
-             .Confirm,
+        case .Confirm,
              .Downloads,
              .Email,
              .External,
@@ -139,15 +155,29 @@ public enum ElloURI: String {
 
     private var regexPattern: String {
         switch self {
-        case .Email, .External: return rawValue
-        case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
-        case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .PushNotificationComment, .PushNotificationPost, .PushNotificationUser: return "\(rawValue)"
-        case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
-        case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
-        default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
+        case .Email,
+             .External:
+            return rawValue
+        case .Notifications:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
+        case .Post:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .PushNotificationComment,
+             .PushNotificationPost,
+             .PushNotificationUser:
+            return "\(rawValue)"
+        case .Profile:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .ProfileFollowers,
+             .ProfileFollowing,
+             .ProfileLoves:
+            return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .Search:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
+        case .Subdomain:
+            return "\(rawValue)\(ElloURI.fuzzyDomain)"
+        default:
+            return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
         }
     }
 
@@ -203,11 +233,16 @@ public enum ElloURI: String {
         Confirm,
         Discover,
         DiscoverRandom,
+        DiscoverRecent,
         DiscoverRelated,
+        DiscoverTrending,
         Downloads,
         Enter,
         Exit,
         Explore,
+        ExploreRecommended,
+        ExploreRecent,
+        ExploreTrending,
         ForgotMyPassword,
         FreedomOfSpeech,
         FaceMaker,

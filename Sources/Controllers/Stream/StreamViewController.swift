@@ -704,12 +704,51 @@ extension StreamViewController: WebLinkDelegate {
 
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .NativeRedirect, .Onboarding, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .ProfileFollowers, .ProfileFollowing, .ProfileLoves, .DiscoverRandom, .DiscoverRelated, .Unblock:
+        case .Confirm,
+             .FaceMaker,
+             .FreedomOfSpeech,
+             .Invitations,
+             .Join,
+             .Login,
+             .NativeRedirect,
+             .Onboarding,
+             .PasswordResetError,
+             .ProfileFollowers,
+             .ProfileFollowing,
+             .ProfileLoves,
+             .RandomSearch,
+             .RequestInvitations,
+             .ResetMyPassword,
+             .SearchPeople,
+             .SearchPosts,
+             .Unblock:
             break
-        case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, value: data)
-        case .Discover: selectTab(.Discovery)
+        case .Downloads,
+             .External,
+             .ForgotMyPassword,
+             .Manifesto,
+             .RequestInvite,
+             .RequestInvitation,
+             .Subdomain,
+             .WhoMadeThis,
+             .WTF:
+            postNotification(externalWebNotification, value: data)
+        case .Discover,
+             .DiscoverRandom,
+             .DiscoverRecent,
+             .DiscoverRelated,
+             .DiscoverTrending,
+             .ExploreRecommended,
+             .ExploreRecent,
+             .ExploreTrending:
+            selectTab(.Discovery)
         case .Email: break // this is handled in ElloWebViewHelper
-        case .Enter, .Exit, .Root, .Explore: break // do nothing since we should already be in app
+        case .BetaPublicProfiles,
+             .Enter,
+             .Exit,
+             .Root,
+             .Explore:
+            break // do nothing since we should already be in app
         case .Friends, .Following, .Noise, .Starred: selectTab(.Stream)
         case .Notifications: selectTab(.Notifications)
         case .Post,
