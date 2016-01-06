@@ -16,7 +16,7 @@ class AvailabilityServiceSpec: QuickSpec {
     override func spec() {
         describe("availability") {
             it("succeeds") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 var expectedAvailability: Availability? = .None
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { availability in
@@ -26,7 +26,7 @@ class AvailabilityServiceSpec: QuickSpec {
             }
 
             it("fails") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 var failed = false
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { _ in }, failure: { _, _ in

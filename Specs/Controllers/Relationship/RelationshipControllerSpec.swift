@@ -32,7 +32,7 @@ class RelationshipControllerSpec: QuickSpec {
             describe("-updateRelationship:relationship:complete:") {
 
                 it("succeeds") {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                     var expectedStatus = RelationshipRequestStatus.Failure
 
                     subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {
@@ -43,7 +43,7 @@ class RelationshipControllerSpec: QuickSpec {
                 }
 
                 it("fails") {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub)
 
                     var expectedStatus = RelationshipRequestStatus.Success
 
