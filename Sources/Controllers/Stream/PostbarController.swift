@@ -86,10 +86,10 @@ public class PostbarController: NSObject, PostbarDelegate {
                 imageLabelControl.highlighted = false
             }
             else {
-                let streamService = StreamService()
                 item.state = .Loading
                 imageLabelControl.highlighted = true
                 imageLabelControl.animate()
+                let streamService = StreamService()
                 streamService.loadMoreCommentsForPost(
                     post.id,
                     streamKind: dataSource.streamKind,

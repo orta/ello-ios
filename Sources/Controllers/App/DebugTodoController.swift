@@ -44,6 +44,22 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             token.token = "nil"
             token.refreshToken = "nil"
             appController.closeTodoController()
+
+            let profileService = ProfileService()
+            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+                success: { _ in
+                    print("=============== \(__FILE__) line \(__LINE__) ===============")
+                }, failure: { _ in })
+            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+                success: { _ in
+                    print("=============== \(__FILE__) line \(__LINE__) ===============")
+                }, failure: { _ in })
+            nextTick {
+                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+                    success: { _ in
+                        print("=============== \(__FILE__) line \(__LINE__) ===============")
+                    }, failure: { _ in })
+            }
         }
         addAction("Reset Tab bar Tooltips") {
             Defaults[ElloTab.Discovery.narrationDefaultKey] = nil
