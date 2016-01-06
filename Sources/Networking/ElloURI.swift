@@ -13,7 +13,9 @@ public enum ElloURI: String {
     // matching stream or page in app
     case Discover = "discover"
     case DiscoverRandom = "discover/random"
+    case DiscoverRecent = "discover/recent"
     case DiscoverRelated = "discover/related"
+    case DiscoverTrending = "discover/trending"
     case Enter = "enter"
     case Friends = "friends"
     case Following = "following"
@@ -37,6 +39,8 @@ public enum ElloURI: String {
     case Downloads = "downloads"
     case Exit = "exit"
     case Explore = "explore"
+    case ExploreRecent = "explore/recent"
+    case ExploreTrending = "explore/trending"
     case FaceMaker = "facemaker"
     case ForgotMyPassword = "forgot-my-password"
     case FreedomOfSpeech = "freedom-of-speech"
@@ -64,15 +68,26 @@ public enum ElloURI: String {
 
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Explore, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover,
+             .Email,
+             .Enter,
+             .Explore,
+             .Following,
+             .Starred,
+             .Notifications,
+             .Post,
+             .Profile,
+             .Root,
+             .Search,
+             .Settings:
+            return false
         default: return true
         }
     }
 
     public var shouldLoadInApp: Bool {
         switch self {
-        case .BetaPublicProfiles,
-             .Confirm,
+        case .Confirm,
              .Downloads,
              .Email,
              .External,
@@ -203,11 +218,15 @@ public enum ElloURI: String {
         Confirm,
         Discover,
         DiscoverRandom,
+        DiscoverRecent,
         DiscoverRelated,
+        DiscoverTrending,
         Downloads,
         Enter,
         Exit,
         Explore,
+        ExploreRecent,
+        ExploreTrending,
         ForgotMyPassword,
         FreedomOfSpeech,
         FaceMaker,

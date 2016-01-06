@@ -447,7 +447,11 @@ extension AppViewController {
         switch type {
         case .Discover,
              .DiscoverRandom,
-             .DiscoverRelated:
+             .DiscoverRecent,
+             .DiscoverRelated,
+             .DiscoverTrending,
+             .ExploreRecent,
+             .ExploreTrending:
             showDiscoverScreen(vc)
         case .Enter, .Exit, .Root, .Explore:
             break
