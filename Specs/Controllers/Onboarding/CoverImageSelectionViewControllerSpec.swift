@@ -11,7 +11,7 @@ import Ello
 import Quick
 import FBSnapshotTestCase
 import Nimble
-// import Nimble_Snapshots
+import Nimble_Snapshots
 
 
 class CoverImageSelectionViewControllerSpec: QuickSpec {

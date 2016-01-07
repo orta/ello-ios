@@ -10,7 +10,7 @@
 import Ello
 import Quick
 import Nimble
-// import Nimble_Snapshots
+import Nimble_Snapshots
 
 
 class AvatarImageSelectionViewControllerSpec: QuickSpec {
