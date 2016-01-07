@@ -207,7 +207,7 @@ extension ElloProvider {
             case 401:
                 if AuthToken().isPresent {
                     let authService = ReAuthService()
-                    authService.reAuthenticate({
+                    authService.reAuthenticate(success: {
                         self.retryRequest(target, success: success, failure: failure)
                     },
                     failure: { _ in

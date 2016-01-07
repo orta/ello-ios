@@ -79,7 +79,7 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success function") {
                     var called = false
 
-                    profileService.deleteAccount({
+                    profileService.deleteAccount(success: {
                         called = true
                     }, failure: nil)
 

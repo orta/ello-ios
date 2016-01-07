@@ -15,9 +15,9 @@ private var reauthResult: (Bool, ElloFailure?)?
 
 public class ReAuthService: NSObject {
 
-    public func reAuthenticate(success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
+    public func reAuthenticate(success success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
         guard !AppSetup.sharedState.isTesting else {
-            _reAuthenticateToken(success, failure: failure)
+            _reAuthenticateToken(success: success, failure: failure)
             return
         }
 
@@ -38,7 +38,7 @@ public class ReAuthService: NSObject {
             }
             else {
                 reauthOperation = AsyncOperation(block: { done in
-                    self._reAuthenticateToken({
+                    self._reAuthenticateToken(success: {
                         success()
                         done()
                         currentReauthOperation = nil
@@ -55,7 +55,7 @@ public class ReAuthService: NSObject {
         }
     }
 
-    private func _reAuthenticateToken(success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
+    private func _reAuthenticateToken(success success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
         let endpoint: ElloAPI
         let token = AuthToken()
         let prevToken = token.token
@@ -86,14 +86,14 @@ public class ReAuthService: NSObject {
                 }
 
                 log("refreshToken: \(refreshToken), failed to receive new token")
-                self._reAuthenticateUsername(success, failure: failure)
+                self._reAuthenticateUsername(success: success, failure: failure)
             case .Failure:
-                self._reAuthenticateUsername(success, failure: failure)
+                self._reAuthenticateUsername(success: success, failure: failure)
             }
         }
     }
 
-    private func _reAuthenticateUsername(success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
+    private func _reAuthenticateUsername(success success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
         var token = AuthToken()
         if let email = token.username, password = token.password {
             let endpoint: ElloAPI = .Auth(email: email, password: password)

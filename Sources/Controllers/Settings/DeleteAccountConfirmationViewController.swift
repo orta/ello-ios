@@ -73,7 +73,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
         timer?.invalidate()
         ElloHUD.showLoadingHud()
 
-        ProfileService().deleteAccount({
+        ProfileService().deleteAccount(success: {
             ElloHUD.hideLoadingHud()
             self.dismissViewControllerAnimated(true) {
                 postNotification(AuthenticationNotifications.userLoggedOut, value: ())
