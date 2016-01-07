@@ -10,7 +10,7 @@
 import Quick
 import Nimble
 import Moya
-// import Nimble_Snapshots
+import Nimble_Snapshots
 
 
 class RelationshipControlSpec: QuickSpec {
