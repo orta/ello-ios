@@ -334,14 +334,14 @@ class ElloAPISpec: QuickSpec {
             describe("parameter values") {
 
                 it("AnonymousCredentials") {
-                    let params = ElloAPI.AnonymousCredentials.parameters
+                    let params = ElloAPI.AnonymousCredentials.parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
                     expect(params["grant_type"] as? String) == "client_credentials"
                 }
 
                 it("Auth") {
-                    let params = ElloAPI.Auth(email: "me@me.me", password: "p455w0rd").parameters
+                    let params = ElloAPI.Auth(email: "me@me.me", password: "p455w0rd").parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
                     expect(params["email"] as? String) == "me@me.me"
@@ -355,13 +355,13 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("AwesomePeopleStream") {
-                    let params = ElloAPI.AwesomePeopleStream.parameters
+                    let params = ElloAPI.AwesomePeopleStream.parameters!
                     expect(params["per_page"] as? Int) == 25
                     expect(params["seed"]).notTo(beNil())
                 }
 
                 it("CommunitiesStream") {
-                    let params = ElloAPI.CommunitiesStream.parameters
+                    let params = ElloAPI.CommunitiesStream.parameters!
                     expect(params["name"] as? String) == "onboarding"
                     expect(params["per_page"] as? Int) == 25
                 }
@@ -377,7 +377,7 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("Discover") {
-                    let params = ElloAPI.Discover(type: .Recommended, perPage: 10).parameters
+                    let params = ElloAPI.Discover(type: .Recommended, perPage: 10).parameters!
                     expect(params["per_page"] as? Int) == 10
                     expect(params["include_recent_posts"] as? Bool) == true
                     expect(params["seed"]).notTo(beNil())
@@ -388,14 +388,14 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("FriendStream") {
-                    let params = ElloAPI.FriendStream.parameters
+                    let params = ElloAPI.FriendStream.parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
                 it("InfiniteScroll") {
                     let queryItems = NSURLComponents(string: "ttp://ello.co/api/v2/posts/278/comments?after=2014-06-02T00%3A00%3A00.000000000%2B0000&per_page=2")!.queryItems
                     let infiniteScroll = ElloAPI.InfiniteScroll(queryItems: queryItems!) { return ElloAPI.Discover(type: .Recommended, perPage: 10) }
-                    let params = infiniteScroll.parameters
+                    let params = infiniteScroll.parameters!
                     expect(params["per_page"] as? String) == "2"
                     expect(params["include_recent_posts"] as? Bool) == true
                     expect(params["seed"]).notTo(beNil())
@@ -403,13 +403,13 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("InviteFriends") {
-                    let params = ElloAPI.InviteFriends(contact: "me@me.me").parameters
+                    let params = ElloAPI.InviteFriends(contact: "me@me.me").parameters!
                     expect(params["email"] as? String) == "me@me.me"
                 }
 
                 it("Join") {
                     context("without an invitation code") {
-                        let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: nil).parameters
+                        let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: nil).parameters!
                         expect(params["email"] as? String) == "me@me.me"
                         expect(params["username"] as? String) == "sweetness"
                         expect(params["password"] as? String) == "password"
@@ -417,7 +417,7 @@ class ElloAPISpec: QuickSpec {
                     }
 
                     context("with an invitation code") {
-                        let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: "my-sweet-code").parameters
+                        let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: "my-sweet-code").parameters!
                         expect(params["email"] as? String) == "me@me.me"
                         expect(params["username"] as? String) == "sweetness"
                         expect(params["password"] as? String) == "password"
@@ -426,32 +426,32 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("NoiseStream") {
-                    let params = ElloAPI.NoiseStream.parameters
+                    let params = ElloAPI.NoiseStream.parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
                 describe("NotificationsStream") {
 
                     it("without a category") {
-                        let params = ElloAPI.NotificationsStream(category: nil).parameters
+                        let params = ElloAPI.NotificationsStream(category: nil).parameters!
                         expect(params["per_page"] as? Int) == 10
                         expect(params["category"]).to(beNil())
                     }
 
                     it("with a category") {
-                        let params = ElloAPI.NotificationsStream(category: "all").parameters
+                        let params = ElloAPI.NotificationsStream(category: "all").parameters!
                         expect(params["per_page"] as? Int) == 10
                         expect(params["category"] as? String) == "all"
                     }
                 }
 
                 it("PostComments") {
-                    let params = ElloAPI.PostComments(postId: "comments-id").parameters
+                    let params = ElloAPI.PostComments(postId: "comments-id").parameters!
                     expect(params["per_page"] as? Int) == 10
                 }
 
                 it("Profile") {
-                    let params = ElloAPI.Profile(perPage: 42).parameters
+                    let params = ElloAPI.Profile(perPage: 42).parameters!
                     expect(params["post_count"] as? Int) == 42
                 }
 
@@ -460,7 +460,7 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("ReAuth") {
-                    let params = ElloAPI.ReAuth(token: "refresh").parameters
+                    let params = ElloAPI.ReAuth(token: "refresh").parameters!
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
                     expect(params["grant_type"] as? String) == "refresh_token"
@@ -468,30 +468,30 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("RelationshipBatch") {
-                    let params = ElloAPI.RelationshipBatch(userIds: ["1", "2", "8"], relationship: "friend").parameters
+                    let params = ElloAPI.RelationshipBatch(userIds: ["1", "2", "8"], relationship: "friend").parameters!
                     expect(params["user_ids"] as? [String]) == ["1", "2", "8"]
                     expect(params["priority"] as? String) == "friend"
                 }
 
                 it("RePost") {
-                    let params = ElloAPI.RePost(postId: "666").parameters
+                    let params = ElloAPI.RePost(postId: "666").parameters!
                     expect(params["repost_id"] as? Int) == 666
                 }
 
                 it("SearchForPosts") {
-                    let params = ElloAPI.SearchForPosts(terms: "blah").parameters
+                    let params = ElloAPI.SearchForPosts(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                     expect(params["per_page"] as? Int) == 10
                 }
 
                 it("SearchForUsers") {
-                    let params = ElloAPI.SearchForUsers(terms: "blah").parameters
+                    let params = ElloAPI.SearchForUsers(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                     expect(params["per_page"] as? Int) == 10
                 }
 
                 it("UserNameAutoComplete") {
-                    let params = ElloAPI.UserNameAutoComplete(terms: "blah").parameters
+                    let params = ElloAPI.UserNameAutoComplete(terms: "blah").parameters!
                     expect(params["terms"] as? String) == "blah"
                 }
             }
@@ -503,9 +503,11 @@ class ElloAPISpec: QuickSpec {
                             var message: String?
 
                             let target: ElloAPI = .Auth(email:"test@example.com", password: "123456")
-                            provider.request(target, completion: { (data, statusCode, response, error) in
-                                if let data = data {
-                                    message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+                            provider.request(target, completion: { (result) in
+                                switch result {
+                                case let .Success(moyaResponse):
+                                    message = NSString(data: moyaResponse.data, encoding: NSUTF8StringEncoding) as? String
+                                default: break
                                 }
                             })
 
@@ -517,9 +519,11 @@ class ElloAPISpec: QuickSpec {
                             var message: String?
 
                             let target: ElloAPI = .FriendStream
-                            provider.request(target, completion: { (data, statusCode, response, error) in
-                                if let data = data {
-                                    message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+                            provider.request(target, completion: { (result) in
+                                switch result {
+                                case let .Success(moyaResponse):
+                                    message = NSString(data: moyaResponse.data, encoding: NSUTF8StringEncoding) as? String
+                                default: break
                                 }
                             })
 

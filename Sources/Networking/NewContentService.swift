@@ -25,20 +25,24 @@ public class NewContentService {
 public extension NewContentService {
 
     public func startPolling() {
-        timer?.invalidate()
         checkForNewNotifications()
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10.0), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
+    }
+
+    public func restartPolling() {
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
     }
 
     public func stopPolling() {
         timer?.invalidate()
-        timer = nil
     }
 
     @objc
     public func checkForNewContent() {
-        checkForNewNotifications()
-        checkForNewStreamContent()
+        stopPolling()
+        let restart = after(2, block: restartPolling)
+        checkForNewNotifications(restart)
+        checkForNewStreamContent(restart)
     }
 
     public func updateCreatedAt(jsonables: [JSONAble], streamKind: StreamKind) {
@@ -70,7 +74,7 @@ private extension NewContentService {
         }
     }
 
-    func checkForNewNotifications() {
+    func checkForNewNotifications(done: BasicBlock = {}) {
         let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.elloRequest(
@@ -79,12 +83,14 @@ private extension NewContentService {
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
                     postNotification(NewContentNotifications.newNotifications, value: self)
                 }
+
+                done()
             },
-            failure: nil
+            failure: { _ in done() }
         )
     }
 
-    func checkForNewStreamContent() {
+    func checkForNewStreamContent(done: BasicBlock = {}) {
         let storedFriendsDate = Defaults[StreamKind.Following.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.elloRequest(
@@ -97,8 +103,10 @@ private extension NewContentService {
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
                     postNotification(NewContentNotifications.newStreamContent, value: self)
                 }
+
+                done()
             },
-            failure: nil
+            failure: { _ in done() }
         )
     }
 }

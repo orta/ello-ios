@@ -21,7 +21,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 }
 
                 it("Calls success with a User") {
@@ -48,7 +48,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 }
 
                 it("Calls success with a User") {
@@ -73,13 +73,13 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 }
 
                 it("Calls success function") {
                     var called = false
 
-                    profileService.deleteAccount({
+                    profileService.deleteAccount(success: {
                         called = true
                     }, failure: nil)
 

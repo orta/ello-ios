@@ -81,7 +81,7 @@ public struct ProfileService {
         }, failure: failure)
     }
 
-    public func deleteAccount(success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func deleteAccount(success success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileDelete,
             success: { _, _ in success() },
             failure: failure)

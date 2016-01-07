@@ -12,17 +12,19 @@ public protocol KeychainType {
     var pushToken: NSData? { get set }
     var authToken: String? { get set }
     var refreshAuthToken: String? { get set }
-    var authTokenExpires: NSDate? { get set }
     var authTokenType: String? { get set }
     var isAuthenticated: Bool? { get set }
+    var username: String? { get set }
+    var password: String? { get set }
 }
 
 private let PushToken = "ElloPushToken"
 private let AuthTokenKey = "ElloAuthToken"
 private let AuthTokenRefresh = "ElloAuthTokenRefresh"
-private let AuthTokenExpires = "ElloAuthTokenExpires"
 private let AuthTokenType = "ElloAuthTokenType"
 private let AuthTokenAuthenticated = "ElloAuthTokenAuthenticated"
+private let AuthUsername = "ElloAuthUsername"
+private let AuthPassword = "ElloAuthPassword"
 
 struct Keychain: KeychainType {
     var pushToken: NSData? {
@@ -42,25 +44,6 @@ struct Keychain: KeychainType {
         set { LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthTokenRefresh) }
     }
 
-    var authTokenExpires: NSDate? {
-        get {
-            if let data = LUKeychainAccess.standardKeychainAccess().dataForKey(AuthTokenExpires) as NSData? {
-                let coder = NSKeyedUnarchiver(forReadingWithData: data)
-                return NSDate(coder: coder)
-            }
-            return nil
-        }
-        set {
-            if let date = newValue {
-                let data = NSKeyedArchiver.archivedDataWithRootObject(date)
-                LUKeychainAccess.standardKeychainAccess().setData(data, forKey: AuthTokenExpires)
-            }
-            else {
-                LUKeychainAccess.standardKeychainAccess().setData(nil, forKey: AuthTokenExpires)
-            }
-        }
-    }
-
     var authTokenType: String? {
         get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthTokenType) as String? }
         set { LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthTokenType) }
@@ -69,5 +52,19 @@ struct Keychain: KeychainType {
     var isAuthenticated: Bool? {
         get { return LUKeychainAccess.standardKeychainAccess().boolForKey(AuthTokenAuthenticated) as Bool? }
         set { LUKeychainAccess.standardKeychainAccess().setBool(newValue ?? false, forKey: AuthTokenAuthenticated) }
+    }
+
+    var username: String? {
+        get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthUsername) as String? }
+        set {
+            LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthUsername)
+        }
+    }
+
+    var password: String? {
+        get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthPassword) as String? }
+        set {
+            LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthPassword)
+        }
     }
 }

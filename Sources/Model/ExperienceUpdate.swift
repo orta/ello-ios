@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-
 public let CommentChangedNotification = TypedNotification<(Comment, ContentChange)>(name: "commentChangedNotification")
 public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
 public let PostCommentsCountChangedNotification = TypedNotification<(Post, Int)>(name: "postCommentsCountChangedNotification")

@@ -19,7 +19,7 @@ class ContentFlaggingServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 }
             }
         }

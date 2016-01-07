@@ -29,19 +29,19 @@ pod 'iRate', '~> 1.11'
 pod 'Firebase', configurations: ['Debug','CrashlyticsProduction','CrashlyticsStaging']
 
 # swift pods
-pod 'Alamofire', '~> 2.0'
-pod 'Moya', '~> 2.2'
-pod 'Result', '0.6-beta.1'
+pod 'Alamofire', '~> 3.0'
+pod 'Moya', '~> 6.0.0'
 pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
 pod 'WebLinking', '~> 1.0'
 
 target 'Specs' do
-  pod 'Nimble', git: 'https://github.com/Quick/Nimble', branch: 'xcode7.1'
-  pod 'Nimble-Snapshots', '~> 3.0'
+  pod 'Nimble', git: 'https://github.com/Quick/Nimble'
+  # pod 'Nimble-Snapshots', '~> 3.0'
+  pod 'FBSnapshotTestCase', '~> 2.0.7'
   pod 'OHHTTPStubs', '~> 4.3'
-  pod 'Quick', git: 'https://github.com/Quick/Quick', branch: 'xcode7.1'
+  pod 'Quick', git: 'https://github.com/Quick/Quick'
 end
 
 plugin 'cocoapods-keys', {
