@@ -38,7 +38,8 @@ pod 'WebLinking', '~> 1.0'
 
 target 'Specs' do
   pod 'Nimble', git: 'https://github.com/Quick/Nimble'
-  pod 'Nimble-Snapshots', '~> 3.0'
+  # pod 'Nimble-Snapshots', '~> 3.0'
+  pod 'FBSnapshotTestCase', '~> 2.0.7'
   pod 'OHHTTPStubs', '~> 4.3'
   pod 'Quick', git: 'https://github.com/Quick/Quick'
 end
