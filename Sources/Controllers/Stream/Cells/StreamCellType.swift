@@ -23,6 +23,7 @@ public func ==(lhs: StreamCellType, rhs: StreamCellType) -> Bool {
 
 public enum StreamCellType: Equatable {
     case ColumnToggle
+    case DiscoverStreamPicker
     case CommentHeader
     case CreateComment
     case Embed(data: Regionable?)
@@ -46,6 +47,7 @@ public enum StreamCellType: Equatable {
 
     static let all = [
         ColumnToggle,
+        DiscoverStreamPicker,
         CommentHeader,
         CreateComment,
         Embed(data: nil),
@@ -103,12 +105,14 @@ public enum StreamCellType: Equatable {
         case UserAvatars: return 18
         case UserListItem: return 19
         case ColumnToggle: return 20
+        case DiscoverStreamPicker: return 21
         }
     }
 
     public var name: String {
         switch self {
         case ColumnToggle: return "ColumnToggleCell"
+        case DiscoverStreamPicker: return "DiscoverStreamPickerCell"
         case CommentHeader, Header: return "StreamHeaderCell"
         case CreateComment: return "StreamCreateCommentCell"
         case Embed: return "StreamEmbedCell"
@@ -142,6 +146,7 @@ public enum StreamCellType: Equatable {
     public var configure: CellConfigClosure {
         switch self {
         case ColumnToggle: return ColumnToggleCellPresenter.configure
+        case DiscoverStreamPicker: return DiscoverStreamPickerCellPresenter.configure
         case CommentHeader, Header: return StreamHeaderCellPresenter.configure
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case Embed: return StreamEmbedCellPresenter.configure
@@ -166,7 +171,8 @@ public enum StreamCellType: Equatable {
 
     public var classType: UICollectionViewCell.Type {
         switch self {
-        case .ColumnToggle: return ColumnToggleCell.self
+        case ColumnToggle: return ColumnToggleCell.self
+        case DiscoverStreamPicker: return DiscoverStreamPickerCell.self
         case CommentHeader, Header: return StreamHeaderCell.self
         case CreateComment: return StreamCreateCommentCell.self
         case Embed: return StreamEmbedCell.self
@@ -190,74 +196,54 @@ public enum StreamCellType: Equatable {
 
     public var oneColumnHeight: CGFloat {
         switch self {
-        case .ColumnToggle:
-            return 40.0
+        case ColumnToggle:
+            return 40
+        case DiscoverStreamPicker:
+            return 56
         case CommentHeader,
              InviteFriends,
              SeeMoreComments:
-            return 60.0
+            return 60
         case CreateComment,
              FollowAll:
-            return 75.0
+            return 75
         case Footer:
-            return 44.0
+            return 44
         case Header:
-            return 90.0
+            return 90
         case Notification:
-            return 117.0
+            return 117
         case OnboardingHeader:
-            return 120.0
+            return 120
         case let RepostHeader(height):
             return height
         case let Spacer(height):
             return height
         case StreamLoading,
              UserAvatars:
-            return 50.0
+            return 50
         case Toggle:
-            return 40.0
+            return 40
         case UserListItem:
-            return 85.0
-        default: return 0.0
+            return 85
+        default: return 0
         }
     }
 
     public var multiColumnHeight: CGFloat {
         switch self {
-        case .ColumnToggle:
-            return 40.0
-        case CommentHeader,
-             Header,
-             InviteFriends,
-             Notification,
-             SeeMoreComments:
-            return 60.0
-        case CreateComment,
-             FollowAll:
-            return 75.0
-        case Footer:
-            return 44.0
-        case OnboardingHeader:
-            return 120.0
-        case let RepostHeader(height):
-            return height
-        case let Spacer(height):
-            return height
-        case StreamLoading,
-             UserAvatars:
-            return 50.0
-        case Toggle:
-            return 40.0
-        case UserListItem:
-            return 85.0
+        case Header,
+            Notification:
+            return 60
         default:
-            return 0.0
+            return oneColumnHeight
         }
     }
 
     public var isFullWidth: Bool {
         switch self {
         case ColumnToggle,
+             DiscoverStreamPicker,
              CreateComment,
              FollowAll,
              InviteFriends,

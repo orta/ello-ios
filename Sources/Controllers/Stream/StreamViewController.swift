@@ -45,6 +45,10 @@ public protocol ColumnToggleDelegate: NSObjectProtocol {
     func columnToggleTapped(isGridView: Bool)
 }
 
+public protocol DiscoverStreamPickerDelegate: NSObjectProtocol {
+    func discoverPickerTapped(type: DiscoverType)
+}
+
 // MARK: StreamNotification
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
@@ -276,19 +280,24 @@ public class StreamViewController: BaseElloViewController {
                 streamKind.endpoint,
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
-                    if !self.isValidInitialPageLoadingToken(localToken) { return }
+                    guard self.isValidInitialPageLoadingToken(localToken) else { return }
+
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
                     self.currentJSONables = jsonables
-                    let items: [StreamCellItem]
+
+                    var items: [StreamCellItem] = []
                     if self.streamKind.hasGridViewToggle {
                         let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
-                        // this calls doneLoading when cells are added
-                        items = [toggleCellItem] + StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+                        items += [toggleCellItem]
                     }
-                    else {
-                        items = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+
+                    if self.streamKind.hasDiscoverStreamPicker {
+                        let pickerCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .DiscoverStreamPicker)
+                        items += [pickerCellItem]
                     }
+
+                    items += StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
 
                     self.appendUnsizedCellItems(items, withWidth: nil, completion: { indexPaths in
                         if self.streamKind.gridViewPreferenceSet {
@@ -529,6 +538,7 @@ public class StreamViewController: BaseElloViewController {
         dataSource.userDelegate = self
         dataSource.webLinkDelegate = self
         dataSource.columnToggleDelegate = self
+        dataSource.discoverStreamPickerDelegate = self
         dataSource.relationshipDelegate = relationshipController
 
         collectionView.dataSource = dataSource
@@ -573,7 +583,7 @@ extension StreamViewController: ColumnToggleDelegate {
         )
     }
 
-    public func toggleGrid(isGridView: Bool) {
+    private func toggleGrid(isGridView: Bool) {
         self.streamKind.setIsGridView(isGridView)
         let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
         // this calls doneLoading when cells are added
@@ -586,6 +596,19 @@ extension StreamViewController: ColumnToggleDelegate {
         }
         self.setupCollectionViewLayout()
     }
+}
+
+// MARK: StreamViewController: DiscoverStreamPickerDelegate
+extension StreamViewController: DiscoverStreamPickerDelegate {
+
+    public func discoverPickerTapped(type: DiscoverType) {
+        hideNoResults()
+        streamKind = .Discover(type: type, perPage: 10)
+        removeAllCellItems()
+        ElloHUD.showLoadingHudInView(view)
+        loadInitialPage()
+    }
+
 }
 
 // MARK: StreamViewController: SimpleStreamDelegate
