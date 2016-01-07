@@ -52,12 +52,12 @@ PODS:
   - OHHTTPStubs/NSURLSession (4.3.0):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.3.0)
-  - PINCache (2.1)
-  - PINRemoteImage (1.2.1):
-    - PINRemoteImage/FLAnimatedImage (= 1.2.1)
-  - PINRemoteImage/Core (1.2.1):
+  - PINCache (2.1.2)
+  - PINRemoteImage (1.2.3):
+    - PINRemoteImage/FLAnimatedImage (= 1.2.3)
+  - PINRemoteImage/Core (1.2.3):
     - PINCache (>= 2.1)
-  - PINRemoteImage/FLAnimatedImage (1.2.1):
+  - PINRemoteImage/FLAnimatedImage (1.2.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - Quick (0.7.0)
@@ -94,7 +94,8 @@ DEPENDENCIES:
   - Nimble (from `https://github.com/Quick/Nimble`, branch `xcode7.1`)
   - Nimble-Snapshots (~> 3.0)
   - OHHTTPStubs (~> 4.3)
-  - PINRemoteImage (~> 1.1)
+  - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit
+    `af312667f0ce830264198366f481f1b222675a31`)
   - Quick (from `https://github.com/Quick/Quick`, branch `xcode7.1`)
   - Result (= 0.6-beta.1)
   - SSPullToRefresh (~> 1.2)
@@ -121,6 +122,9 @@ EXTERNAL SOURCES:
   Nimble:
     :branch: xcode7.1
     :git: https://github.com/Quick/Nimble
+  PINRemoteImage:
+    :commit: af312667f0ce830264198366f481f1b222675a31
+    :git: https://github.com/pinterest/PINRemoteImage.git
   Quick:
     :branch: xcode7.1
     :git: https://github.com/Quick/Quick
@@ -153,6 +157,9 @@ CHECKOUT OPTIONS:
   Nimble:
     :commit: dd3652d3788f1dd4e9838140399f774dcea56ec2
     :git: https://github.com/Quick/Nimble
+  PINRemoteImage:
+    :commit: af312667f0ce830264198366f481f1b222675a31
+    :git: https://github.com/pinterest/PINRemoteImage.git
   Quick:
     :commit: d1d795e58d0f972e8acacaee62a83d4b86db11dd
     :git: https://github.com/Quick/Quick
@@ -190,8 +197,8 @@ SPEC CHECKSUMS:
   Nimble: 1b4a306f27b2355c8c789087e092decb1a226238
   Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
-  PINCache: 0581b0a7578fc0bbc6c7a8b70b0615388bea064c
-  PINRemoteImage: 7560f0c975b0495d232e954342c5f49979335015
+  PINCache: 9e70271f1bdd60c0465b7208adcc4b6acc1fc376
+  PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
   Quick: c99021edb599f0aae3319455778ce36d00be140b
   Result: af24e3e57ab81005ec4221a53fd36dc1e7a52869
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
@@ -203,4 +210,4 @@ SPEC CHECKSUMS:
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
   YapDatabase: d8a174ee182fabefa907b663591aa976486f9d5c
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.38.2

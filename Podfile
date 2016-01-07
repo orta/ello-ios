@@ -19,7 +19,7 @@ pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewControll
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
 pod 'MBProgressHUD', '~> 0.9.0'
-pod 'PINRemoteImage', '~> 1.1'
+pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
