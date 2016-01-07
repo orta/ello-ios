@@ -42,10 +42,7 @@ public class Tracker {
     private var shouldTrackUser = true
     private var currentUser: User?
     private var agent: AnalyticsAgent {
-        if let overrideAgent = overrideAgent {
-            return overrideAgent
-        }
-        return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
+        return overrideAgent ?? (shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent())
     }
 
     public init() {
