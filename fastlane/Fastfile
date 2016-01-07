@@ -32,7 +32,7 @@ default_platform :ios
 platform :ios do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-    ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = "1.4.0"
+    ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = "1.4.1"
     ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
 
     increment_version_number

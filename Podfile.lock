@@ -54,11 +54,11 @@ PODS:
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.7.0)
   - PINCache (2.1.2)
-  - PINRemoteImage (1.2.2):
-    - PINRemoteImage/FLAnimatedImage (= 1.2.2)
-  - PINRemoteImage/Core (1.2.2):
+  - PINRemoteImage (1.2.3):
+    - PINRemoteImage/FLAnimatedImage (= 1.2.3)
+  - PINRemoteImage/Core (1.2.3):
     - PINCache (>= 2.1)
-  - PINRemoteImage/FLAnimatedImage (1.2.2):
+  - PINRemoteImage/FLAnimatedImage (1.2.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - Quick (0.8.0)
@@ -95,7 +95,8 @@ DEPENDENCIES:
   - Nimble (from `https://github.com/Quick/Nimble`)
   - Nimble-Snapshots (~> 3.0)
   - OHHTTPStubs (~> 4.3)
-  - PINRemoteImage (~> 1.1)
+  - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit
+    `af312667f0ce830264198366f481f1b222675a31`)
   - Quick (from `https://github.com/Quick/Quick`)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
@@ -120,6 +121,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/KINWebBrowser
   Nimble:
     :git: https://github.com/Quick/Nimble
+  PINRemoteImage:
+    :commit: af312667f0ce830264198366f481f1b222675a31
+    :git: https://github.com/pinterest/PINRemoteImage.git
   Quick:
     :git: https://github.com/Quick/Quick
   SVGKit:
@@ -151,6 +155,9 @@ CHECKOUT OPTIONS:
   Nimble:
     :commit: 676d1c8aedd09253229474a5dca2fddbf3b445a1
     :git: https://github.com/Quick/Nimble
+  PINRemoteImage:
+    :commit: af312667f0ce830264198366f481f1b222675a31
+    :git: https://github.com/pinterest/PINRemoteImage.git
   Quick:
     :commit: 1baaec8f51d4bce48c7ea76364fa324395270a70
     :git: https://github.com/Quick/Quick
@@ -189,7 +196,7 @@ SPEC CHECKSUMS:
   Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
   OHHTTPStubs: d2bf6a0f407620d67e75a1d3f12d86a2b1dd15c0
   PINCache: 9e70271f1bdd60c0465b7208adcc4b6acc1fc376
-  PINRemoteImage: 9f6f484bbceee15e2df5aee0beeac2e261e4ac81
+  PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
   Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
   Result: caef80340451e1f07492fa1e89117f83613bce24
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
