@@ -8,17 +8,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OgH-2P-jcb" customClass="DiscoverStreamPickerCell" customModule="Ello" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DO1-md-HIX">
-                        <rect key="frame" x="15" y="15" width="570" height="49"/>
+                        <rect key="frame" x="15" y="15" width="570" height="35"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zoz-dr-GyZ" customClass="ElloSegmentedControl" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="11" width="570" height="29"/>
+                                <rect key="frame" x="0.0" y="0.0" width="570" height="29"/>
                                 <segments>
                                     <segment title="Featured"/>
                                     <segment title="Trending"/>
@@ -32,18 +32,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Zoz-dr-GyZ" firstAttribute="centerY" secondItem="DO1-md-HIX" secondAttribute="centerY" id="6dr-zo-QKG"/>
                             <constraint firstItem="Zoz-dr-GyZ" firstAttribute="leading" secondItem="DO1-md-HIX" secondAttribute="leading" id="A1L-5u-gOZ"/>
                             <constraint firstAttribute="trailing" secondItem="Zoz-dr-GyZ" secondAttribute="trailing" id="UY5-IH-eq2"/>
+                            <constraint firstItem="Zoz-dr-GyZ" firstAttribute="top" secondItem="DO1-md-HIX" secondAttribute="top" id="zrr-U6-quu"/>
                         </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="DO1-md-HIX" secondAttribute="bottom" id="5es-e7-klC"/>
                 <constraint firstAttribute="trailing" secondItem="DO1-md-HIX" secondAttribute="trailing" constant="15" id="cDD-zY-2h0"/>
                 <constraint firstItem="DO1-md-HIX" firstAttribute="leading" secondItem="OgH-2P-jcb" secondAttribute="leading" constant="15" id="g8b-rQ-yb0"/>
-                <constraint firstAttribute="bottom" secondItem="DO1-md-HIX" secondAttribute="bottom" constant="6" id="jqv-Fu-kil"/>
                 <constraint firstItem="DO1-md-HIX" firstAttribute="top" secondItem="OgH-2P-jcb" secondAttribute="top" constant="15" id="suI-IY-8Hp"/>
             </constraints>
             <size key="customSize" width="586" height="70"/>

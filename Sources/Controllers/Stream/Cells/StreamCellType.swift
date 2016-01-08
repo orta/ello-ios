@@ -199,7 +199,7 @@ public enum StreamCellType: Equatable {
         case ColumnToggle:
             return 40
         case DiscoverStreamPicker:
-            return 56
+            return 50
         case CommentHeader,
              InviteFriends,
              SeeMoreComments:
