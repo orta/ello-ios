@@ -7,6 +7,7 @@
 //
 
 public class StreamLoadingCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamLoadingCell"
 
     lazy var elloLogo: ElloLogoView = {
         let logo = ElloLogoView()

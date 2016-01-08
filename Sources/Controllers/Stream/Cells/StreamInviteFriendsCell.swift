@@ -9,6 +9,8 @@
 import Foundation
 
 public class StreamInviteFriendsCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamInviteFriendsCell"
+    
     @IBOutlet weak public var nameLabel: UILabel!
     @IBOutlet weak public var inviteButton: UIButton!
 

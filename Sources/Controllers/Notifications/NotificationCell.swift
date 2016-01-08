@@ -17,6 +17,7 @@ public protocol NotificationDelegate {
 }
 
 public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
+    static let reuseIdentifier = "NotificationCell"
 
     struct Size {
         static let sideMargins = CGFloat(15)

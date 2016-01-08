@@ -198,7 +198,8 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     private func setupStreamsSegmentedControl() {
-        let control = UISegmentedControl(items: streamValues.map{ $0.name })
+        let control = ElloSegmentedControl(items: streamValues.map{ $0.name })
+        control.style = .Compact
         control.addTarget(self, action: Selector("streamSegmentTapped:"), forControlEvents: .ValueChanged)
         control.frame.size.height = 19.0
         control.layer.borderWidth = 1.0
@@ -214,8 +215,8 @@ public class StreamContainerViewController: StreamableViewController {
 
         childStreamControllers[index].collectionView.scrollsToTop = true
 
-        let width:CGFloat = view.bounds.size.width
-        let height:CGFloat = view.bounds.size.height
+        let width = view.bounds.size.width
+        let height = view.bounds.size.height
         let x = CGFloat(index) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)

@@ -7,6 +7,7 @@
 //
 
 public class StreamRepostHeaderCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamRepostHeaderCell"
 
     @IBOutlet var repostedByLabel: ElloLabel!
     @IBOutlet var repostIconView: UIImageView!

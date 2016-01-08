@@ -9,6 +9,7 @@
 import Foundation
 
 public class UserListItemCell: UICollectionViewCell {
+    static let reuseIdentifier = "UserListItemCell"
 
     weak public var avatarButton: AvatarButton!
     @IBOutlet weak public var usernameLabel: UILabel!

@@ -12,9 +12,7 @@ protocol FollowAllButtonResponder {
 }
 
 public class FollowAllCell: UICollectionViewCell {
-    class func reuseIdentifier() -> String {
-        return "FollowAllCell"
-    }
+    static let reuseIdentifier = "FollowAllCell"
 
     var followedCount: Int = 0 { didSet { updateTitle() } }
     var userCount: Int = 0 { didSet { updateTitle() } }

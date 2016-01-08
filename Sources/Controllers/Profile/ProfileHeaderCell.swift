@@ -17,6 +17,8 @@ public protocol PostsTappedResponder {
 }
 
 public class ProfileHeaderCell: UICollectionViewCell {
+    static let reuseIdentifier = "ProfileHeaderCell"
+    
     typealias WebContentReady = (webView : UIWebView) -> Void
 
     // this little hack prevents constraints from breaking on initial load
