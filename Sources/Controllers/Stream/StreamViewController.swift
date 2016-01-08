@@ -286,19 +286,7 @@ public class StreamViewController: BaseElloViewController {
                     self.responseConfig = responseConfig
                     self.currentJSONables = jsonables
 
-                    var items: [StreamCellItem] = []
-                    if self.streamKind.hasGridViewToggle {
-                        let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
-                        items += [toggleCellItem]
-                    }
-
-                    if self.streamKind.hasDiscoverStreamPicker {
-                        let pickerCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .DiscoverStreamPicker)
-                        items += [pickerCellItem]
-                    }
-
-                    items += StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
-
+                    let items = self.generateStreamCellItems(jsonables)
                     self.appendUnsizedCellItems(items, withWidth: nil, completion: { indexPaths in
                         if self.streamKind.gridViewPreferenceSet {
                             self.collectionView.layoutIfNeeded()
@@ -315,6 +303,22 @@ public class StreamViewController: BaseElloViewController {
                 }
             )
         }
+    }
+
+    private func generateStreamCellItems(jsonables: [JSONAble]) -> [StreamCellItem] {
+        var items: [StreamCellItem] = []
+        if self.streamKind.hasGridViewToggle {
+            let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
+            items += [toggleCellItem]
+        }
+
+        if self.streamKind.hasDiscoverStreamPicker {
+            let pickerCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .DiscoverStreamPicker)
+            items += [pickerCellItem]
+        }
+
+        items += StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+        return items
     }
 
     private func updateNoResultsLabel() {
@@ -585,10 +589,8 @@ extension StreamViewController: ColumnToggleDelegate {
 
     private func toggleGrid(isGridView: Bool) {
         self.streamKind.setIsGridView(isGridView)
-        let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
-        // this calls doneLoading when cells are added
-        let items = [toggleCellItem] + StreamCellItemParser().parse(self.currentJSONables, streamKind: self.streamKind, currentUser: self.currentUser)
         self.removeAllCellItems()
+        let items = generateStreamCellItems(self.currentJSONables)
         self.appendUnsizedCellItems(items, withWidth: nil) { indexPaths in
             animate {
                 self.collectionView.alpha = 1
