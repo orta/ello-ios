@@ -9,6 +9,8 @@
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
 public class StreamFooterCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamFooterCell"
+    
     public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     var revealWidth: CGFloat {
         if let items = bottomToolBar.items {

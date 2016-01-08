@@ -10,6 +10,8 @@ import WebKit
 import Foundation
 
 public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
+    static let reuseIdentifier = "StreamTextCell"
+    
     typealias WebContentReady = (webView : UIWebView) -> Void
 
     @IBOutlet weak var webView:UIWebView!

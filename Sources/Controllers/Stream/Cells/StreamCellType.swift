@@ -111,27 +111,27 @@ public enum StreamCellType: Equatable {
 
     public var name: String {
         switch self {
-        case ColumnToggle: return "ColumnToggleCell"
-        case DiscoverStreamPicker: return "DiscoverStreamPickerCell"
-        case CommentHeader, Header: return "StreamHeaderCell"
-        case CreateComment: return "StreamCreateCommentCell"
-        case Embed: return "StreamEmbedCell"
-        case FollowAll: return FollowAllCell.reuseIdentifier()
-        case Footer: return "StreamFooterCell"
-        case Image: return "StreamImageCell"
-        case InviteFriends: return "StreamInviteFriendsCell"
-        case Notification: return "NotificationCell"
-        case OnboardingHeader: return OnboardingHeaderCell.reuseIdentifier()
-        case ProfileHeader: return "ProfileHeaderCell"
-        case RepostHeader: return "StreamRepostHeaderCell"
-        case SeeMoreComments: return "StreamSeeMoreCommentsCell"
+        case ColumnToggle: return ColumnToggleCell.reuseIdentifier
+        case DiscoverStreamPicker: return DiscoverStreamPickerCell.reuseIdentifier
+        case CommentHeader, Header: return StreamHeaderCell.reuseIdentifier
+        case CreateComment: return StreamCreateCommentCell.reuseIdentifier
+        case Embed: return StreamEmbedCell.reuseEmbedIdentifier
+        case FollowAll: return FollowAllCell.reuseIdentifier
+        case Footer: return StreamFooterCell.reuseIdentifier
+        case Image: return StreamImageCell.reuseIdentifier
+        case InviteFriends: return StreamInviteFriendsCell.reuseIdentifier
+        case Notification: return NotificationCell.reuseIdentifier
+        case OnboardingHeader: return OnboardingHeaderCell.reuseIdentifier
+        case ProfileHeader: return ProfileHeaderCell.reuseIdentifier
+        case RepostHeader: return StreamRepostHeaderCell.reuseIdentifier
+        case SeeMoreComments: return StreamSeeMoreCommentsCell.reuseIdentifier
         case Spacer: return "StreamSpacerCell"
-        case StreamLoading: return "StreamLoadingCell"
-        case Text: return "StreamTextCell"
-        case Toggle: return "StreamToggleCell"
+        case StreamLoading: return StreamLoadingCell.reuseIdentifier
+        case Text: return StreamTextCell.reuseIdentifier
+        case Toggle: return StreamToggleCell.reuseIdentifier
         case Unknown: return "StreamUnknownCell"
         case UserAvatars: return UserAvatarsCell.reuseIdentifier
-        case UserListItem: return "UserListItemCell"
+        case UserListItem: return UserListItemCell.reuseIdentifier
         }
     }
 

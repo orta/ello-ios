@@ -7,6 +7,7 @@
 //
 
 public class StreamToggleCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamToggleCell"
 
     let closedMessage = NSLocalizedString("Tap to View.", comment: "Tap to View.")
     let openedMessage = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")

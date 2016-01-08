@@ -7,6 +7,7 @@
 //
 
 public class StreamHeaderCell: UICollectionViewCell {
+    static let reuseIdentifier = "StreamHeaderCell"
 
     public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     public var ownPost = false {

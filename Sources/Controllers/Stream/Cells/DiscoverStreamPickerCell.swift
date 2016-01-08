@@ -8,6 +8,7 @@
 
 class DiscoverStreamPickerCell: UICollectionViewCell {
     static let reuseIdentifier = "DiscoverStreamPickerCell"
+    
     weak var discoverStreamPickerDelegate : DiscoverStreamPickerDelegate!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     var discoverType: DiscoverType {
