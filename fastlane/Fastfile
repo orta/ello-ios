@@ -12,7 +12,7 @@
 # opt_out_usage
 
 # If you want to automatically update fastlane if a new version is available:
-# update_fastlane
+update_fastlane
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
@@ -31,16 +31,13 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    # ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_BUILD_NUMBER"]
-    # ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
-    # increment_version_number
-    # increment_build_number
+    ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_BUILD_NUMBER"]
+    ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
+    increment_version_number
+    increment_build_number
   end
 
   ######################### PUBLIC LANES ##########################
-  lane :temp do 
-    sh "echo #{ENV["CRASHLYTICS_BUILD_SECRET"]}"
-  end
 
   lane :appstore do
     sh "bundle install"
@@ -83,20 +80,6 @@ platform :ios do
     post_to_slack(scheme: ":ello:", destination: ":apple:")
   end
 
-  lane :rainbow_devs do
-    rainbow(
-      groups: 'ios-devs',
-      release_notes_task: "bundle exec rake generate:release_notes_devs"
-    )
-  end
-  
-  lane :rainbow_testers do
-    rainbow(
-      groups: 'ios-devs,testers',
-      release_notes_task: "bundle exec rake generate:release_notes"
-    )
-  end
-
   lane :donut_devs do
     donut(
       groups: 'ios-devs',
@@ -112,54 +95,7 @@ platform :ios do
   end
 
   ######################### PRIVATE LANES #########################
-  desc "Submit a Rainbow Build to Crashlytics"
-  desc "This will also make sure the profile is up to date"
-  private_lane :rainbow do |options|
-    groups = options[:groups]
-    release_notes_task = options[:release_notes_task]
-
-    sh "bundle install"
-
-    # setup the production configuration
-    sh "bundle exec rake generate:prod_keys"
-    
-    cert( 
-      output_path: ENV["CERTS_OUTPUT_PATH"]
-    )
-    
-    udid = sigh(
-      app_identifier: ENV["RAINBOW_APP_ID"], 
-      adhoc: true, 
-      output_path: ENV["PROFILE_PATH"],
-      development: false
-    )
-
-    # use the UDID of the newly created provisioning profile
-    ENV["PROFILE_UDID"] = udid
-
-    gym(
-      configuration: "CrashlyticsProduction",
-      output_directory: ENV["BUILD_OUTPUT_DIRECTORY"],
-      output_name: ENV["BUILD_OUTPUT_NAME"],
-      sdk: "iphoneos"
-    )
-
-    sh "bundle exec rake generate:release_notes"
-
-    crashlytics(
-      groups: groups,
-      notes_path: "./Build/crashlytics-release-notes.md",
-      api_token: ENV["CRASHLYTICS_API_TOKEN"],
-      build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
-      ipa_path: ENV["IPA_PATH"]
-    )
-    
-    sh "bundle exec rake upload:rainbow_dsym"
-
-    post_to_slack(scheme: ":rainbow:", destination: "Crashlytics")
-
-  end
-
+  
   desc "Submit a Donut Build to Crashlytics"
   desc "This will also make sure the profile is up to date"
   private_lane :donut do |options|
@@ -192,21 +128,6 @@ platform :ios do
       sdk: "iphoneos"
     )
 
-    upload_to_crashlytics(
-      groups: groups,
-      notes_path: "./bin/crashlytics-staging-release-notes.md"
-    )
-
-    sh "bundle exec rake upload:donut_dsym"
-
-    post_to_slack(scheme: ":doughnut:", destination: "Crashlytics")
-
-  end
-
-  private_lane :upload_to_crashlytics do |options|
-    groups      = options[:groups]
-    notes_path  = options[:notes_path]
-
     crashlytics(
       crashlytics_path: './Pods/Crashlytics/Crashlytics.framework',
       api_token: ENV["CRASHLYTICS_API_TOKEN"],
@@ -214,8 +135,13 @@ platform :ios do
       ipa_path: ENV["IPA_PATH"],
       groups: groups,
       notifications: "YES",
-      notes_path: notes_path
+      notes_path: "./bin/crashlytics-staging-release-notes.md"
     )
+
+    sh "bundle exec rake upload:donut_dsym"
+
+    post_to_slack(scheme: ":doughnut:", destination: "Crashlytics")
+
   end
 
   private_lane :post_to_slack do |options|
