@@ -578,7 +578,7 @@ extension StreamViewController: ColumnToggleDelegate {
         guard self.streamKind.isGridView != isGridView else {
             return
         }
-        self.streamKind.setGridViewPreference()
+        self.streamKind.setIsGridView(isGridView)
         UIView.animateWithDuration(0.2, animations: {
             self.collectionView.alpha = 0
             }, completion: { _ in
@@ -588,7 +588,6 @@ extension StreamViewController: ColumnToggleDelegate {
     }
 
     private func toggleGrid(isGridView: Bool) {
-        self.streamKind.setIsGridView(isGridView)
         self.removeAllCellItems()
         let items = generateStreamCellItems(self.currentJSONables)
         self.appendUnsizedCellItems(items, withWidth: nil) { indexPaths in
