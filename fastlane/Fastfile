@@ -12,7 +12,7 @@
 # opt_out_usage
 
 # If you want to automatically update fastlane if a new version is available:
-update_fastlane
+# update_fastlane
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
@@ -31,37 +31,37 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    # ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_BUILD_NUMBER"]
-    # ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
-    # increment_version_number
-    # increment_build_number
+    ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_BUILD_NUMBER"]
+    ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list sd-fastlane-environment-vars | wc -l | tr -d ' '"`.strip
+    increment_version_number
+    increment_build_number
   end
 
   ######################### PUBLIC LANES ##########################
 
   lane :appstore do
-    # sh "bundle install"
+    sh "bundle install"
 
-    # # setup the production configuration
-    # sh "bundle exec rake generate:prod_keys"
+    # setup the production configuration
+    sh "bundle exec rake generate:prod_keys"
     
-    # cert( 
-    #   output_path: ENV["CERTS_OUTPUT_PATH"]
-    # )
+    cert( 
+      output_path: ENV["CERTS_OUTPUT_PATH"]
+    )
     
-    # udid = sigh(
-    #   app_identifier: ENV["PROD_APP_ID"], 
-    #   output_path: ENV["PROFILE_PATH"],
-    #   development: false
-    # )
-    # # use the UDID of the newly created provisioning profile
-    # ENV["PROFILE_UDID"] = udid
+    udid = sigh(
+      app_identifier: ENV["PROD_APP_ID"], 
+      output_path: ENV["PROFILE_PATH"],
+      development: false
+    )
+    # use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = udid
 
-    # gym(
-    #   configuration: "Release",
-    #   sdk: "iphoneos",
-    #   clean: true
-    # )
+    gym(
+      configuration: "Release",
+      sdk: "iphoneos",
+      clean: true
+    )
 
     pilot(
       skip_submission: false,
