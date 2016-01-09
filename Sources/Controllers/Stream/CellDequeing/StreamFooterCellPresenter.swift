@@ -35,7 +35,6 @@ public struct StreamFooterCellPresenter {
             let post = streamCellItem.jsonable as? Post
         {
             cell.indexPath = indexPath
-            cell.close()
             configureDisplayCounts(cell, post: post, streamKind: streamKind)
             configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
             configureCommentControl(cell, streamCellItem: streamCellItem, streamKind: streamKind)
@@ -64,8 +63,6 @@ public struct StreamFooterCellPresenter {
 
         let sharingEnabled = post.author?.hasSharingEnabled ?? true
         let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
-        let deleteVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
-        let editVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
 
         let lovingEnabled = post.author?.hasLovesEnabled ?? true
         var loveVisibility: InteractionVisibility = .Enabled
@@ -77,8 +74,6 @@ public struct StreamFooterCellPresenter {
             repostVisibility: repostVisibility,
             commentVisibility: commentVisibility,
             shareVisibility: shareVisibility,
-            deleteVisibility: deleteVisibility,
-            editVisibility: editVisibility,
             loveVisibility: loveVisibility
         )
     }
@@ -123,8 +118,6 @@ public struct StreamFooterCellPresenter {
         cell: StreamFooterCell,
         streamKind: StreamKind)
     {
-        cell.scrollView.scrollEnabled = !streamKind.isGridView
-        cell.chevronButton.hidden = streamKind.isGridView
     }
 
     private static func configureDisplayCounts(
