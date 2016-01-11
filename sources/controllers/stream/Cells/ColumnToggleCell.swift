@@ -6,8 +6,6 @@
 //  Copyright © 2015 Ello. All rights reserved.
 //
 
-import Foundation
-
 public class ColumnToggleCell: UICollectionViewCell {
 
     static let reuseIdentifier = "ColumnToggleCell"

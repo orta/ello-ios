@@ -48,6 +48,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var simpleStreamDelegate: SimpleStreamDelegate?
     weak public var inviteDelegate: InviteDelegate?
     weak public var columnToggleDelegate: ColumnToggleDelegate?
+    weak public var discoverStreamPickerDelegate: DiscoverStreamPickerDelegate?
     public let inviteCache = InviteCache()
 
     public init(
@@ -240,6 +241,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             switch streamCellItem.type {
             case .ColumnToggle:
                 (cell as! ColumnToggleCell).columnToggleDelegate = columnToggleDelegate
+            case .DiscoverStreamPicker:
+                (cell as! DiscoverStreamPickerCell).discoverStreamPickerDelegate = discoverStreamPickerDelegate
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
             case .CreateComment:

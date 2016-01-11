@@ -7,9 +7,7 @@
 //
 
 public class OnboardingHeaderCell: UICollectionViewCell {
-    class func reuseIdentifier() -> String {
-        return "OnboardingHeaderCell"
-    }
+    static let reuseIdentifier = "OnboardingHeaderCell"
 
     lazy var onboardingHeaderView: OnboardingHeaderView = {
         let view = OnboardingHeaderView()

@@ -60,6 +60,9 @@ class ElloURISpec: QuickSpec {
                     "http://staging.ello.co",
                     "https://ello.co",
                     "https://ello-staging.herokuapp.com",
+                    "https://ello-staging1.herokuapp.com",
+                    "https://ello-stage.herokuapp.com",
+                    "https://ello-stage2.herokuapp.com",
                     "https://staging.ello.co",
                     "https://ello-staging2.herokuapp.com",
                 ]

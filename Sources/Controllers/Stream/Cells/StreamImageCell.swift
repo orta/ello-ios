@@ -11,6 +11,8 @@ import PINRemoteImage
 import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
+    static let reuseIdentifier = "StreamImageCell"
+    
     // this little hack prevents constraints from breaking on initial load
     override public var bounds: CGRect {
         didSet {
