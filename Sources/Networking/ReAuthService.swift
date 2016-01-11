@@ -21,11 +21,14 @@ public class ReAuthService: NSObject {
             return
         }
 
+        // cheap way to make sure these updates all happen on one queue
         nextTick {
             let reauthOperation: NSOperation
             if let currentReauthOperation = currentReauthOperation {
+                // establishes serial queue by having all future auth requests 
+                // require the "current" op to be complete
                 reauthOperation = AsyncOperation(block: { done in
-                    let result = reauthResult!
+                    let result = reauthResult ?? (true, nil)
                     if result.0 == true {
                         success()
                     }
