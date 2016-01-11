@@ -198,6 +198,20 @@ public enum InterfaceString {
         }
     }
 
+    public enum Post {
+        case Edit
+        case Delete
+
+        var localized: String {
+            switch self {
+            case .Edit:
+                return NSLocalizedString("Edit", comment: "Edit Post Button Title")
+            case .Delete:
+                return NSLocalizedString("Delete", comment: "Delete Post Button Title")
+            }
+        }
+    }
+
     public enum Loves {
         case CurrentUserNoResultsBody
         case CurrentUserNoResultsTitle
@@ -218,6 +232,18 @@ public enum InterfaceString {
             case .Title:
                 return NSLocalizedString("Loves", comment: "love stream")
             }
+        }
+    }
+
+    case LoggedOut
+    case Cancel
+
+    var localized: String {
+        switch self {
+        case .LoggedOut:
+            return NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
+        case .Cancel:
+            return NSLocalizedString("Cancel", comment: "Cancel")
         }
     }
 

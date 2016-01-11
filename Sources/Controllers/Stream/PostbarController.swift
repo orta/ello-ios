@@ -11,14 +11,11 @@ import Foundation
 public protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(indexPath: NSIndexPath)
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
-    func deletePostButtonTapped(indexPath: NSIndexPath)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
     func editCommentButtonTapped(indexPath: NSIndexPath)
-    func editPostButtonTapped(indexPath: NSIndexPath)
     func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
     func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView)
-    func flagPostButtonTapped(indexPath: NSIndexPath)
     func flagCommentButtonTapped(indexPath: NSIndexPath)
     func replyToCommentButtonTapped(indexPath: NSIndexPath)
     func replyToAllButtonTapped(indexPath: NSIndexPath)
@@ -123,38 +120,6 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func deletePostButtonTapped(indexPath: NSIndexPath) {
-        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
-        let alertController = AlertViewController(message: message)
-
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
-            action in
-            if let user = self.currentUser {
-                if let userPostCount = user.postsCount {
-                    user.postsCount = userPostCount - 1
-                    postNotification(CurrentUserChangedNotification, value: user)
-                }
-            }
-            if let post = self.postForIndexPath(indexPath) {
-                postNotification(PostChangedNotification, value: (post, .Delete))
-                PostService().deletePost(post.id,
-                    success: nil,
-                    failure: { (error, statusCode)  in
-                        // TODO: add error handling
-                        print("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
-                    }
-                )
-            }
-        }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
-
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-
-        logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
-        presentingController?.presentViewController(alertController, animated: true, completion: .None)
-    }
-
     public func deleteCommentButtonTapped(indexPath: NSIndexPath) {
         let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
         let alertController = AlertViewController(message: message)
@@ -192,17 +157,6 @@ public class PostbarController: NSObject, PostbarDelegate {
             let presentingController = presentingController
         {
             presentingController.createPostDelegate?.editComment(comment, fromController: presentingController)
-        }
-    }
-
-    public func editPostButtonTapped(indexPath: NSIndexPath) {
-        // This is a bit dirty, we should not call a method on a compositionally held
-        // controller's createPostDelegate. Can this use the responder chain when we have
-        // parameters to pass?
-        if let post = self.postForIndexPath(indexPath),
-            let presentingController = presentingController
-        {
-            presentingController.createPostDelegate?.editPost(post, fromController: presentingController)
         }
     }
 
@@ -336,16 +290,6 @@ public class PostbarController: NSObject, PostbarDelegate {
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }
-        }
-    }
-
-    public func flagPostButtonTapped(indexPath: NSIndexPath) {
-        if let post = dataSource.postForIndexPath(indexPath) {
-            let flagger = ContentFlagger(presentingController: presentingController,
-            flaggableId: post.id,
-            contentType: .Post,
-            commentPostId: nil)
-            flagger.displayFlaggingSheet()
         }
     }
 
