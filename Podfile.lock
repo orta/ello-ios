@@ -92,12 +92,12 @@ DEPENDENCIES:
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 6.0.0)
-  - Nimble (from `https://github.com/Quick/Nimble`)
+  - Nimble (~> 3.0.0)
   - Nimble-Snapshots (~> 3.0)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit
     `af312667f0ce830264198366f481f1b222675a31`)
-  - Quick (from `https://github.com/Quick/Quick`)
+  - Quick (~> 0.8.0)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (from `https://github.com/ello/SwiftyJSON`, branch `Swift-2.0`)
@@ -119,13 +119,9 @@ EXTERNAL SOURCES:
     :path: Pods/CocoaPodsKeys
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
-  Nimble:
-    :git: https://github.com/Quick/Nimble
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
-  Quick:
-    :git: https://github.com/Quick/Quick
   SVGKit:
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
@@ -152,15 +148,9 @@ CHECKOUT OPTIONS:
   KINWebBrowser:
     :commit: 7e3eb2e99609ab56facdf31feabb36bacff56f35
     :git: https://github.com/ello/KINWebBrowser
-  Nimble:
-    :commit: 676d1c8aedd09253229474a5dca2fddbf3b445a1
-    :git: https://github.com/Quick/Nimble
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
-  Quick:
-    :commit: 1baaec8f51d4bce48c7ea76364fa324395270a70
-    :git: https://github.com/Quick/Quick
   SVGKit:
     :commit: 49cac25db5cf5ecfb910f76a677809c5e6a8e337
     :git: https://github.com/SVGKit/SVGKit
