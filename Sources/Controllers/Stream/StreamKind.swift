@@ -197,25 +197,18 @@ public enum StreamKind {
         return self.isGridView ? post.summary : post.content
     }
 
-    public func setGridViewPreference() {
-        Defaults["\(self.cacheKey)GridViewPreferenceSet"] = true
-    }
-
     public var gridViewPreferenceSet: Bool {
         let prefSet = Defaults["\(self.cacheKey)GridViewPreferenceSet"].bool
         return prefSet != nil
     }
 
     public func setIsGridView(isGridView: Bool) {
-        Defaults["\(self.cacheKey)IsGridView"] = isGridView
+        Defaults["\(cacheKey)GridViewPreferenceSet"] = true
+        Defaults["\(cacheKey)IsGridView"] = isGridView
     }
 
     public var isGridView: Bool {
-        if Defaults["\(self.cacheKey)IsGridView"].bool == nil {
-            self.setIsGridView(false)
-        }
-
-        return Defaults["\(self.cacheKey)IsGridView"].bool ?? false
+        return Defaults["\(cacheKey)IsGridView"].bool ?? false
     }
 
     public func clientSidePostInsertIndexPath(currentUserId: String?) -> NSIndexPath? {
