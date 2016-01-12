@@ -903,9 +903,10 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             submitableRegions.append(.Image(image, data, type))
             submitableRegions.append(.Text(""))
             editableRegions = generateEditableRegions(submitableRegions)
+            reorderableRegions = generateReorderableRegions(submitableRegions)
 
             regionsTableView.reloadData()
-            regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.editableRegions.count - 1, inSection: 0), atScrollPosition: .None, animated: true)
+            regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.tableViewRegions.count - 1, inSection: 0), atScrollPosition: .None, animated: true)
         }
 
         updateButtons()

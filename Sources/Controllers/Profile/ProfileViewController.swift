@@ -177,7 +177,9 @@ public class ProfileViewController: StreamableViewController {
             else {
                 self.relationshipControlsViewTopConstraint.constant = 0
             }
-            self.view.layoutIfNeeded()
+
+            self.relationshipControlsView.frame.origin.y = self.relationshipControlsViewTopConstraint.constant
+            self.gradientView.frame.origin.y = self.gradientViewTopConstraint.constant
         }
     }
 
