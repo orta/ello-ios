@@ -18,7 +18,7 @@ public protocol PostsTappedResponder {
 
 public class ProfileHeaderCell: UICollectionViewCell {
     static let reuseIdentifier = "ProfileHeaderCell"
-    
+
     typealias WebContentReady = (webView : UIWebView) -> Void
 
     // this little hack prevents constraints from breaking on initial load
@@ -30,8 +30,9 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameLabel: ElloLabel!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var webViewHeight: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var postsButton: TwoLineButton!
     @IBOutlet weak var followersButton: TwoLineButton!
@@ -81,6 +82,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         nameLabel.font = UIFont.defaultFont()
         nameLabel.textColor = UIColor.greyA()
+        nameLabel.lineBreakMode = .ByWordWrapping
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {

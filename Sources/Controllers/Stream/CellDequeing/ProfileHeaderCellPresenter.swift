@@ -28,9 +28,12 @@ public struct ProfileHeaderCellPresenter {
                 let webViewHeight = webView.windowContentSize()?.height ?? 0
                 let actualHeight = ProfileHeaderCellSizeCalculator.calculateHeightBasedOn(
                     webViewHeight: webViewHeight,
+                    nameSize: cell.nameLabel.frame.size,
                     width: cell.frame.size.width
                     )
                 if actualHeight != streamCellItem.calculatedOneColumnCellHeight {
+                    cell.webViewHeight.constant = webViewHeight
+
                     streamCellItem.calculatedWebHeight = webViewHeight
                     streamCellItem.calculatedOneColumnCellHeight = actualHeight
                     streamCellItem.calculatedMultiColumnCellHeight = actualHeight
@@ -53,9 +56,15 @@ public struct ProfileHeaderCellPresenter {
             }
 
             cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
+            if let height = streamCellItem.calculatedWebHeight {
+                cell.webViewHeight.constant = height
+            }
             cell.usernameLabel.text = user.atName
-            cell.nameLabel.text = user.name
+            cell.nameLabel.setLabelText(user.name, color: cell.nameLabel.textColor)
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.headerHTMLContent), baseURL: NSURL(string: "/"))
+            if let height = streamCellItem.calculatedWebHeight {
+                cell.bioWebView.frame.size.height = height
+            }
 
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")

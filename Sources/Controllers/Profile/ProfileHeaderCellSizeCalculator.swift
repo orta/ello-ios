@@ -12,6 +12,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
     static let ratio: CGFloat = 16.0/9.0
 
     let webView: UIWebView
+    let label = ElloLabel()
     var maxWidth: CGFloat = 0.0
     public var cellItems: [StreamCellItem] = []
     public var completion: ElloEmptyCompletion = {}
@@ -20,6 +21,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         self.webView = webView
         super.init()
         webView.delegate = self
+        label.lineBreakMode = .ByWordWrapping
     }
 
     public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
@@ -28,6 +30,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         self.maxWidth = width
         // -30 for the padding on the webview
         self.webView.frame = self.webView.frame.withWidth(self.maxWidth - (StreamTextCellPresenter.postMargin * 2))
+
         loadNext()
     }
 
@@ -36,6 +39,8 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
             let user = item.jsonable as? User
         {
             let html = StreamTextCellHTML.postHTML(user.headerHTMLContent)
+            label.setLabelText(user.name)
+
             // needs to use the same width as the post text region
             webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
         }
@@ -46,8 +51,14 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
 
     private func assignCellHeight(webViewHeight: CGFloat) {
         if let cellItem = cellItems.safeValue(0) {
+            let leftLabelMargin: CGFloat = 15
+            let rightLabelMargin: CGFloat = 82
+            let nameSize = label.attributedText!.boundingRectWithSize(CGSize(width: maxWidth - leftLabelMargin - rightLabelMargin, height: CGFloat.max),
+                options: .UsesLineFragmentOrigin, context: nil).size
+
             let height = ProfileHeaderCellSizeCalculator.calculateHeightBasedOn(
                 webViewHeight: webViewHeight,
+                nameSize: nameSize,
                 width: maxWidth
                 )
             self.cellItems.removeAtIndex(0)
@@ -58,11 +69,12 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         loadNext()
     }
 
-    class func calculateHeightBasedOn(webViewHeight webViewHeight: CGFloat, width: CGFloat) -> CGFloat {
+    class func calculateHeightBasedOn(webViewHeight webViewHeight: CGFloat, nameSize: CGSize, width: CGFloat) -> CGFloat {
         var height: CGFloat = width / ratio // cover image size
-        height += 166 // top of webview
-        // add web view height and bottom padding
+
+        height += 146 // size without webview and name label
         height += max(webViewHeight, 0)
+        height += nameSize.height
         return height
     }
 
