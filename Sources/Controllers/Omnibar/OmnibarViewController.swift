@@ -190,7 +190,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else {
             let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
-            if !isShowingNarration && presentedViewController == nil {
+            let isPosting = !screen.interactionEnabled
+            if !isShowingNarration && !isPosting && presentedViewController == nil {
                 // desired behavior: animate the keyboard in when this screen is
                 // shown.  without the delay, the keyboard just appears suddenly.
                 delay(0) {
@@ -345,59 +346,75 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarSubmitted(regions: [OmnibarRegion]) {
         let content = generatePostContent(regions)
-        if content.count == 0 {
+        guard content.count > 0 else {
             return
         }
 
+        if let authorId = currentUser?.id {
+            startPosting(authorId, content)
+        }
+        else {
+            contentCreationFailed(NSLocalizedString("You must be logged in", comment: "You must be logged in"))
+        }
+    }
+
+    private func startPosting(authorId: String, _ content: [PostEditingService.PostContentRegion]) {
         let service : PostEditingService
+        let didGoToPreviousTab: Bool
+
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
+            didGoToPreviousTab = false
         }
         else if let editPost = editPost {
             service = PostEditingService(editPost: editPost)
+            didGoToPreviousTab = false
         }
         else if let editComment = editComment {
             service = PostEditingService(editComment: editComment)
+            didGoToPreviousTab = false
         }
         else {
             service = PostEditingService()
+
+            goToPreviousTab()
+            didGoToPreviousTab = true
         }
 
-        if content.count > 0 {
-            ElloHUD.showLoadingHudInView(view)
-            if let authorId = currentUser?.id {
-                service.create(
-                    content: content,
-                    authorId: authorId,
-                    success: { postOrComment in
-                        ElloHUD.hideLoadingHudInView(self.view)
-
-                        if self.editPost != nil || self.editComment != nil {
-                            NSURLCache.sharedURLCache().removeAllCachedResponses()
-                        }
-
-                        if self.parentPost != nil || self.editComment != nil {
-                            let comment = postOrComment as! Comment
-                            self.emitCommentSuccess(comment)
-                        }
-                        else {
-                            let post = postOrComment as! Post
-                            self.emitPostSuccess(post)
-                        }
-                    },
-                    failure: { error, statusCode in
-                        ElloHUD.hideLoadingHudInView(self.view)
-                        self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
-                    }
-                )
-            }
-            else {
+        ElloHUD.showLoadingHudInView(view)
+        screen.interactionEnabled = false
+        service.create(
+            content: content,
+            authorId: authorId,
+            success: { postOrComment in
                 ElloHUD.hideLoadingHudInView(self.view)
-                contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+                self.screen.interactionEnabled = true
+
+                if self.editPost != nil || self.editComment != nil {
+                    NSURLCache.sharedURLCache().removeAllCachedResponses()
+                }
+
+                self.emitSuccess(postOrComment, didGoToPreviousTab: didGoToPreviousTab)
+            },
+            failure: { error, statusCode in
+                ElloHUD.hideLoadingHudInView(self.view)
+                self.screen.interactionEnabled = true
+                self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
+
+                if let vc = self.parentViewController as? ElloTabBarController
+                where didGoToPreviousTab {
+                    vc.selectedTab = .Post
+                }
             }
+        )
+    }
+
+    private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {
+        if let comment = postOrComment as? Comment {
+            self.emitCommentSuccess(comment)
         }
-        else {
-            contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+        else if let post = postOrComment as? Post {
+            self.emitPostSuccess(post, didGoToPreviousTab: didGoToPreviousTab)
         }
     }
 
@@ -418,7 +435,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    private func emitPostSuccess(post: Post) {
+    private func emitPostSuccess(post: Post, didGoToPreviousTab: Bool) {
         if let user = currentUser, postsCount = user.postsCount {
             user.postsCount = postsCount + 1
             postNotification(CurrentUserChangedNotification, value: user)
@@ -436,9 +453,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let listener = postSuccessListener {
             listener(post: post)
         }
-        else {
-            goToPreviousTab()
-            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+
+        self.screen.resetAfterSuccessfulPost()
+
+        if didGoToPreviousTab {
+            NotificationBanner.displayAlert(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
         }
     }
 

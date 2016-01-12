@@ -188,12 +188,6 @@ class OmnibarScreenSpec: QuickSpec {
                         }
                     }
                 }
-                context("func reportSuccess(title: String)") {
-                    it("should reportSuccess") {
-                        subject.reportSuccess("foo")
-                        expect(delegate.didPresentController) == true
-                    }
-                }
                 context("func reportError(title: String, error: NSError)") {
                     context("when passing an NSError") {
                         it("should reportError") {

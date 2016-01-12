@@ -1,1 +1,66 @@
-{}
+{
+  "posts": {
+      "id": "526",
+      "href": "/api/edge/posts/1",
+      "token": "ibLWX5p5fPBfzE8GmfOG6w",
+      "collapsed": false,
+      "allow_comments": true,
+      "content": [
+          {
+              "kind": "text",
+              "readonly": false,
+              "data": "test text content"
+          }
+      ],
+      "summary": [
+          {
+              "kind": "text",
+              "readonly": false,
+              "data": "test text content"
+          }
+      ],
+      "created_at": "2014-12-23T22:27:47.325Z",
+      "views_count": 0,
+      "comments_count": 0,
+      "reposts_count": 0,
+      "links": {
+          "author": {
+              "type": "users",
+              "href": "/api/edge/users/666",
+              "id": "666"
+          }
+      }
+  },
+  "linked": {
+      "users": [
+          {
+              "id": "666",
+              "href": "/api/edge/users/666",
+              "username": "cfiggis",
+              "name": "Cyril Figgis",
+              "avatar": {
+                  "large": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
+                  },
+                  "regular": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/regular_pam.png"
+                  },
+                  "small": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/small_pam.png"
+                  },
+                  "pixellated_large": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_large_pam.png"
+                  },
+                  "pixellated_regular": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_regular_pam.png"
+                  },
+                  "pixellated_small": {
+                      "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_small_pam.png"
+                  }
+              },
+              "experimental_features": true,
+              "relationship_priority": "friend"
+          }
+      ]
+  }
+}

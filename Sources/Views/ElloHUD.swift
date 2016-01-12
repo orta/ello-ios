@@ -25,16 +25,8 @@ class ElloHUD: NSObject {
         let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
         hud.opacity = 0.0
 
-        let elloLogo = UIImageView(image: Interface.Image.ElloLogo.normalImage)
-        elloLogo.bounds = CGRectMake(0, 0, 60, 60)
-
-        let rotate = CABasicAnimation(keyPath: "transform.rotation")
-        rotate.fromValue = 0.0
-        rotate.toValue = 2 * M_PI
-        rotate.duration = 0.35
-        rotate.repeatCount = 1_000_000
-        elloLogo.layer.addAnimation(rotate, forKey: "10")
-
+        let elloLogo = ElloLogoView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        elloLogo.animateLogo()
         hud.customView = elloLogo
         hud.mode = MBProgressHUDMode.CustomView
         hud.removeFromSuperViewOnHide = true

@@ -15,6 +15,7 @@ import SwiftyUserDefaults
 class OmnibarMockScreen: OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate?
     var isEditing: Bool = false
+    var interactionEnabled: Bool = true
     var title: String = ""
     var avatarURL: NSURL?
     var avatarImage: UIImage?
@@ -24,14 +25,10 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     }
 
     var canGoBack = false
-    var didReportSuccess = false
     var didReportError = false
+    var didReset = false
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
-
-    func reportSuccess(title: String) {
-        didReportSuccess = true
-    }
 
     func reportError(title: String, error: NSError) {
         didReportError = true
@@ -56,6 +53,10 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     }
 
     func updateButtons() {
+    }
+
+    func resetAfterSuccessfulPost() {
+        didReset = true
     }
 }
 
@@ -165,6 +166,38 @@ class OmnibarViewControllerSpec: QuickSpec {
                         return
                     }
                     expect(outText) == text.string
+                }
+
+                describe("testing the submission in flight") {
+                    it("should disable interaction while submitting the post") {
+                        ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
+                        let text = NSAttributedString(string: "test")
+                        let regions = [OmnibarRegion.AttributedText(text)]
+
+                        subject = OmnibarViewController()
+                        subject.currentUser = User.stub([:])
+                        screen = OmnibarMockScreen()
+                        subject.screen = screen
+                        showController(subject)
+                        subject.omnibarSubmitted(regions)
+
+                        expect(screen.interactionEnabled) == false
+                        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+                    }
+
+                    it("should enabled interaction after submitting the post") {
+                        let text = NSAttributedString(string: "test")
+                        let regions = [OmnibarRegion.AttributedText(text)]
+
+                        subject = OmnibarViewController()
+                        subject.currentUser = User.stub([:])
+                        screen = OmnibarMockScreen()
+                        subject.screen = screen
+                        showController(subject)
+                        subject.omnibarSubmitted(regions)
+
+                        expect(screen.interactionEnabled) == true
+                    }
                 }
             }
 
