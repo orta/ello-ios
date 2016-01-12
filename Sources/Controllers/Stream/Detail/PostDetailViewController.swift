@@ -105,6 +105,23 @@ public class PostDetailViewController: StreamableViewController {
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
+        assignRightButton()
+    }
+
+    private func assignRightButton() {
+        if post == nil {
+            elloNavigationItem.rightBarButtonItem = nil
+        }
+        else {
+            let rightBarImage: UIImage?
+            if isOwnPost() {
+                rightBarImage = Interface.Image.Dots.normalImage
+            }
+            else {
+                rightBarImage = Interface.Image.Flag.normalImage
+            }
+            elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .Done, target: self, action: Selector("moreActionsTapped"))
+        }
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {
@@ -168,14 +185,7 @@ public class PostDetailViewController: StreamableViewController {
             }
         }
 
-        let rightBarImage: UIImage
-        if isOwnPost() {
-            rightBarImage = Interface.Image.Dots.normalImage
-        }
-        else {
-            rightBarImage = Interface.Image.Flag.normalImage
-        }
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .Done, target: self, action: Selector("moreActionsTapped"))
+        assignRightButton()
 
         Tracker.sharedTracker.postLoaded(post.id)
     }
