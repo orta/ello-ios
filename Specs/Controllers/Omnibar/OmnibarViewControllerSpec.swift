@@ -169,15 +169,8 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 describe("testing the submission in flight") {
-                    beforeEach {
+                    it("should disable interaction while submitting the post") {
                         ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
-                    }
-
-                    afterEach {
-                        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    }
-
-                    it("should submit the post") {
                         let text = NSAttributedString(string: "test")
                         let regions = [OmnibarRegion.AttributedText(text)]
 
@@ -189,7 +182,21 @@ class OmnibarViewControllerSpec: QuickSpec {
                         subject.omnibarSubmitted(regions)
 
                         expect(screen.interactionEnabled) == false
-                        expect(screen.interactionEnabled).toEventually(beTrue(), timeout: 1.5)
+                        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+                    }
+
+                    it("should enabled interaction after submitting the post") {
+                        let text = NSAttributedString(string: "test")
+                        let regions = [OmnibarRegion.AttributedText(text)]
+
+                        subject = OmnibarViewController()
+                        subject.currentUser = User.stub([:])
+                        screen = OmnibarMockScreen()
+                        subject.screen = screen
+                        showController(subject)
+                        subject.omnibarSubmitted(regions)
+
+                        expect(screen.interactionEnabled) == true
                     }
                 }
             }
