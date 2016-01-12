@@ -90,7 +90,7 @@ public class ReAuthService: NSObject {
 
                 log("refreshToken: \(refreshToken), failed to receive new token")
                 self._reAuthenticateUsername(success: success, failure: failure)
-            case .Failure(error):
+            case let .Failure(error):
                 reauthResult = (false, (error: error as NSError, statusCode: nil))
                 failure(error: error as NSError, statusCode: nil)
             }
