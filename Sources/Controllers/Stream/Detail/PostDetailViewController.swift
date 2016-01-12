@@ -222,25 +222,10 @@ public class PostDetailViewController: StreamableViewController {
         }
 
         if isOwnPost() {
-            let alertController = AlertViewController()
-
-            let editAction = AlertAction(title: InterfaceString.Post.Edit.localized, style: .Dark) { _ in self.editPost() }
-            alertController.addAction(editAction)
-
-            let deleteAction = AlertAction(title: InterfaceString.Post.Delete.localized, style: .Dark) { _ in self.deletePost() }
-            alertController.addAction(deleteAction)
-
-            let action = AlertAction(title: InterfaceString.Cancel.localized, style: .Light, handler: nil)
-            alertController.addAction(action)
-
-            self.presentViewController(alertController, animated: true, completion: nil)
+            displayEditActions()
         }
         else {
-            let flagger = ContentFlagger(presentingController: self,
-                flaggableId: post.id,
-                contentType: .Post,
-                commentPostId: nil)
-            flagger.displayFlaggingSheet()
+            displayFlagger(post)
         }
     }
 
@@ -249,6 +234,29 @@ public class PostDetailViewController: StreamableViewController {
             return false
         }
         return currentUser.id == post.authorId
+    }
+
+    private func displayEditActions() {
+        let alertController = AlertViewController()
+
+        let editAction = AlertAction(title: InterfaceString.Post.Edit.localized, style: .Dark) { _ in self.editPost() }
+        alertController.addAction(editAction)
+
+        let deleteAction = AlertAction(title: InterfaceString.Post.Delete.localized, style: .Dark) { _ in self.deletePost() }
+        alertController.addAction(deleteAction)
+
+        let action = AlertAction(title: InterfaceString.Cancel.localized, style: .Light, handler: nil)
+        alertController.addAction(action)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    private func displayFlagger(post: Post) {
+        let flagger = ContentFlagger(presentingController: self,
+            flaggableId: post.id,
+            contentType: .Post,
+            commentPostId: nil)
+        flagger.displayFlaggingSheet()
     }
 
     public func editPost() {
