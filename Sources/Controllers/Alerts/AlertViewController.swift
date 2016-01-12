@@ -237,14 +237,17 @@ extension AlertViewController: UIViewControllerTransitioningDelegate {
 // MARK: UITableViewDelegate
 extension AlertViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if autoDismiss {
-            dismiss()
-        }
+        // apparently iOS (9?) has a bug where main-queue updates take a long time. WTF.
+        nextTick {
+            if self.autoDismiss {
+                self.dismiss()
+            }
 
-        if let action = actions.safeValue(indexPath.row)
-            where !action.isInput
-        {
-            action.handler?(action)
+            if let action = self.actions.safeValue(indexPath.row)
+                where !action.isInput
+            {
+                action.handler?(action)
+            }
         }
     }
 

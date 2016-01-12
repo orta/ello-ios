@@ -105,7 +105,23 @@ public class PostDetailViewController: StreamableViewController {
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
-        addSearchButton()
+        assignRightButton()
+    }
+
+    private func assignRightButton() {
+        if post == nil {
+            elloNavigationItem.rightBarButtonItem = nil
+        }
+        else {
+            let rightBarImage: UIImage?
+            if isOwnPost() {
+                rightBarImage = Interface.Image.Dots.normalImage
+            }
+            else {
+                rightBarImage = Interface.Image.Flag.normalImage
+            }
+            elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .Done, target: self, action: Selector("moreActionsTapped"))
+        }
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {
@@ -169,6 +185,8 @@ public class PostDetailViewController: StreamableViewController {
             }
         }
 
+        assignRightButton()
+
         Tracker.sharedTracker.postLoaded(post.id)
     }
 
@@ -197,4 +215,91 @@ public class PostDetailViewController: StreamableViewController {
             }
         }
     }
+
+    public func moreActionsTapped() {
+        guard let post = post else {
+            return
+        }
+
+        if isOwnPost() {
+            displayEditActions()
+        }
+        else {
+            displayFlagger(post)
+        }
+    }
+
+    private func isOwnPost() -> Bool {
+        guard let post = post, currentUser = currentUser else {
+            return false
+        }
+        return currentUser.id == post.authorId
+    }
+
+    private func displayEditActions() {
+        let alertController = AlertViewController()
+
+        let editAction = AlertAction(title: InterfaceString.Post.Edit.localized, style: .Dark) { _ in self.editPost() }
+        alertController.addAction(editAction)
+
+        let deleteAction = AlertAction(title: InterfaceString.Post.Delete.localized, style: .Dark) { _ in self.deletePost() }
+        alertController.addAction(deleteAction)
+
+        let action = AlertAction(title: InterfaceString.Cancel.localized, style: .Light, handler: nil)
+        alertController.addAction(action)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    private func displayFlagger(post: Post) {
+        let flagger = ContentFlagger(presentingController: self,
+            flaggableId: post.id,
+            contentType: .Post,
+            commentPostId: nil)
+        flagger.displayFlaggingSheet()
+    }
+
+    public func editPost() {
+        guard let post = post where isOwnPost() else {
+            return
+        }
+
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's createPostDelegate. Can this use the responder chain when we have
+        // parameters to pass?
+        editPost(post, fromController: self)
+    }
+
+    public func deletePost() {
+        guard let post = post, currentUser = currentUser where isOwnPost() else {
+            return
+        }
+
+        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
+        let alertController = AlertViewController(message: message)
+
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) { _ in
+            if let userPostCount = currentUser.postsCount {
+                currentUser.postsCount = userPostCount - 1
+                postNotification(CurrentUserChangedNotification, value: currentUser)
+            }
+
+            postNotification(PostChangedNotification, value: (post, .Delete))
+            PostService().deletePost(post.id,
+                success: nil,
+                failure: { (error, statusCode)  in
+                    // TODO: add error handling
+                    print("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
+                }
+            )
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+
+        logPresentingAlert("PostDetailViewController")
+        self.presentViewController(alertController, animated: true, completion: .None)
+    }
+
 }

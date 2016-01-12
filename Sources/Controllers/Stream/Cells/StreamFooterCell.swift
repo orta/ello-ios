@@ -10,26 +10,12 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 
 public class StreamFooterCell: UICollectionViewCell {
     static let reuseIdentifier = "StreamFooterCell"
-    
+
     public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    var revealWidth: CGFloat {
-        if let items = bottomToolBar.items {
-            let numberOfSpacingItems = 2
-            let itemWidth = CGFloat(57.0)
-            return itemWidth * CGFloat(items.count - numberOfSpacingItems)
-        }
-        return 0
-    }
-    var cellOpenObserver: NotificationObserver?
-    public private(set) var isOpen = false
 
     @IBOutlet weak public var toolBar: UIToolbar!
-    @IBOutlet weak public var bottomToolBar: UIToolbar!
-    @IBOutlet weak public var chevronButton: StreamFooterButton!
-    @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var containerView: UIView!
     @IBOutlet weak public var innerContentView: UIView!
-    @IBOutlet weak public var bottomContentView: UIView!
 
     public var commentsOpened = false
     weak var delegate: PostbarDelegate?
@@ -54,11 +40,6 @@ public class StreamFooterCell: UICollectionViewCell {
         return self.repostItem.customView as! ImageLabelControl
     }
 
-    public let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
-    public var flagControl: ImageLabelControl {
-        return self.flagItem.customView as! ImageLabelControl
-    }
-
     public let shareItem = ElloPostToolBarOption.Share.barButtonItem()
     public var shareControl: ImageLabelControl {
         return self.shareItem.customView as! ImageLabelControl
@@ -67,16 +48,6 @@ public class StreamFooterCell: UICollectionViewCell {
     public let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
     public var replyControl: ImageLabelControl {
         return self.replyItem.customView as! ImageLabelControl
-    }
-
-    public let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
-    public var deleteControl: ImageLabelControl {
-       return self.deleteItem.customView as! ImageLabelControl
-    }
-
-    public let editItem = ElloPostToolBarOption.Edit.barButtonItem()
-    public var editControl: ImageLabelControl {
-       return self.editItem.customView as! ImageLabelControl
     }
 
     private func updateButtonVisibility(button: UIControl, visibility: InteractionVisibility) {
@@ -90,8 +61,6 @@ public class StreamFooterCell: UICollectionViewCell {
         repostVisibility: InteractionVisibility,
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
-        deleteVisibility: InteractionVisibility,
-        editVisibility: InteractionVisibility,
         loveVisibility: InteractionVisibility
         )
     {
@@ -99,9 +68,10 @@ public class StreamFooterCell: UICollectionViewCell {
         updateButtonVisibility(self.lovesControl, visibility: loveVisibility)
         var toolbarItems: [UIBarButtonItem] = []
 
+        let desiredCount: Int
         if streamKind.isGridView {
+            desiredCount = 3
 
-            toolbarItems.append(fixedItem(-15))
             if commentVisibility.isVisible {
                 toolbarItems.append(commentsItem)
             }
@@ -113,11 +83,10 @@ public class StreamFooterCell: UICollectionViewCell {
             if repostVisibility.isVisible {
                 toolbarItems.append(repostItem)
             }
-
-            self.toolBar.items = toolbarItems
-            self.bottomToolBar.items = []
         }
         else {
+            desiredCount = 5
+
             toolbarItems.append(viewsItem)
 
             if commentVisibility.isVisible {
@@ -131,29 +100,16 @@ public class StreamFooterCell: UICollectionViewCell {
             if repostVisibility.isVisible {
                 toolbarItems.append(repostItem)
             }
-            self.toolBar.items = toolbarItems
 
-            var bottomItems: [UIBarButtonItem] = [flexibleItem()]
             if shareVisibility.isVisible {
-                bottomItems.append(shareItem)
+                toolbarItems.append(shareItem)
             }
-
-            if editVisibility.isVisible {
-                bottomItems.append(editItem)
-            }
-
-            if deleteVisibility.isVisible {
-                bottomItems.append(deleteItem)
-            }
-            else {
-                bottomItems.append(flagItem)
-            }
-            bottomItems.append(fixedItem(-10))
-            self.bottomToolBar.items = bottomItems
         }
 
-        // the bottomItems affet the scrollview contentSize
-        self.setNeedsLayout()
+        while toolbarItems.count < desiredCount {
+            toolbarItems.append(fixedItem(44))
+        }
+        self.toolBar.items = Array(toolbarItems.flatMap { [self.flexibleItem(), $0] }.dropFirst())
     }
 
     override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -167,16 +123,6 @@ public class StreamFooterCell: UICollectionViewCell {
         toolBar.clipsToBounds = true
         toolBar.layer.borderColor = UIColor.whiteColor().CGColor
 
-        bottomToolBar.translucent = false
-        bottomToolBar.barTintColor = UIColor.whiteColor()
-        bottomToolBar.clipsToBounds = true
-        bottomToolBar.layer.borderColor = UIColor.whiteColor().CGColor
-        chevronButton.setImages(.AngleBracket)
-
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.scrollsToTop = false
-        addObservers()
         addButtonHandlers()
     }
 
@@ -200,12 +146,6 @@ public class StreamFooterCell: UICollectionViewCell {
         set { repostControl.title = newValue }
     }
 
-    public func close() {
-        isOpen = false
-        closeChevron()
-        scrollView.contentOffset = CGPointZero
-    }
-
 // MARK: - Private
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
@@ -218,28 +158,13 @@ public class StreamFooterCell: UICollectionViewCell {
         return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
     }
 
-    private func addObservers() {
-        cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
-            if cell != self && self.isOpen {
-                nextTick {
-                    UIView.animateWithDuration(0.25) {
-                        self.close()
-                    }
-                }
-            }
-        }
-    }
-
     private func addButtonHandlers() {
-        flagControl.addTarget(self, action: Selector("flagButtonTapped"), forControlEvents: .TouchUpInside)
         commentsControl.addTarget(self, action: Selector("commentsButtonTapped"), forControlEvents: .TouchUpInside)
         lovesControl.addTarget(self, action: Selector("lovesButtonTapped"), forControlEvents: .TouchUpInside)
         replyControl.addTarget(self, action: Selector("replyButtonTapped"), forControlEvents: .TouchUpInside)
         repostControl.addTarget(self, action: Selector("repostButtonTapped"), forControlEvents: .TouchUpInside)
         shareControl.addTarget(self, action: Selector("shareButtonTapped"), forControlEvents: .TouchUpInside)
         viewsControl.addTarget(self, action: Selector("viewsButtonTapped"), forControlEvents: .TouchUpInside)
-        deleteControl.addTarget(self, action: Selector("deleteButtonTapped"), forControlEvents: .TouchUpInside)
-        editControl.addTarget(self, action: Selector("editButtonTapped"), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
@@ -268,40 +193,11 @@ public class StreamFooterCell: UICollectionViewCell {
         delegate?.repostButtonTapped(self.indexPath)
     }
 
-    @IBAction func flagButtonTapped() {
-        delegate?.flagPostButtonTapped(self.indexPath)
-    }
-
     @IBAction func shareButtonTapped() {
         delegate?.shareButtonTapped(self.indexPath, sourceView: shareControl)
     }
 
-    @IBAction func deleteButtonTapped() {
-        delegate?.deletePostButtonTapped(self.indexPath)
-    }
-
-    @IBAction func editButtonTapped() {
-        if commentsOpened {
-            commentsOpened = false
-            delegate?.commentsButtonTapped(self, imageLabelControl: commentsControl)
-        }
-
-        delegate?.editPostButtonTapped(self.indexPath)
-        animate(delay: 0.5) {
-            self.close()
-        }
-    }
-
     @IBAction func replyButtonTapped() {
-    }
-
-    @IBAction func chevronButtonTapped() {
-        let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
-        UIView.animateWithDuration(0.25) {
-            self.scrollView.contentOffset = contentOffset
-            self.openChevron(isOpen: self.isOpen)
-        }
-        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     override public func layoutSubviews() {
@@ -310,85 +206,6 @@ public class StreamFooterCell: UICollectionViewCell {
         contentView.frame = newBounds
         innerContentView.frame = newBounds
         containerView.frame = newBounds
-        scrollView.frame = newBounds
         toolBar.frame = newBounds
-        bottomToolBar.frame = newBounds
-        chevronButton.frame = CGRect(
-            x: newBounds.width - 40,
-            y: newBounds.height/2 - 22,
-            width: 40,
-            height: 44
-        )
-        scrollView.contentSize = CGSize(width: contentView.frame.size.width + revealWidth, height: contentView.frame.size.height)
-        repositionBottomContent()
     }
-
-    private func repositionBottomContent() {
-        var frame = bottomContentView.frame
-        frame.size.height = innerContentView.bounds.height
-        frame.size.width = innerContentView.bounds.width
-        frame.origin.y = innerContentView.frame.origin.y
-        frame.origin.x = scrollView.contentOffset.x
-        bottomContentView.frame = frame
-    }
-}
-
-extension StreamFooterCell {
-
-    private func openChevron(isOpen isOpen: Bool) {
-        if isOpen {
-            rotateChevron(CGFloat(0))
-        }
-        else {
-            rotateChevron(CGFloat(M_PI))
-        }
-    }
-
-    private func closeChevron() {
-        openChevron(isOpen: false)
-    }
-
-    private func rotateChevron(var angle: CGFloat) {
-        if angle < CGFloat(-M_PI) {
-            angle = CGFloat(-M_PI)
-        }
-        else if angle > CGFloat(M_PI) {
-            angle = CGFloat(M_PI)
-        }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
-    }
-
-}
-
-// MARK: UIScrollViewDelegate
-extension StreamFooterCell: UIScrollViewDelegate {
-
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        repositionBottomContent()
-
-        if scrollView.contentOffset.x < 0 {
-            scrollView.contentOffset = CGPointZero;
-        }
-
-        if scrollView.contentOffset.x >= revealWidth {
-            isOpen = true
-            openChevron(isOpen: true)
-            postNotification(streamCellDidOpenNotification, value: self)
-            Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
-        } else {
-            let angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
-            rotateChevron(angle)
-            isOpen = false
-        }
-    }
-
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if (velocity.x > 0) {
-            targetContentOffset.memory.x = revealWidth
-        }
-        else {
-            targetContentOffset.memory.x = 0
-        }
-    }
-
 }

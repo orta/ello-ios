@@ -375,7 +375,7 @@ public extension AppViewController {
         if isLoggedIn() {
             removeViewController() {
                 if shouldAlert {
-                    let message = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
+                    let message = InterfaceString.LoggedOut.localized
                     let alertController = AlertViewController(message: message)
 
                     let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
