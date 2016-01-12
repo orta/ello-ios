@@ -21,11 +21,14 @@ public class ReAuthService: NSObject {
             return
         }
 
+        // cheap way to make sure these updates all happen on one queue
         nextTick {
             let reauthOperation: NSOperation
             if let currentReauthOperation = currentReauthOperation {
+                // establishes serial queue by having all future auth requests 
+                // require the "current" op to be complete
                 reauthOperation = AsyncOperation(block: { done in
-                    let result = reauthResult!
+                    let result = reauthResult ?? (true, nil)
                     if result.0 == true {
                         success()
                     }
@@ -40,12 +43,12 @@ public class ReAuthService: NSObject {
                 reauthOperation = AsyncOperation(block: { done in
                     self._reAuthenticateToken(success: {
                         success()
-                        done()
                         currentReauthOperation = nil
+                        done()
                     }, failure: { (error, statusCode) in
                         failure(error: error, statusCode: statusCode)
-                        done()
                         currentReauthOperation = nil
+                        done()
                     })
                 })
                 currentReauthOperation = reauthOperation
@@ -87,8 +90,9 @@ public class ReAuthService: NSObject {
 
                 log("refreshToken: \(refreshToken), failed to receive new token")
                 self._reAuthenticateUsername(success: success, failure: failure)
-            case .Failure:
-                self._reAuthenticateUsername(success: success, failure: failure)
+            case let .Failure(error):
+                reauthResult = (false, (error: error as NSError, statusCode: nil))
+                failure(error: error as NSError, statusCode: nil)
             }
         }
     }
@@ -112,6 +116,7 @@ public class ReAuthService: NSObject {
                         failure(error: elloError, statusCode: moyaResponse.statusCode)
                     }
                 case let .Failure(error):
+                    reauthResult = (false, (error: error as NSError, statusCode: nil))
                     failure(error: error as NSError, statusCode: nil)
                 }
             }
