@@ -233,6 +233,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     private func showSignInScreen(email: String, _ password: String) {
         let signInController = SignInViewController()
+        _ = signInController.view
+        signInController.showErrorFromJoin("Your account has been created, but there was an error logging in, please try again")
         signInController.emailTextField.text = email
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
