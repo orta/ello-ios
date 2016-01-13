@@ -152,14 +152,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
         }
         screen.delegate = self
-
-        // let menuController = UIMenuController.sharedMenuController()
-        // let linkItem = UIMenuItem(title: "Link", action: Selector("editLink:"))
-        // menuController.menuItems = [linkItem]
-    }
-
-    func editLink(menuController: UIMenuController) {
-        print("link!")
     }
 
     override public func viewWillAppear(animated: Bool) {
