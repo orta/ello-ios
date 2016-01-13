@@ -235,6 +235,17 @@ public enum InterfaceString {
         }
     }
 
+    public enum Startup {
+        case SignInAfterJoinError
+
+        var localized: String {
+            switch self {
+            case .SignInAfterJoinError:
+                return NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
+            }
+        }
+    }
+
     case LoggedOut
     case Cancel
 

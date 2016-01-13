@@ -233,6 +233,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     private func showSignInScreen(email: String, _ password: String) {
         let signInController = SignInViewController()
+        _ = signInController.view
+        signInController.showErrorFromJoin(InterfaceString.Startup.SignInAfterJoinError.localized)
         signInController.emailTextField.text = email
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
