@@ -8,7 +8,7 @@ gem 'plist'
 gem 'git'
 gem 'xcpretty-travis-formatter'
 gem 'xcpretty', '~> 0.2.1'
-gem 'fastlane', '~> 1.48.0'
+gem 'fastlane', '~> 1.50.0'
 
 # used for automated release notes
 gem 'octokit', '~> 3.0'
