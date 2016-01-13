@@ -31,21 +31,13 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    # ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_BUILD_NUMBER"]
-    # ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = "3733"
-    # increment_version_number
-    # increment_build_number
+    ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
+    increment_version_number
+    increment_build_number
   end
 
   ######################### PUBLIC LANES ##########################
-
-  lane :appstore do
-
-    # ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = ENV["ELLO_VERSION_NUMBER"]
-    
-    # increment_version_number
-    # increment_build_number
-
+  lane :testflight do
     sh "bundle install"
 
     # setup the production configuration
@@ -69,24 +61,54 @@ platform :ios do
       clean: true
     )
 
-    # pilot(
-    #   skip_submission: false,
-    #   ipa: ENV["IPA_PATH"]
-    # )
+    pilot(
+      skip_submission: false,
+      ipa: ENV["IPA_PATH"]
+    )
+
+    sh "bundle exec rake upload:appstore_dsym"
+
+    post_to_slack(scheme: ":ello:", destination: ":airplane:")
+  end
+
+  lane :appstore do
+
+    sh "bundle install"
+
+    # setup the production configuration
+    sh "bundle exec rake generate:prod_keys"
     
-    # deliver(
-    #   submit_for_review: false,
-    #   skip_screenshots: true,
-    #   skip_metadata: true,
-    #   automatic_release: false,
-    #   app_identifier: ENV["PROD_APP_ID"], 
-    #   ipa: ENV["IPA_PATH"],
-    #   force: true
-    # )
+    cert( 
+      output_path: ENV["CERTS_OUTPUT_PATH"]
+    )
+    
+    udid = sigh(
+      app_identifier: ENV["PROD_APP_ID"], 
+      output_path: ENV["PROFILE_PATH"],
+      development: false
+    )
+    # use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = udid
 
-    # sh "bundle exec rake upload:appstore_dsym"
+    gym(
+      configuration: "Release",
+      sdk: "iphoneos",
+      clean: true
+    )
+    
+    deliver(
+      submit_for_review: false,
+      skip_screenshots: true,
+      skip_metadata: true,
+      automatic_release: false,
+      app_identifier: ENV["PROD_APP_ID"], 
+      ipa: ENV["IPA_PATH"],
+      force: true
+    )
 
-    # post_to_slack(scheme: ":ello:", destination: ":apple:")
+    sh "bundle exec rake upload:appstore_dsym"
+
+    post_to_slack(scheme: ":ello:", destination: ":apple:")
   end
 
   lane :donut_devs do
@@ -164,10 +186,10 @@ platform :ios do
   end
 
   error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
+    slack(
+      message: exception.message,
+      success: false
+    )
   end
 end
 
