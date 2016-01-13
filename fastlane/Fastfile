@@ -16,7 +16,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "1.48.0"
+fastlane_version "1.50.0"
 
 default_platform :ios
 
