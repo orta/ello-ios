@@ -17,10 +17,10 @@ public struct LovesService {
     public func lovePost(
         postId postId: String,
         success: LovesCreateSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
         let endpoint = ElloAPI.CreateLove(postId: postId)
-        ElloProvider.elloRequest(endpoint,
+        ElloProvider.shared.elloRequest(endpoint,
             success: { (data, responseConfig) in
                 if let love = data as? Love {
                     success(love: love, responseConfig: responseConfig)
@@ -36,10 +36,10 @@ public struct LovesService {
     public func unlovePost(
         postId postId: String,
         success: ElloEmptyCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
         let endpoint = ElloAPI.DeleteLove(postId: postId)
-        ElloProvider.elloRequest(endpoint,
+        ElloProvider.shared.elloRequest(endpoint,
             success: { _, _ in
                 success()
             },

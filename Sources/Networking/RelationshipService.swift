@@ -16,7 +16,7 @@ public class RelationshipService: NSObject {
         userId: String,
         relationshipPriority: RelationshipPriority,
         success: ElloSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
 
         // optimistic success
@@ -32,18 +32,18 @@ public class RelationshipService: NSObject {
         success(data: optimisticRelationship, responseConfig: ResponseConfig(isFinalValue: false))
 
         let endpoint = ElloAPI.Relationship(userId: userId, relationship: relationshipPriority.rawValue)
-        ElloProvider.elloRequest(endpoint, success: { (data, responseConfig) in
+        ElloProvider.shared.elloRequest(endpoint, success: { (data, responseConfig) in
             Tracker.sharedTracker.relationshipStatusUpdated(relationshipPriority, userId: userId)
             success(data: data, responseConfig: responseConfig)
         }, failure: { (error, statusCode) in
             Tracker.sharedTracker.relationshipStatusUpdateFailed(relationshipPriority, userId: userId)
-            failure?(error: error, statusCode: statusCode)
+            failure(error: error, statusCode: statusCode)
         })
     }
 
-    public func bulkUpdateRelationships(userIds userIds: [String], relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func bulkUpdateRelationships(userIds userIds: [String], relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
         let endpoint = ElloAPI.RelationshipBatch(userIds: userIds, relationship: relationshipPriority.rawValue)
-        ElloProvider.elloRequest(endpoint,
+        ElloProvider.shared.elloRequest(endpoint,
             success: success,
             failure: failure
         )

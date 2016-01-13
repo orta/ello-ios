@@ -19,7 +19,7 @@ public struct UserService {
         username: String,
         password: String,
         success: ProfileSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
         return join(email: email, username: username, password: password, invitationCode: nil, success: success, failure: failure)
     }
@@ -30,9 +30,9 @@ public struct UserService {
         password: String,
         invitationCode: String?,
         success: ProfileSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
-        ElloProvider.elloRequest(ElloAPI.Join(email: email, username: username, password: password, invitationCode: invitationCode),
+        ElloProvider.shared.elloRequest(ElloAPI.Join(email: email, username: username, password: password, invitationCode: invitationCode),
             success: { (data, responseConfig) in
                 if let user = data as? User {
                     success(user: user)

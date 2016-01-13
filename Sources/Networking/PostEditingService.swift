@@ -45,7 +45,7 @@ public class PostEditingService: NSObject {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentRegion], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(content rawContent: [PostContentRegion], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageData)]()
 
@@ -79,7 +79,7 @@ public class PostEditingService: NSObject {
         }
     }
 
-    func create(regions regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(regions regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.addObject(region.toJSON())
@@ -100,7 +100,7 @@ public class PostEditingService: NSObject {
             endpoint = ElloAPI.CreatePost(body: params)
         }
 
-        ElloProvider.elloRequest(endpoint,
+        ElloProvider.shared.elloRequest(endpoint,
             success: { data, responseConfig in
                 let post: AnyObject = data
 
@@ -138,7 +138,7 @@ public class PostEditingService: NSObject {
     // Another way to upload the images would be to generate one AmazonCredentials
     // object, and pass that to the uploader.  The uploader would need to
     // generate unique image names in that case.
-    func uploadImages(imageEntries: [(Int, ImageData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
+    func uploadImages(imageEntries: [(Int, ImageData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion) {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
@@ -148,7 +148,7 @@ public class PostEditingService: NSObject {
         let operationQueue = NSOperationQueue.mainQueue()
         let doneOperation = NSBlockOperation(block: {
             if let error = anyError {
-                failure?(error: error, statusCode: anyStatusCode)
+                failure(error: error, statusCode: anyStatusCode)
             }
             else {
                 success(uploaded)
@@ -204,7 +204,7 @@ public class PostEditingService: NSObject {
                                 ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
                                 imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
                             }
-                            
+
                             uploaded.append((imageIndex, imageRegion))
                             done()
                         },

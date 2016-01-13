@@ -21,7 +21,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 }
 
                 it("Calls success with a User") {
@@ -48,7 +48,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 }
 
                 it("Calls success with a User") {
@@ -73,7 +73,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 }
 
                 it("Calls success function") {

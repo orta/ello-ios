@@ -19,20 +19,22 @@ public struct PostService {
     public func loadPost(
         postParam: String,
         success: PostSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion? = nil)
     {
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             ElloAPI.PostDetail(postParam: postParam),
             success: { (data, responseConfig) in
                 if let post = data as? Post {
                     Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))
                     success(post: post, responseConfig: responseConfig)
                 }
-                else {
+                else if let failure = failure {
                     ElloProvider.unCastableJSONAble(failure)
                 }
             },
-            failure: failure
+            failure: { (error, statusCode) in
+                failure?(error: error, statusCode: statusCode)
+            }
         )
     }
 
@@ -40,29 +42,31 @@ public struct PostService {
         postId: String,
         commentId: String,
         success: CommentSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion? = nil)
     {
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             ElloAPI.CommentDetail(postId: postId, commentId: commentId),
             success: { (data, responseConfig) in
                 if let comment = data as? Comment {
                     comment.loadedFromPostId = postId
                     success(comment: comment, responseConfig: responseConfig)
                 }
-                else {
+                else if let failure = failure {
                     ElloProvider.unCastableJSONAble(failure)
                 }
             },
-            failure: failure
+            failure: { (error, statusCode) in
+                failure?(error: error, statusCode: statusCode)
+            }
         )
     }
 
     public func deletePost(
         postId: String,
         success: ElloEmptyCompletion?,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
-        ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
+        ElloProvider.shared.elloRequest(ElloAPI.DeletePost(postId: postId),
             success: { (_, _) in
                 NSURLCache.sharedURLCache().removeAllCachedResponses()
                 success?()
@@ -70,8 +74,8 @@ public struct PostService {
         )
     }
 
-    public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion?, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.DeleteComment(postId: postId, commentId: commentId),
+    public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion?, failure: ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.DeleteComment(postId: postId, commentId: commentId),
             success: { (_, _) in
                 success?()
             }, failure: failure

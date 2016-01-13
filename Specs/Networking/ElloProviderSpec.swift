@@ -128,7 +128,7 @@ class ElloProviderSpec: QuickSpec {
                             }
 
                             let endpoint: ElloAPI = .FriendStream
-                            ElloProvider.elloRequest(endpoint, success: { (data, responseConfig) in
+                            ElloProvider.shared.elloRequest(endpoint, success: { (data, responseConfig) in
                                 loadedJSONAbles = data as? [JSONAble]
                             }, failure: { (error, statusCode) in
                                 loadedError = error
@@ -181,7 +181,7 @@ class ElloProviderSpec: QuickSpec {
                             }
 
                             let endpoint: ElloAPI = .FriendStream
-                            ElloProvider.elloRequest(endpoint,
+                            ElloProvider.shared.elloRequest(endpoint,
                                 success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 },
@@ -259,7 +259,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 var loadedError:NSError?
 
                 let endpoint: ElloAPI = .FriendStream
-                ElloProvider.elloRequest(endpoint,
+                ElloProvider.shared.elloRequest(endpoint,
                     success: { (data, responseConfig) in
                         loadedJSONAbles = data as? [JSONAble]
                     },

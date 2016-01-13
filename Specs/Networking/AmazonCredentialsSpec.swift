@@ -22,7 +22,7 @@ class AmazonCredentialsSpec: QuickSpec {
                     let endpoint = ElloAPI.AmazonCredentials
                     self.credentials = nil
                     ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    ElloProvider.elloRequest(endpoint,
+                    ElloProvider.shared.elloRequest(endpoint,
                                     success: { credentialsData, responseConfig in
                             if let credentials = credentialsData as? AmazonCredentials {
                                 self.credentials = credentials

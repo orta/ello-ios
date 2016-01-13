@@ -61,7 +61,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             if let body = comment.body where self.isViewLoaded() {
                 self.prepareScreenForEditing(body)
             }
-        }, failure: nil)
+        })
     }
 
     convenience public init(editPost post: Post) {
@@ -72,7 +72,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             if let body = post.body where self.isViewLoaded() {
                 self.prepareScreenForEditing(body)
             }
-        }, failure: nil)
+        })
     }
 
     convenience public init(parentPost post: Post, defaultText: String?) {

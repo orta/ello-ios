@@ -602,8 +602,8 @@ public extension Tracker {
     }
 
     func createdAtCrash(identifier: String, json: String?) {
-        let jsonText: NSString = json ?? ElloProvider.responseJSON
-        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
+        let jsonText: NSString = json ?? ElloProvider_Specs.responseJSON
+        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider_Specs.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
 
