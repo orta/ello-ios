@@ -5,6 +5,7 @@
 //  Created by Sean on 4/29/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
+import ElloUIFonts
 
 public class ImageLabelControl: UIControl {
 

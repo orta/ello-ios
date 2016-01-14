@@ -16,13 +16,13 @@ PODS:
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
   - CRToast (0.0.7)
+  - Ello+UIFonts (1.0.0)
   - Fabric (1.6.1)
   - FBSnapshotTestCase (2.0.7):
     - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
   - FBSnapshotTestCase/Core (2.0.7)
   - FBSnapshotTestCase/SwiftSupport (2.0.7):
     - FBSnapshotTestCase/Core
-  - Firebase (2.5.0)
   - FLAnimatedImage (1.0.8)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
@@ -82,8 +82,8 @@ DEPENDENCIES:
   - Analytics/Segmentio
   - Crashlytics (~> 3.4)
   - CRToast (from `https://github.com/ello/CRToast`)
+  - Ello+UIFonts (~> 1.0.0)
   - Fabric (~> 1.6)
-  - Firebase
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
@@ -171,9 +171,9 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
+  Ello+UIFonts: b4025f287ba965ee8ccb6f451d5eab49650ea0af
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  Firebase: 744617c0733b45198f9486ebd5cac64ec2d10d79
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
