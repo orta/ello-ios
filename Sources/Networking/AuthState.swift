@@ -24,11 +24,36 @@ public enum AuthState {
         case LoggedOut: return [.UserCredsSent]
         case Authenticated: return [.RefreshTokenSent]
 
-        case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldRetryUserCreds, .LoggedOut]
+        case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldRetryUserCreds]
         case ShouldRetryUserCreds: return [.UserCredsSent]
 
-        case RefreshTokenSent: return [.ShouldRetryRefreshToken, .UserCredsSent, .LoggedOut]
+        case RefreshTokenSent: return [.LoggedOut, .Authenticated, .ShouldRetryRefreshToken, .UserCredsSent]
         case ShouldRetryRefreshToken: return [.RefreshTokenSent]
         }
     }
+
+    var isAuthenticated: Bool {
+        switch self {
+        case Authenticated: return true
+        default: return false
+        }
+    }
+
+    var isLoggedOut: Bool {
+        switch self {
+        case LoggedOut: return true
+        default: return false
+        }
+    }
+
+    var isAuthenticating: Bool {
+        switch self {
+        case UserCredsSent, ShouldRetryUserCreds,
+             RefreshTokenSent, ShouldRetryRefreshToken:
+            return true
+        default:
+            return false
+        }
+    }
+
 }

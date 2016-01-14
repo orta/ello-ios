@@ -84,11 +84,22 @@ public class ElloProvider: Provider {
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
-        ElloProvider.sharedProvider.request(target) { (result) in
-            self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
+        if !target.requiresAuthentication || authState.isAuthenticated {
+            ElloProvider.sharedProvider.request(target) { (result) in
+                self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
+            }
+            Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
         }
-        Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
+        else if authState.isLoggedOut {
+            let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
+            failure(error: elloError, statusCode: 401)
+        }
+        else {
+            waitList.append((target: target, success: success, failure: failure, invalidToken: invalidToken))
+        }
     }
+
+    var waitList: [(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)] = []
 
 }
 
