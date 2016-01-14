@@ -399,6 +399,7 @@ public extension AppViewController {
     private func logOutCurrentUser() {
         Defaults[CurrentStreamKey] = nil
         PushNotificationController.sharedController.deregisterStoredToken()
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         AuthToken.reset()
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil
