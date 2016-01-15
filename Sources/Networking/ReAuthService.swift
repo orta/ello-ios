@@ -11,7 +11,7 @@ import SwiftyJSON
 
 public class ReAuthService: NSObject {
 
-    public func reAuthenticateToken(success success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
+    public func reAuthenticateToken(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
 
         let endpoint: ElloAPI
         let token = AuthToken()
@@ -42,12 +42,12 @@ public class ReAuthService: NSObject {
                     failure(error: elloError, statusCode: moyaResponse.statusCode)
                 }
             case .Failure:
-                ElloProvider.failedToSendRequest(failure)
+                noNetwork()
             }
         }
     }
 
-    public func reAuthenticateUserCreds(success success: AuthSuccessCompletion, failure: ElloFailureCompletion) {
+    public func reAuthenticateUserCreds(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
         var token = AuthToken()
         if let email = token.username, password = token.password {
             let endpoint: ElloAPI = .Auth(email: email, password: password)
@@ -63,8 +63,8 @@ public class ReAuthService: NSObject {
                         let elloError = ElloProvider.generateElloError(moyaResponse.data, error: nil, statusCode: moyaResponse.statusCode)
                         failure(error: elloError, statusCode: moyaResponse.statusCode)
                     }
-                case let .Failure(error):
-                    failure(error: error as NSError, statusCode: nil)
+                case .Failure:
+                    noNetwork()
                 }
             }
         }

@@ -91,7 +91,10 @@ public class ElloProvider: Provider {
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
-        if !target.requiresAuthentication || authState.isAuthenticated {
+        if authState == .Initial {
+            self.attemptReauth((target: target, success: success, failure: failure, invalidToken: invalidToken))
+        }
+        else if !target.requiresAuthentication || authState.isAuthenticated {
             ElloProvider.sharedProvider.request(target) { (result) in
                 self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
             }
@@ -115,18 +118,15 @@ public class ElloProvider: Provider {
     private let queue = dispatch_queue_create("com.ello.ReauthQueue", nil)
     private func attemptReauth(elloRequest: ElloRequestClosure) {
         dispatch_async(queue) {
-            let nextState: AuthState?
-
             switch self.authState {
+            case .Initial:
+                let authToken = AuthToken()
+                let authenticated = authToken.isPresent && authToken.isAuthenticated
+                self.resolveReauth(elloRequest, nextState: authenticated ? .Authenticated : .LoggedOut)
             case .Authenticated:
-                self.attemptReauth(elloRequest)
-                nextState = .ShouldTryRefreshToken
-            case .RefreshTokenSent:
+                self.resolveReauth(elloRequest, nextState: .ShouldTryRefreshToken)
+            case .RefreshTokenSent, .UserCredsSent:
                 self.waitList.append(elloRequest)
-                nextState = nil
-            case .UserCredsSent:
-                self.waitList.append(elloRequest)
-                nextState = nil
             case .ShouldTryRefreshToken:
                 sleep(1)
 
@@ -136,8 +136,11 @@ public class ElloProvider: Provider {
                 },
                 failure: { _ in
                     self.resolveReauth(elloRequest, nextState: .ShouldTryUserCreds)
+                }, noNetwork:{
+                    self.resolveReauth(elloRequest, nextState: .ShouldTryRefreshToken)
                 })
-                nextState = .RefreshTokenSent
+
+                self.authState = .RefreshTokenSent
             case .ShouldTryUserCreds:
                 sleep(1)
 
@@ -147,15 +150,13 @@ public class ElloProvider: Provider {
                 },
                 failure: { _ in
                     self.resolveReauth(elloRequest, nextState: .LoggedOut)
+                }, noNetwork:{
+                    self.resolveReauth(elloRequest, nextState: .ShouldTryUserCreds)
                 })
-                nextState = .UserCredsSent
-            case .LoggedOut, .Initial:
-                self.resolveReauth(elloRequest, nextState: .LoggedOut)
-                nextState = nil
-            }
 
-            if let nextState = nextState {
-                self.authState = nextState
+                self.authState = .UserCredsSent
+            case .LoggedOut:
+                self.resolveReauth(elloRequest, nextState: .LoggedOut)
             }
         }
     }
@@ -171,29 +172,15 @@ public class ElloProvider: Provider {
                 self.handleInvalidToken(nil, statusCode: nil, invalidToken: elloRequest.invalidToken, error: nil)
                 self.waitList = []
             }
-            else {
-                if nextState.isAuthenticated {
-                    for request in self.waitList {
-                        self.elloRequest(request)
-                    }
-                    self.waitList = []
-                    self.elloRequest(elloRequest)
+            else if nextState.isAuthenticated {
+                for request in self.waitList {
+                    self.elloRequest(request)
                 }
-                else {
-                    self.attemptReauth(elloRequest)
-                }
-            }
-        }
-    }
-
-    public func assignInitialAuthState() {
-        dispatch_async(queue) {
-            let authToken = AuthToken()
-            if authToken.isPresent && authToken.isAuthenticated {
-                self.authState = .Authenticated
+                self.waitList = []
+                self.elloRequest(elloRequest)
             }
             else {
-                self.authState = .LoggedOut
+                self.attemptReauth(elloRequest)
             }
         }
     }

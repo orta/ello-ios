@@ -8,7 +8,6 @@
 
 public protocol Provider: class {
 
-    func assignInitialAuthState()
     func elloRequest(target: ElloAPI, success: ElloSuccessCompletion)
     func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion)
     func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)
