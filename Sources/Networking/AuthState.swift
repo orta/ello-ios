@@ -13,22 +13,22 @@ public enum AuthState {
     case Authenticated  // aww yeah - has token AND refreshToken
 
     case UserCredsSent  // creds have been sent
-    case ShouldRetryUserCreds  // network is offline
+    case ShouldTryUserCreds  // network is offline
 
     case RefreshTokenSent  // request is in flight
-    case ShouldRetryRefreshToken  // network is offline
+    case ShouldTryRefreshToken  // network is offline
 
     var nextStates: [AuthState] {
         switch self {
         case Initial: return [.LoggedOut, .Authenticated]
         case LoggedOut: return [.UserCredsSent]
-        case Authenticated: return [.RefreshTokenSent]
+        case Authenticated: return [.ShouldTryRefreshToken]
 
-        case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldRetryUserCreds]
-        case ShouldRetryUserCreds: return [.UserCredsSent]
+        case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldTryUserCreds]
+        case ShouldTryUserCreds: return [.UserCredsSent]
 
-        case RefreshTokenSent: return [.LoggedOut, .Authenticated, .ShouldRetryRefreshToken, .UserCredsSent]
-        case ShouldRetryRefreshToken: return [.RefreshTokenSent]
+        case RefreshTokenSent: return [.LoggedOut, .Authenticated, .ShouldTryRefreshToken, .ShouldTryUserCreds]
+        case ShouldTryRefreshToken: return [.RefreshTokenSent]
         }
     }
 
@@ -48,8 +48,8 @@ public enum AuthState {
 
     var isAuthenticating: Bool {
         switch self {
-        case UserCredsSent, ShouldRetryUserCreds,
-             RefreshTokenSent, ShouldRetryRefreshToken:
+        case UserCredsSent, ShouldTryUserCreds,
+             RefreshTokenSent, ShouldTryRefreshToken:
             return true
         default:
             return false

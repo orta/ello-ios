@@ -13,6 +13,7 @@ import WebLinking
 import Result
 import Alamofire
 
+public typealias ElloRequestClosure = (target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailure = (error: NSError, statusCode: Int?)
 public typealias ElloFailureCompletion = (error: NSError, statusCode: Int?) -> Void
@@ -21,7 +22,13 @@ public typealias ElloEmptyCompletion = () -> Void
 
 public class ElloProvider: Provider {
     public static var shared: Provider = ElloProvider()
-    public var authState: AuthState = .Initial
+    public var authState: AuthState = .Initial {
+        willSet {
+            if newValue != authState && !authState.nextStates.contains(newValue) {
+                print("invalid transition from \(authState) to \(newValue)")
+            }
+        }
+    }
 
     public static var serverTrustPolicies: [String: ServerTrustPolicy] {
         var policyDict = [String: ServerTrustPolicy]()
@@ -99,7 +106,97 @@ public class ElloProvider: Provider {
         }
     }
 
-    var waitList: [(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)] = []
+    private func elloRequest(elloRequest: ElloRequestClosure) {
+        self.elloRequest(elloRequest.target, success: elloRequest.success, failure: elloRequest.failure, invalidToken: elloRequest.invalidToken)
+    }
+
+    var waitList: [ElloRequestClosure] = []
+
+    private let queue = dispatch_queue_create("com.ello.ReauthQueue", nil)
+    private func attemptReauth(elloRequest: ElloRequestClosure) {
+        dispatch_async(queue) {
+            let nextState: AuthState?
+
+            switch self.authState {
+            case .Authenticated:
+                self.attemptReauth(elloRequest)
+                nextState = .ShouldTryRefreshToken
+            case .RefreshTokenSent:
+                self.waitList.append(elloRequest)
+                nextState = nil
+            case .UserCredsSent:
+                self.waitList.append(elloRequest)
+                nextState = nil
+            case .ShouldTryRefreshToken:
+                sleep(1)
+
+                let authService = ReAuthService()
+                authService.reAuthenticateToken(success: {
+                    self.resolveReauth(elloRequest, nextState: .Authenticated)
+                },
+                failure: { _ in
+                    self.resolveReauth(elloRequest, nextState: .ShouldTryUserCreds)
+                })
+                nextState = .RefreshTokenSent
+            case .ShouldTryUserCreds:
+                sleep(1)
+
+                let authService = ReAuthService()
+                authService.reAuthenticateUserCreds(success: {
+                    self.resolveReauth(elloRequest, nextState: .Authenticated)
+                },
+                failure: { _ in
+                    self.resolveReauth(elloRequest, nextState: .LoggedOut)
+                })
+                nextState = .UserCredsSent
+            case .LoggedOut, .Initial:
+                self.resolveReauth(elloRequest, nextState: .LoggedOut)
+                nextState = nil
+            }
+
+            if let nextState = nextState {
+                self.authState = nextState
+            }
+        }
+    }
+
+    private func resolveReauth(elloRequest: ElloRequestClosure, nextState: AuthState) {
+        dispatch_async(queue) {
+            self.authState = nextState
+
+            if nextState.isLoggedOut {
+                for request in self.waitList {
+                    request.invalidToken(error: self.invalidTokenError())
+                }
+                self.handleInvalidToken(nil, statusCode: nil, invalidToken: elloRequest.invalidToken, error: nil)
+                self.waitList = []
+            }
+            else {
+                if nextState.isAuthenticated {
+                    for request in self.waitList {
+                        self.elloRequest(request)
+                    }
+                    self.waitList = []
+                    self.elloRequest(elloRequest)
+                }
+                else {
+                    self.attemptReauth(elloRequest)
+                }
+            }
+        }
+    }
+
+    public func assignInitialAuthState() {
+        dispatch_async(queue) {
+            let authToken = AuthToken()
+            if authToken.isPresent && authToken.isAuthenticated {
+                self.authState = .Authenticated
+            }
+            else {
+                self.authState = .LoggedOut
+            }
+        }
+    }
 
 }
 
@@ -136,6 +233,11 @@ extension ElloProvider {
         return elloError
     }
 
+    public static func failedToSendRequest(failure: ElloFailureCompletion) {
+        let elloError = NSError.networkError("Failed to send request", code: ElloErrorCode.NetworkFailure)
+        failure(error: elloError, statusCode: nil)
+    }
+
     public static func failedToMapObjects(failure: ElloFailureCompletion) {
         let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
         let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
@@ -167,18 +269,7 @@ extension ElloProvider {
             case 200...299, 300...399:
                 handleNetworkSuccess(data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
             case 401:
-                if AuthToken().isPresent {
-                    let authService = ReAuthService()
-                    authService.reAuthenticate(success: {
-                        self.retryRequest(target, success: success, failure: failure, invalidToken: invalidToken)
-                    },
-                    failure: { _ in
-                        self.handleInvalidToken(data, statusCode: statusCode, invalidToken: invalidToken, error: nil)
-                    })
-                }
-                else {
-                    self.handleInvalidToken(data, statusCode: statusCode, invalidToken: invalidToken, error: nil)
-                }
+                attemptReauth((target, success: success, failure: failure, invalidToken: invalidToken))
             case 410:
                 postNetworkFailureNotification(data, error: nil, statusCode: statusCode)
             default:
@@ -193,17 +284,14 @@ extension ElloProvider {
         }
     }
 
+    private func invalidTokenError() -> NSError {
+        return ElloProvider.generateElloError(nil, error: nil, statusCode: nil)
+    }
+
     private func handleInvalidToken(data: NSData?, statusCode: Int?, invalidToken: ElloErrorCompletion, error: ErrorType?) {
         postNetworkFailureNotification(data, error: error, statusCode: statusCode)
         postNotification(AuthenticationNotifications.invalidToken, value: true)
-        let elloError = ElloProvider.generateElloError(data, error: error, statusCode: statusCode)
-        invalidToken(error: elloError)
-    }
-
-    private func retryRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
-        ElloProvider.sharedProvider.request(target) { (result) in
-            self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
-        }
+        invalidToken(error: invalidTokenError())
     }
 
     private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion) {
