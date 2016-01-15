@@ -251,15 +251,15 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
-        cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
+        cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         cancelButton.setImages(.X)
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
-        reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
+        reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         reorderButton.setImages(.Reorder)
         reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
 
-        cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
+        cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         cameraButton.setImages(.Camera)
         cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 

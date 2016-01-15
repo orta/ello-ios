@@ -45,4 +45,25 @@ public class ElloNavigationBar : UINavigationBar {
         size.height = Size.height
         return size
     }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+
+        if let navItem = topItem, items = navItem.rightBarButtonItems {
+            var x: CGFloat = frame.width - 5.5
+            let width: CGFloat = 39
+
+            let views = items.flatMap { $0.customView }.sort { $0.frame.maxX > $1.frame.maxX }
+            for view in views {
+                x -= width
+                view.frame = CGRect(
+                    x: x,
+                    y: view.frame.y,
+                    width: width,
+                    height: view.frame.height
+                    )
+            }
+        }
+    }
+
 }

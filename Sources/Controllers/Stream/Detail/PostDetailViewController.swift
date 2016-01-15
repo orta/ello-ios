@@ -110,17 +110,20 @@ public class PostDetailViewController: StreamableViewController {
 
     private func assignRightButton() {
         if post == nil {
-            elloNavigationItem.rightBarButtonItem = nil
+            elloNavigationItem.rightBarButtonItems = []
         }
         else {
-            let rightBarImage: UIImage?
             if isOwnPost() {
-                rightBarImage = Interface.Image.Dots.normalImage
+                elloNavigationItem.rightBarButtonItems = [
+                    UIBarButtonItem(image: .XBox, target: self, action: Selector("deletePost")),
+                    UIBarButtonItem(image: .Pencil, target: self, action: Selector("editPost")),
+                ]
             }
             else {
-                rightBarImage = Interface.Image.Flag.normalImage
+                elloNavigationItem.rightBarButtonItems = [
+                    UIBarButtonItem(image: .Dots, target: self, action: Selector("flagPost"))
+                ]
             }
-            elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .Done, target: self, action: Selector("moreActionsTapped"))
         }
     }
 
@@ -216,19 +219,6 @@ public class PostDetailViewController: StreamableViewController {
         }
     }
 
-    public func moreActionsTapped() {
-        guard let post = post else {
-            return
-        }
-
-        if isOwnPost() {
-            displayEditActions()
-        }
-        else {
-            displayFlagger(post)
-        }
-    }
-
     private func isOwnPost() -> Bool {
         guard let post = post, currentUser = currentUser else {
             return false
@@ -236,22 +226,11 @@ public class PostDetailViewController: StreamableViewController {
         return currentUser.id == post.authorId
     }
 
-    private func displayEditActions() {
-        let alertController = AlertViewController()
+    public func flagPost() {
+        guard let post = post else {
+            return
+        }
 
-        let editAction = AlertAction(title: InterfaceString.Post.Edit.localized, style: .Dark) { _ in self.editPost() }
-        alertController.addAction(editAction)
-
-        let deleteAction = AlertAction(title: InterfaceString.Post.Delete.localized, style: .Dark) { _ in self.deletePost() }
-        alertController.addAction(deleteAction)
-
-        let action = AlertAction(title: InterfaceString.Cancel.localized, style: .Light, handler: nil)
-        alertController.addAction(action)
-
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-
-    private func displayFlagger(post: Post) {
         let flagger = ContentFlagger(presentingController: self,
             flaggableId: post.id,
             contentType: .Post,
