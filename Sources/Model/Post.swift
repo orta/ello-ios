@@ -62,7 +62,13 @@ public final class Post: JSONAble, Authorable {
     }
     // nested resources
     public var comments: [Comment]? {
-        return getLinkArray(MappingType.CommentsType.rawValue) as? [Comment]
+        if let nestedComments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
+            for comment in nestedComments {
+                comment.loadedFromPostId = self.id
+            }
+            return nestedComments
+        }
+        return nil
     }
     // links post with comments
     public var groupId:String { return id }
