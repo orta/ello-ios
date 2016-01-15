@@ -7,6 +7,8 @@
 //
 
 public enum AuthState {
+    public static var uuid: NSUUID = NSUUID()
+
     case Initial  // auth is in indeterminate state
 
     case LoggedOut  // no auth or refresh token
@@ -22,13 +24,13 @@ public enum AuthState {
         switch self {
         case Initial: return [.LoggedOut, .Authenticated]
         case LoggedOut: return [.UserCredsSent]
-        case Authenticated: return [.ShouldTryRefreshToken]
+        case Authenticated: return [.RefreshTokenSent]
+
+        case RefreshTokenSent: return [.Authenticated, .ShouldTryRefreshToken, .ShouldTryUserCreds]
+        case ShouldTryRefreshToken: return [.RefreshTokenSent]
 
         case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldTryUserCreds]
         case ShouldTryUserCreds: return [.UserCredsSent]
-
-        case RefreshTokenSent: return [.LoggedOut, .Authenticated, .ShouldTryRefreshToken, .ShouldTryUserCreds]
-        case ShouldTryRefreshToken: return [.RefreshTokenSent]
         }
     }
 

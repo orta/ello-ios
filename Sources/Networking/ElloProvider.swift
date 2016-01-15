@@ -91,12 +91,13 @@ public class ElloProvider: Provider {
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
+        let uuid = AuthState.uuid
         if authState == .Initial {
-            self.attemptReauth((target: target, success: success, failure: failure, invalidToken: invalidToken))
+            self.attemptAuthentication((target: target, success: success, failure: failure, invalidToken: invalidToken), uuid: uuid)
         }
         else if !target.requiresAuthentication || authState.isAuthenticated {
             ElloProvider.sharedProvider.request(target) { (result) in
-                self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
+                self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken, uuid: uuid)
             }
             Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
         }
@@ -109,78 +110,92 @@ public class ElloProvider: Provider {
         }
     }
 
-    private func elloRequest(elloRequest: ElloRequestClosure) {
-        self.elloRequest(elloRequest.target, success: elloRequest.success, failure: elloRequest.failure, invalidToken: elloRequest.invalidToken)
+    private func elloRequest(request: ElloRequestClosure) {
+        self.elloRequest(request.target, success: request.success, failure: request.failure, invalidToken: request.invalidToken)
     }
 
     var waitList: [ElloRequestClosure] = []
 
     private let queue = dispatch_queue_create("com.ello.ReauthQueue", nil)
-    private func attemptReauth(elloRequest: ElloRequestClosure) {
+    private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
         dispatch_async(queue) {
+            if uuid != AuthState.uuid && self.authState == .Authenticated {
+                if let request = request {
+                    self.elloRequest(request)
+                }
+                return
+            }
+
+            if let request = request {
+                self.waitList.append(request)
+            }
+
             switch self.authState {
             case .Initial:
                 let authToken = AuthToken()
-                let authenticated = authToken.isPresent && authToken.isAuthenticated
-                self.resolveReauth(elloRequest, nextState: authenticated ? .Authenticated : .LoggedOut)
-            case .Authenticated:
-                self.resolveReauth(elloRequest, nextState: .ShouldTryRefreshToken)
-            case .RefreshTokenSent, .UserCredsSent:
-                self.waitList.append(elloRequest)
-            case .ShouldTryRefreshToken:
-                sleep(1)
+                if authToken.isPresent && authToken.isAuthenticated {
+                    self.authState = .Authenticated
+                }
+                else {
+                    self.authState = .LoggedOut
+                }
+                self.advanceAuthState(self.authState)
+            case .Authenticated, .ShouldTryRefreshToken:
+                self.authState = .RefreshTokenSent
 
                 let authService = ReAuthService()
                 authService.reAuthenticateToken(success: {
-                    self.resolveReauth(elloRequest, nextState: .Authenticated)
+                    self.advanceAuthState(.Authenticated)
                 },
                 failure: { _ in
-                    self.resolveReauth(elloRequest, nextState: .ShouldTryUserCreds)
+                    self.advanceAuthState(.ShouldTryUserCreds)
                 }, noNetwork:{
-                    self.resolveReauth(elloRequest, nextState: .ShouldTryRefreshToken)
+                    self.advanceAuthState(.ShouldTryRefreshToken)
                 })
-
-                self.authState = .RefreshTokenSent
             case .ShouldTryUserCreds:
-                sleep(1)
+                self.authState = .UserCredsSent
 
                 let authService = ReAuthService()
                 authService.reAuthenticateUserCreds(success: {
-                    self.resolveReauth(elloRequest, nextState: .Authenticated)
+                    self.advanceAuthState(.Authenticated)
                 },
                 failure: { _ in
-                    self.resolveReauth(elloRequest, nextState: .LoggedOut)
+                    self.advanceAuthState(.LoggedOut)
                 }, noNetwork:{
-                    self.resolveReauth(elloRequest, nextState: .ShouldTryUserCreds)
+                    self.advanceAuthState(.ShouldTryUserCreds)
                 })
-
-                self.authState = .UserCredsSent
+            case .RefreshTokenSent, .UserCredsSent:
+                break
             case .LoggedOut:
-                self.resolveReauth(elloRequest, nextState: .LoggedOut)
+                self.advanceAuthState(self.authState)
             }
         }
     }
 
-    private func resolveReauth(elloRequest: ElloRequestClosure, nextState: AuthState) {
+    private func advanceAuthState(nextState: AuthState) {
         dispatch_async(queue) {
             self.authState = nextState
 
             if nextState.isLoggedOut {
+                AuthState.uuid = NSUUID()
+
                 for request in self.waitList {
                     request.invalidToken(error: self.invalidTokenError())
                 }
-                self.handleInvalidToken(nil, statusCode: nil, invalidToken: elloRequest.invalidToken, error: nil)
                 self.waitList = []
+                self.handleInvalidToken()
             }
             else if nextState.isAuthenticated {
+                AuthState.uuid = NSUUID()
+
                 for request in self.waitList {
                     self.elloRequest(request)
                 }
                 self.waitList = []
-                self.elloRequest(elloRequest)
             }
             else {
-                self.attemptReauth(elloRequest)
+                sleep(1)
+                self.attemptAuthentication(uuid: AuthState.uuid)
             }
         }
     }
