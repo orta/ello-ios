@@ -38,6 +38,12 @@ public class ImageLabelControl: UIControl {
         }
     }
 
+    override public var enabled: Bool {
+        didSet {
+            icon.enabled = enabled
+        }
+    }
+
     let innerPadding: CGFloat = 5
     let outerPadding: CGFloat = 5
     let minWidth: CGFloat = 44

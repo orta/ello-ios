@@ -86,7 +86,7 @@ public enum Interface {
         case AudioPlay = "embetter_audio_play"
         case VideoPlay = "embetter_video_play"
 
-        func image(style: Style) -> UIImage! {
+        func image(style: Style) -> UIImage? {
             switch style {
             case .Normal:   return normalImage
             case .White:    return whiteImage
@@ -111,9 +111,16 @@ public enum Interface {
             }
         }
         var selectedImage: UIImage! { return SVGKImage(named: "\(self.rawValue)_selected.svg").UIImage }
-        var whiteImage: UIImage! { return SVGKImage(named: "\(self.rawValue)_white.svg").UIImage }
-        var disabledImage: UIImage! { return SVGKImage(named: "\(self.rawValue)_disabled.svg").UIImage }
-        var redImage: UIImage! { return SVGKImage(named: "\(self.rawValue)_red.svg").UIImage }
+        var whiteImage: UIImage? { return SVGKImage(named: "\(self.rawValue)_white.svg").UIImage }
+        var disabledImage: UIImage? {
+            switch self {
+            case .Repost, .AngleBracket:
+                return SVGKImage(named: "\(self.rawValue)_disabled.svg").UIImage
+            default:
+                return nil
+            }
+        }
+        var redImage: UIImage? { return SVGKImage(named: "\(self.rawValue)_red.svg").UIImage }
     }
 }
 
