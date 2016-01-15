@@ -38,7 +38,7 @@ public class ReAuthService: NSObject {
                     success()
                 default:
                     log("refreshToken: \(refreshToken), failed to receive new token")
-                    let elloError = ElloProvider.generateElloError(moyaResponse.data, error: nil, statusCode: moyaResponse.statusCode)
+                    let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
                     failure(error: elloError, statusCode: moyaResponse.statusCode)
                 }
             case .Failure:
@@ -60,7 +60,7 @@ public class ReAuthService: NSObject {
                         log("created new token: \(AuthToken().token)")
                         success()
                     default:
-                        let elloError = ElloProvider.generateElloError(moyaResponse.data, error: nil, statusCode: moyaResponse.statusCode)
+                        let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
                         failure(error: elloError, statusCode: moyaResponse.statusCode)
                     }
                 case .Failure:
