@@ -121,9 +121,10 @@ public class ElloProvider {
 
     var waitList: [ElloRequestClosure] = []
 
-    private let queue = dispatch_queue_create("com.ello.ReauthQueue", nil)
+    // set queue to nil in specs, and reauth requests are sent synchronously.
+    var queue: dispatch_queue_t? = dispatch_queue_create("com.ello.ReauthQueue", nil)
     private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
-        dispatch_async(queue) {
+        let closure = {
             if uuid != AuthState.uuid && self.authState == .Authenticated {
                 if let request = request {
                     self.elloRequest(request)
@@ -175,10 +176,16 @@ public class ElloProvider {
                 self.advanceAuthState(self.authState)
             }
         }
+        if let queue = queue {
+            dispatch_async(queue, closure)
+        }
+        else {
+            closure()
+        }
     }
 
     private func advanceAuthState(nextState: AuthState) {
-        dispatch_async(queue) {
+        let closure = {
             self.authState = nextState
 
             if nextState.isLoggedOut {
@@ -202,6 +209,12 @@ public class ElloProvider {
                 sleep(1)
                 self.attemptAuthentication(uuid: AuthState.uuid)
             }
+        }
+        if let queue = queue {
+            dispatch_async(queue, closure)
+        }
+        else {
+            closure()
         }
     }
 
