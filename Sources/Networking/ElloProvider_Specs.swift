@@ -11,8 +11,6 @@ import Moya
 
 public struct ElloProvider_Specs {
     public static var errorStatusCode: ErrorStatusCode = .Status404
-    public static var responseHeaders: NSString = ""
-    public static var responseJSON: NSString = ""
 
     static func errorEndpointsClosure(target: ElloAPI) -> Endpoint<ElloAPI> {
         let method = target.method

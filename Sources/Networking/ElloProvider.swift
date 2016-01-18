@@ -251,17 +251,18 @@ extension ElloProvider {
         switch result {
         case let .Success(moyaResponse):
             let response = moyaResponse.response as? NSHTTPURLResponse
-            if let response = response {
-                ElloProvider_Specs.responseHeaders = response.allHeaderFields.description
-                Crashlytics.sharedInstance().setObjectValue(ElloProvider_Specs.responseHeaders, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
-            }
             let data = moyaResponse.data
             let statusCode = moyaResponse.statusCode
+            if let response = response {
+                // set crashlytics stuff before processing
+                let headers = response.allHeaderFields.description
+                Tracker.responseHeaders = headers
+                Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+                Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+                Tracker.responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
+                Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
+            }
 
-            // set crashlytics stuff before processing
-            Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            ElloProvider_Specs.responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
-            Crashlytics.sharedInstance().setObjectValue(ElloProvider_Specs.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             switch statusCode {
             case 200...299, 300...399:
                 handleNetworkSuccess(data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
