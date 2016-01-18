@@ -83,17 +83,26 @@ public class ElloProvider {
     // MARK: - Public
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion) {
-        elloRequest(target, success: success, failure: { _ in }, invalidToken: { _ in })
+        elloRequest((target: target, success: success, failure: { _ in }, invalidToken: { _ in }))
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
-        elloRequest(target, success: success, failure: failure, invalidToken: { _ in })
+        elloRequest((target: target, success: success, failure: failure, invalidToken: { _ in }))
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
+        elloRequest((target: target, success: success, failure: failure, invalidToken: invalidToken))
+    }
+
+    public func elloRequest(request: ElloRequestClosure) {
+        let target = request.target
+        let success = request.success
+        let failure = request.failure
+        let invalidToken = request.invalidToken
         let uuid = AuthState.uuid
+
         if authState == .Initial {
-            self.attemptAuthentication((target: target, success: success, failure: failure, invalidToken: invalidToken), uuid: uuid)
+            self.attemptAuthentication(request, uuid: uuid)
         }
         else if !target.requiresAuthentication || authState.isAuthenticated {
             ElloProvider.sharedProvider.request(target) { (result) in
@@ -106,12 +115,8 @@ public class ElloProvider {
             failure(error: elloError, statusCode: 401)
         }
         else {
-            waitList.append((target: target, success: success, failure: failure, invalidToken: invalidToken))
+            waitList.append(request)
         }
-    }
-
-    private func elloRequest(request: ElloRequestClosure) {
-        self.elloRequest(request.target, success: request.success, failure: request.failure, invalidToken: request.invalidToken)
     }
 
     var waitList: [ElloRequestClosure] = []
