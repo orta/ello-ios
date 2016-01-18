@@ -25,10 +25,9 @@ class StreamViewControllerSpec: QuickSpec {
 
             describe("storyboard") {
 
-                beforeEach({
-                    controller.loadView()
-                    controller.viewDidLoad()
-                })
+                beforeEach {
+                    showController(controller)
+                }
 
                 it("IBOutlets are  not nil") {
                     expect(controller.collectionView).notTo(beNil())
@@ -82,8 +81,7 @@ class StreamViewControllerSpec: QuickSpec {
 
             beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
-                controller.loadView()
-                controller.viewDidLoad()
+                showController(controller)
             }
 
             it("properly configures dataSource") {
@@ -119,8 +117,7 @@ class StreamViewControllerSpec: QuickSpec {
             beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
                 controller.streamKind = StreamKind.Following
-                controller.loadView()
-                controller.viewDidLoad()
+                showController(controller)
                 controller.streamService.loadStream(controller.streamKind.endpoint, streamKind: nil,
                     success: { (jsonables, responseConfig) in
                         controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind), withWidth: nil)
@@ -149,8 +146,7 @@ class StreamViewControllerSpec: QuickSpec {
 
             beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
-                controller.loadView()
-                controller.viewDidLoad()
+                showController(controller)
             }
 
             afterEach {

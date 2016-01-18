@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -84,11 +85,10 @@ public enum SnapshotDevice {
 func validateAllSnapshots(subject: Snapshotable, named name: String? = nil, record: Bool = false, file: String = __FILE__, line: UInt = __LINE__) {
     for device in SnapshotDevice.all {
         context(device.description) {
-            beforeEach {
-                prepareForSnapshot(subject, device: device)
-            }
             describe("view") {
                 it("should match the screenshot", file: file, line: line) {
+                    prepareForSnapshot(subject, size: device.size)
+
                     let localName: String?
                     if let name = name {
                         localName = "\(name) on \(device.description)"

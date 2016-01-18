@@ -18,8 +18,7 @@ class DeleteAccountConfirmationViewControllerSpec: QuickSpec {
         describe("initialization") {
             beforeEach {
                 subject = DeleteAccountConfirmationViewController()
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             it("IBOutlets are not nil") {

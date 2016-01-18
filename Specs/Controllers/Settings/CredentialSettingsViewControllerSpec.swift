@@ -13,20 +13,17 @@ import Nimble
 
 class CredentialSettingsViewControllerSpec: QuickSpec {
     override func spec() {
-        var subject = CredentialSettingsViewController.instantiateFromStoryboard()
+        describe("CredentialSettingsViewController") {
+        var subject: CredentialSettingsViewController!
 
         beforeEach {
             subject = CredentialSettingsViewController.instantiateFromStoryboard()
-            subject.loadView()
         }
 
         describe("initialization") {
             describe("storyboard") {
-                beforeEach {
-                    subject.viewDidLoad()
-                }
-
                 it("IBOutlets are not nil") {
+                    showController(subject)
                     expect(subject.usernameView).notTo(beNil())
                     expect(subject.emailView).notTo(beNil())
                     expect(subject.passwordView).notTo(beNil())
@@ -38,11 +35,12 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
         }
 
         describe("viewDidLoad") {
-            it("sets the text fields from the current user") {
+            beforeEach {
                 let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
-                subject.viewDidLoad()
-
+                showController(subject)
+            }
+            it("sets the text fields from the current user") {
                 expect(subject.usernameView.textField.text) == "TestName"
                 expect(subject.emailView.textField.text) == "some@guy.com"
                 expect(subject.passwordView.textField.text) == ""
@@ -53,7 +51,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
             beforeEach {
                 let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             context("username") {
@@ -115,11 +113,8 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
         }
 
         describe("valueChanged") {
-            beforeEach {
-                subject.viewDidLoad()
-            }
-
             it("calls the delegate function when email is set") {
+                showController(subject)
                 let fake = FakeCredentialSettingsDelegate()
                 subject.delegate = fake
                 subject.emailView.textField.text = "email@example.com"
@@ -128,6 +123,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
             }
 
             it("calls the delegate function when username is set") {
+                showController(subject)
                 let fake = FakeCredentialSettingsDelegate()
                 subject.delegate = fake
                 subject.usernameView.textField.text = "username"
@@ -136,6 +132,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
             }
 
             it("calls the delegate function when password is set") {
+                showController(subject)
                 let fake = FakeCredentialSettingsDelegate()
                 subject.delegate = fake
                 subject.passwordView.textField.text = "pa$$w0rd"
@@ -148,7 +145,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
             beforeEach {
                 let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             context("isUpdatable is true") {
@@ -178,6 +175,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                 }
             }
         }
+    }
     }
 }
 

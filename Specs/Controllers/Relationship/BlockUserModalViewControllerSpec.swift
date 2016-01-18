@@ -27,8 +27,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     relationship in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             it("sets IBOutlets") {
@@ -107,8 +106,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Mute) {
                     _ in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             it("sets state properly when initialized with mute") {
@@ -135,8 +133,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     _ in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
                 subject.relationshipDelegate = relationshipController
             }
 

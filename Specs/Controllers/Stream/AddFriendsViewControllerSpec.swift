@@ -22,8 +22,7 @@ class AddFriendsViewControllerSpec: QuickSpec {
     override func spec() {
 
         let subject = AddFriendsViewController(addressBook: FakeAddressBook())
-        subject.loadView()
-        subject.viewDidLoad()
+        showController(subject)
 
         describe("initialization") {
 

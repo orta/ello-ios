@@ -27,8 +27,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
                 describe("storyboard") {
 
                     beforeEach {
-                        controller.loadView()
-                        controller.viewDidLoad()
+                        showController(controller)
                     }
 
                     it("IBOutlets are  not nil") {
@@ -94,8 +93,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     controller = StreamContainerViewController.instantiateFromStoryboard()
-                    controller.loadView()
-                    controller.viewDidLoad()
+                    showController(controller)
                 }
 
                 it("has streams") {
