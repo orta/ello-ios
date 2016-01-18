@@ -27,8 +27,7 @@ class AmazonCredentialsSpec: QuickSpec {
                             if let credentials = credentialsData as? AmazonCredentials {
                                 self.credentials = credentials
                             }
-                        },
-                        failure: nil)
+                        })
                 }
                 it("should not be nil") {
                     expect(self.credentials).toNot(beNil())

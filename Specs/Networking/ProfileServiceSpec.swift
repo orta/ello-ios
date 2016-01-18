@@ -29,7 +29,7 @@ class ProfileServiceSpec: QuickSpec {
 
                     profileService.loadCurrentUser(ElloAPI.Profile(perPage: 10), success: { user in
                         loadedUser = user
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(loadedUser).toNot(beNil())
 
@@ -56,7 +56,7 @@ class ProfileServiceSpec: QuickSpec {
 
                     profileService.updateUserProfile([:], success: { user in
                         returnedUser = user
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(returnedUser).toNot(beNil())
 
@@ -81,7 +81,7 @@ class ProfileServiceSpec: QuickSpec {
 
                     profileService.deleteAccount(success: {
                         called = true
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(called) == true
                 }

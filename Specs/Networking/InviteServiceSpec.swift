@@ -23,7 +23,7 @@ class InviteServiceSpec: QuickSpec {
                 var loadedSuccessfully = false
                 subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
-                }, failure: nil)
+                    }, failure: { _ in })
 
                 expect(loadedSuccessfully) == true
             }
@@ -51,7 +51,7 @@ class InviteServiceSpec: QuickSpec {
                 subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
                     users in
                     expectedUsers = users
-                }, failure: nil)
+                }, failure: { _ in })
 
                 expect(expectedUsers.count) == 3
             }

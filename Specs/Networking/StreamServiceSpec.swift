@@ -96,7 +96,8 @@ class StreamServiceSpec: QuickSpec {
                             streamKind: nil,
                             success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
-                        }, failure:nil, noContent: nil)
+                        }, failure: { _ in },
+                            noContent: { _ in })
 
                         expect(loadedComments!.count) == 1
 
@@ -132,7 +133,7 @@ class StreamServiceSpec: QuickSpec {
                 context("404") {
 
                     beforeEach {
-                        ElloProvider.errorStatusCode = .Status404
+                        ElloProvider_Specs.errorStatusCode = .Status404
                     }
 
                     it("Calls failure with an error and statusCode") {

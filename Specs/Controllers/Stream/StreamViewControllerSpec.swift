@@ -226,7 +226,7 @@ class StreamViewControllerSpec: QuickSpec {
                         streamKind: nil,
                         success: { (user, responseConfig) in
                         controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts!, streamKind: .Following), withWidth: nil)
-                    }, failure: nil)
+                    }, failure: { _ in })
                 }
 
                 it("is a UserDelegate") {

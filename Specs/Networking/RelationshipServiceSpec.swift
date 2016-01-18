@@ -26,7 +26,7 @@ class RelationshipServiceSpec: QuickSpec {
                         (data, responseConfig) in
                         loadedSuccessfully = true
                     },
-                    failure: nil
+                    failure: { _ in }
                 )
                 expect(loadedSuccessfully).to(beTrue())
             }

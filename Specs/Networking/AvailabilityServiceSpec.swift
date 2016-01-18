@@ -21,7 +21,7 @@ class AvailabilityServiceSpec: QuickSpec {
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { availability in
                     expectedAvailability = availability
-                }, failure: .None)
+                }, failure: { _ in })
                 expect(expectedAvailability).toNot(beNil())
             }
 
