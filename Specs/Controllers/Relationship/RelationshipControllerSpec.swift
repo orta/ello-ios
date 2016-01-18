@@ -32,7 +32,6 @@ class RelationshipControllerSpec: QuickSpec {
             describe("-updateRelationship:relationship:complete:") {
 
                 it("succeeds") {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                     var expectedStatus = RelationshipRequestStatus.Failure
 
                     subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {

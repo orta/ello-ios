@@ -15,14 +15,6 @@ class DeleteAccountConfirmationViewControllerSpec: QuickSpec {
     override func spec() {
         var subject = DeleteAccountConfirmationViewController()
 
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         describe("initialization") {
             beforeEach {
                 subject = DeleteAccountConfirmationViewController()

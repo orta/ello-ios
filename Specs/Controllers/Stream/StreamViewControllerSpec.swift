@@ -17,14 +17,6 @@ class StreamViewControllerSpec: QuickSpec {
 
         var controller = StreamViewController.instantiateFromStoryboard()
 
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         describe("initialization") {
 
             beforeEach {

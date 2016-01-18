@@ -19,7 +19,6 @@ class InviteServiceSpec: QuickSpec {
             let subject = InviteService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 var loadedSuccessfully = false
                 subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
@@ -46,7 +45,6 @@ class InviteServiceSpec: QuickSpec {
             let subject = InviteService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 var expectedUsers = [User]()
                 subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
                     users in

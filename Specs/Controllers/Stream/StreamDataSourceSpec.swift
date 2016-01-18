@@ -46,7 +46,6 @@ class StreamDataSourceSpec: QuickSpec {
 
         describe("StreamDataSourceSpec") {
             beforeEach {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Following
                 subject = StreamDataSource(streamKind: .Following,

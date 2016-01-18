@@ -19,7 +19,6 @@ class RelationshipServiceSpec: QuickSpec {
             let subject = RelationshipService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 var loadedSuccessfully = false
                 subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.Following,
                     success: {

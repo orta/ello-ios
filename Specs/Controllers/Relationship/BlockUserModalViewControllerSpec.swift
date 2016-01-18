@@ -142,10 +142,6 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
             context("with successful request") {
 
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
-
                 describe("@muteButton") {
                     it("not selected") {
                         subject.relationshipPriority = RelationshipPriority.Following

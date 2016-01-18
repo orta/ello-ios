@@ -20,10 +20,6 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
-
                 it("Calls success with a User") {
                     var loadedUser: User?
 
@@ -47,10 +43,6 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
-
                 it("Calls success with a User") {
                     var returnedUser: User?
 
@@ -72,10 +64,6 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
-
                 it("Calls success function") {
                     var called = false
 

@@ -15,14 +15,6 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
     override func spec() {
         var subject = CredentialSettingsViewController.instantiateFromStoryboard()
 
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         beforeEach {
             subject = CredentialSettingsViewController.instantiateFromStoryboard()
             subject.loadView()

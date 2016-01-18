@@ -20,10 +20,6 @@ class StreamServiceSpec: QuickSpec {
 
             context("success") {
 
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
-
                 describe("-loadStream") {
                     xit("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?

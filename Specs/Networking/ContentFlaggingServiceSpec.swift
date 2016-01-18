@@ -18,9 +18,6 @@ class ContentFlaggingServiceSpec: QuickSpec {
         describe("-flagContent:") {
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                }
             }
         }
     }

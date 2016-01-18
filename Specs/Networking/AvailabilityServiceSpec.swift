@@ -16,7 +16,6 @@ class AvailabilityServiceSpec: QuickSpec {
     override func spec() {
         describe("availability") {
             it("succeeds") {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                 var expectedAvailability: Availability? = .None
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { availability in

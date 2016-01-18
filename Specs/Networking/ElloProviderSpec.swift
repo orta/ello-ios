@@ -27,12 +27,7 @@ class TestObserver {
 class ElloProviderSpec: QuickSpec {
     override func spec() {
 
-        beforeEach {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
         afterEach {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
             AppSetup.sharedState.isSimulator = nil
         }
 
