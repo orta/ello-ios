@@ -20,8 +20,8 @@ public typealias ElloFailureCompletion = (error: NSError, statusCode: Int?) -> V
 public typealias ElloErrorCompletion = (error: NSError) -> Void
 public typealias ElloEmptyCompletion = () -> Void
 
-public class ElloProvider: Provider {
-    public static var shared: Provider = ElloProvider()
+public class ElloProvider {
+    public static var shared: ElloProvider = ElloProvider()
     public var authState: AuthState = .Initial {
         willSet {
             if newValue != authState && !authState.nextStates.contains(newValue) {
