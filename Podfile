@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/ello/Specs.git'
+source 'https://github.com/ello/cocoapod-specs.git'
 
 # Uncomment this line to define a global platform for your project
 platform :ios, '8.0'
@@ -27,10 +27,10 @@ pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 pod 'iRate', '~> 1.11'
 
 if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
-  pod 'Ello+UIFonts', '~> 1.0.0'
+  pod 'ElloUIFonts', '~> 1.0.0'
 else 
-  pod 'Ello+OSSUIFonts', '~> 1.0.0'
-end
+  pod 'ElloOSSUIFonts', '~> 1.0.0'
+end 
 
 # swift pods
 pod 'Alamofire', '~> 3.0'
