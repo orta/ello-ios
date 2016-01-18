@@ -188,7 +188,7 @@ public class ElloProvider {
                     request.invalidToken(error: self.invalidTokenError())
                 }
                 self.waitList = []
-                self.handleInvalidToken()
+                self.postInvalidTokenNotification()
             }
             else if nextState.isAuthenticated {
                 AuthState.uuid = NSUUID()
@@ -227,6 +227,9 @@ extension ElloProvider {
                     elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
                 }
             }
+        }
+        else if statusCode == 401 {
+            elloNetworkError = ElloNetworkError(attrs: nil, code: .unauthenticated, detail: nil, messages: nil, status: "401", title: "unauthenticated")
         }
 
         let errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
@@ -288,7 +291,7 @@ extension ElloProvider {
         return ElloProvider.generateElloError(nil, statusCode: nil)
     }
 
-    private func handleInvalidToken() {
+    private func postInvalidTokenNotification() {
         postNetworkFailureNotification(nil, statusCode: 401)
         postNotification(AuthenticationNotifications.invalidToken, value: true)
     }
