@@ -17,7 +17,7 @@ public struct PushNotificationNotifications {
 }
 
 public class PushNotificationController {
-    public static let sharedController = PushNotificationController(defaults: Defaults, keychain: Keychain())
+    public static let sharedController = PushNotificationController(defaults: Defaults, keychain: ElloKeychain())
 
     private let defaults: NSUserDefaults
     private var keychain: KeychainType

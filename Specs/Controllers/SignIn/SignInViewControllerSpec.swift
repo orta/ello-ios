@@ -32,7 +32,7 @@ class SignInViewControllerSpec: QuickSpec {
             }
 
             afterEach {
-                AuthToken.sharedKeychain = Keychain()
+                AuthToken.sharedKeychain = ElloKeychain()
             }
 
             describe("initialization") {
