@@ -10,19 +10,22 @@ import Foundation
 
 public class BasicIcon: UIView {
 
+    private var _enabled = false
     private var _selected = false
     private var _highlighted = false
 
     private let normalIconView: UIView
     private let selectedIconView: UIView
+    private let disabledIconView: UIView?
 
     // MARK: Initializers
 
-    public init(normalIconView: UIView, selectedIconView: UIView) {
+    public init(normalIconView: UIView, selectedIconView: UIView, disabledIconView: UIView? = nil) {
         self.normalIconView = normalIconView
         self.selectedIconView = selectedIconView
-        let frame =
-        CGRect(
+        self.disabledIconView = disabledIconView
+
+        let frame = CGRect(
             x: 0,
             y: 0,
             width: normalIconView.frame.size.width,
@@ -32,6 +35,11 @@ public class BasicIcon: UIView {
         addSubview(self.normalIconView)
         addSubview(self.selectedIconView)
         self.selectedIconView.hidden = true
+
+        if let view = disabledIconView {
+            addSubview(view)
+            view.hidden = true
+        }
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -39,19 +47,34 @@ public class BasicIcon: UIView {
     }
 
     // MARK: Private
-    func updateIcon(selected: Bool) {
-        normalIconView.hidden = selected
-        selectedIconView.hidden = !selected
+    func updateIcon(selected selected: Bool, enabled: Bool) {
+        if let disabledIconView = disabledIconView {
+            normalIconView.hidden = !(enabled && !selected)
+            selectedIconView.hidden = !(enabled && selected)
+            disabledIconView.hidden = enabled
+        }
+        else {
+            normalIconView.hidden = selected
+            selectedIconView.hidden = !selected
+        }
     }
 }
 
 extension BasicIcon: ImageLabelAnimatable {
 
+    public var enabled: Bool {
+        get { return _enabled }
+        set {
+            _enabled = newValue
+            updateIcon(selected: _selected, enabled: newValue)
+        }
+    }
+
     public var selected: Bool {
         get { return _selected }
         set {
             _selected = newValue
-            updateIcon(newValue)
+            updateIcon(selected: newValue, enabled: _enabled)
         }
     }
 
@@ -60,7 +83,7 @@ extension BasicIcon: ImageLabelAnimatable {
         set {
             _highlighted = newValue
             if selected { return }
-            updateIcon(newValue)
+            updateIcon(selected: newValue, enabled: _enabled)
         }
     }
 
