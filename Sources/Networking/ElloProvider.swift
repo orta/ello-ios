@@ -190,6 +190,7 @@ public class ElloProvider {
 
             if nextState.isLoggedOut {
                 AuthState.uuid = NSUUID()
+                AuthToken.reset()
 
                 for request in self.waitList {
                     request.invalidToken(error: self.invalidTokenError())
