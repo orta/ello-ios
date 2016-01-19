@@ -102,6 +102,13 @@ class OmnibarScreenSpec: QuickSpec {
                         expect(subject.navigationItem.title) == "title"
                     }
                 }
+                context("var submitTitle: String") {
+                    it("sets the button title") {
+                        subject.submitTitle = "post here"
+                        expect(subject.tabbarSubmitButton.titleForState(.Normal)) == "post here"
+                        expect(subject.keyboardSubmitButton.titleForState(.Normal)) == "post here"
+                    }
+                }
                 context("var avatarURL: NSURL?") {
                     it("should set the button image (to nil)") {
                         let image = UIImage()

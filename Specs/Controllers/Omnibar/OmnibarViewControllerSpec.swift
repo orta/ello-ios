@@ -17,6 +17,7 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     var isEditing: Bool = false
     var interactionEnabled: Bool = true
     var title: String = ""
+    var submitTitle: String = ""
     var avatarURL: NSURL?
     var avatarImage: UIImage?
     var currentUser: User?
@@ -127,6 +128,14 @@ class OmnibarViewControllerSpec: QuickSpec {
                     subject.currentUser = user
                     expect(screen.avatarURL?.absoluteString).to(equal("http://ello.co/avatar.png"))
                 }
+
+                it("has the correct title") {
+                    expect(subject.screen.title) == ""
+                }
+
+                it("has the correct submit title") {
+                    expect(subject.screen.submitTitle) == ""
+                }
             }
 
             context("submitting a post") {
@@ -169,7 +178,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 describe("testing the submission in flight") {
-                    it("should disable interaction while submitting the post") {
+                    it("disables interaction while submitting the post") {
                         ElloProvider.sharedProvider = ElloProvider.DelayedStubbingProvider()
                         let text = NSAttributedString(string: "test")
                         let regions = [OmnibarRegion.AttributedText(text)]
@@ -185,7 +194,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                         ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
                     }
 
-                    it("should enabled interaction after submitting the post") {
+                    it("enables interaction after submitting the post") {
                         let text = NSAttributedString(string: "test")
                         let regions = [OmnibarRegion.AttributedText(text)]
 
@@ -231,11 +240,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                it("should have text set") {
+                it("has text set") {
                     checkRegions(screen.regions, equal: "text")
                 }
 
-                it("should have image set") {
+                it("has image set") {
                     expect(screen).to(haveImageRegion())
                 }
             }
@@ -265,7 +274,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                it("should save the data when cancelled") {
+                it("saves the data when cancelled") {
                     expect(Tmp.fileExists(subject.omnibarDataName()!)).to(beFalse())
                     subject.omnibarCancel()
                     expect(Tmp.fileExists(subject.omnibarDataName()!)).to(beTrue())
@@ -285,11 +294,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                it("should have the text in the textView") {
+                it("has the text in the textView") {
                     checkRegions(subject.screen.regions, contain: "@666 ")
                 }
 
-                it("should ignore the saved text when defaultText is given") {
+                it("ignores the saved text when defaultText is given") {
                     if let fileName = subject.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
@@ -307,7 +316,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     checkRegions(subject.screen.regions, notToContain: "testing!")
                 }
 
-                it("should not have the text if the tmp text was on another post") {
+                it("does not have the text if the tmp text was on another post") {
                     if let fileName = subject.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
@@ -324,6 +333,14 @@ class OmnibarViewControllerSpec: QuickSpec {
                     checkRegions(subject.screen.regions, contain: "@666 ")
                     checkRegions(subject.screen.regions, notToContain: "testing!")
                 }
+
+                it("has the correct title") {
+                    expect(subject.screen.title) == "Leave a comment"
+                }
+
+                it("has the correct submit title") {
+                    expect(subject.screen.submitTitle) == "Comment"
+                }
             }
 
             context("editing a post") {
@@ -335,11 +352,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     subject = OmnibarViewController(editPost: post)
                 }
 
-                it("should have the post body in the textView") {
+                it("has the post body in the textView") {
                     checkRegions(subject.screen.regions, contain: "did you say \"mancrush\"")
                 }
 
-                it("should have the text if there was tmp text available") {
+                it("has the text if there was tmp text available") {
                     if let fileName = subject.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
@@ -354,6 +371,14 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                     subject = OmnibarViewController(editPost: post)
                     checkRegions(subject.screen.regions, notToContain: "testing!")
+                }
+
+                it("has the correct title") {
+                    expect(subject.screen.title) == "Edit this post"
+                }
+
+                it("has the correct submit title") {
+                    expect(subject.screen.submitTitle) == "Edit Post"
                 }
             }
 
