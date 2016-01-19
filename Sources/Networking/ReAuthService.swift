@@ -33,13 +33,13 @@ public class ReAuthService: NSObject {
 
                 switch statusCode {
                 case 200...299:
-                    log("refreshToken: \(refreshToken), received new token: \(token.token)")
                     self.storeToken(data, endpoint: endpoint)
+                    log("refreshToken: \(refreshToken), received new token: \(token.token)")
                     success()
                 default:
                     log("refreshToken: \(refreshToken), failed to receive new token")
-                    let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
-                    failure(error: elloError, statusCode: moyaResponse.statusCode)
+                    let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
+                    failure(error: elloError, statusCode: statusCode)
                 }
             case .Failure:
                 noNetwork()
@@ -54,14 +54,17 @@ public class ReAuthService: NSObject {
             ElloProvider.sharedProvider.request(endpoint) { (result) in
                 switch result {
                 case let .Success(moyaResponse):
-                    switch moyaResponse.statusCode {
+                    let statusCode = moyaResponse.statusCode
+                    let data = moyaResponse.data
+                    
+                    switch statusCode {
                     case 200...299:
-                        self.storeToken(moyaResponse.data, endpoint: endpoint)
+                        self.storeToken(data, endpoint: endpoint)
                         log("created new token: \(AuthToken().token)")
                         success()
                     default:
-                        let elloError = ElloProvider.generateElloError(moyaResponse.data, statusCode: moyaResponse.statusCode)
-                        failure(error: elloError, statusCode: moyaResponse.statusCode)
+                        let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
+                        failure(error: elloError, statusCode: statusCode)
                     }
                 case .Failure:
                     noNetwork()

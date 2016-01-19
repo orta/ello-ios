@@ -13,12 +13,12 @@ public struct ElloProvider_Specs {
     public static var errorStatusCode: ErrorStatusCode = .Status404
 
     static func errorEndpointsClosure(target: ElloAPI) -> Endpoint<ElloAPI> {
-        let method = target.method
-        let parameters = target.parameters
         let sampleResponseClosure = { () -> EndpointSampleResponse in
             return .NetworkResponse(ElloProvider_Specs.errorStatusCode.rawValue, ElloProvider_Specs.errorStatusCode.defaultData)
         }
 
+        let method = target.method
+        let parameters = target.parameters
         let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
         return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
     }
