@@ -93,6 +93,14 @@ class ElloProviderSpec: QuickSpec {
             }
         }
 
+        describe("logout") {
+            it("should reset the AuthToken") {
+                ElloProvider.shared.logout()
+                let token = AuthToken()
+                expect(token.token).to(beNil())
+            }
+        }
+
         describe("error responses") {
             describe("with stubbed responses") {
                 describe("a provider") {

@@ -121,6 +121,10 @@ public class ElloProvider {
 
     var waitList: [ElloRequestClosure] = []
 
+    public func logout() {
+        self.advanceAuthState(.LoggedOut)
+    }
+
     // set queue to nil in specs, and reauth requests are sent synchronously.
     var queue: dispatch_queue_t? = dispatch_queue_create("com.ello.ReauthQueue", nil)
     private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
