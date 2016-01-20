@@ -101,10 +101,11 @@ public class ElloProvider {
         let invalidToken = request.invalidToken
         let uuid = AuthState.uuid
 
+        let canMakeRequest = !target.requiresAuthentication || authState.isAuthenticated
         if authState == .Initial {
             self.attemptAuthentication(request, uuid: uuid)
         }
-        else if !target.requiresAuthentication || authState.isAuthenticated {
+        else if canMakeRequest {
             ElloProvider.sharedProvider.request(target) { (result) in
                 self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken, uuid: uuid)
             }
@@ -129,7 +130,8 @@ public class ElloProvider {
     var queue: dispatch_queue_t? = dispatch_queue_create("com.ello.ReauthQueue", nil)
     private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
         let closure = {
-            if uuid != AuthState.uuid && self.authState == .Authenticated {
+            let shouldResendRequest = uuid != AuthState.uuid && self.authState == .Authenticated
+            if shouldResendRequest {
                 if let request = request {
                     self.elloRequest(request)
                 }
