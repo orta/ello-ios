@@ -24,6 +24,7 @@ public protocol OmnibarScreenDelegate: class {
 public protocol OmnibarScreenProtocol: class {
     var delegate: OmnibarScreenDelegate? { get set }
     var title: String { get set }
+    var submitTitle: String { get set }
     var regions: [OmnibarRegion] { get set }
     var avatarURL: NSURL? { get set }
     var avatarImage: UIImage? { get set }
@@ -121,11 +122,20 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public var currentTextPath: NSIndexPath?
 
+    public var submitTitle: String = "" {
+        didSet {
+            for button in [tabbarSubmitButton, keyboardSubmitButton] {
+                button.setTitle(submitTitle, forState: .Normal)
+            }
+        }
+    }
+
     public var title: String = "" {
         didSet {
             navigationItem.title = title
         }
     }
+
     public let navigationItem = UINavigationItem()
 
     public var avatarURL: NSURL? {

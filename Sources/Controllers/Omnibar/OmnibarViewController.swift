@@ -116,6 +116,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         if editPost != nil {
             screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
+            screen.submitTitle = NSLocalizedString("Edit Post", comment: "Edit Post")
             screen.isEditing = true
             if let rawEditBody = rawEditBody {
                 prepareScreenForEditing(rawEditBody)
@@ -123,6 +124,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else if editComment != nil {
             screen.title = NSLocalizedString("Edit this comment", comment: "Edit this comment")
+            screen.submitTitle = NSLocalizedString("Edit Comment", comment: "Edit Comment")
             screen.isEditing = true
             if let rawEditBody = rawEditBody {
                 prepareScreenForEditing(rawEditBody)
@@ -131,6 +133,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         else {
             if parentPost != nil {
                 screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
+                screen.submitTitle = NSLocalizedString("Comment", comment: "Comment")
             }
 
             if let fileName = omnibarDataName(),
