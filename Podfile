@@ -14,7 +14,7 @@ pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extensio
 pod 'Analytics/Segmentio'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
 pod 'Crashlytics', '~> 3.4'
-pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage'
+pod 'FLAnimatedImage', '~> 1.0'
 pod 'Fabric', '~> 1.6'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
