@@ -75,9 +75,6 @@ class AutoCompleteDataSourceSpec: QuickSpec {
                     beforeEach {
                         vc = AutoCompleteViewController()
                         showController(vc)
-                        vc.loadView()
-                        vc.viewDidLoad()
-                        vc.viewWillAppear(false)
                     }
 
                     it("returns an AutoCompleteCell") {

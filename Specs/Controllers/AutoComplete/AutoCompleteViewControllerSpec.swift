@@ -20,7 +20,7 @@ class AutoCompleteViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = AutoCompleteViewController()
-                    subject.loadView()
+                    showController(subject)
                 }
 
                 it("IBOutlets are not nil") {
@@ -45,8 +45,6 @@ class AutoCompleteViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = AutoCompleteViewController()
                     showController(subject)
-                    subject.loadView()
-                    subject.viewDidLoad()
                 }
 
                 it("styles the view") {

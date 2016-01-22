@@ -206,9 +206,7 @@ public class PostDetailViewController: StreamableViewController {
                         self.streamViewController.collectionView.reloadItemsAtIndexPaths([model.indexPath])
                     }
                 }
-            },
-            failure: nil,
-            noContent: nil)
+            })
     }
 
     override public func postTapped(post: Post) {

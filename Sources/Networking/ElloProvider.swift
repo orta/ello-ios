@@ -13,17 +13,22 @@ import WebLinking
 import Result
 import Alamofire
 
+public typealias ElloRequestClosure = (target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailure = (error: NSError, statusCode: Int?)
 public typealias ElloFailureCompletion = (error: NSError, statusCode: Int?) -> Void
 public typealias ElloErrorCompletion = (error: NSError) -> Void
 public typealias ElloEmptyCompletion = () -> Void
 
-public struct ElloProvider {
-
-    public static var errorStatusCode: ErrorStatusCode = .Status404
-    public static var responseHeaders: NSString = ""
-    public static var responseJSON: NSString = ""
+public class ElloProvider {
+    public static var shared: ElloProvider = ElloProvider()
+    public var authState: AuthState = .Initial {
+        willSet {
+            if newValue != authState && !authState.nextStates.contains(newValue) {
+                print("invalid transition from \(authState) to \(newValue)")
+            }
+        }
+    }
 
     public static var serverTrustPolicies: [String: ServerTrustPolicy] {
         var policyDict = [String: ServerTrustPolicy]()
@@ -43,68 +48,17 @@ public struct ElloProvider {
         serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloProvider.serverTrustPolicies)
     )
 
-    public enum ErrorStatusCode: Int {
-        case Status401_Unauthorized = 401
-        case Status403 = 403
-        case Status404 = 404
-        case Status410 = 410
-        case Status420 = 420
-        case Status422 = 422
-        case Status500 = 500
-        case Status502 = 502
-        case Status503 = 503
-        case StatusUnknown = 1_000_000
-
-        var defaultData: NSData {
-            return stubbedData(String(self.rawValue))
-        }
-
-        public var notification: TypedNotification<NSError> {
-            switch self {
-            case .StatusUnknown:
-                return TypedNotification(name: "ElloProviderNotificationUnknown")
-            default:
-                return TypedNotification(name: "ElloProviderNotification\(self.rawValue)")
-            }
-        }
-    }
-
-    public static var errorEndpointsClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
-        let method = target.method
-        let parameters = target.parameters
-        let sampleResponseClosure = { () -> EndpointSampleResponse in
-            return .NetworkResponse(ElloProvider.errorStatusCode.rawValue, ElloProvider.errorStatusCode.defaultData)
-        }
-
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
-
-        return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
-
-    }
-
-    public static var endpointClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
-        let method = target.method
-        let parameters = target.parameters
+    public static func endpointClosure(target: ElloAPI) -> Endpoint<ElloAPI> {
         let sampleResponseClosure = { return EndpointSampleResponse.NetworkResponse(200, target.sampleData) }
 
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters, parameterEncoding: target.encoding)
+        let method = target.method
+        let parameters = target.parameters
+        let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters, parameterEncoding: target.encoding)
         return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, manager: manager)
-    }
-
-    public static func StubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub, manager: manager)
-    }
-
-    public static func DelayedStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointClosure: endpointClosure, stubClosure: MoyaProvider.DelayedStub(1))
-    }
-
-    public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: manager)
     }
 
     private struct SharedProvider {
@@ -126,34 +80,176 @@ public struct ElloProvider {
         }
     }
 
-    static func unCastableJSONAble(failure:ElloFailureCompletion?) {
-        if let failure = failure {
-            let elloError = NSError.networkError(nil, code: ElloErrorCode.JSONMapping)
-            failure(error:elloError, statusCode:200)
+    // MARK: - Public
+
+    public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion) {
+        elloRequest((target: target, success: success, failure: { _ in }, invalidToken: { _ in }))
+    }
+
+    public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
+        elloRequest((target: target, success: success, failure: failure, invalidToken: { _ in }))
+    }
+
+    public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
+        elloRequest((target: target, success: success, failure: failure, invalidToken: invalidToken))
+    }
+
+    public func elloRequest(request: ElloRequestClosure) {
+        let target = request.target
+        let success = request.success
+        let failure = request.failure
+        let invalidToken = request.invalidToken
+        let uuid = AuthState.uuid
+
+        let canMakeRequest = !target.requiresAuthentication || authState.isAuthenticated
+        if authState == .Initial {
+            self.attemptAuthentication(request, uuid: uuid)
+        }
+        else if canMakeRequest {
+            ElloProvider.sharedProvider.request(target) { (result) in
+                self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken, uuid: uuid)
+            }
+            Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
+        }
+        else if authState.isLoggedOut {
+            let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
+            failure(error: elloError, statusCode: 401)
+        }
+        else {
+            waitList.append(request)
         }
     }
+
+    var waitList: [ElloRequestClosure] = []
+
+    public func logout() {
+        self.advanceAuthState(.LoggedOut)
+    }
+
+    // set queue to nil in specs, and reauth requests are sent synchronously.
+    var queue: dispatch_queue_t? = dispatch_queue_create("com.ello.ReauthQueue", nil)
+    private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
+        let closure = {
+            let shouldResendRequest = uuid != AuthState.uuid && self.authState == .Authenticated
+            if shouldResendRequest {
+                if let request = request {
+                    self.elloRequest(request)
+                }
+                return
+            }
+
+            if let request = request {
+                self.waitList.append(request)
+            }
+
+            switch self.authState {
+            case .Initial:
+                let authToken = AuthToken()
+                if authToken.isPresent && authToken.isAuthenticated {
+                    self.authState = .Authenticated
+                }
+                else {
+                    self.authState = .LoggedOut
+                }
+                self.advanceAuthState(self.authState)
+            case .Authenticated, .ShouldTryRefreshToken:
+                self.authState = .RefreshTokenSent
+
+                let authService = ReAuthService()
+                authService.reAuthenticateToken(success: {
+                    self.advanceAuthState(.Authenticated)
+                },
+                failure: { _ in
+                    self.advanceAuthState(.ShouldTryUserCreds)
+                }, noNetwork:{
+                    self.advanceAuthState(.ShouldTryRefreshToken)
+                })
+            case .ShouldTryUserCreds:
+                self.authState = .UserCredsSent
+
+                let authService = ReAuthService()
+                authService.reAuthenticateUserCreds(success: {
+                    self.advanceAuthState(.Authenticated)
+                },
+                failure: { _ in
+                    self.advanceAuthState(.LoggedOut)
+                }, noNetwork:{
+                    self.advanceAuthState(.ShouldTryUserCreds)
+                })
+            case .RefreshTokenSent, .UserCredsSent:
+                break
+            case .LoggedOut:
+                self.advanceAuthState(self.authState)
+            }
+        }
+        if let queue = queue {
+            dispatch_async(queue, closure)
+        }
+        else {
+            closure()
+        }
+    }
+
+    private func advanceAuthState(nextState: AuthState) {
+        let closure = {
+            self.authState = nextState
+
+            if nextState.isLoggedOut {
+                AuthState.uuid = NSUUID()
+                AuthToken.reset()
+
+                for request in self.waitList {
+                    request.invalidToken(error: self.invalidTokenError())
+                }
+                self.waitList = []
+                self.postInvalidTokenNotification()
+            }
+            else if nextState.isAuthenticated {
+                AuthState.uuid = NSUUID()
+
+                for request in self.waitList {
+                    self.elloRequest(request)
+                }
+                self.waitList = []
+            }
+            else {
+                sleep(1)
+                self.attemptAuthentication(uuid: AuthState.uuid)
+            }
+        }
+        if let queue = queue {
+            dispatch_async(queue, closure)
+        }
+        else {
+            closure()
+        }
+    }
+
 }
 
 // MARK: Generate error helper methods
 
 extension ElloProvider {
 
-    public static func generateElloError(data: NSData?, error: ErrorType?, statusCode: Int?) -> NSError {
-        if let error = error {
-            if case let Moya.Error.Underlying(error) = error {
-                return generateElloError(data, error: error, statusCode: statusCode)
-            }
-        }
-        var elloNetworkError:ElloNetworkError?
+    static func unCastableJSONAble(failure: ElloFailureCompletion) {
+        let elloError = NSError.networkError(nil, code: ElloErrorCode.JSONMapping)
+        failure(error: elloError, statusCode: 200)
+    }
+
+    public static func generateElloError(data: NSData?, statusCode: Int?) -> NSError {
+        var elloNetworkError: ElloNetworkError?
 
         if let data = data {
-            let (mappedJSON, error): (AnyObject?, NSError?) = Mapper.mapJSON(data)
+            let (mappedJSON, _): (AnyObject?, NSError?) = Mapper.mapJSON(data)
 
-            if mappedJSON != nil && error == nil {
+            if mappedJSON != nil {
                 if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
                     elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
                 }
             }
+        }
+        else if statusCode == 401 {
+            elloNetworkError = ElloNetworkError(attrs: nil, code: .unauthenticated, detail: nil, messages: nil, status: "401", title: "unauthenticated")
         }
 
         let errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
@@ -162,89 +258,65 @@ extension ElloProvider {
         return elloError
     }
 
-    public static func failedToMapObjects(failure:ElloFailureCompletion?) {
-        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
+    public static func failedToSendRequest(failure: ElloFailureCompletion) {
+        let elloError = NSError.networkError("Failed to send request", code: ElloErrorCode.NetworkFailure)
+        failure(error: elloError, statusCode: nil)
+    }
 
+    public static func failedToMapObjects(failure: ElloFailureCompletion) {
+        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
         let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
-        if let failure = failure {
-            failure(error: elloError, statusCode: nil)
-        }
+        failure(error: elloError, statusCode: nil)
     }
 }
 
 // MARK: elloRequest implementation
 extension ElloProvider {
 
-    // MARK: - Public
-
-    public static func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target) { (result) in
-            ElloProvider.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
-        }
-        Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
-    }
-
     // MARK: - Private
 
-    static private func handleRequest(target: ElloAPI, result: MoyaResult, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion?) {
+    private func handleRequest(target: ElloAPI, result: MoyaResult, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion, uuid: NSUUID) {
         switch result {
         case let .Success(moyaResponse):
             let response = moyaResponse.response as? NSHTTPURLResponse
-            if let response = response {
-                ElloProvider.responseHeaders = response.allHeaderFields.description
-                Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseHeaders, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
-            }
             let data = moyaResponse.data
             let statusCode = moyaResponse.statusCode
+            if let response = response {
+                // set crashlytics stuff before processing
+                let headers = response.allHeaderFields.description
+                Tracker.responseHeaders = headers
+                Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+                Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+                Tracker.responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
+                Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
+            }
 
-            // set crashlytics stuff before processing
-            Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            ElloProvider.responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
-            Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             switch statusCode {
             case 200...299, 300...399:
-                ElloProvider.handleNetworkSuccess(data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
+                handleNetworkSuccess(data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
             case 401:
-                if AuthToken().isPresent {
-                    let authService = ReAuthService()
-                    authService.reAuthenticate(success: {
-                        self.retryRequest(target, success: success, failure: failure)
-                    },
-                    failure: { _ in
-                        self.handleInvalidToken(data, statusCode: statusCode, invalidToken: invalidToken, error: nil)
-                    })
-                }
-                else {
-                    self.handleInvalidToken(data, statusCode: statusCode, invalidToken: invalidToken, error: nil)
-                }
+                attemptAuthentication((target, success: success, failure: failure, invalidToken: invalidToken), uuid: uuid)
             case 410:
-                ElloProvider.postNetworkFailureNotification(data, error: nil, statusCode: statusCode)
+                postNetworkFailureNotification(data, statusCode: statusCode)
             default:
-                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: nil, statusCode: statusCode)
+                handleServerError(target.path, failure: failure, data: data, statusCode: statusCode)
             }
 
         case let .Failure(error):
-            Crashlytics.sharedInstance().setObjectValue("nil", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            ElloProvider.responseJSON = "no json data"
-            Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
-            ElloProvider.handleNetworkFailure(target.path, failure: failure, data: nil, error: error, statusCode: nil)
+            handleNetworkFailure(target, success: success, failure: failure, invalidToken: invalidToken, error: error)
         }
     }
 
-    static private func handleInvalidToken(data: NSData?, statusCode: Int?, invalidToken: ElloErrorCompletion?, error: ErrorType?) {
-        ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+    private func invalidTokenError() -> NSError {
+        return ElloProvider.generateElloError(nil, statusCode: nil)
+    }
+
+    private func postInvalidTokenNotification() {
+        postNetworkFailureNotification(nil, statusCode: 401)
         postNotification(AuthenticationNotifications.invalidToken, value: true)
-        let elloError = generateElloError(data, error: error, statusCode: statusCode)
-        invalidToken?(error: elloError)
     }
 
-    static private func retryRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target) { (result) in
-            ElloProvider.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken)
-        }
-    }
-
-    static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+    private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion) {
         var mappedObjects: AnyObject?
         let completion: ElloEmptyCompletion = {
             if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
@@ -257,7 +329,7 @@ extension ElloProvider {
                     let pagingPathNode = links[pagingPath] as? [String:AnyObject]
                 {
                     if let pagination = pagingPathNode["pagination"] as? [String:String] {
-                        responseConfig = ElloProvider.parsePagination(pagination)
+                        responseConfig = self.parsePagination(pagination)
                     }
                 }
             }
@@ -277,7 +349,7 @@ extension ElloProvider {
         }
     }
 
-    static private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+    private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion) {
         let (mappedJSON, error): (AnyObject?, NSError?) = Mapper.mapJSON(data)
         let responseConfig = parseResponse(response)
         if mappedJSON != nil && error == nil {
@@ -285,7 +357,7 @@ extension ElloProvider {
                 parseLinked(elloAPI, dict: dict, responseConfig: responseConfig, success: success, failure: failure)
             }
             else {
-                failedToMapObjects(failure)
+                ElloProvider.failedToMapObjects(failure)
             }
         }
         else if isEmptySuccess(data, statusCode: statusCode) {
@@ -293,11 +365,11 @@ extension ElloProvider {
             success(data: emptyString, responseConfig: responseConfig)
         }
         else {
-            failedToMapObjects(failure)
+            ElloProvider.failedToMapObjects(failure)
         }
     }
 
-    static private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
+    private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
         // accepted || no content
         if statusCode == 202 || statusCode == 204 {
             return true
@@ -308,31 +380,37 @@ extension ElloProvider {
                 statusCode < 400
     }
 
-    static private func postNetworkFailureNotification(data:NSData?, error: ErrorType?, statusCode: Int?) {
-        let elloError = generateElloError(data, error: error, statusCode: statusCode)
-        let notificationCase:ElloProvider.ErrorStatusCode
+    private func postNetworkFailureNotification(data: NSData?, statusCode: Int?) {
+        let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
+        let notificationCase: ErrorStatusCode
         if let statusCode = statusCode {
-            if let noteCase = ElloProvider.ErrorStatusCode(rawValue: statusCode) {
+            if let noteCase = ErrorStatusCode(rawValue: statusCode) {
                 notificationCase = noteCase
             }
             else {
-                notificationCase = ElloProvider.ErrorStatusCode.StatusUnknown
+                notificationCase = ErrorStatusCode.StatusUnknown
             }
         }
         else {
-            notificationCase = ElloProvider.ErrorStatusCode.StatusUnknown
+            notificationCase = ErrorStatusCode.StatusUnknown
         }
 
         postNotification(notificationCase.notification, value: elloError)
     }
 
-    static private func handleNetworkFailure(path: String, failure:ElloFailureCompletion?, data:NSData?, error: ErrorType?, statusCode: Int?) {
-        let elloError = generateElloError(data, error: error, statusCode: statusCode)
+    private func handleServerError(path: String, failure: ElloFailureCompletion, data: NSData?, statusCode: Int?) {
+        let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
         Tracker.sharedTracker.encounteredNetworkError(path, error: elloError, statusCode: statusCode)
-        failure?(error: elloError, statusCode: statusCode)
+        failure(error: elloError, statusCode: statusCode)
     }
 
-    static private func parsePagination(node: [String: String]) -> ResponseConfig {
+    private func handleNetworkFailure(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion, error: ErrorType?) {
+        delay(1) {
+            self.elloRequest(target, success: success, failure: failure, invalidToken: invalidToken)
+        }
+    }
+
+    private func parsePagination(node: [String: String]) -> ResponseConfig {
         let config = ResponseConfig()
         config.totalPages = node["total_pages"]
         config.totalCount = node["total_count"]
@@ -360,7 +438,7 @@ extension ElloProvider {
         return config
     }
 
-    static private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
+    private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
         let config = ResponseConfig()
         config.statusCode = response?.statusCode
         config.lastModified = response?.allHeaderFields["Last-Modified"] as? String

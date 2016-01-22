@@ -16,6 +16,7 @@ public enum ElloErrorCode: Int {
     case StringMapping
     case StatusCode
     case Data
+    case NetworkFailure
 }
 
 extension NSError {

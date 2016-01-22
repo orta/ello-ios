@@ -36,6 +36,9 @@ public struct NullAgent: AnalyticsAgent {
 extension SEGAnalytics: AnalyticsAgent { }
 
 public class Tracker {
+    public static var responseHeaders: NSString = ""
+    public static var responseJSON: NSString = ""
+
     public var overrideAgent: AnalyticsAgent?
     public static let sharedTracker = Tracker()
     var settingChangedNotification: NotificationObserver?
@@ -602,8 +605,8 @@ public extension Tracker {
     }
 
     func createdAtCrash(identifier: String, json: String?) {
-        let jsonText: NSString = json ?? ElloProvider.responseJSON
-        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
+        let jsonText: NSString = json ?? Tracker.responseJSON
+        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": Tracker.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
 

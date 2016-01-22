@@ -18,21 +18,8 @@ class SignInViewControllerSpec: QuickSpec {
             let screenHeight = subject.view.bounds.size.height
 
             beforeEach {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                let keychain = FakeKeychain()
-                keychain.authToken = "abcde"
-                keychain.authTokenExpires = NSDate().dateByAddingTimeInterval(3600)
-                keychain.authTokenType = "grant"
-                keychain.refreshAuthToken = "abcde"
-                keychain.isAuthenticated = true
-                AuthToken.sharedKeychain = keychain
-
                 subject = SignInViewController()
                 showController(subject)
-            }
-
-            afterEach {
-                AuthToken.sharedKeychain = ElloKeychain()
             }
 
             describe("initialization") {

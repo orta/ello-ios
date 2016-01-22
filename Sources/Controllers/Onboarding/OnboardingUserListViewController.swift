@@ -209,7 +209,6 @@ extension OnboardingUserListViewController {
             success: { (jsonables, responseConfig) in
                 if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
 
-                ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                 if let users = jsonables as? [User] {
                     self.usersLoaded(users)
                 }
@@ -218,7 +217,6 @@ extension OnboardingUserListViewController {
                 }
             },
             failure: { (error, statusCode) in
-                ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                 self.streamViewController.doneLoading()
                 self.onboardingViewController?.canGoNext = true
             }

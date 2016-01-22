@@ -20,16 +20,12 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
-                }
-
                 it("Calls success with a User") {
                     var loadedUser: User?
 
                     profileService.loadCurrentUser(ElloAPI.Profile(perPage: 10), success: { user in
                         loadedUser = user
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(loadedUser).toNot(beNil())
 
@@ -47,16 +43,12 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
-                }
-
                 it("Calls success with a User") {
                     var returnedUser: User?
 
                     profileService.updateUserProfile([:], success: { user in
                         returnedUser = user
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(returnedUser).toNot(beNil())
 
@@ -72,16 +64,12 @@ class ProfileServiceSpec: QuickSpec {
             let profileService = ProfileService()
 
             context("success") {
-                beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
-                }
-
                 it("Calls success function") {
                     var called = false
 
                     profileService.deleteAccount(success: {
                         called = true
-                    }, failure: nil)
+                    }, failure: { _ in })
 
                     expect(called) == true
                 }

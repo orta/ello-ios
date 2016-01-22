@@ -46,7 +46,6 @@ class StreamDataSourceSpec: QuickSpec {
 
         describe("StreamDataSourceSpec") {
             beforeEach {
-                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Following
                 subject = StreamDataSource(streamKind: .Following,

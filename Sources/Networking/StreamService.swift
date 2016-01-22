@@ -21,10 +21,10 @@ public class StreamService: NSObject {
         endpoint:ElloAPI,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
-        failure: ElloFailureCompletion?,
+        failure: ElloFailureCompletion? = nil,
         noContent: ElloEmptyCompletion? = nil)
     {
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             endpoint,
             success: { (data, responseConfig) in
                 if let jsonables = data as? [JSONAble] {
@@ -39,7 +39,7 @@ public class StreamService: NSObject {
                     if let noContent = noContent {
                         noContent()
                     }
-                    else {
+                    else if let failure = failure {
                         ElloProvider.unCastableJSONAble(failure)
                     }
                 }
@@ -54,9 +54,9 @@ public class StreamService: NSObject {
         endpoint: ElloAPI,
         streamKind: StreamKind?,
         success: UserSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             endpoint,
             success: { (data, responseConfig) in
                 if let user = data as? User {
@@ -77,10 +77,10 @@ public class StreamService: NSObject {
         postId:String,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
-        failure: ElloFailureCompletion?,
+        failure: ElloFailureCompletion,
         noContent: ElloEmptyCompletion? = nil)
     {
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             .PostComments(postId: postId),
             success: { (data, responseConfig) in
                 if let comments:[Comment] = data as? [Comment] {

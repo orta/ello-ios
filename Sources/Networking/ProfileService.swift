@@ -17,8 +17,8 @@ public struct ProfileService {
 
     public init(){}
 
-    public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.elloRequest(endpoint,
+    public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion? = nil) {
+        ElloProvider.shared.elloRequest(endpoint,
             success: { (data, _) in
                 if let user = data as? User {
                     success(user: user)
@@ -28,12 +28,14 @@ public struct ProfileService {
                 }
             },
             failure: failure,
-            invalidToken: invalidToken
+            invalidToken: { error in
+                invalidToken?(error: error)
+            }
         )
     }
 
-    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.ProfileUpdate(body: content),
+    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.ProfileUpdate(body: content),
             success: { data, responseConfig in
                 if let user = data as? User {
                     success(user: user)
@@ -60,15 +62,13 @@ public struct ProfileService {
     }
 
     public func updateUserDeviceToken(token: NSData) {
-        ElloProvider.elloRequest(ElloAPI.PushSubscriptions(token: token),
-            success: { _, _ in },
-            failure: .None)
+        ElloProvider.shared.elloRequest(ElloAPI.PushSubscriptions(token: token),
+            success: { _, _ in })
     }
 
     public func removeUserDeviceToken(token: NSData) {
-        ElloProvider.elloRequest(ElloAPI.DeleteSubscriptions(token: token),
-            success: { _, _ in },
-            failure: .None)
+        ElloProvider.shared.elloRequest(ElloAPI.DeleteSubscriptions(token: token),
+            success: { _, _ in })
     }
 
     private func updateUserImage(image: UIImage, key: String, success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
@@ -81,8 +81,8 @@ public struct ProfileService {
         }, failure: failure)
     }
 
-    public func deleteAccount(success success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.ProfileDelete,
+    public func deleteAccount(success success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.ProfileDelete,
             success: { _, _ in success() },
             failure: failure)
     }

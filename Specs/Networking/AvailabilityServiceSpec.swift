@@ -16,17 +16,16 @@ class AvailabilityServiceSpec: QuickSpec {
     override func spec() {
         describe("availability") {
             it("succeeds") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
                 var expectedAvailability: Availability? = .None
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { availability in
                     expectedAvailability = availability
-                }, failure: .None)
+                }, failure: { _ in })
                 expect(expectedAvailability).toNot(beNil())
             }
 
             it("fails") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
                 var failed = false
                 let content = ["username": "somename"]
                 AvailabilityService().availability(content, success: { _ in }, failure: { _, _ in

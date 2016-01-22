@@ -27,8 +27,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     relationship in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             it("sets IBOutlets") {
@@ -107,8 +106,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Mute) {
                     _ in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
             }
 
             it("sets state properly when initialized with mute") {
@@ -135,16 +133,11 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     _ in
                 }
-                subject.loadView()
-                subject.viewDidLoad()
+                showController(subject)
                 subject.relationshipDelegate = relationshipController
             }
 
             context("with successful request") {
-
-                beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
-                }
 
                 describe("@muteButton") {
                     it("not selected") {
@@ -178,7 +171,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             context("with failed request") {
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                    ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
                 }
 
                 describe("@muteButton") {

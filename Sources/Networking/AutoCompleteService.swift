@@ -16,10 +16,10 @@ public struct AutoCompleteService {
         terms: String,
         type: AutoCompleteType,
         success: AutoCompleteServiceSuccessCompletion,
-        failure: ElloFailureCompletion?)
+        failure: ElloFailureCompletion)
     {
         let endpoint: ElloAPI = type == AutoCompleteType.Emoji ? .EmojiAutoComplete(terms: terms) : .UserNameAutoComplete(terms: terms)
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             endpoint,
             success: { (data, responseConfig) in
                 if let results = data as? [AutoCompleteResult] {

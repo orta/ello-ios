@@ -144,7 +144,6 @@ public class AppViewController: BaseElloViewController {
     }
 
     func failedToLoadCurrentUser(failure: ElloErrorCompletion?, error: NSError) {
-        AuthToken.reset()
         showButtons()
         failure?(error: error)
     }
@@ -174,7 +173,7 @@ public class AppViewController: BaseElloViewController {
         externalWebObserver = NotificationObserver(notification: externalWebNotification) { [unowned self] url in
             self.showExternalWebView(url)
         }
-        apiOutOfDateObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { [unowned self] error in
+        apiOutOfDateObserver = NotificationObserver(notification: ErrorStatusCode.Status410.notification) { [unowned self] error in
             let message = NSLocalizedString("The version of the app you’re using is too old, and is no longer compatible with our API.\n\nPlease update the app to the latest version, using the “Updates” tab in the App Store.", comment: "App out of date message")
             let alertController = AlertViewController(message: message)
 
@@ -397,10 +396,10 @@ public extension AppViewController {
     }
 
     private func logOutCurrentUser() {
+        ElloProvider.shared.logout()
         Defaults[CurrentStreamKey] = nil
         PushNotificationController.sharedController.deregisterStoredToken()
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        AuthToken.reset()
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil
     }

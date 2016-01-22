@@ -13,7 +13,6 @@ class DrawerViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = DrawerViewController()
                     showController(subject)
-                    subject.loadView()
                 }
 
                 it("IBOutlets are not nil") {
@@ -39,8 +38,6 @@ class DrawerViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = DrawerViewController()
                     showController(subject)
-                    subject.loadView()
-                    subject.viewDidLoad()
                 }
 
                 it("sets the right bar button item") {

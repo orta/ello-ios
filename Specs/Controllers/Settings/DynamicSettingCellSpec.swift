@@ -13,15 +13,7 @@ import Nimble
 class DynamicSettingCellSpec: QuickSpec {
     override func spec() {
         var subject = DynamicSettingCell()
-        
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-        
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-        
+
         describe("initialization") {
             beforeEach {
                 subject = DynamicSettingCell.loadFromNib()

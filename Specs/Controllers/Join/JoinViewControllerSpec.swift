@@ -15,33 +15,12 @@ import Nimble
 class JoinViewControllerSpec: QuickSpec {
     override func spec() {
 
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         describe("JoinViewController") {
             var subject: JoinViewController!
 
             beforeEach {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                let keychain = FakeKeychain()
-                keychain.authToken = "abcde"
-                keychain.authTokenExpires = NSDate().dateByAddingTimeInterval(3600)
-                keychain.authTokenType = "grant"
-                keychain.refreshAuthToken = "abcde"
-                keychain.isAuthenticated = true
-                AuthToken.sharedKeychain = keychain
-
                 subject = JoinViewController()
                 showController(subject)
-            }
-
-            afterEach {
-                AuthToken.sharedKeychain = ElloKeychain()
             }
 
             describe("initialization") {

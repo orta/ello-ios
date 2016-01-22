@@ -18,14 +18,6 @@ class UserServiceSpec: QuickSpec {
     override func spec() {
         var subject = UserService()
 
-        beforeEach {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterEach {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         describe("-join") {
 
             context("success") {

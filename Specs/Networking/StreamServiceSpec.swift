@@ -20,10 +20,6 @@ class StreamServiceSpec: QuickSpec {
 
             context("success") {
 
-                beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubClosure: MoyaProvider.ImmediatelyStub)
-                }
-
                 describe("-loadStream") {
                     xit("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?
@@ -96,7 +92,8 @@ class StreamServiceSpec: QuickSpec {
                             streamKind: nil,
                             success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
-                        }, failure:nil, noContent: nil)
+                        }, failure: { _ in },
+                            noContent: { _ in })
 
                         expect(loadedComments!.count) == 1
 
@@ -126,13 +123,13 @@ class StreamServiceSpec: QuickSpec {
                 // smoke test a few failure status codes, the whole lot is tested in ElloProviderSpec
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubClosure: MoyaProvider.ImmediatelyStub)
+                    ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
                 }
 
                 context("404") {
 
                     beforeEach {
-                        ElloProvider.errorStatusCode = .Status404
+                        ElloProvider_Specs.errorStatusCode = .Status404
                     }
 
                     it("Calls failure with an error and statusCode") {

@@ -16,14 +16,14 @@ public struct InviteService {
 
     public init(){}
 
-    public func invite(contact: String, success: InviteFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.InviteFriends(contact: contact),
+    public func invite(contact: String, success: InviteFriendsSuccessCompletion, failure: ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.InviteFriends(contact: contact),
             success: { _ in success() },
             failure: failure)
     }
 
-    public func find(contacts: [String: [String]], currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.FindFriends(contacts: contacts),
+    public func find(contacts: [String: [String]], currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion) {
+        ElloProvider.shared.elloRequest(ElloAPI.FindFriends(contacts: contacts),
             success: { (data, responseConfig) in
                 if let data = data as? [User] {
                     success(InviteService.filterUsers(data, currentUser: currentUser))

@@ -10,13 +10,13 @@
 
 #### #658 - Adds the "tap comments to create a comment when 0 comments" feature
 Finishes [#107082870]
-    
+
 ------------
 
 ### Ello Build 1.3.0(3655) December 16, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1.3.0(3654) December 15, 2015
@@ -31,7 +31,7 @@ Finishes [#107082870]
 
 #### #657 - I guess Lucian wants to test this?
 So here goes!
-    
+
 ------------
 
 ### Ello Build 1.3.0(3647) December 14, 2015
@@ -77,7 +77,7 @@ Forgot to add the grid/list toggle to loves. Loves be toggle-less no more :raise
 Changes the RelationshipControl in Profile view
 Fixes to the buttons in general
 Changes tab bar narration popups (bold titles)
-    
+
 ------------
 
 ### Ello Build 1.3.0(3614) December 11, 2015
@@ -97,7 +97,7 @@ Updates all the fonts.
 ------
 
 #### #646 - change friends to contacts around invites
-    
+
 ------------
 
 ### Ello Build 1.3.0(3585) December 10, 2015
@@ -113,10 +113,10 @@ Updates all the fonts.
 ------
 
 #### #643 - Grid/List Toggle
-Adds a grid/list toggle control to Discover, Post Search, Following and Starred. 
+Adds a grid/list toggle control to Discover, Post Search, Following and Starred.
 
-* The control is visible until an action is taken on it, after that it is hidden. 
-* Pull down to view it again. 
+* The control is visible until an action is taken on it, after that it is hidden.
+* Pull down to view it again.
 * Grid/List setting is stored on each StreamKind
 
 ![screen shot 2015-12-08 at 5 24 17 pm](https://cloud.githubusercontent.com/assets/12459/11672760/8943ad08-9dd0-11e5-95b2-66f697632972.png)
@@ -222,13 +222,13 @@ This just queues the requests, nothing more, we could be checking for whether th
 
 [Finishes #97911118]
 [Finishes #107742214]
-    
+
 ------------
 
 ### Ello Build 1.2.0(3514) November 16, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1.2.0(3513) November 13, 2015
@@ -288,7 +288,7 @@ This just queues the requests, nothing more, we could be checking for whether th
 
 [Finishes #97911118]
 [Finishes #107742214]
-    
+
 ------------
 
 ### Ello Build 1.2.0(3474) November 8, 2015
@@ -301,7 +301,7 @@ This just queues the requests, nothing more, we could be checking for whether th
 Push notification payloads do not send `username` for profiles or a `slug` for posts as previously assumed. Push notifications send `user_id` and `post_id`. Universal Links use `~username` and `~post-slug` to load their respective content. The new deep linking code treated all deep linking to profiles and posts the same. This PR fixes that by using `user_id` and `post_id` respectively when deep linking from a push notification. The result is that push notifications to posts or profiles now load correctly.
 
 To test the feature you'll need to build to device with the `co.ello.ElloDev` provisioning profile and interact with push notifications both while using the app and with the app not in memory. The expected behavior is that tapping a follow push notification displays the followers profile. Tapping a love/repost/comment push notification should display the post.
-    
+
 ------------
 
 ### Ello Build 1.2.0(3471) November 6, 2015
@@ -333,7 +333,7 @@ Also prevents specs from running on an @3x device, because snapshot specs will a
 - more provisioning profiles (CS/QA team, and Grant Blakeman)
 - hide follow button on own header cell (spec'd)
 - fixes ProfileInfoViewController margins (snapshot spec'd)
-    
+
 ------------
 
 ### Ello Build 1.2.0(3445) November 3, 2015
@@ -438,7 +438,7 @@ instead of popping immediately (which doesn't work), the controller pops after t
 #### #600 - Moves the auth-token and related info to the keychain
 Also migrates the existing info from the defaults, where it was before.
 Specs updated accordingly.
-    
+
 ------------
 
 ### Ello Build 1.2.0(3402) October 29, 2015
@@ -521,7 +521,7 @@ This PR also contains an Xcode 7.1 change to the project file.
 
 #### #602 - Friends -> Following, Noise -> Starred
 This PR updates a few user facing usages of Friends and Noise to Following and Starred.
-    
+
 ------------
 
 ### Ello Build 1.2.0(3305) October 21, 2015
@@ -554,7 +554,7 @@ LOGIN: https://ello.co/login
 SEARCH: https://ello.co/search
 SEARCH TERMS: https://ello.co/search?terms=rainbows+unicorns
 NOTIFICATIONS: https://ello.co/notifications
-NOTIFICATIONS ALL: https://ello.co/notifications/all 
+NOTIFICATIONS ALL: https://ello.co/notifications/all
 NOTIFICATIONS COMMENTS: https://ello.co/notifications/comments
 NOTIFICATIONS LOVES: https://ello.co/notifications/loves
 NOTIFICATIONS MENTIONS: https://ello.co/notifications/mentions
@@ -582,7 +582,7 @@ ROOT: https://ello.co
 Fixes: https://www.pivotaltracker.com/story/show/106031694
 
 * Move reply button left of the timestamp
-    
+
 ------------
 
 ### Ello Build 1.1.0(3275) October 16, 2015
@@ -664,25 +664,25 @@ The prompt is configured to show after one week of initial launch when the user 
 This PR will fail CI due to the 3 specs fixed in https://github.com/ello/ello-ios/blob/cg-love-flash/Specs/Controllers/Drawer/DrawerViewDataSourceSpec.swift
 
 ![screenshot 2015-10-03 09 13 50](https://cloud.githubusercontent.com/assets/12459/10263545/3150f3e4-69af-11e5-9c3f-2019e49eda63.png)
-    
+
 ------------
 
 ### Ello Build 1.0.8(3201) September 29, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1.0.7(3160) September 25, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1.0.8(3151) September 24, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1.0.1-2383(3141) September 21, 2015
@@ -695,7 +695,7 @@ This PR will fail CI due to the 3 specs fixed in https://github.com/ello/ello-io
 Finishes: https://www.pivotaltracker.com/story/show/103638858
 
 ![pasted_image_at_2015_09_17_09_01_pm](https://cloud.githubusercontent.com/assets/12459/9951168/192da6b2-5d80-11e5-9f4a-feffbfe438c7.png)
-    
+
 ------------
 
 ### Ello Build v1.0.0(3132) September 17, 2015
@@ -771,7 +771,7 @@ Test Suite 'Selected tests' passed at 2015-09-16 15:08:06.289.
 
 #### #568 - Moar tracking
 ARE YOU HAPPY @rtyer!?
-    
+
 ------------
 
 ### Ello Build v1.0.0(3108) September 16, 2015
@@ -834,7 +834,7 @@ Test Suite 'Selected tests' passed at 2015-09-10 22:48:52 +0000.
 ------
 
 #### #556 - Add 2nd crashlytics build pointing to staging
-Ello now has 3 apps. 
+Ello now has 3 apps.
 
 1. black app from the app store
 2. rainbow crashlytics app points to production
@@ -845,7 +845,7 @@ The rake tasks now build either production, staging or both (two separate apps).
 ------
 
 #### #557 - increase padding to fix the delete button.
-    
+
 ------------
 
 ### Ello Build v1.0.0(3065) September 10, 2015
@@ -886,7 +886,7 @@ The 'Join' endpoint was not using the JSON encoding - neither were some other PO
 
 #### #551 - Bump app version to 1.0.7
 We discussed bumping the app version to a newer one after each release. Our next app store release will be 1.0.7, this bumps us for crashlytics builds until then.
-    
+
 ------------
 
 ### Ello Build v1.0.0(3037) September 4, 2015
@@ -898,20 +898,20 @@ We discussed bumping the app version to a newer one after each release. Our next
 #### #550 - update badge count when notified in app
 Badge count push notifications were not changing the badge count if received while the app was in the foreground. This PR handles the foreground case and properly sets the badge count.
 
-git murdered the spec file, not sure why. There are very few additions. I think the high addition/deletion counts are due to adding an enclosing `describe` to the spec file. 
+git murdered the spec file, not sure why. There are very few additions. I think the high addition/deletion counts are due to adding an enclosing `describe` to the spec file.
 
 Also, 10 specs in `OmnibarViewControllerSpec` are failing. Lets look into this on Tuesday @colinta
 
 ------
 
 #### #549 - Tweaks to the red dot on the Stream tab
-The red dot on the stream tab now displays when the logged in user has new posts to view in their Friend stream. New Noise content no longer displays the red dot. 
+The red dot on the stream tab now displays when the logged in user has new posts to view in their Friend stream. New Noise content no longer displays the red dot.
 
 Reload Friends to dismiss the red dot.
 
-Tapping on the stream tab when in a tab other than stream (i.e. profile) leaves the red dot and keeps the previous scroll position. 
+Tapping on the stream tab when in a tab other than stream (i.e. profile) leaves the red dot and keeps the previous scroll position.
 
-Tapping on the stream tab when in the stream scrolls the stream to the top and loads the new content. 
+Tapping on the stream tab when in the stream scrolls the stream to the top and loads the new content.
 
 Pull-to-refresh in the stream removes the red dot (as does all mechanisms of reloading the stream).
 
@@ -955,7 +955,7 @@ Not sure if I got all that's required for this, but...
 
 Related to https://github.com/ello/ello/pull/1332
 
-Ping @steam @rynbyjn 
+Ping @steam @rynbyjn
 
 ```
 Test Suite 'ValidatorSpec' passed at 2015-08-27 04:43:49 +0000.
@@ -980,7 +980,7 @@ Also fixes an unreported issue, where edited posts are reloaded with their previ
 
 #### #543 - Tweak the red dot behavior on the stream tab
 This PR attempts to address the unexpected red dot behavior of pull-to-refresh not updating the date sent to the server when checking for new stream content. The best way to test will be to see it in practice on the phone. The red dot on the stream will go away when the tab is tapped and should not come back when the content streams are reloaded unless there is new content.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2959) August 19, 2015
@@ -1000,7 +1000,7 @@ Fixes: https://www.pivotaltracker.com/story/show/101503424
 
 #### #541 - add 'DEBUG' flag to Crashlytics builds
 @steam BAM
-    
+
 ------------
 
 ### Ello Build v1.0.0(2953) August 14, 2015
@@ -1033,7 +1033,7 @@ Pinterest recently open sourced `PINRemoteImage` a remote image library with sim
 I had, at one point, changed the behavior in StreamDataSource to insert unsized cell items immediately, to assist in my collection view code.  In the end, though, I don't need that behavior, and it is causing a crash after commenting.  Best to restore the old behavior, which inserts the cell items only *after* they are sized.
 
 The Notification stream crash was apparently because of gigantic animated gif memory bugs, even though the NotificationCell uses FLAnimatedImageView.  So I disabled animated GIFs.  I think this is better for notifications anyway.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2936) August 12, 2015
@@ -1062,13 +1062,13 @@ So, `ElloAttributedString` has `parse / render` methods, and some specs on those
 ------
 
 #### #534 - Show content search results in grid layout
-* Add some specs for `StreamKind` too. 
+* Add some specs for `StreamKind` too.
 
 [Finishes #101085990]
 
 ![screen shot 2015-08-11 at 5 14 57 pm](https://cloud.githubusercontent.com/assets/12459/9213120/840470a2-404c-11e5-8e54-3b7a4f5f865f.png)
 
-Yeah `StreamKind`! This is all the code required to make this change. 
+Yeah `StreamKind`! This is all the code required to make this change.
 
 ![screen shot 2015-08-11 at 5 16 11 pm](https://cloud.githubusercontent.com/assets/12459/9213137/b78c38ec-404c-11e5-90d8-881f722eccab.png)
 
@@ -1100,7 +1100,7 @@ This PR adds red dots to the Notifications and Friends/Noise tabs when new conte
 
 Tapping on the notifications tab when a red dot is present will reload notifications.
 
-Tapping on the friends/noise tab when a red dot is present will hide the dot but not reload the friends or noise stream. 
+Tapping on the friends/noise tab when a red dot is present will hide the dot but not reload the friends or noise stream.
 
 Finishes: https://www.pivotaltracker.com/story/show/88948824
 Finishes: https://www.pivotaltracker.com/story/show/97567994
@@ -1112,7 +1112,7 @@ Finishes: https://www.pivotaltracker.com/story/show/83167572
 
 
 ![screenshot 2015-08-06 15 16 53](https://cloud.githubusercontent.com/assets/12459/9123664/3c963f04-3c4e-11e5-8be1-82a366153606.png)
-    
+
 ------------
 
 ### Ello Build v1.0.0(2862) August 6, 2015
@@ -1126,7 +1126,7 @@ Finishes: https://www.pivotaltracker.com/story/show/83167572
 ------
 
 #### #530 - Don’t allow posts to show even if you view NSFW.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2856) August 5, 2015
@@ -1175,7 +1175,7 @@ Still Pending:
 
 #### #522 - Fixes status bar show/hide on search/add friends.
 [Fixes #100210382]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2829) July 31, 2015
@@ -1192,7 +1192,7 @@ Still Pending:
 * Refactors `StreamCellType` to add height, data and `isFullWidth`
 * Updates the search field and re searches if already on search view controller [Fixes #100166708]
 * Remove `cellBottomPadding` [Finishes #96897098]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2822) July 29, 2015
@@ -1263,12 +1263,12 @@ Finishes: https://www.pivotaltracker.com/story/show/99942764
 #### #513 - format arabic locale dates in a en_US format
 We noticed that several `created_at` dates were in non-standard arabic language while looking into segment io data. This PR standardizes `created_at` to `en_US` when submitted to the server.
 
-The code in this PR has some hacky objective-c runtime method swizzling in order to fake the current locale of the simulator running the specs. ¯\_(ツ)_/¯ 
+The code in this PR has some hacky objective-c runtime method swizzling in order to fake the current locale of the simulator running the specs. ¯\_(ツ)_/¯
 
 Fixes: https://www.pivotaltracker.com/story/show/99955856
 
 ![screen shot 2015-07-27 at 4 39 39 pm](https://cloud.githubusercontent.com/assets/12459/8919613/2378a3d6-347e-11e5-8549-2621c76d6271.png)
-    
+
 ------------
 
 ### Ello Build v1.0.0(2790) July 24, 2015
@@ -1278,7 +1278,7 @@ Fixes: https://www.pivotaltracker.com/story/show/99955856
 ------
 
 #### #511 - Fix autocomplete bugs
-This PR fixes two issues. 
+This PR fixes two issues.
 
 1. Deleting the content of an in-progress post will dismiss the auto completer if present.
 2. Typing an emoji does not toggle the keyboard back to letters.
@@ -1326,10 +1326,10 @@ Finishes: https://www.pivotaltracker.com/story/show/97767700
 #### #508 - Who said I was done!?
 Just a few more methods in `StreamDataSource` to test!
 
-- [x] removeItemAtIndexPath(indexPath: NSIndexPath) 
-- [ ] removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] 
-- [x] appendStreamCellItems(items: [StreamCellItem]) 
-- [x] appendUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: StreamContentReady) 
+- [x] removeItemAtIndexPath(indexPath: NSIndexPath)
+- [ ] removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath]
+- [x] appendStreamCellItems(items: [StreamCellItem])
+- [x] appendUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: StreamContentReady)
 - [x] insertStreamCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) -> [NSIndexPath]
 
 ------
@@ -1366,7 +1366,7 @@ Mostly they were restored by making the size calculators synchronous, but there 
 * Removes unused profiles
 
 Remember you can always do a `bundle exec rake -T` to see the list of available commands.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2730) July 23, 2015
@@ -1415,7 +1415,7 @@ The 'application_target' is now inspected and passed into the NotificationsViewC
 * Also updates the minor versions of active support and json
 
 [Finishes #99150368]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2680) July 17, 2015
@@ -1519,7 +1519,7 @@ expose the 'initialPageLoadingToken' so that multiple refreshes can be ignored, 
 Test Suite 'Selected tests' passed at 2015-07-13 19:24:45 +0000.
 	 Executed 758 tests, with 0 failures (0 unexpected) in 31.156 (31.639) seconds
 ```
-    
+
 ------------
 
 ### Ello Build v1.0.0(2632) July 7, 2015
@@ -1530,7 +1530,7 @@ Test Suite 'Selected tests' passed at 2015-07-13 19:24:45 +0000.
 
 #### #482 - Remove AssetsLibrary in favor of updated Photos.
 * Hoping this will fix the issue of submitting to Apple
-    
+
 ------------
 
 ### Ello Build v1.0.0(2626) July 3, 2015
@@ -1540,7 +1540,7 @@ Test Suite 'Selected tests' passed at 2015-07-13 19:24:45 +0000.
 ------
 
 #### #481 - Remove "your data" option from drawer
-    
+
 ------------
 
 ### Ello Build v1.0.0(2621) July 2, 2015
@@ -1607,7 +1607,7 @@ Now:
 * Adds the `currentUser` property to the `DrawerViewController` after it is created
 
 [Fixes #97846214]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2591) June 26, 2015
@@ -1637,7 +1637,7 @@ The image data is used to construct local asset / attachments that support
 ------
 
 #### #472 - set the radius to the cornerRadius of the image, to account for small images
-    
+
 ------------
 
 ### Ello Build v1.0.0(2582) June 26, 2015
@@ -1725,7 +1725,7 @@ Make sure to add the following to your `.env`
 #### #460 - Guards against a crash when results label is nil.
 https://fabric.io/ello/ios/apps/co.ello.ello/issues/558349ecf505b5ccf02f4bef
 [Fixes #97344846]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2535) June 18, 2015
@@ -1769,7 +1769,7 @@ https://fabric.io/ello/ios/apps/co.ello.ello/issues/5582d56cf505b5ccf02e329c
 * Adds back in a possible crash so we can debug it
 
 [#97238462]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2510) June 17, 2015
@@ -1785,13 +1785,13 @@ https://fabric.io/ello/ios/apps/co.ello.ello/issues/5582d56cf505b5ccf02e329c
 
 #### #454 - Adds the status bar to Onboarding, and fixes the showing and hiding of the status bar when picking an image.
 Also makes the code consistent between onboarding and the omnibar.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2503) June 17, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2502) June 17, 2015
@@ -1822,7 +1822,7 @@ hoping it fixes https://crashlytics.com/ello/ios/apps/co.ello.ellodev/issues/558
 - Fix bug with login buttons showing on intro.
 
 [Fixes #97168796]
-    
+
 ------------
 
 ### Ello Build v1.0.0(2491) June 16, 2015
@@ -1897,7 +1897,7 @@ When a profile has zero posts we show zero state UI.
 
 
 ![screenshot 2015-06-15 10 51 26](https://cloud.githubusercontent.com/assets/12459/8165293/819e9536-134c-11e5-9c12-be008e0bdb41.png)
-    
+
 ------------
 
 ### Ello Build v1.0.0(2443) June 12, 2015
@@ -1920,7 +1920,7 @@ This PR contains a bunch of commented out performance logging for future testing
 #### #438 - Allow onboarding to have invite cells for find friends.
 * Updates `AddFriendsViewController` to use `StreamViewController`
 * Tweaks the `SearchScreen` to work with the `AddFriendsViewController`
-* Minor design updates to the `SearchScreen` 
+* Minor design updates to the `SearchScreen`
 * Deletes a bunch of code
 * Alphabetizes the list to have people on ello first then people to invite
 * Updates copy
@@ -1932,7 +1932,7 @@ This PR contains a bunch of commented out performance logging for future testing
 ------
 
 #### #437 - Add embed and image cell specs
-Add some specs cause specs are good. :wave: 
+Add some specs cause specs are good. :wave:
 
 ![screen shot 2015-06-12 at 10 45 18 am](https://cloud.githubusercontent.com/assets/12459/8134897/3a173014-10f0-11e5-8824-17da7ec44e2b.png)
 
@@ -1992,7 +1992,7 @@ This also adds a way for us to fire a test crash by typing `Crashlytics.crash('t
 #### #431 - Fix edit profile button position
 Normally we update the `contentInset` on `StreamViewController` to account for the nav bar. In `ProfileViewController` it feels better to leave it at 0. Leaving it at 0 also prevents the odd initial UI layout of the Edit Profile y position.
 
-Fixes: https://www.pivotaltracker.com/story/show/96051938 
+Fixes: https://www.pivotaltracker.com/story/show/96051938
 
 ![screen shot 2015-06-10 at 2 20 10 pm](https://cloud.githubusercontent.com/assets/12459/8093086/f8523644-0f7b-11e5-9d47-9fd810ab7fc0.png)
 
@@ -2036,7 +2036,7 @@ This crash was caused by a UICollectionView "inconsistency error".  The logic re
 In fact, as I type this, I realized that the logic needs to work on the *stream cell item* not the cell.
 
 https://crashlytics.com/ello/ios/apps/co.ello.ello/issues/5572e26cf505b5ccf00de81d
-    
+
 ------------
 
 ### Ello Build v1.0.0(2383) June 6, 2015
@@ -2164,7 +2164,7 @@ giddy up, giddy up
 
 #### #405 - OH WOW XML CHANGES
 Fixes the nav bar in settings.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2321) June 4, 2015
@@ -2317,7 +2317,7 @@ This one is so simple I plan to merge it w/o review
 Tries to make sure that the avatar is up-to-date, so it looks in the `TemporaryCache` and `avatar.url`, and for the Omnibar *tab* it updates the avatar in `viewWillAppear`.
 
 I also set the ElloTabBarController's view to `opaque = true`.  Won't hurt, and might improve rendering performance a smidge.
-    
+
 ------------
 
 ### Ello Build v1.0.0(2069) May 28, 2015
@@ -2327,7 +2327,7 @@ I also set the ElloTabBarController's view to `opaque = true`.  Won't hurt, and 
 ------
 
 #### #333 - Show the login button
-The login button should be visible. We were hiding it. :cry: 
+The login button should be visible. We were hiding it. :cry:
 
 ![screen shot 2015-05-27 at 11 54 41 pm](https://cloud.githubusercontent.com/assets/12459/7853453/c26637fc-04cb-11e5-939e-4ae78cb920ec.png)
 
@@ -2362,7 +2362,7 @@ This endpoint is live!  Adds it to onboarding.
 ------
 
 #### #325 - Delay relationship creation during onboarding
-During on boarding relationships should be created in a single batched request. 
+During on boarding relationships should be created in a single batched request.
 
 ![screen shot 2015-05-27 at 11 10 37 am](https://cloud.githubusercontent.com/assets/12459/7842548/09f53dcc-0461-11e5-9452-a95e8c06c8b4.png)
 
@@ -2506,7 +2506,7 @@ https://www.pivotaltracker.com/story/show/94135770
 
 
 ![screen shot 2015-05-25 at 5 06 44 pm](https://cloud.githubusercontent.com/assets/12459/7802986/a99d50c4-0300-11e5-88d0-493aad53bcb7.png)
-    
+
 ------------
 
 ### Ello Build 1895(v1.0.0) May 22, 2015
@@ -2563,7 +2563,7 @@ Onboarding will now show after signup!  Fun stuff.  For debugging, just change t
 - adds the `invalidToken:` handler to `ElloProvider.elloRequest`.  This is a stop gap, because in the past *NO* callback was fired on a 401 error.  This caused the "frozen startup screen" issue
 
 And most importantly: fixes the "sign in buttons" issue (all for you, @steam! :smiley:)
-    
+
 ------------
 
 ### Ello Build 1839(v1.0.0) May 20, 2015
@@ -2705,7 +2705,7 @@ Other changes (lots, sorry for the massive PR)
 * We should not need to update the toggles moving forward.
 
 [Will Eventually Finish #94589564][Will Eventually Finish #94589660][Will Eventually Finish #92959812]
-    
+
 ------------
 
 ### Ello Build 1753(v1.0.0) May 15, 2015
@@ -2726,7 +2726,7 @@ This was showing through to the profile headers..
 
 #### #275 - Fix reposting woes
 * Fixes an issue with the repost crashing when trying to add a post to a VC that hasn't been visited yet
-* Adds `repostAuthor` to `Post` 
+* Adds `repostAuthor` to `Post`
 
 You can skip all of the updates to the stubbed responses by starting here: https://github.com/ello/ello-ios/pull/275/files#diff-21e3befc93afa5189775ba37c0aee5f1L50
 
@@ -2765,7 +2765,7 @@ With comment unification for reposts we could no longer rely on comments to come
 
 
 [Finishes #92452724]
-    
+
 ------------
 
 ### Ello Build 1711(v1.0.0) May 13, 2015
@@ -2808,7 +2808,7 @@ The thing that caused the stranged animation bug was, essentially, calling `self
 
 The fix is to animate *just the* `navigationbar.frame`, while *also* updating the constraint, and avoiding the call to `layoutIfNeeded`.
 
-Since changing the bounds of the `collectionView` also triggered a re-layout, I had to change the views to use the ios7-style fullscreen views, in combination with setting the `contentInset`.  On the upside, the `SSPullToRefresh` control was causing a minor content-inset related bug in there that has been fixed. :tada: 
+Since changing the bounds of the `collectionView` also triggered a re-layout, I had to change the views to use the ios7-style fullscreen views, in combination with setting the `contentInset`.  On the upside, the `SSPullToRefresh` control was causing a minor content-inset related bug in there that has been fixed. :tada:
 
 Touched a lot of code on this one, because all the controllers needed to be changed to use a full-screen layout.  I tried to rely on methods that are in the `StreamViewController` as much as possible.
 
@@ -2838,7 +2838,7 @@ Touched a lot of code on this one, because all the controllers needed to be chan
 ------
 
 #### #254 - Update sign in UI
-This PR updates the layout of the landing screen and the login screen to match the v9 comps. 
+This PR updates the layout of the landing screen and the login screen to match the v9 comps.
 
 Fixes: https://www.pivotaltracker.com/story/show/94285260
 
@@ -2899,7 +2899,7 @@ https://www.pivotaltracker.com/story/show/86548448
 
 #### Questions:
 - Did we miss anything?
-    
+
 ------------
 
 ### Ello Build 1596(v1.0.0) May 8, 2015
@@ -2978,7 +2978,7 @@ So now the Cell focuses on View-related state, and the Presenter hands that stat
 While reviewing the app with @codelance we found some warts in syntax and such.  Kill em with fire.
 
 Also fixes the search screen so that scrolling dismisses the keyboard.
-    
+
 ------------
 
 ### Ello Build 1541(v1.0.0) May 5, 2015
@@ -3002,7 +3002,7 @@ I gave the `ElloTabBarController` the same `parentAppController` property, becau
 At system or user logout, the app view controller just hides the `visibleViewController` and displays the buttons.
 
 I'd like to refactor `AppViewController` more, get methods grouped more logically.  I'll do that after review, though, so the diff isn't ridiculous.
-    
+
 ------------
 
 ### Ello Build 1483(v1.0.0) May 1, 2015
@@ -3073,7 +3073,7 @@ SSIA
 
 #### #219 - better error messages, and disable user interaction
 Super short one.
-    
+
 ------------
 
 ### Ello Build 1408(v1.0.0) April 29, 2015
@@ -3138,7 +3138,7 @@ Use text region from server to show emojis.
 - Filtering had bugs (loading the 'spinner' was particularly onerous)
 - Tapping on notifications had lots of "not done yet" code
 - Not all notifications appeared in filters (and this is tested now)
-- The "loading screen" is more fun.  Try it! :smiley: 
+- The "loading screen" is more fun.  Try it! :smiley:
 - There was a 'navigationBar' error in there when loading PostDetail
 - Fixed the async loading in PostDetail (when 'initialItems' are not preloaded)
 
@@ -3164,7 +3164,7 @@ Adds default values to .env and configure the Rakefile to copy them
 This doesn’t change the use of the same keys in the build phase scripts, which is probably fine, but I can change that too if people feel strongly about it.
 
 Ping @steam.
-    
+
 ------------
 
 ### Ello Build 1339(v1.0.0) April 24, 2015
@@ -3255,13 +3255,13 @@ Had to overhaul Settings quite a bit, by adding a `SettingsContainerViewControll
 
 #### #181 - Previous force unwrapping was causing a failure in StreamContainerVCSpec
 Not sure what introduced this failure, also not sure why we were force unwrapping here... maybe someone has context?
-    
+
 ------------
 
 ### Ello Build 1236(v1.0.0) April 21, 2015
 
     No completed pull requests since last distribution.
-    
+
 ------------
 
 ### Ello Build 1234(v1.0.0) April 21, 2015
@@ -3285,7 +3285,7 @@ Not sure what introduced this failure, also not sure why we were force unwrappin
 #### #176 - Utilize a more focused set of web view styles
 This is a non compressed change of a more focused stylesheet. Once ello/ello#1021 is merged in and makes it way to production the asset for the minified stylesheet should be at http://ello.co/assets/ios.css to curl down.
 
-:metal: 6,610 deletions :metal: 
+:metal: 6,610 deletions :metal:
 
 /cc @rynbyjn
 
@@ -3294,7 +3294,7 @@ This is a non compressed change of a more focused stylesheet. Once ello/ello#102
 #### #173 - Cache stream images
 * prefetch images referenced in `StreamService loadStream()`
 * use "regular" size for avatars
-    
+
 ------------
 
 ### Ello Build 1204(v1.0.0) April 20, 2015
@@ -3308,7 +3308,7 @@ Fixes a handful of bugs in tracker. See the individual commits for more detail.
 
 1. Handle optional followers count in ProfileHeaderCell
 - Prevent small images from scaling to the full width of the screen
-- Removed timestamp from grid view 
+- Removed timestamp from grid view
 - Force profile header cell to display with the correct height
 - Remove "/" characters from Posts / Following / Followers in profile
 - Load higher resultion images in streams.
@@ -3367,7 +3367,7 @@ I would suggest pulling down this branch and testing locally to be sure I didn't
 * Rename `ImageAttachment` to `Attachment`
 * Add YDB setup and teardown in spec helper
 * Update stubs
-    
+
 ------------
 
 ### Ello Build 1146(v1.0.0) April 17, 2015
@@ -3443,7 +3443,7 @@ the pulsing circle wasn't appearing, and some other minor refactors.
 Mostly related to commenting, showing & hiding comments.
 
 Also fixed the FunctionalSpecs by converting them to `XCTestCase` (ewwww!)
-    
+
 ------------
 
 ### Ello Build 1048(30ae92c221f068f7d028a7878f7fde3c07cd6308) April 8, 2015
@@ -3532,11 +3532,11 @@ Direct port except for the leap year stuff. There's a TODO for that in the exten
 
 #### #135 - A few quick fixes
 * Login screen now has "Social Revolution." text.
-* Set background color in comment cell to white. 
+* Set background color in comment cell to white.
 
 [Fixes #91824398]
 [Fixes #91824404]
-    
+
 ------------
 
 ### Ello Build 954(f40ab4410448fb5534c0875da57022fd26f781bf) April 3, 2015
@@ -3560,7 +3560,7 @@ go ahead, it's fun!
 ------
 
 #### #131 - Exclude Ello target files from Specs target
-The goal here is 2 fold. 
+The goal here is 2 fold.
 
 1) Speed up spec runs, we're no longer compiling the Ello code for each target.
 2) Properly distinguish between public and private interafaces. Moving forward we'll need to consider what should be `public` vs `private` vs internal.
@@ -3629,7 +3629,7 @@ The postbar buttons layout closer to the edges of the column
 A chevron is no longer displayed
 [Fixes #91432072]
 [Finishes #91330178]
-    
+
 ------------
 
 ### Ello Build 838(0aa14fdf72e574db383a61f824a1a23df296cbc7) March 27, 2015
@@ -3652,7 +3652,7 @@ Since we already have the current user pulled down from the app launching we can
 
 #### #111 - Don’t show the spinning loader if not pageable.
 [Fixes #91196802]
-    
+
 ------------
 
 ### Ello Build 807(f1547bd0edc39c12e9e3827939b3945fa0bf8146) March 25, 2015
@@ -3694,7 +3694,7 @@ optimized, smallScreen, ldpi, mdpi, xhdpi, xxxhdpi are now in Asset
 * Uses the Keyboard object instead of the native keyboard show/hide notifications
 
 [Fixes #90851868]
-    
+
 ------------
 
 ### Ello Build 745
@@ -3702,11 +3702,11 @@ optimized, smallScreen, ldpi, mdpi, xhdpi, xxxhdpi are now in Asset
 ) March 20, 2015
 
     #### #94 - Discover
-This has the rough plumbing for the Discover tab. 
+This has the rough plumbing for the Discover tab.
 * renders random posts in 2 column grid view (same as noise)
 * discover endpoints
 * custom nav bar for importing contacts
-* It has all the rendering issues that the noise stream currently has. 
+* It has all the rendering issues that the noise stream currently has.
 
 ![discovery](http://media.giphy.com/media/4o2Q94qzasSOI/giphy.gif)
 
@@ -3714,7 +3714,7 @@ This has the rough plumbing for the Discover tab.
 
 #### #96 - Some UI Tweaks
 * Notifications nav bar is 44pt tall
-* Comment dots no longer animate erratically in the wrong cells. 
+* Comment dots no longer animate erratically in the wrong cells.
 
 [Fixes #90707524]
 [Fixes #90467698]
@@ -3753,7 +3753,7 @@ Adds `Tmp.swift`, which can read/write temporary files.  This will be in use in 
 * Add FindInviteButton used in find/invite friends
 * wrap ElloLogoView accessing it's presentationLayer for odd spec bad exec
 
-    
+
 ------------
 
 ### Ello Build 636
@@ -3798,7 +3798,7 @@ and checks against it in the ProfileHeaderCell
 
 #### #77 - Ignore all pods
 Ignore the Pods folder to keep the dev dependencies out of the repository.
-    
+
 ------------
 
 ### Ello Build 530
@@ -3824,7 +3824,7 @@ Ignore the Pods folder to keep the dev dependencies out of the repository.
 * specs and specs and specs
 * add version to models for future NSCoding migration
 
-    
+
 ------------
 
 ### Ello Build 504
@@ -3884,7 +3884,7 @@ I tried to break this up into more branches, but the git history is kind of a me
 - Added `toJSON` to `TextRegion,ImageRegion`, so that those can be sent to the `CreatePost` endpoint (ee2306d)
 - `Keyboard` is a global object that monitors the keyboard state, and stores the height and animation properties (81e45c6)
 
-    
+
 ------------
 
 ###Ello 0.1 Build 7

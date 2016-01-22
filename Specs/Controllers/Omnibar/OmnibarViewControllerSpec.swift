@@ -67,14 +67,6 @@ class OmnibarViewControllerSpec: QuickSpec {
         var subject: OmnibarViewController!
         var screen: OmnibarMockScreen!
 
-        beforeSuite {
-            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        }
-
-        afterSuite {
-            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-        }
-
         describe("OmnibarViewController") {
 
             context("initialization") {

@@ -77,7 +77,7 @@ private extension NewContentService {
     func checkForNewNotifications(done: BasicBlock = {}) {
         let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
             success: { (_, responseConfig) in
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
@@ -93,7 +93,7 @@ private extension NewContentService {
     func checkForNewStreamContent(done: BasicBlock = {}) {
         let storedFriendsDate = Defaults[StreamKind.Following.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
-        ElloProvider.elloRequest(
+        ElloProvider.shared.elloRequest(
             ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
