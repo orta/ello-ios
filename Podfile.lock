@@ -23,7 +23,7 @@ PODS:
   - FBSnapshotTestCase/Core (2.0.7)
   - FBSnapshotTestCase/SwiftSupport (2.0.7):
     - FBSnapshotTestCase/Core
-  - FLAnimatedImage (1.0.8)
+  - FLAnimatedImage (1.0.10)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
   - KeychainAccess (2.3.3)
@@ -84,7 +84,7 @@ DEPENDENCIES:
   - CRToast (from `https://github.com/ello/CRToast`)
   - ElloUIFonts (~> 1.0.0)
   - Fabric (~> 1.6)
-  - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
+  - FLAnimatedImage (~> 1.0)
   - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - KeychainAccess (~> 2.3)
@@ -111,8 +111,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
-  FLAnimatedImage:
-    :git: https://github.com/ello/FLAnimatedImage
   JTSImageViewController:
     :git: https://github.com/ello/JTSImageViewController
   Keys:
@@ -139,9 +137,6 @@ CHECKOUT OPTIONS:
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
-  FLAnimatedImage:
-    :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
-    :git: https://github.com/ello/FLAnimatedImage
   JTSImageViewController:
     :commit: 4f0a918c38c7606fc5f876774cd3b96701b3f548
     :git: https://github.com/ello/JTSImageViewController
@@ -174,7 +169,7 @@ SPEC CHECKSUMS:
   ElloUIFonts: fa5c9e92dcb525cea857b3b33452d99c17d2edf0
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
+  FLAnimatedImage: e16a1e1cef08e4c509b47e4acbe3923f65c16135
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   KeychainAccess: 9b7e49e48277e329b1b3195e54697ed313d30acf
