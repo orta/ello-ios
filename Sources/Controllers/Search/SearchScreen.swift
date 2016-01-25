@@ -38,9 +38,17 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
     private var isSearchView = true
-    private var postsBtn: OutlineElloButton!
-    private var peopleBtn: OutlineElloButton!
 
+    private var btnWidth: CGFloat {
+        get {
+            return searchControlsContainer.bounds.size.width / 2
+        }
+    }
+    private var buttonY: CGFloat {
+        get {
+            return searchControlsContainer.frame.size.height - 43
+        }
+    }
     weak public var delegate : SearchScreenDelegate?
 
 // MARK: init
@@ -122,21 +130,19 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupToggleButtons() {
-        let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
-        let buttonY = searchControlsContainer.frame.size.height
-        // add the height of a button plus additional 10 for bottom padding
         searchControlsContainer.frame.size.height += 43
-        self.postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
-        postsBtn.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
-        postsBtn.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
-        postsToggleButton = postsBtn
-        searchControlsContainer.addSubview(postsBtn)
+        self.postsToggleButton = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
+        postsToggleButton?.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
+        postsToggleButton?.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
 
-        self.peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33))
-        peopleBtn.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
-        peopleBtn.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
-        peopleToggleButton = peopleBtn
-        searchControlsContainer.addSubview(peopleBtn)
+        postsToggleButton?.addToView(searchControlsContainer)
+
+        self.peopleToggleButton = OutlineElloButton(frame: CGRect(x: postsToggleButton?.frame.maxX ?? 0, y: buttonY, width: btnWidth, height: 33))
+        peopleToggleButton?.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
+        peopleToggleButton?.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
+
+        peopleToggleButton?.addToView(searchControlsContainer)
+
         onPostsTapped()
     }
 
@@ -215,15 +221,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     override public func layoutSubviews() {
         super.layoutSubviews()
         findFriendsContainer.frame.origin.y = frame.size.height - findFriendsContainer.frame.height - bottomInset - ElloTabBar.Size.height
-
-        let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
-        let buttonY = searchControlsContainer.frame.size.height - 43
-        if let postsBtn = postsBtn {
-            postsBtn.frame = CGRect(x: 0, y: buttonY, width: btnWidth, height: 33)
-        }
-        if let peopleBtn = peopleBtn {
-            peopleBtn.frame = CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33)
-        }
+        postsToggleButton?.frame = CGRect(x: 0, y: buttonY, width: btnWidth, height: 33)
+        peopleToggleButton?.frame = CGRect(x: (postsToggleButton?.frame.maxX ?? 0), y: buttonY, width: btnWidth, height: 33)
     }
 
     public func searchForText() {
