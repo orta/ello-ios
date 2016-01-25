@@ -169,6 +169,9 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
             .shiftRight(Size.innerTextMargin)
             .withWidth(titleWidth)
 
+        let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .max))
+        titleTextView.frame.size.height = ceil(tvSize.height)
+
         let createdAtHeight = Size.createdAtHeight
         createdAtLabel.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
