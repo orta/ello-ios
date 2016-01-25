@@ -27,6 +27,16 @@ class ElloAPISpec: QuickSpec {
             provider = ElloProvider.DefaultProvider()
         }
 
+        describe("DiscoverType") {
+            describe("name") {
+                it("is correct for each case") {
+                    expect(DiscoverType.Recommended.name) == "Featured"
+                    expect(DiscoverType.Trending.name) == "Trending"
+                    expect(DiscoverType.Recent.name) == "Recent"
+                }
+            }
+        }
+
         describe("ElloAPI") {
             describe("paths") {
 

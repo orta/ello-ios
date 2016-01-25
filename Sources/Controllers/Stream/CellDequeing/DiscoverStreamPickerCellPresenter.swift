@@ -16,6 +16,10 @@ public struct DiscoverStreamPickerCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? DiscoverStreamPickerCell {
+            cell.segmentedControl.setTitle(DiscoverType.Recommended.name, forSegmentAtIndex: 0)
+            cell.segmentedControl.setTitle(DiscoverType.Trending.name, forSegmentAtIndex: 1)
+            cell.segmentedControl.setTitle(DiscoverType.Recent.name, forSegmentAtIndex: 2)
+
             if case let .Discover(discoverType, _) = streamKind {
                 cell.discoverType = discoverType
             }
