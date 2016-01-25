@@ -255,6 +255,7 @@ public enum InterfaceString {
 
     case LoggedOut
     case Cancel
+    case OpenInSafari
 
     var localized: String {
         switch self {
@@ -262,6 +263,8 @@ public enum InterfaceString {
             return NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
         case .Cancel:
             return NSLocalizedString("Cancel", comment: "Cancel")
+        case .OpenInSafari:
+            return NSLocalizedString("Open in Safari", comment: "Open in Safari")
         }
     }
 

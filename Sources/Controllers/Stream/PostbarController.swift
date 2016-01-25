@@ -275,10 +275,11 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView) {
         if  let post = dataSource.postForIndexPath(indexPath),
-            let shareLink = post.shareLink
+            let shareLink = post.shareLink,
+            let shareURL = NSURL(string: shareLink)
         {
             Tracker.sharedTracker.postShared(post)
-            let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
+            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")

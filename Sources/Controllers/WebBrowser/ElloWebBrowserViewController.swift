@@ -19,7 +19,7 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
         AppDelegate.restrictRotation = false
         let xButton = UIBarButtonItem(image: Interface.Image.X.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
-        let shareButton = UIBarButtonItem(image: Interface.Image.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
+        let shareButton = UIBarButtonItem(image: Interface.Image.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("shareButtonPressed:"))
 
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton
@@ -48,6 +48,32 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+
+    public func shareButtonPressed(sender: AnyObject) {
+        var webViewUrl: NSURL?
+        if let wkWebView = wkWebView {
+            webViewUrl = wkWebView.URL
+        }
+        else if let uiWebView = uiWebView {
+            webViewUrl = uiWebView.request?.URL
+        }
+
+        guard let urlForActivityItem = webViewUrl else {
+            return
+        }
+
+        dispatch_async(dispatch_get_main_queue()) {
+            let controller = UIActivityViewController(activityItems: [urlForActivityItem], applicationActivities: [SafariActivity()])
+            let actionButton = sender as? UIBarButtonItem
+            if let actionButton = actionButton where UI_USER_INTERFACE_IDIOM() == .Pad {
+                let actionPopoverController = UIPopoverController(contentViewController: controller)
+                actionPopoverController.presentPopoverFromBarButtonItem(actionButton, permittedArrowDirections: .Any, animated: true)
+            }
+            else {
+                self.presentViewController(controller, animated: true, completion: nil)
+            }
+        }
     }
 
 }
