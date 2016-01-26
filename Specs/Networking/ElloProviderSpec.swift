@@ -97,7 +97,7 @@ class ElloProviderSpec: QuickSpec {
             it("should reset the AuthToken") {
                 ElloProvider.shared.logout()
                 let token = AuthToken()
-                expect(token.token).to(beNil())
+                expect(token.isPasswordBased) == false
             }
         }
 
