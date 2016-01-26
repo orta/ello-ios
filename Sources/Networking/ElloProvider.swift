@@ -24,7 +24,7 @@ public class ElloProvider {
     public static var shared: ElloProvider = ElloProvider()
     public var authState: AuthState = .Initial {
         willSet {
-            if newValue != authState && !authState.canTransitionTo(newValue) {
+            if newValue != authState && !authState.canTransitionTo(newValue) && !AppSetup.sharedState.isTesting {
                 print("invalid transition from \(authState) to \(newValue)")
             }
         }
