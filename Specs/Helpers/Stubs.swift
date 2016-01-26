@@ -232,6 +232,7 @@ extension Comment: Stubbable {
         )
 
         comment.loadedFromPostId = loadedFromPost.id
+        comment.summary = values["summary"] as? [Regionable] ?? comment.content
 
         // links
         if let assets = values["assets"] as? [Asset] {
