@@ -104,11 +104,12 @@ public final class Notification: JSONAble, Authorable {
             assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
+            let parentSummary = comment.parentPost?.summary
             if let summary = comment.summary {
-                assignRegionsFromContent(summary)
+                assignRegionsFromContent(summary, parentSummary: parentSummary)
             }
             else {
-                assignRegionsFromContent(comment.content)
+                assignRegionsFromContent(comment.content, parentSummary: parentSummary)
             }
         }
         else if let post = (activity.subject as? Love)?.post {
@@ -142,23 +143,38 @@ public final class Notification: JSONAble, Authorable {
 
 // MARK: Private
 
-    private func assignRegionsFromContent(content : [Regionable]) {
+    private func assignRegionsFromContent(content: [Regionable], parentSummary: [Regionable]? = nil) {
         // assign textRegion and imageRegion from the post content - finds
         // the first of both kinds of regions
-        for region in content {
-            if self.textRegion != nil && self.imageRegion != nil {
-                break
-            }
-            else if let textRegion = region as? TextRegion {
-                if self.textRegion == nil {
-                    self.textRegion = textRegion
+        var textContent: [String] = []
+        var parentImage: ImageRegion?
+        var contentImage: ImageRegion?
+
+        if let parentSummary = parentSummary {
+            for region in parentSummary {
+                if let newTextRegion = region as? TextRegion {
+                    textContent.append(newTextRegion.content)
                 }
-            }
-            else if let imageRegion = region as? ImageRegion {
-                if self.imageRegion == nil {
-                    self.imageRegion = imageRegion
+                else if let newImageRegion = region as? ImageRegion
+                    where parentImage == nil
+                {
+                    parentImage = newImageRegion
                 }
             }
         }
+
+        for region in content {
+            if let newTextRegion = region as? TextRegion {
+                textContent.append(newTextRegion.content)
+            }
+            else if let newImageRegion = region as? ImageRegion
+                where contentImage == nil
+            {
+                contentImage = newImageRegion
+            }
+        }
+
+        imageRegion = contentImage ?? parentImage
+        textRegion = TextRegion(content: textContent.joinWithSeparator("<br/>"))
     }
 }
