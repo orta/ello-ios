@@ -13,7 +13,7 @@ import Nimble
 
 class AnonymousAuthenticationSpec: QuickSpec {
     override func spec() {
-        fdescribe("AnonymousAuthentication") {
+        describe("AnonymousAuthentication") {
             beforeEach {
                 AuthToken.reset()
             }
