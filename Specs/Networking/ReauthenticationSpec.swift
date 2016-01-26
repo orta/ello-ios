@@ -17,7 +17,7 @@ class ReauthenticationSpec: QuickSpec {
             it("should reauth with refresh token after 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
-                    ])
+                ])
                 var succeeded = false
                 var failed = false
                 ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
@@ -25,7 +25,8 @@ class ReauthenticationSpec: QuickSpec {
                 }, failure: { _ in
                     failed = true
                 })
-                expect(AuthToken.sharedKeychain.authToken) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().token) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().isPasswordBased) == true
                 expect(succeeded) == true
                 expect(failed) == false
             }
@@ -33,7 +34,7 @@ class ReauthenticationSpec: QuickSpec {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
                     RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkResponse(401, NSData())),
-                    ])
+                ])
                 var succeeded = false
                 var failed = false
                 ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
@@ -41,7 +42,8 @@ class ReauthenticationSpec: QuickSpec {
                 }, failure: { _ in
                     failed = true
                 })
-                expect(AuthToken.sharedKeychain.authToken) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().token) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().isPasswordBased) == true
                 expect(succeeded) == true
                 expect(failed) == false
             }
@@ -51,7 +53,7 @@ class ReauthenticationSpec: QuickSpec {
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
                     RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkError(networkError)),
                     RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkError(networkError)),
-                    ])
+                ])
                 var succeeded = false
                 var failed = false
                 ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
@@ -59,7 +61,8 @@ class ReauthenticationSpec: QuickSpec {
                 }, failure: { _ in
                     failed = true
                 })
-                expect(AuthToken.sharedKeychain.authToken) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().token) == "0237a2b08dfe6c30bd3c1525767efadffac942bbb6c045c924ff2eba1350c4aa"
+                expect(AuthToken().isPasswordBased) == true
                 expect(succeeded) == true
                 expect(failed) == false
             }
@@ -68,7 +71,7 @@ class ReauthenticationSpec: QuickSpec {
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
                     RecordedResponse(endpoint: .ReAuth(token: ""), response: .NetworkResponse(401, NSData())),
                     RecordedResponse(endpoint: .Auth(email: "", password: ""), response: .NetworkResponse(404, NSData())),
-                    ])
+                ])
                 var succeeded = false
                 var failed = false
                 ElloProvider.shared.elloRequest(.FriendStream, success: { _ in
@@ -76,7 +79,8 @@ class ReauthenticationSpec: QuickSpec {
                 }, failure: { _ in
                     failed = true
                 })
-                expect(AuthToken.sharedKeychain.authToken).to(beNil())
+                expect(AuthToken().token).to(beNil())
+                expect(AuthToken().isPasswordBased) == false
                 expect(succeeded) == false
                 expect(failed) == true
             }
