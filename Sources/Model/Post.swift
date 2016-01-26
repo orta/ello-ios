@@ -73,7 +73,7 @@ public final class Post: JSONAble, Authorable {
     // links post with comments
     public var groupId:String { return id }
     // computed properties
-    public var shareLink:String? {
+    public var shareLink: String? {
         get {
             if let author = self.author {
                 return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
