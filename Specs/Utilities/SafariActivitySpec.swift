@@ -13,7 +13,7 @@ import Nimble
 
 class SafariActivitySpec: QuickSpec {
     override func spec() {
-        fdescribe("SafariActivity") {
+        describe("SafariActivity") {
             var subject: SafariActivity!
 
             beforeEach {
