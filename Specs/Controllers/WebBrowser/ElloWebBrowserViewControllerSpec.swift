@@ -33,7 +33,7 @@ class ElloWebBrowserViewControllerSpec: QuickSpec {
                 let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
                 let browser: ElloWebBrowserViewController = nav.rootWebBrowser() as! ElloWebBrowserViewController
                 let shareButton = browser.navigationItem.rightBarButtonItem!
-                expect(shareButton.action).to(equal("actionButtonPressed:"))
+                expect(shareButton.action).to(equal("shareButtonPressed:"))
             }
         }
     }
