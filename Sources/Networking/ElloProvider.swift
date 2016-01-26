@@ -13,7 +13,7 @@ import WebLinking
 import Result
 import Alamofire
 
-public typealias ElloRequestClosure = (target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion)
+public typealias ElloRequestClosure = (target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion)
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailure = (error: NSError, statusCode: Int?)
 public typealias ElloFailureCompletion = (error: NSError, statusCode: Int?) -> Void
@@ -24,7 +24,7 @@ public class ElloProvider {
     public static var shared: ElloProvider = ElloProvider()
     public var authState: AuthState = .Initial {
         willSet {
-            if newValue != authState && !authState.nextStates.contains(newValue) {
+            if newValue != authState && !authState.canTransitionTo(newValue) {
                 print("invalid transition from \(authState) to \(newValue)")
             }
         }
@@ -83,58 +83,68 @@ public class ElloProvider {
     // MARK: - Public
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion) {
-        elloRequest((target: target, success: success, failure: { _ in }, invalidToken: { _ in }))
+        elloRequest((target: target, success: success, failure: { _ in }))
     }
 
     public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
-        elloRequest((target: target, success: success, failure: failure, invalidToken: { _ in }))
-    }
-
-    public func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion) {
-        elloRequest((target: target, success: success, failure: failure, invalidToken: invalidToken))
+        elloRequest((target: target, success: success, failure: failure))
     }
 
     public func elloRequest(request: ElloRequestClosure) {
         let target = request.target
         let success = request.success
         let failure = request.failure
-        let invalidToken = request.invalidToken
         let uuid = AuthState.uuid
 
-        let canMakeRequest = !target.requiresAuthentication || authState.isAuthenticated
-        if authState == .Initial {
+        if authState.isUndetermined {
             self.attemptAuthentication(request, uuid: uuid)
         }
-        else if canMakeRequest {
-            ElloProvider.sharedProvider.request(target) { (result) in
-                self.handleRequest(target, result: result, success: success, failure: failure, invalidToken: invalidToken, uuid: uuid)
-            }
-            Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
-        }
-        else if authState.isLoggedOut {
-            let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
-            failure(error: elloError, statusCode: 401)
-        }
-        else {
+        else if authState.isTransitioning {
             waitList.append(request)
         }
+        else {
+            let canMakeRequest = authState.supports(target)
+            if canMakeRequest {
+                Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
+                ElloProvider.sharedProvider.request(target) { (result) in
+                    self.handleRequest(target, result: result, success: success, failure: failure, uuid: uuid)
+                }
+            }
+            else {
+                requestFailed(failure)
+            }
+        }
+    }
+
+    private func requestFailed(failure: ElloFailureCompletion) {
+        let elloError = NSError(domain: ElloErrorDomain, code: 401, userInfo: [NSLocalizedFailureReasonErrorKey: "Logged Out"])
+        failure(error: elloError, statusCode: 401)
     }
 
     var waitList: [ElloRequestClosure] = []
 
     public func logout() {
-        self.advanceAuthState(.LoggedOut)
+        if authState.canTransitionTo(.NoToken) {
+            self.advanceAuthState(.NoToken)
+        }
+    }
+
+    public func authenticated(isPasswordBased isPasswordBased: Bool) {
+        if isPasswordBased {
+            self.advanceAuthState(.Authenticated)
+        }
+        else {
+            self.advanceAuthState(.Anonymous)
+        }
     }
 
     // set queue to nil in specs, and reauth requests are sent synchronously.
     var queue: dispatch_queue_t? = dispatch_queue_create("com.ello.ReauthQueue", nil)
     private func attemptAuthentication(request: ElloRequestClosure? = nil, uuid: NSUUID) {
         let closure = {
-            let shouldResendRequest = uuid != AuthState.uuid && self.authState == .Authenticated
-            if shouldResendRequest {
-                if let request = request {
-                    self.elloRequest(request)
-                }
+            let shouldResendRequest = uuid != AuthState.uuid
+            if let request = request where shouldResendRequest {
+                self.elloRequest(request)
                 return
             }
 
@@ -145,13 +155,20 @@ public class ElloProvider {
             switch self.authState {
             case .Initial:
                 let authToken = AuthToken()
-                if authToken.isPresent && authToken.isAuthenticated {
+                if authToken.isPasswordBased {
                     self.authState = .Authenticated
                 }
+                else if authToken.isAnonymous {
+                    self.authState = .Anonymous
+                }
                 else {
-                    self.authState = .LoggedOut
+                    self.authState = .ShouldTryAnonymousCreds
                 }
                 self.advanceAuthState(self.authState)
+            case .Anonymous:
+                // an anonymous-authenticated request resulted in a 401 - we
+                // should log the user out
+                self.advanceAuthState(.NoToken)
             case .Authenticated, .ShouldTryRefreshToken:
                 self.authState = .RefreshTokenSent
 
@@ -172,14 +189,23 @@ public class ElloProvider {
                     self.advanceAuthState(.Authenticated)
                 },
                 failure: { _ in
-                    self.advanceAuthState(.LoggedOut)
+                    self.advanceAuthState(.NoToken)
                 }, noNetwork:{
                     self.advanceAuthState(.ShouldTryUserCreds)
                 })
-            case .RefreshTokenSent, .UserCredsSent:
+            case .ShouldTryAnonymousCreds, .NoToken:
+                self.authState = .AnonymousCredsSent
+
+                let authService = AnonymousAuthService()
+                authService.authenticateAnonymously(success: {
+                    self.advanceAuthState(.Anonymous)
+                }, failure: { _ in
+                    self.advanceAuthState(.NoToken)
+                }, noNetwork: {
+                    self.advanceAuthState(.ShouldTryAnonymousCreds)
+                })
+            case .RefreshTokenSent, .UserCredsSent, .AnonymousCredsSent:
                 break
-            case .LoggedOut:
-                self.advanceAuthState(self.authState)
             }
         }
         if let queue = queue {
@@ -194,15 +220,47 @@ public class ElloProvider {
         let closure = {
             self.authState = nextState
 
-            if nextState.isLoggedOut {
+            if nextState == .NoToken {
                 AuthState.uuid = NSUUID()
                 AuthToken.reset()
 
                 for request in self.waitList {
-                    request.invalidToken(error: self.invalidTokenError())
+                    if nextState.supports(request.target) {
+                        self.elloRequest(request)
+                    }
+                    else {
+                        self.requestFailed(request.failure)
+                    }
                 }
                 self.waitList = []
-                self.postInvalidTokenNotification()
+                nextTick {
+                    self.postInvalidTokenNotification()
+                }
+
+                self.advanceAuthState(.ShouldTryAnonymousCreds)
+            }
+            else if nextState == .Anonymous {
+                // if you were using the app, but got logged out, you will
+                // quickly receive an anonymous token.  If any Requests don't
+                // support this flow , we should kick you out and present the
+                // log in screen.  During login/join, though, all the Requests
+                // *will* support an anonymous token.
+                //
+                // if, down the road, we have anonymous browsing, we should
+                // require and implement robust invalidToken handlers for all
+                // Controllers & Services
+
+                AuthState.uuid = NSUUID()
+
+                for request in self.waitList {
+                    if !nextState.supports(request.target) {
+                        self.requestFailed(request.failure)
+                    }
+                    else {
+                        self.elloRequest(request)
+                    }
+                }
+                self.waitList = []
             }
             else if nextState.isAuthenticated {
                 AuthState.uuid = NSUUID()
@@ -275,7 +333,7 @@ extension ElloProvider {
 
     // MARK: - Private
 
-    private func handleRequest(target: ElloAPI, result: MoyaResult, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion, uuid: NSUUID) {
+    private func handleRequest(target: ElloAPI, result: MoyaResult, success: ElloSuccessCompletion, failure: ElloFailureCompletion, uuid: NSUUID) {
         switch result {
         case let .Success(moyaResponse):
             let response = moyaResponse.response as? NSHTTPURLResponse
@@ -295,7 +353,7 @@ extension ElloProvider {
             case 200...299, 300...399:
                 handleNetworkSuccess(data, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
             case 401:
-                attemptAuthentication((target, success: success, failure: failure, invalidToken: invalidToken), uuid: uuid)
+                attemptAuthentication((target, success: success, failure: failure), uuid: uuid)
             case 410:
                 postNetworkFailureNotification(data, statusCode: statusCode)
             default:
@@ -303,12 +361,8 @@ extension ElloProvider {
             }
 
         case let .Failure(error):
-            handleNetworkFailure(target, success: success, failure: failure, invalidToken: invalidToken, error: error)
+            handleNetworkFailure(target, success: success, failure: failure, error: error)
         }
-    }
-
-    private func invalidTokenError() -> NSError {
-        return ElloProvider.generateElloError(nil, statusCode: nil)
     }
 
     private func postInvalidTokenNotification() {
@@ -404,9 +458,9 @@ extension ElloProvider {
         failure(error: elloError, statusCode: statusCode)
     }
 
-    private func handleNetworkFailure(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, invalidToken: ElloErrorCompletion, error: ErrorType?) {
+    private func handleNetworkFailure(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion, error: ErrorType?) {
         delay(1) {
-            self.elloRequest(target, success: success, failure: failure, invalidToken: invalidToken)
+            self.elloRequest(target, success: success, failure: failure)
         }
     }
 

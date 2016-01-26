@@ -1,5 +1,5 @@
 //
-//  AuthService.swift
+//  CredentialsAuthService.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/30/14.
@@ -7,17 +7,15 @@
 //
 
 import Moya
-import SwiftyJSON
 
-public class ReAuthService: NSObject {
+public class ReAuthService {
 
     public func reAuthenticateToken(success success: AuthSuccessCompletion, failure: ElloFailureCompletion, noNetwork: ElloEmptyCompletion) {
-
         let endpoint: ElloAPI
         let token = AuthToken()
         let prevToken = token.token
         let refreshToken = token.refreshToken
-        if let refreshToken = refreshToken where token.isPresent && token.isAuthenticated {
+        if let refreshToken = refreshToken where token.isPasswordBased {
             log("prev token: \(prevToken), requesting new token with: \(refreshToken)")
             endpoint = .ReAuth(token: refreshToken)
         }
@@ -33,7 +31,7 @@ public class ReAuthService: NSObject {
 
                 switch statusCode {
                 case 200...299:
-                    self.storeToken(data, endpoint: endpoint)
+                    AuthToken.storeToken(data, isPasswordBased: true)
                     log("refreshToken: \(refreshToken), received new token: \(token.token)")
                     success()
                 default:
@@ -56,10 +54,10 @@ public class ReAuthService: NSObject {
                 case let .Success(moyaResponse):
                     let statusCode = moyaResponse.statusCode
                     let data = moyaResponse.data
-                    
+
                     switch statusCode {
                     case 200...299:
-                        self.storeToken(data, endpoint: endpoint)
+                        AuthToken.storeToken(data, isPasswordBased: true)
                         log("created new token: \(AuthToken().token)")
                         success()
                     default:
@@ -76,22 +74,4 @@ public class ReAuthService: NSObject {
         }
     }
 
-    private func storeToken(data: NSData, endpoint: ElloAPI) {
-        var authToken = AuthToken()
-
-        switch endpoint {
-        case .AnonymousCredentials: authToken.isAuthenticated = false
-        default: authToken.isAuthenticated = true
-        }
-
-        do {
-            let json = try JSON(data: data)
-            authToken.token = json["access_token"].stringValue
-            authToken.type = json["token_type"].stringValue
-            authToken.refreshToken = json["refresh_token"].stringValue
-        }
-        catch {
-            log("failed to create JSON and store authToken")
-        }
-    }
 }

@@ -21,7 +21,6 @@ protocol HasAppController {
 
 
 public class AppViewController: BaseElloViewController {
-
     @IBOutlet weak public var scrollView: UIScrollView!
     weak public var logoView: ElloLogoView!
     @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
@@ -99,7 +98,7 @@ public class AppViewController: BaseElloViewController {
         let authToken = AuthToken()
         let introDisplayed = Defaults["IntroDisplayed"].bool ?? false
 
-        if authToken.isPresent && authToken.isAuthenticated {
+        if authToken.isPasswordBased {
             self.loadCurrentUser()
         }
         else if !introDisplayed {
@@ -136,9 +135,6 @@ public class AppViewController: BaseElloViewController {
                 }
             },
             failure: { (error, _) in
-                self.failedToLoadCurrentUser(failure, error: error)
-            },
-            invalidToken: { error in
                 self.failedToLoadCurrentUser(failure, error: error)
             })
     }
@@ -508,7 +504,7 @@ extension AppViewController {
 
     private func stillLoggingIn() -> Bool {
         let authToken = AuthToken()
-        return !isLoggedIn() && authToken.isPresent && authToken.isAuthenticated
+        return !isLoggedIn() && authToken.isPasswordBased
     }
 
     private func presentLoginOrSafariAlert(path: String) {
