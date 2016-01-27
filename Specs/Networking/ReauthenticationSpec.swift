@@ -14,6 +14,7 @@ import Nimble
 class ReauthenticationSpec: QuickSpec {
     override func spec() {
         describe("Reauthentication") {
+
             it("should reauth with refresh token after 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
@@ -30,6 +31,7 @@ class ReauthenticationSpec: QuickSpec {
                 expect(succeeded) == true
                 expect(failed) == false
             }
+
             it("should reauth with user/pass after 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
@@ -47,6 +49,7 @@ class ReauthenticationSpec: QuickSpec {
                 expect(succeeded) == true
                 expect(failed) == false
             }
+
             it("should reauth with token after NetworkFailure") {
                 let networkError = NSError.networkError("Failed to send request", code: ElloErrorCode.NetworkFailure)
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
@@ -66,6 +69,7 @@ class ReauthenticationSpec: QuickSpec {
                 expect(succeeded) == true
                 expect(failed) == false
             }
+
             it("should logout after failed reauth 401") {
                 ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
                     RecordedResponse(endpoint: .FriendStream, response: .NetworkResponse(401, NSData())),
@@ -84,6 +88,7 @@ class ReauthenticationSpec: QuickSpec {
                 expect(succeeded) == false
                 expect(failed) == true
             }
+
         }
     }
 }
