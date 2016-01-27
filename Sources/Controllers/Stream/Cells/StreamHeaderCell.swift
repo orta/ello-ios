@@ -56,6 +56,10 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet var usernameButton: UIButton!
     @IBOutlet var relationshipControl: RelationshipControl!
     @IBOutlet var replyButton: UIButton!
+
+    @IBOutlet var repostedByLabel: ElloLabel!
+    @IBOutlet var repostIconView: UIImageView!
+
     var isGridLayout = false
     var showUsername = true {
         didSet {
@@ -113,6 +117,19 @@ public class StreamHeaderCell: UICollectionViewCell {
         relationshipControl.userAtName = user?.atName ?? ""
     }
 
+    func setRepostedBy(user: User?) {
+        if let atName = user?.atName {
+            repostedByLabel.hidden = false
+            repostIconView.hidden = false
+            repostedByLabel.setLabelText("by \(atName)", color: UIColor.greyA())
+        }
+        else {
+            repostedByLabel.hidden = true
+            repostIconView.hidden = true
+        }
+        setNeedsLayout()
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
 
@@ -135,12 +152,12 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         replyButton.setTitle("", forState: .Normal)
         replyButton.setImages(.Reply)
+
+        repostIconView.image = Interface.Image.Repost.selectedImage
     }
 
     override public func layoutSubviews() {
-        let timestampLabelSize = timestampLabel.frame.size
         super.layoutSubviews()
-        timestampLabel.frame.size = timestampLabelSize
         contentView.frame = bounds
         innerContentView.frame = bounds
         bottomContentView.frame = bounds
@@ -215,12 +232,8 @@ public class StreamHeaderCell: UICollectionViewCell {
                 )
         }
 
+        timestampLabel.sizeToFit()
         var timestampX = chevronButton.frame.x - timestampLabel.frame.width
-        timestampLabel.frame = CGRect(
-            x: timestampX,
-            y: innerContentView.frame.midY - timestampLabel.frame.height/2,
-            width: timestampLabel.frame.width,
-            height: timestampLabel.frame.height)
 
         relationshipControl.hidden = !followButtonVisible
         usernameButton.hidden = followButtonVisible
@@ -258,23 +271,42 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         timestampLabel.frame = CGRect(
             x: timestampX,
-            y: innerContentView.frame.midY - timestampLabel.frame.height / 2,
+            y: 0,
             width: timestampLabel.frame.width,
-            height: timestampLabel.frame.height
+            height: innerContentView.frame.height
             )
 
         let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
 
+        let hasRepostAuthor = !repostedByLabel.hidden
+        let usernameButtonHeight: CGFloat
+        let usernameButtonY: CGFloat
+        if hasRepostAuthor {
+            usernameButtonHeight = CGFloat(27)
+            usernameButtonY = innerContentView.frame.height / 2 - usernameButtonHeight
+        }
+        else {
+            usernameButtonHeight = innerContentView.frame.height
+            usernameButtonY = 0
+        }
         usernameButton.frame = CGRect(
             x: usernameX,
-            y: 0,
+            y: usernameButtonY,
             width: usernameWidth,
-            height: innerContentView.frame.height
+            height: usernameButtonHeight
             )
-
-        var topoffset = usernameButton.frame.height / 2
-
-        topoffset = topoffset < 0.0 ? 0.0 : topoffset
+        repostIconView.frame.origin = CGPoint(
+            x: usernameX,
+            y: innerContentView.frame.height / 2
+            )
+        repostedByLabel.frame.origin = CGPoint(
+            x: repostIconView.frame.maxX + 6,
+            y: innerContentView.frame.height / 2
+            )
+        repostedByLabel.frame.size = CGSize(
+            width: innerContentView.frame.width - repostIconView.frame.minX,
+            height: usernameButtonHeight
+            )
 
         goToPostView.frame = CGRect(
             x: usernameButton.frame.maxX,

@@ -15,7 +15,6 @@ public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
     var author: User? { get }
-    optional var isRepost: Bool { get }
 }
 
 let PostVersion = 1
