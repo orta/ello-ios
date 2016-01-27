@@ -140,8 +140,8 @@ class ElloProviderSpec: QuickSpec {
 
                             expect(handled) == true
                             expect(loadedJSONAbles).to(beNil())
-                            expect(loadedStatusCode).to(beNil())
-                            expect(loadedError).to(beNil())
+                            expect(loadedStatusCode) == 401
+                            expect(loadedError).notTo(beNil())
                             expect(object).notTo(beNil())
 
                             if let elloNetworkError = object?.userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {

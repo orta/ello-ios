@@ -236,8 +236,6 @@ public class ElloProvider {
                 nextTick {
                     self.postInvalidTokenNotification()
                 }
-
-                self.advanceAuthState(.ShouldTryAnonymousCreds)
             }
             else if nextState == .Anonymous {
                 // if you were using the app, but got logged out, you will
