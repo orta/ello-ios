@@ -50,7 +50,7 @@ public struct StreamFooterCellPresenter {
     {
         cell.comments = post.commentsCount?.numberToHuman()
 
-        let ownPost = currentUser?.id == post.authorId
+        let ownPost = (currentUser?.id == post.authorId || currentUser?.id == post.repostAuthor?.id)
 
         let repostingEnabled = post.author?.hasRepostingEnabled ?? true
         var repostVisibility: InteractionVisibility = .Enabled
