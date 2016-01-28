@@ -28,7 +28,7 @@ private let AuthPassword = "ElloAuthPassword"
 
 struct ElloKeychain: KeychainType {
 
-    let keychain = Keychain(service: NSBundle.mainBundle().bundleIdentifier ?? "co.ello.ElloDev")
+    let keychain = Keychain(service: "co.ello.Ello", accessGroup: "co.ello.Ello")
 
     var pushToken: NSData? {
         get {
