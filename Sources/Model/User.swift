@@ -62,6 +62,12 @@ public final class User: JSONAble {
     // profile
     public var profile: Profile?
 
+    public var shareLink: String? {
+        get {
+            return "\(ElloURI.baseURL)/\(username)"
+        }
+    }
+
     public init(id: String,
         href: String,
         username: String,

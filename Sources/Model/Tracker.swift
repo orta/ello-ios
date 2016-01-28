@@ -477,6 +477,11 @@ public extension Tracker {
         agent.track("\(type.rawValue) flagging failed", properties: ["content_id": contentId, "message": message])
     }
 
+    func userShared(user: User) {
+        log("User shared, [user_id: \(user.id)]")
+        agent.track("User shared", properties: ["user_id": user.id])
+    }
+
     func postReposted(post: Post) {
         log("Post reposted, [post_id: \(post.id)]")
         agent.track("Post reposted", properties: ["post_id": post.id])
