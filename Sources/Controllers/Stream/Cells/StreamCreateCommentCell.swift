@@ -37,7 +37,7 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         }
     }
 
-    var replyAllVisibility: InteractionVisibility = .Disabled {
+    var replyAllVisibility: InteractionVisibility = .Hidden {
         didSet {
             replyAllButton.hidden = (replyAllVisibility != .Enabled)
             setNeedsLayout()

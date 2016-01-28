@@ -9,14 +9,14 @@
 import Foundation
 
 
-public enum InteractionVisibility: String {
-    case SelectedAndDisabled = "SelectedAndDisabled"
-    case SelectedAndEnabled = "SelectedAndEnabled"
-    case Enabled = "Enabled"
-    case Disabled = "Disabled"
-    case NotAllowed = "NotAllowed"
+public enum InteractionVisibility {
+    case Enabled
+    case SelectedAndEnabled
+    case SelectedAndDisabled
+    case Disabled
+    case Hidden
 
-    var isVisible: Bool { return self != .Disabled }
+    var isVisible: Bool { return self != .Hidden }
     var isEnabled: Bool { return self == .Enabled || self == .SelectedAndEnabled }
     var isSelected: Bool { return self == .SelectedAndDisabled || self == .SelectedAndEnabled }
 }
@@ -54,20 +54,20 @@ public struct StreamFooterCellPresenter {
 
         let repostingEnabled = post.author?.hasRepostingEnabled ?? true
         var repostVisibility: InteractionVisibility = .Enabled
-        if post.reposted { repostVisibility = .NotAllowed }
-        else if !repostingEnabled { repostVisibility = .Disabled }
-        else if ownPost { repostVisibility = .NotAllowed }
+        if post.reposted { repostVisibility = .Disabled }
+        else if !repostingEnabled { repostVisibility = .Hidden }
+        else if ownPost { repostVisibility = .Disabled }
 
         let commentingEnabled = post.author?.hasCommentingEnabled ?? true
-        let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Disabled
+        let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Hidden
 
         let sharingEnabled = post.author?.hasSharingEnabled ?? true
-        let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
+        let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Hidden
 
         let lovingEnabled = post.author?.hasLovesEnabled ?? true
         var loveVisibility: InteractionVisibility = .Enabled
         if post.loved { loveVisibility = .SelectedAndEnabled }
-        if !lovingEnabled { loveVisibility = .Disabled }
+        if !lovingEnabled { loveVisibility = .Hidden }
 
         cell.updateToolbarItems(
             streamKind: streamKind,
