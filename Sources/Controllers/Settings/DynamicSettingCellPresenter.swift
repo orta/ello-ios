@@ -14,11 +14,26 @@ public struct DynamicSettingCellPresenter {
         if setting.key == DynamicSetting.accountDeletionSetting.key {
             cell.toggleButton.hidden = true
             cell.deleteButton.hidden = false
-            cell.deleteButton.setText(NSLocalizedString("Delete", comment: "delete button"))
+            cell.deleteButton.text = NSLocalizedString("Delete", comment: "delete button")
         } else {
             cell.toggleButton.hidden = false
             cell.deleteButton.hidden = true
             cell.toggleButton.value = currentUser.propertyForSettingsKey(setting.key) ?? false
+
+            var conflicted = false
+            for dependentKey in setting.dependentOn {
+                if currentUser.propertyForSettingsKey(dependentKey) == false {
+                    conflicted = true
+                    break
+                }
+            }
+            for conflictKey in setting.conflictsWith {
+                if currentUser.propertyForSettingsKey(conflictKey) == true {
+                    conflicted = true
+                    break
+                }
+            }
+            cell.toggleButton.enabled = !conflicted
         }
     }
 }

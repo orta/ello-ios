@@ -60,9 +60,14 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
 extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
     func toggleSetting(setting: DynamicSetting, value: Bool) {
         if let nav = self.navigationController as? ElloNavigationController {
-            ProfileService().updateUserProfile([setting.key: value], success: nav.setProfileData) { (_,_) in
-                self.tableView.reloadData()
-            }
+            ProfileService().updateUserProfile([setting.key: value],
+                success: { user in
+                    nav.setProfileData(user)
+                    self.tableView.reloadData()
+                },
+                failure: { (_,_) in
+                    self.tableView.reloadData()
+                })
         }
     }
 
