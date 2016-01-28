@@ -15,7 +15,9 @@ public class ImageLabelControl: UIControl {
             if let value = newValue where label.text != value {
                 attributedNormalTitle = attributedText(value, color: .greyA())
                 attributedSelectedTitle = attributedText(value, color: .blackColor())
+                attributedDisabledTitle = attributedText(value, color: .greyC())
                 updateLayout()
+                updateTextColor()
             }
         }
     }
@@ -23,9 +25,7 @@ public class ImageLabelControl: UIControl {
     override public var selected: Bool {
         didSet {
             icon.selected = selected
-            if !highlighted {
-                label.attributedText = selected ? attributedSelectedTitle : attributedNormalTitle
-            }
+            updateTextColor()
 
         }
     }
@@ -33,9 +33,7 @@ public class ImageLabelControl: UIControl {
     override public var highlighted: Bool {
         didSet {
             icon.highlighted = highlighted
-            if !selected {
-                label.attributedText = highlighted ? attributedSelectedTitle : attributedNormalTitle
-            }
+            updateTextColor()
         }
     }
 
@@ -56,6 +54,7 @@ public class ImageLabelControl: UIControl {
     var icon: ImageLabelAnimatable
     var attributedNormalTitle: NSAttributedString!
     var attributedSelectedTitle: NSAttributedString!
+    var attributedDisabledTitle: NSAttributedString!
 
     // MARK: Initializers
 
@@ -113,9 +112,22 @@ public class ImageLabelControl: UIControl {
         button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: [.TouchCancel, .TouchDragExit])
     }
 
+    private func updateTextColor() {
+        if !enabled {
+            label.attributedText = attributedDisabledTitle
+        }
+        else if highlighted || selected {
+            label.attributedText = attributedSelectedTitle
+        }
+        else {
+            label.attributedText = attributedNormalTitle
+        }
+    }
+
     private func updateLayout() {
         label.attributedText = attributedNormalTitle
         label.sizeToFit()
+
         let textWidth = attributedNormalTitle.widthForHeight(0)
         let contentWidth = textWidth == 0 ?
             icon.view.frame.width :

@@ -54,7 +54,7 @@ public struct StreamFooterCellPresenter {
 
         let repostingEnabled = post.author?.hasRepostingEnabled ?? true
         var repostVisibility: InteractionVisibility = .Enabled
-        if post.reposted { repostVisibility = .SelectedAndDisabled }
+        if post.reposted { repostVisibility = .NotAllowed }
         else if !repostingEnabled { repostVisibility = .Disabled }
         else if ownPost { repostVisibility = .NotAllowed }
 
