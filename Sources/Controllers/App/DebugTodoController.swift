@@ -46,10 +46,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             appController.closeTodoController()
 
             let profileService = ProfileService()
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
+            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
+            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
             nextTick {
-                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
+                profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
             }
         }
         addAction("Invalidate token completely (logout)") {
@@ -61,10 +61,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             appController.closeTodoController()
 
             let profileService = ProfileService()
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in print("success 1") }, failure: { _ in print("failure 1") })
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in print("success 2") }, failure: { _ in print("failure 2") })
+            profileService.loadCurrentUser(success: { _ in print("success 1") }, failure: { _ in print("failure 1") })
+            profileService.loadCurrentUser(success: { _ in print("success 2") }, failure: { _ in print("failure 2") })
             nextTick {
-                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in print("success 3") }, failure: { _ in print("failure 3") })
+                profileService.loadCurrentUser(success: { _ in print("success 3") }, failure: { _ in print("failure 3") })
             }
         }
         addAction("Reset Tab bar Tooltips") {

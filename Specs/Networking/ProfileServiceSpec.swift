@@ -23,7 +23,7 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var loadedUser: User?
 
-                    profileService.loadCurrentUser(ElloAPI.Profile(perPage: 10), success: { user in
+                    profileService.loadCurrentUser(success: { user in
                         loadedUser = user
                     }, failure: { _ in })
 
