@@ -191,7 +191,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
                     let service = UserService()
                     service.join(email: self.email, username: self.username, password: self.password, success: { user in
-                        let authService = AuthService()
+                        let authService = CredentialsAuthService()
                         authService.authenticate(email: self.email,
                             password: self.password,
                             success: {

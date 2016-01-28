@@ -179,6 +179,7 @@ public extension ElloTabBarController {
 
     public func deactivateTabBar() {
         removeNotificationObservers()
+        newContentService.stopPolling()
     }
 
     private func setupNotificationObservers() {

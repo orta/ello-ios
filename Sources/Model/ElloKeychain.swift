@@ -13,7 +13,7 @@ public protocol KeychainType {
     var authToken: String? { get set }
     var refreshAuthToken: String? { get set }
     var authTokenType: String? { get set }
-    var isAuthenticated: Bool? { get set }
+    var isPasswordBased: Bool? { get set }
     var username: String? { get set }
     var password: String? { get set }
 }
@@ -100,7 +100,7 @@ struct ElloKeychain: KeychainType {
     }
 
 
-    var isAuthenticated: Bool? {
+    var isPasswordBased: Bool? {
         get {
             do {
                 let data = try keychain.getData(AuthTokenAuthenticated)
