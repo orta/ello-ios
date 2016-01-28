@@ -310,7 +310,10 @@ public class ProfileViewController: StreamableViewController {
             return
         }
 
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: Interface.Image.Dots.normalImage, style: .Done, target: self, action: Selector("moreButtonTapped"))
+        elloNavigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")),
+            UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")),
+        ]
     }
 
     @IBAction func mentionButtonTapped() {
@@ -334,6 +337,26 @@ public class ProfileViewController: StreamableViewController {
             let relationshipPriority = user.relationshipPriority
             streamViewController.relationshipController?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
                 user.relationshipPriority = relationshipPriority
+            }
+        }
+    }
+
+    func sharePostTapped() {
+        if  let user = user,
+            let shareLink = user.shareLink,
+            let shareURL = NSURL(string: shareLink)
+        {
+            Tracker.sharedTracker.userShared(user)
+            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
+            if UI_USER_INTERFACE_IDIOM() == .Phone {
+                activityVC.modalPresentationStyle = .FullScreen
+                logPresentingAlert(readableClassName() ?? "ProfileViewController")
+                presentViewController(activityVC, animated: true) { }
+            }
+            else {
+                activityVC.modalPresentationStyle = .Popover
+                logPresentingAlert(readableClassName() ?? "ProfileViewController")
+                presentViewController(activityVC, animated: true) { }
             }
         }
     }

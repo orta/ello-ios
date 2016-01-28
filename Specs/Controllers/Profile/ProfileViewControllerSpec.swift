@@ -85,8 +85,8 @@ class ProfileViewControllerSpec: QuickSpec {
                 }
 
                 it("does not have a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItem
-                    expect(moreButton).to(beNil())
+                    let rightButtons = subject.elloNavigationItem.rightBarButtonItems
+                    expect(rightButtons?.count ?? 0) == 0
                 }
             }
 
@@ -104,8 +104,13 @@ class ProfileViewControllerSpec: QuickSpec {
                 }
 
                 it("has a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItem
+                    let moreButton = subject.elloNavigationItem.rightBarButtonItems?[0]
                     expect(moreButton).toNot(beNil())
+                }
+
+                it("has a 'share' Button") {
+                    let shareButton = subject.elloNavigationItem.rightBarButtonItems?[1]
+                    expect(shareButton).toNot(beNil())
                 }
             }
 
