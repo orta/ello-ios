@@ -300,7 +300,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
-                it("shown if author allows it in grid view") {
+                it("shown if author allows it, in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
                     let post: Post = stub([
                         "id" : "768",
@@ -336,7 +336,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
 
-                it("hidden if author doesn't allow it in grid view") {
+                it("hidden if author doesn't allow it, in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
                     let post: Post = stub([
                         "id" : "768",
