@@ -59,12 +59,14 @@ class DynamicSettingCellPresenterSpec: QuickSpec {
                         ])
                     let cell = DynamicSettingCell.loadFromNib() as DynamicSettingCell
                     DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
+                    let isVisible = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
 
                     expect(cell.titleLabel.text) == setting.label
                     expect(cell.descriptionLabel.text) == setting.info
                     expect(cell.toggleButton.value) == true
                     expect(cell.toggleButton.hidden) == false
                     expect(cell.toggleButton.enabled) == false
+                    expect(isVisible) == false
                     expect(cell.deleteButton.hidden) == true
                 }
 
@@ -77,12 +79,14 @@ class DynamicSettingCellPresenterSpec: QuickSpec {
                         ])
                     let cell = DynamicSettingCell.loadFromNib() as DynamicSettingCell
                     DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
+                    let isVisible = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
 
                     expect(cell.titleLabel.text) == setting.label
                     expect(cell.descriptionLabel.text) == setting.info
                     expect(cell.toggleButton.value) == false
                     expect(cell.toggleButton.hidden) == false
                     expect(cell.toggleButton.enabled) == true
+                    expect(isVisible) == true
                     expect(cell.deleteButton.hidden) == true
                 }
 

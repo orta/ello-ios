@@ -55,15 +55,47 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
         }
         return cell
     }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if  let setting = category?.settings.safeValue(indexPath.row),
+            let user = currentUser
+        {
+            let isVisible = DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user)
+            if !isVisible {
+                return 0
+            }
+        }
+
+        return UITableViewAutomaticDimension
+    }
 }
 
 extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
     func toggleSetting(setting: DynamicSetting, value: Bool) {
         if let nav = self.navigationController as? ElloNavigationController {
+            var visibility: [(NSIndexPath, Bool)] = []
+            if let settings = self.category?.settings,
+                currentUser = currentUser {
+                for (index, setting) in settings.enumerate() {
+                    visibility.append((NSIndexPath(forRow: index, inSection: 0), DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: currentUser)))
+                }
+            }
+
             ProfileService().updateUserProfile([setting.key: value],
                 success: { user in
                     nav.setProfileData(user)
-                    self.tableView.reloadData()
+
+                    if let settings = self.category?.settings {
+                        var changedPaths: [NSIndexPath] = []
+                        for (indexPath, prevVisibility) in visibility {
+                            let setting = settings[indexPath.row]
+                            if prevVisibility != DynamicSettingCellPresenter.isVisible(setting: setting, currentUser: user) {
+                                changedPaths.append(indexPath)
+                            }
+                        }
+                        self.tableView.reloadRowsAtIndexPaths(changedPaths, withRowAnimation: .Automatic)
+                    }
+
                 },
                 failure: { (_,_) in
                     self.tableView.reloadData()
