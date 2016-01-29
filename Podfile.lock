@@ -24,6 +24,7 @@ PODS:
   - FBSnapshotTestCase/SwiftSupport (2.0.7):
     - FBSnapshotTestCase/Core
   - FLAnimatedImage (1.0.10)
+  - ImagePickerSheetController (0.9.1)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
   - KeychainAccess (2.3.3)
@@ -85,6 +86,7 @@ DEPENDENCIES:
   - ElloUIFonts (~> 1.0.0)
   - Fabric (~> 1.6)
   - FLAnimatedImage (~> 1.0)
+  - ImagePickerSheetController
   - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - KeychainAccess (~> 2.3)
@@ -170,6 +172,7 @@ SPEC CHECKSUMS:
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
   FLAnimatedImage: e16a1e1cef08e4c509b47e4acbe3923f65c16135
+  ImagePickerSheetController: 3c58c9fee6dcf36485222358a021f6b734f997ba
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   KeychainAccess: 9b7e49e48277e329b1b3195e54697ed313d30acf

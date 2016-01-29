@@ -10,6 +10,7 @@
 
 import SwiftyUserDefaults
 import Crashlytics
+import ImagePickerSheetController
 
 class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -38,6 +39,26 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             delay(0.1) {
                 appController.userLoggedOut()
             }
+        }
+        addAction("ImagePickerSheetController") {
+            let controller = ImagePickerSheetController(mediaType: .ImageAndVideo)
+            controller.addAction(ImagePickerAction(title: NSLocalizedString("Take Photo Or Video", comment: "Action Title"), secondaryTitle: NSLocalizedString("Add comment", comment: "Action Title"), handler: { _ in
+                // presentImagePickerController(.Camera)
+                print("=============== \(__FILE__) line \(__LINE__) ===============")
+            }, secondaryHandler: { _, numberOfPhotos in
+                print("Comment \(numberOfPhotos) photos")
+            }))
+            controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title"), $0) as String}, handler: { _ in
+                // presentImagePickerController(.PhotoLibrary)
+                print("=============== \(__FILE__) line \(__LINE__) ===============")
+            }, secondaryHandler: { _, numberOfPhotos in
+                print("Send \(controller.selectedImageAssets)")
+            }))
+            controller.addAction(ImagePickerAction(title: NSLocalizedString("Cancel", comment: "Action Title"), style: .Cancel, handler: { _ in
+                print("Cancelled")
+            }))
+
+            self.presentViewController(controller, animated: true, completion: nil)
         }
         addAction("Invalidate refresh token (use user credentials)") {
             var token = AuthToken()

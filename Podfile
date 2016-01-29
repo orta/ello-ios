@@ -27,9 +27,9 @@ pod 'iRate', '~> 1.11'
 
 if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
   pod 'ElloUIFonts', '~> 1.0.0'
-else 
+else
   pod 'ElloOSSUIFonts', '~> 1.0.0'
-end 
+end
 
 # swift pods
 pod 'Alamofire', '~> 3.0'
@@ -39,6 +39,7 @@ pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
 pod 'WebLinking', '~> 1.0'
+pod 'ImagePickerSheetController'
 
 target 'Specs' do
   pod 'Quick', '~> 0.8.0'

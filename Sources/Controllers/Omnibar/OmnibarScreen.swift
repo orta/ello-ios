@@ -10,6 +10,7 @@ import Photos
 import MobileCoreServices
 import FLAnimatedImage
 import PINRemoteImage
+import ImagePickerSheetController
 
 
 public protocol OmnibarScreenDelegate: class {
@@ -934,9 +935,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public func addImageAction() {
 		stopEditing()
-        if let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker) {
-            self.delegate?.omnibarPresentController(alert)
-        }
+        let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(openImageSheet)
+        self.delegate?.omnibarPresentController(pickerSheet)
     }
 
     private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
@@ -1280,10 +1280,69 @@ extension OmnibarScreen: AutoCompleteDelegate {
 // MARK: UIImagePickerControllerDelegate
 extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
-    private func openImagePicker(imageController: UIImagePickerController) {
+    private func openImageSheet(imageSheetResult: ImagePickerSheetResult) {
         resignKeyboard()
-        imageController.delegate = self
-        delegate?.omnibarPresentController(imageController)
+        switch imageSheetResult {
+        case let .Controller(imageController):
+            imageController.delegate = self
+            delegate?.omnibarPresentController(imageController)
+        case let .Images(assets):
+            processPHAssets(assets)
+        }
+    }
+
+    private func processPHAssets(assets: [PHAsset]) {
+        guard let asset = assets.first else {
+            self.interactionEnabled = true
+            return
+        }
+
+        self.interactionEnabled = false
+
+        func done() {
+            processPHAssets(Array<PHAsset>(assets[1..<assets.count]))
+        }
+
+        var image: UIImage?
+        var imageData: NSData?
+        let imageAndData = after(2) {
+            guard let image = image, imageData = imageData else {
+                done()
+                return
+            }
+
+            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
+            imageData.getBytes(buffer, length: imageData.length)
+            if self.isGif(buffer, length: imageData.length) {
+                self.addImage(image, data: imageData, type: "image/gif")
+                done()
+            }
+            else {
+                image.copyWithCorrectOrientationAndSize() { image in
+                    self.addImage(image)
+                    done()
+                }
+            }
+            buffer.dealloc(imageData.length)
+        }
+
+        PHImageManager.defaultManager().requestImageForAsset(
+            asset,
+            targetSize: PHImageManagerMaximumSize,
+            contentMode: .Default,
+            options: nil
+        ) { phImage, info in
+            image = phImage
+            imageAndData()
+        }
+
+        PHImageManager.defaultManager().requestImageDataForAsset(
+            asset,
+            options: nil
+        ) { phData, dataUTI, orientation, info in
+            imageData = phData
+            imageAndData()
+        }
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
@@ -1295,26 +1354,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
                asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
-                    PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-                        if let imageData = imageData {
-                            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-                            imageData.getBytes(buffer, length: imageData.length)
-                            if self.isGif(buffer, length: imageData.length) {
-                                self.addImage(image, data: imageData, type: "image/gif")
-                                done()
-                            }
-                            else {
-                                image.copyWithCorrectOrientationAndSize() { image in
-                                    self.addImage(image)
-                                    done()
-                                }
-                            }
-                            buffer.dealloc(imageData.length)
-                        }
-                        else {
-                            done()
-                        }
-                    }
+                processPHAssets([asset])
             }
             else {
                 image.copyWithCorrectOrientationAndSize() { image in
