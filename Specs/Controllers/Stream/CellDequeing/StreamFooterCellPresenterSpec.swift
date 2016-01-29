@@ -266,6 +266,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("repost button") {
 
                 it("usually enabled and visible") {
+                    let user: User = stub([:])
                     let post: Post = stub([
                         "id" : "768",
                         "viewsCount" : 9,
@@ -273,6 +274,23 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "commentsCount" : 6,
                         "lovesCount" : 55
                     ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: user)
+
+                    expect(cell.repostControl.enabled).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
+                }
+
+                it("enabled if currentUser, post.author and post.repostAuthor are all nil") {
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "lovesCount" : 55
+                        ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
 
@@ -300,7 +318,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
-                it("shown if author allows it in grid view") {
+                it("shown if author allows it, in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
                     let post: Post = stub([
                         "id" : "768",
@@ -315,6 +333,27 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
+                }
+
+                it("disabled if current user already reposted") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let currentUser: User = stub(["id" : "2"])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "reposted": true,
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "author" : author,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+
+                    expect(cell.repostControl.enabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
 
@@ -336,7 +375,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
 
-                it("hidden if author doesn't allow it in grid view") {
+                it("hidden if author doesn't allow it, in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
                     let post: Post = stub([
                         "id" : "768",
@@ -368,6 +407,27 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
+                }
+
+                it("disabled if author is repost author") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let repostAuthor: User = stub(["id" : "2", "hasRepostingEnabled" : true])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "author" : author,
+                        "repostAuthor" : repostAuthor,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: repostAuthor)
 
                     expect(cell.repostControl.enabled).to(beFalse())
                     expect(cell.repostItem.customView).to(beVisibleIn(cell))
