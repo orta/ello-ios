@@ -121,7 +121,7 @@ public class AppViewController: BaseElloViewController {
         }
 
         let profileService = ProfileService()
-        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+        profileService.loadCurrentUser(
             success: { user in
                 self.logoView.stopAnimatingLogo()
                 self.currentUser = user

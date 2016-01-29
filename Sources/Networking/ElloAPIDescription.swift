@@ -89,6 +89,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "CreateLove"
         case .CreatePost:
             return "CreatePost"
+        case .CurrentUserProfile:
+            return "CurrentUserProfile"
         case .RePost:
             return "RePost"
         case .DeleteComment:
