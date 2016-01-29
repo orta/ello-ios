@@ -266,6 +266,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("repost button") {
 
                 it("usually enabled and visible") {
+                    let user: User = stub([:])
                     let post: Post = stub([
                         "id" : "768",
                         "viewsCount" : 9,
@@ -273,6 +274,23 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "commentsCount" : 6,
                         "lovesCount" : 55
                     ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: user)
+
+                    expect(cell.repostControl.enabled).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
+                }
+
+                it("enabled if currentUser, post.author and post.repostAuthor are all nil") {
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "lovesCount" : 55
+                        ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
 
