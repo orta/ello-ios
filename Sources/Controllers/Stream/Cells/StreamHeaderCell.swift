@@ -282,7 +282,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         let usernameButtonHeight: CGFloat
         let usernameButtonY: CGFloat
         if hasRepostAuthor {
-            usernameButtonHeight = CGFloat(27)
+            usernameButtonHeight = 27
             usernameButtonY = innerContentView.frame.height / 2 - usernameButtonHeight
         }
         else {
