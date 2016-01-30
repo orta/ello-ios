@@ -30,24 +30,6 @@ public class ElloProvider {
         }
     }
 
-    public static var serverTrustPolicies: [String: ServerTrustPolicy] {
-        var policyDict = [String: ServerTrustPolicy]()
-        // make Charles plays nice in the sim by not adding a policy
-        if !AppSetup.sharedState.isSimulator {
-            policyDict["ello.co"] = .PinPublicKeys(
-                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
-                validateCertificateChain: true,
-                validateHost: true
-            )
-        }
-        return policyDict
-    }
-
-    public static let manager = Manager(
-        configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-        serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloProvider.serverTrustPolicies)
-    )
-
     public static func endpointClosure(target: ElloAPI) -> Endpoint<ElloAPI> {
         let sampleResponseClosure = { return EndpointSampleResponse.NetworkResponse(200, target.sampleData) }
 
@@ -58,7 +40,7 @@ public class ElloProvider {
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: ElloManager.manager)
     }
 
     private struct SharedProvider {

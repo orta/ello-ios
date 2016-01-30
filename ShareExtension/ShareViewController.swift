@@ -10,35 +10,55 @@ import UIKit
 import Social
 import KeychainAccess
 import SwiftyUserDefaults
+import Moya
+import Alamofire
 
-class ShareViewController: SLComposeServiceViewController {
+// Supress the log() call in AuthToken
+func log(message: String) {}
+
+
+public func url(route: TargetType) -> String {
+    return route.baseURL.URLByAppendingPathComponent(route.path).absoluteString
+}
+
+public class ShareViewController: SLComposeServiceViewController {
 
     private var notSignedInVC: UIAlertController?
+    private var provider: MoyaProvider<ShareAPI>!
+    public override func presentationAnimationDidFinish() {
 
-    override func presentationAnimationDidFinish() {
-        if let content = extensionContext?.inputItems[0] as? NSExtensionItem {
-            print(content)
-        }
-        if AuthToken().isAuthenticated {
+        if !AuthToken().isPasswordBased {
             showNotSignedIn()
+        }
+        print(ElloURI.baseURL)
+        let endpointClosure = { (target: ShareAPI) -> Endpoint<ShareAPI> in
+            return Endpoint<ShareAPI>(URL: url(target), sampleResponseClosure: {.NetworkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters)
+        }
+
+        provider = MoyaProvider(endpointClosure: endpointClosure)
+
+        provider.request(.Auth(email: "seancdougherty@gmail.com", password: "12345678")) { result in
+            // do something with the result
+            print(result)
         }
     }
 
-    override func isContentValid() -> Bool {
+    public override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true
     }
 
-    override func didSelectPost() {
+    public override func didSelectPost() {
         print(ElloKeychain().authToken)
-        print(AuthToken().isAuthenticated)
-        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-//        print(Keychain)
-        // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
+        print(AuthToken().isPasswordBased)
+
+
+
+
         self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
     }
 
-    override func configurationItems() -> [AnyObject]! {
+    public override func configurationItems() -> [AnyObject]! {
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
         return []
     }

@@ -49,14 +49,12 @@ target 'Ello' do
 end
 
 target 'ShareExtension' do
+  pod 'Alamofire', '~> 3.0'
+  pod 'Moya', '~> 6.0.0'
   pod 'KeychainAccess', '~> 2.3'
   pod 'SwiftyUserDefaults', '~> 1.3.0'
+  pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
   pod 'Crashlytics', '~> 3.4'
-  if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
-    pod 'ElloUIFonts', '~> 1.0.0'
-  else 
-    pod 'ElloOSSUIFonts', '~> 1.0.0'
-  end 
 end
 
 target 'Specs' do
