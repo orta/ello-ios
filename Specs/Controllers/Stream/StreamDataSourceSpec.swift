@@ -226,7 +226,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
 
                     it("returns the correct number of rows") {
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 80
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 70
                     }
                 }
 
