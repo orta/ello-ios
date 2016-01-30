@@ -36,7 +36,7 @@ class DynamicSettingCellSpec: QuickSpec {
 
             it("calls the delegate function") {
                 let fake = FakeDelegate()
-                let setting = DynamicSetting(label: "", key: "", info: "", linkLabel: "", linkURL: .None)
+                let setting = DynamicSetting(label: "", key: "", dependentOn: [], conflictsWith: [], info: "", linkLabel: "", linkURL: .None)
                 subject.delegate = fake
                 subject.setting = setting
                 subject.toggleButtonTapped()
@@ -45,7 +45,7 @@ class DynamicSettingCellSpec: QuickSpec {
 
             it("hands the setting and value to the delegate function") {
                 let fake = FakeDelegate()
-                let setting = DynamicSetting(label: "test", key: "", info: "", linkLabel: "", linkURL: .None)
+                let setting = DynamicSetting(label: "test", key: "", dependentOn: [], conflictsWith: [], info: "", linkLabel: "", linkURL: .None)
                 subject.delegate = fake
                 subject.setting = setting
                 subject.toggleButtonTapped()

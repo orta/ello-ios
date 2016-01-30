@@ -20,6 +20,9 @@ class DynamicSettingsSpec: QuickSpec {
             expect(dynamicSettings.first?.label) == "Preferences"
             expect(dynamicSettings.first?.settings.count) == 8
             expect(dynamicSettings.first?.settings.first?.label) == "Public Profile"
+            expect(dynamicSettings.first?.settings[3].label) == "Sharing"
+            expect(dynamicSettings.first?.settings[3].dependentOn) == ["is_public"]
+            expect(dynamicSettings.first?.settings[3].conflictsWith) == ["made_up_key"]
         }
     }
 }
