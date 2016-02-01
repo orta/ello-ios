@@ -306,14 +306,20 @@ public class ProfileViewController: StreamableViewController {
             return
         }
 
-        if let user = user, currentUser = currentUser where user.id == currentUser.id {
+        guard let user = user else {
             return
         }
 
-        elloNavigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")),
-            UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")),
-        ]
+        if let currentUser = currentUser where user.id == currentUser.id {
+            return
+        }
+
+        var rightBarButtonItems: [UIBarButtonItem] = []
+        if user.hasSharingEnabled {
+            rightBarButtonItems.append(UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")))
+        }
+        rightBarButtonItems.append(UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")))
+        elloNavigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
     @IBAction func mentionButtonTapped() {
