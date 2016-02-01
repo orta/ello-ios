@@ -144,6 +144,25 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     override public func viewDidLoad() {
         super.viewDidLoad()
         ElloHUD.showLoadingHud()
+
+        let hideHud = after(2) {
+            ElloHUD.hideLoadingHud()
+        }
+        if let dynamicSettingsViewController = dynamicSettingsViewController {
+            dynamicSettingsViewController.hideLoadingHud = hideHud
+        }
+        else {
+            hideHud()
+        }
+
+        ProfileService().loadCurrentUser(success: { user in
+            if let nav = self.navigationController as? ElloNavigationController {
+                nav.setProfileData(user)
+            }
+            hideHud()
+        }, failure: { error in
+            hideHud()
+        })
         setupViews()
     }
 
