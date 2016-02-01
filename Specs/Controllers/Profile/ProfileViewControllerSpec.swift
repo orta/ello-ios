@@ -103,14 +103,38 @@ class ProfileViewControllerSpec: QuickSpec {
                     showController(subject)
                 }
 
+                it("has a 'share' Button") {
+                    let shareButton = subject.elloNavigationItem.rightBarButtonItems?[0]
+                    expect(shareButton).toNot(beNil())
+                }
+
+                it("has a 'more following options' Button") {
+                    let moreButton = subject.elloNavigationItem.rightBarButtonItems?[1]
+                    expect(moreButton).toNot(beNil())
+                }
+            }
+
+            context("when displaying a private user") {
+                var user: User!
+                var currentUser: User!
+                var subject: ProfileViewController!
+
+                beforeEach {
+                    user = User.stub(["id": "42", "hasSharingEnabled": false])
+                    currentUser = User.stub(["id": "not42"])
+                    subject = ProfileViewController(user: user)
+                    subject.currentUser = currentUser
+                    showController(subject)
+                }
+
+                it("does not have a 'share' Button") {
+                    let count = subject.elloNavigationItem.rightBarButtonItems?.count
+                    expect(count) == 1
+                }
+
                 it("has a 'more following options' Button") {
                     let moreButton = subject.elloNavigationItem.rightBarButtonItems?[0]
                     expect(moreButton).toNot(beNil())
-                }
-
-                it("has a 'share' Button") {
-                    let shareButton = subject.elloNavigationItem.rightBarButtonItems?[1]
-                    expect(shareButton).toNot(beNil())
                 }
             }
 
