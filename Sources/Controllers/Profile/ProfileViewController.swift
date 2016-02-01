@@ -347,7 +347,7 @@ public class ProfileViewController: StreamableViewController {
             let shareURL = NSURL(string: shareLink)
         {
             Tracker.sharedTracker.userShared(user)
-            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
+            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(readableClassName() ?? "ProfileViewController")
