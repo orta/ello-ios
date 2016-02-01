@@ -281,32 +281,46 @@ public class StreamHeaderCell: UICollectionViewCell {
         let hasRepostAuthor = !repostedByLabel.hidden
         let usernameButtonHeight: CGFloat
         let usernameButtonY: CGFloat
+        let repostByLabelY: CGFloat
         if hasRepostAuthor {
             usernameButtonHeight = 27
             usernameButtonY = innerContentView.frame.height / 2 - usernameButtonHeight
+
+            if followButtonVisible {
+                let relationshipControlCorrection: CGFloat = 2
+                let repostLabelCorrection: CGFloat = 2
+                relationshipControl.frame.origin.y -= usernameButtonHeight / 2 - relationshipControlCorrection
+                repostByLabelY = relationshipControl.frame.maxY + repostLabelCorrection
+            }
+            else {
+                repostByLabelY = innerContentView.frame.height / 2
+            }
         }
         else {
             usernameButtonHeight = innerContentView.frame.height
             usernameButtonY = 0
+            repostByLabelY = 0
         }
+
         usernameButton.frame = CGRect(
             x: usernameX,
             y: usernameButtonY,
             width: usernameWidth,
             height: usernameButtonHeight
-            )
-        repostIconView.frame.origin = CGPoint(
-            x: usernameX,
-            y: innerContentView.frame.height / 2
-            )
-        repostedByLabel.frame.origin = CGPoint(
-            x: repostIconView.frame.maxX + 6,
-            y: innerContentView.frame.height / 2
-            )
+        )
         repostedByLabel.frame.size = CGSize(
             width: innerContentView.frame.width - repostIconView.frame.minX,
             height: usernameButtonHeight
-            )
+        )
+        let repostIconY = repostByLabelY + (repostedByLabel.frame.size.height - repostIconView.frame.height) / 2
+        repostIconView.frame.origin = CGPoint(
+            x: usernameX,
+            y: repostIconY
+        )
+        repostedByLabel.frame.origin = CGPoint(
+            x: repostIconView.frame.maxX + 6,
+            y: repostByLabelY
+        )
 
         goToPostView.frame = CGRect(
             x: usernameButton.frame.maxX,
