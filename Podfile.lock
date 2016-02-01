@@ -160,7 +160,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
+  1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   Analytics: 51d6163cb568c8ede69f2b92ef4779d91e1524e2
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
