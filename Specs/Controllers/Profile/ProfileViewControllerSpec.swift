@@ -120,7 +120,7 @@ class ProfileViewControllerSpec: QuickSpec {
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    user = User.stub(["id": "42"])
+                    user = User.stub(["id": "42", "hasSharingEnabled": false])
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(user: user)
                     subject.currentUser = currentUser
