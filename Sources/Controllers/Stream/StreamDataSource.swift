@@ -263,6 +263,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .ProfileHeader:
                 (cell as! ProfileHeaderCell).simpleStreamDelegate = simpleStreamDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
+            case .RepostHeader:
+                (cell as! StreamRepostHeaderCell).userDelegate = userDelegate
             case .Text:
                 (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
                 (cell as! StreamTextCell).userDelegate = userDelegate

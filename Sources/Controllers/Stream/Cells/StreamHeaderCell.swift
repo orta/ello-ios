@@ -118,7 +118,8 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     func setRepostedBy(user: User?) {
-        if let atName = user?.atName {
+        if let atName = user?.atName
+        where !isGridLayout {
             repostedByLabel.hidden = false
             repostIconView.hidden = false
             repostedByLabel.setLabelText("by \(atName)", color: UIColor.greyA())
@@ -278,7 +279,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
 
-        let hasRepostAuthor = !repostedByLabel.hidden
+        let hasRepostAuthor = !isGridLayout && !repostedByLabel.hidden
         let usernameButtonHeight: CGFloat
         let usernameButtonY: CGFloat
         let repostByLabelY: CGFloat

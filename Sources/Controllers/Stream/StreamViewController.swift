@@ -853,6 +853,13 @@ extension StreamViewController: UICollectionViewDelegate {
                 postTappedDelegate?.postTapped(post)
             }
         }
+        else if tappedCell is StreamRepostHeaderCell {
+            if let post = dataSource.postForIndexPath(indexPath),
+                user = post.author
+            {
+                userTapped(user)
+            }
+        }
         else if let post = dataSource.postForIndexPath(indexPath) {
             postTappedDelegate?.postTapped(post)
         }
