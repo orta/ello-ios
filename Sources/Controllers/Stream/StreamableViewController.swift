@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public protocol PostTappedDelegate : NSObjectProtocol {
+public protocol PostTappedDelegate: NSObjectProtocol {
     func postTapped(post: Post)
     func postTapped(postId postId: String)
 }
 
-public protocol UserTappedDelegate : NSObjectProtocol {
+public protocol UserTappedDelegate: NSObjectProtocol {
     func userTapped(user: User)
     func userParamTapped(param: String)
 }
@@ -27,7 +27,7 @@ public protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }
 
-public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
+public class StreamableViewController: BaseElloViewController, PostTappedDelegate {
     @IBOutlet weak var viewContainer: UIView!
     private var showing = false
     public let streamViewController = StreamViewController.instantiateFromStoryboard()
@@ -82,7 +82,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         )
     }
 
-    private func willPresentStreamable(navBarsVisible : Bool) {
+    private func willPresentStreamable(navBarsVisible: Bool) {
         UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)
@@ -132,7 +132,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         }
     }
 
-    func showNavBars(scrollToBottom : Bool) {
+    func showNavBars(scrollToBottom: Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
         }
@@ -146,7 +146,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     func scrollToBottom(controller: StreamViewController) {
         if let scrollView = streamViewController.collectionView {
-            let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+            let contentOffsetY: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
             if contentOffsetY > 0 {
                 scrollView.scrollEnabled = false
                 scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
@@ -277,8 +277,8 @@ extension StreamableViewController: CreatePostDelegate {
 }
 
 // MARK: StreamScrollDelegate
-extension StreamableViewController : StreamScrollDelegate {
-    public func streamViewDidScroll(scrollView : UIScrollView) {
+extension StreamableViewController: StreamScrollDelegate {
+    public func streamViewDidScroll(scrollView: UIScrollView) {
         scrollLogic.scrollViewDidScroll(scrollView)
     }
 
