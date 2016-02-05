@@ -8,6 +8,7 @@
 
 public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post: Post)
+    func postTapped(post: Post, scrollToComment: Comment?)
     func postTapped(postId postId: String)
 }
 
@@ -166,11 +167,20 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 // MARK: PostTappedDelegate
 
     public func postTapped(post: Post) {
-        self.postTapped(postId: post.id)
+        self.postTapped(postId: post.id, scrollToComment: nil)
+    }
+
+    public func postTapped(post: Post, scrollToComment lastComment: Comment?) {
+        self.postTapped(postId: post.id, scrollToComment: lastComment)
     }
 
     public func postTapped(postId postId: String) {
+        self.postTapped(postId: postId, scrollToComment: nil)
+    }
+
+    private func postTapped(postId postId: String, scrollToComment lastComment: Comment?) {
         let vc = PostDetailViewController(postParam: postId)
+        vc.scrollToComment = lastComment
         vc.currentUser = currentUser
         navigationController?.pushViewController(vc, animated: true)
     }

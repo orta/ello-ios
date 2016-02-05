@@ -372,7 +372,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         if let currentUser = currentUser {
             let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
             if post.commentsCount > ElloAPI.PostComments(postId: "").parameters!["per_page"] as? Int {
-                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments))
+                items.append(StreamCellItem(jsonable: jsonables.last ?? newComment, type: .SeeMoreComments))
             }
             else {
                 items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 10.0)))

@@ -847,10 +847,10 @@ extension StreamViewController: UICollectionViewDelegate {
             }
         }
         else if tappedCell is StreamSeeMoreCommentsCell {
-            if  let comment = dataSource.commentForIndexPath(indexPath),
-                let post = comment.loadedFromPost
+            if  let lastComment = dataSource.commentForIndexPath(indexPath),
+                let post = lastComment.loadedFromPost
             {
-                postTappedDelegate?.postTapped(post)
+                postTappedDelegate?.postTapped(post, scrollToComment: lastComment)
             }
         }
         else if tappedCell is StreamRepostHeaderCell {

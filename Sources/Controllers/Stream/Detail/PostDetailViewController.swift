@@ -10,6 +10,8 @@ public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
     var postParam: String!
+    var scrollToComment: Comment?
+
     var navigationBar: ElloNavigationBar!
     var localToken: String!
     var deeplinkPath: String?
@@ -183,14 +185,36 @@ public class PostDetailViewController: StreamableViewController {
             if let lm = loversModel {
                 self.addAvatarsView(lm)
             }
+
             if let rm = repostersModel {
                 self.addAvatarsView(rm)
+            }
+
+            if let scrollToComment = self.scrollToComment {
+                // nextTick didn't work, the collection view hadn't shown its
+                // cells or updated contentView.  so this.
+                delay(0.1) {
+                    self.scrollToComment(scrollToComment)
+                }
             }
         }
 
         assignRightButton()
 
         Tracker.sharedTracker.postLoaded(post.id)
+    }
+
+    private func scrollToComment(comment: Comment) {
+        let commentItem = streamViewController.dataSource.visibleCellItems.find { item in
+            return (item.jsonable as? Comment)?.id == comment.id
+        }
+        if let commentItem = commentItem, indexPath = self.streamViewController.dataSource.indexPathForItem(commentItem) {
+            self.streamViewController.collectionView.scrollToItemAtIndexPath(
+                indexPath,
+                atScrollPosition: .Top,
+                animated: true
+            )
+        }
     }
 
     private func addAvatarsView(model: UserAvatarCellModel) {
