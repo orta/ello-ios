@@ -21,7 +21,6 @@ struct ExtensionItemPreview {
 
 public class ShareViewController: SLComposeServiceViewController {
 
-    private var notSignedInVC: AlertViewController?
     private var itemPreviews: [ExtensionItemPreview] = []
     private var postService = PostEditingService()
     private lazy var background: UIView = {
@@ -122,11 +121,52 @@ public class ShareViewController: SLComposeServiceViewController {
     }
 
     public override func didSelectPost() {
+        showSpinner()
+        let content = prepContent()
+        postContent(content)
+    }
+}
+
+
+
+private extension ShareViewController {
+
+    func showSpinner() {
         view.addSubview(background)
         animate {
             self.background.alpha = 0.5
         }
         ElloHUD.showLoadingHudInView(view)
+    }
+
+    func postContent(content: [PostEditingService.PostContentRegion]) {
+        postService.create(
+            content: content,
+            success: { post in
+                print("Successfully posted from the share controller")
+                //TODO: make sure to track success
+                self.donePosting()
+                self.dismissPostingForm()
+            },
+            failure: { error, statusCode in
+                print("Failed to post from the share controller")
+                //TODO: make sure to track failure
+                self.donePosting()
+                self.showFailedToPost()
+            }
+        )
+    }
+
+    func donePosting() {
+        ElloHUD.hideLoadingHudInView(self.view)
+        self.background.removeFromSuperview()
+    }
+
+    func dismissPostingForm() {
+        self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+    }
+
+    func prepContent() -> [PostEditingService.PostContentRegion] {
         var content: [PostEditingService.PostContentRegion] = []
 
         let cleanedText = contentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -142,27 +182,8 @@ public class ShareViewController: SLComposeServiceViewController {
             }
         }
 
-        postService.create(
-            content: content,
-            success: { post in
-                print("Successfully posted from the share controller")
-                //TODO: make sure to track success
-                ElloHUD.hideLoadingHudInView(self.view)
-                self.background.removeFromSuperview()
-                self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
-            },
-            failure: { error, statusCode in
-                print("Failed to post from the share controller")
-                //TODO: make sure to track failure
-                ElloHUD.hideLoadingHudInView(self.view)
-                self.background.removeFromSuperview()
-                self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
-            }
-        )
+        return content
     }
-}
-
-private extension ShareViewController {
 
     func checkIfLoggedIn() -> Bool {
         if AuthToken().isPasswordBased {
@@ -175,12 +196,30 @@ private extension ShareViewController {
     }
 
     func showFailedToPost() {
-        // retry or cancel
+        let message = NSLocalizedString("Uh oh, failed to post to Ello.", comment: "Failed to post to Ello")
+        let failedVC = AlertViewController(message: message)
+        let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Light) {
+            action in
+            if let context = self.extensionContext {
+                let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
+                context.cancelRequestWithError(error)
+            }
+        }
+
+
+        let retryAction = AlertAction(title: NSLocalizedString("Retry", comment: "Retry"), style: .Dark) {
+            action in
+            self.didSelectPost()
+        }
+
+        failedVC.addAction(retryAction)
+        failedVC.addAction(cancelAction)
+        self.presentViewController(failedVC, animated: true, completion: nil)
     }
 
     func showNotSignedIn() {
         let message = NSLocalizedString("Please login to the Ello app first to use this feature.", comment: "Not logged in message.")
-        notSignedInVC = AlertViewController(message: message)
+        let notSignedInVC = AlertViewController(message: message)
         let cancelAction = AlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .Dark) {
             action in
             if let context = self.extensionContext {
@@ -189,9 +228,7 @@ private extension ShareViewController {
             }
         }
 
-        notSignedInVC?.addAction(cancelAction)
-        if let notSignedInVC = notSignedInVC {
-            self.presentViewController(notSignedInVC, animated: true, completion: nil)
-        }
+        notSignedInVC.addAction(cancelAction)
+        self.presentViewController(notSignedInVC, animated: true, completion: nil)
     }
 }
