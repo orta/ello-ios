@@ -12,63 +12,176 @@ import KeychainAccess
 import SwiftyUserDefaults
 import Moya
 import Alamofire
+import MobileCoreServices
 
-// Supress the log() call in AuthToken
-func log(message: String) {}
-
-
-public func url(route: TargetType) -> String {
-    return route.baseURL.URLByAppendingPathComponent(route.path).absoluteString
+struct ExtensionItemPreview {
+    let image: UIImage?
+    let link: String?
 }
 
 public class ShareViewController: SLComposeServiceViewController {
 
-    private var notSignedInVC: UIAlertController?
-    private var provider: MoyaProvider<ShareAPI>!
+    private var notSignedInVC: AlertViewController?
+    private var itemPreviews: [ExtensionItemPreview] = []
+    private var postService = PostEditingService()
+    private lazy var background: UIView = {
+        let view = UIView()
+        view.alpha = 0
+        view.backgroundColor = .blackColor()
+        view.frame = self.view.frame
+        return view
+    }()
+
     public override func presentationAnimationDidFinish() {
-
-        if !AuthToken().isPasswordBased {
-            showNotSignedIn()
-        }
-        print(ElloURI.baseURL)
-        let endpointClosure = { (target: ShareAPI) -> Endpoint<ShareAPI> in
-            return Endpoint<ShareAPI>(URL: url(target), sampleResponseClosure: {.NetworkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters)
+        guard checkIfLoggedIn() else {
+            return
         }
 
-        provider = MoyaProvider(endpointClosure: endpointClosure)
-
-        provider.request(.Auth(email: "seancdougherty@gmail.com", password: "12345678")) { result in
-            // do something with the result
-            print(result)
+        // Only interested in the first item
+        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
+        // Extract content
+        previewFromExtensionItem(extensionItem) {
+            previews in
+            nextTick {
+                self.itemPreviews = previews
+            }
         }
+        super.presentationAnimationDidFinish()
+
     }
 
     public override func isContentValid() -> Bool {
-        // Do validation of contentText and/or NSExtensionContext attachments here
+        
         return true
     }
 
+    private func previewFromExtensionItem(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
+        inBackground {
+            var previews: [ExtensionItemPreview] = []
+
+            let attachmentCount = extensionItem.attachments?.count ?? 0
+            let attachmentProcessed = after(attachmentCount) {
+                callback(previews)
+            }
+
+            for attachment in extensionItem.attachments as! [NSItemProvider] {
+                if attachment.isText() {
+                    attachment.loadText(nil) {
+                        (item, error) in
+                        if let item = item as? String {
+                            previews.append(ExtensionItemPreview(image: nil, link: item))
+                        }
+                        attachmentProcessed()
+                    }
+                }
+                else if attachment.isURL() {
+                    var link: String?
+                    var preview: UIImage?
+
+                    let urlAndPreviewLoaded = after(2) {
+                        previews.append(ExtensionItemPreview(image: preview, link: link))
+                        attachmentProcessed()
+                    }
+
+                    attachment.loadURL(nil) {
+                        (item, error) in
+                        if let item = item as? NSURL {
+                            link = item.absoluteString
+                        }
+                        urlAndPreviewLoaded()
+                    }
+                    
+                    attachment.loadPreview(nil) {
+                        (image, error) in
+                        preview = image as? UIImage
+                        urlAndPreviewLoaded()
+                    }
+                }
+                else if attachment.isImage() {
+                    attachment.loadImage(nil) {
+                        (image, error) in
+                        if let imagePath = image as? NSURL,
+                            let data = NSData(contentsOfURL: imagePath),
+                            let image = UIImage(data: data)
+                        {
+                            image.copyWithCorrectOrientationAndSize() { image in
+                                previews.append(ExtensionItemPreview(image: image, link: nil))
+                                attachmentProcessed()
+                            }
+                        }
+                        else {
+                            attachmentProcessed()
+                        }
+                    }
+                }
+                else { // we don't support this type, move on
+                    attachmentProcessed()
+                }
+            }
+        }
+    }
+
     public override func didSelectPost() {
-        print(ElloKeychain().authToken)
-        print(AuthToken().isPasswordBased)
+        view.addSubview(background)
+        animate {
+            self.background.alpha = 0.5
+        }
+        ElloHUD.showLoadingHudInView(view)
+        var content: [PostEditingService.PostContentRegion] = []
 
+        let cleanedText = contentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if cleanedText.characters.count > 0 {
+            content.append(.Text(cleanedText))
+        }
+        for preview in itemPreviews {
+            if let image = preview.image {
+                content.append(.ImageData(image, nil, nil))
+            }
+            if let text = preview.link {
+                content.append(.Text(text))
+            }
+        }
 
-
-
-        self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
+        postService.create(
+            content: content,
+            success: { post in
+                print("Successfully posted from the share controller")
+                //TODO: make sure to track success
+                ElloHUD.hideLoadingHudInView(self.view)
+                self.background.removeFromSuperview()
+                self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            },
+            failure: { error, statusCode in
+                print("Failed to post from the share controller")
+                //TODO: make sure to track failure
+                ElloHUD.hideLoadingHudInView(self.view)
+                self.background.removeFromSuperview()
+                self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            }
+        )
     }
-
-    public override func configurationItems() -> [AnyObject]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
-    }
-
 }
 
 private extension ShareViewController {
+
+    func checkIfLoggedIn() -> Bool {
+        if AuthToken().isPasswordBased {
+            print("you are logged in")
+        }
+        else {
+            showNotSignedIn()
+        }
+        return AuthToken().isPasswordBased
+    }
+
+    func showFailedToPost() {
+        // retry or cancel
+    }
+
     func showNotSignedIn() {
-        notSignedInVC = UIAlertController(title: "Hello", message: "Please login to the Ello app first to use this feature", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {
+        let message = NSLocalizedString("Please login to the Ello app first to use this feature.", comment: "Not logged in message.")
+        notSignedInVC = AlertViewController(message: message)
+        let cancelAction = AlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .Dark) {
             action in
             if let context = self.extensionContext {
                 let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
@@ -76,23 +189,9 @@ private extension ShareViewController {
             }
         }
 
-        let elloAction = UIAlertAction(title: "Ello", style: .Default) {
-            action in
-            if let context = self.extensionContext, let url = NSURL(string: "ello://ello.co") {
-                context.openURL(url){ canOpen in
-                    print("can open \(canOpen)")
-                }
-            }
-        }
-
-
         notSignedInVC?.addAction(cancelAction)
-        notSignedInVC?.addAction(elloAction)
         if let notSignedInVC = notSignedInVC {
-            presentViewController(notSignedInVC, animated: true) {
-
-            }
+            self.presentViewController(notSignedInVC, animated: true, completion: nil)
         }
-
     }
 }

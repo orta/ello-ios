@@ -23,8 +23,23 @@ public struct ElloManager {
         return policyDict
     }
 
-    public static let manager = Manager(
-        configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-        serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloManager.serverTrustPolicies)
-    )
+    public static var manager: Manager {
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        config.sharedContainerIdentifier = "group.ello.Ello"
+        return Manager(
+            configuration: config,
+            serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloManager.serverTrustPolicies)
+        )
+    }
+
+
+    public static var shareExtensionManager: Manager {
+        let config = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("co.ello.shareextension.background")
+        config.sharedContainerIdentifier = "group.ello.Ello"
+        config.sessionSendsLaunchEvents = false
+        return Manager(
+            configuration: config,
+            serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloManager.serverTrustPolicies)
+        )
+    }
 }

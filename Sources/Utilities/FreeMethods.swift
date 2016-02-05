@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
 import Crashlytics
 
-func logPresentingAlert(name: String) {
-    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
-}
 
 #if DEBUG
 func log(message: String) {

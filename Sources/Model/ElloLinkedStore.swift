@@ -22,17 +22,20 @@ public struct ElloLinkedStore {
     private var writeConnection: YapDatabaseConnection
 
     public init() {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let baseDir: String
-        if let firstPath = paths.first {
-            baseDir = firstPath
-        }
-        else {
-            baseDir = NSTemporaryDirectory()
-        }
+        let fileManager = NSFileManager.defaultManager()
+        let url = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.ello.Ello")
 
+//        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+//        let baseDir: String
+//        if let firstPath = paths.first {
+//            baseDir = firstPath
+//        }
+//        else {
+//            baseDir = NSTemporaryDirectory()
+//        }
+//
         let path: String
-        if let baseURL = NSURL(string: baseDir) {
+        if let baseURL = url {
             path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName).path ?? ""
         }
         else {

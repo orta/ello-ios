@@ -19,6 +19,7 @@ public protocol Authorable {
 
 let PostVersion = 1
 
+@objc(Post)
 public final class Post: JSONAble, Authorable {
 
     // active record

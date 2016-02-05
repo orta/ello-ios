@@ -8,9 +8,11 @@
 
 import Crashlytics
 import SwiftyJSON
+import Foundation
 
 let LoveVersion: Int = 1
 
+@objc(Love)
 public final class Love: JSONAble {
 
     // active record

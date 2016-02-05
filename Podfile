@@ -49,6 +49,14 @@ target 'Ello' do
 end
 
 target 'ShareExtension' do
+
+  if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
+    pod 'ElloUIFonts', '~> 1.0.0'
+  else 
+    pod 'ElloOSSUIFonts', '~> 1.0.0'
+  end 
+  pod 'FLAnimatedImage', '~> 1.0'
+  pod 'YapDatabase', '2.8.1'
   pod 'Alamofire', '~> 3.0'
   pod 'Moya', '~> 6.0.0'
   pod 'KeychainAccess', '~> 2.3'

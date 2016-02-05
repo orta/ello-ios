@@ -12,6 +12,7 @@ import SwiftyJSON
 
 let ProfileVersion: Int = 1
 
+@objc(Profile)
 public final class Profile: JSONAble {
 
     // active record

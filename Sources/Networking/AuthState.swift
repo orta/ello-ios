@@ -6,6 +6,8 @@
 //  Copyright (c) 2016 Ello. All rights reserved.
 //
 
+import Foundation
+
 public enum AuthState {
     public static var uuid: NSUUID = NSUUID()
 

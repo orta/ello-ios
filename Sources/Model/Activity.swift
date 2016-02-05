@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let ActivityVersion = 1
 
+@objc(Activity)
 public final class Activity: JSONAble {
 
     // active record

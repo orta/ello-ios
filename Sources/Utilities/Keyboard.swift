@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+import Foundation
+import CoreGraphics
+
 private let sharedKeyboard = Keyboard()
 
 public class Keyboard {
@@ -58,38 +62,8 @@ public class Keyboard {
     }
 
     @objc
-    func willShow(notification : NSNotification) {
-        active = true
-        setFromNotification(notification)
-        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        let window = UIWindow.mainWindow
-        bottomInset = window.frame.size.height - endFrame.origin.y
-        external = endFrame.size.height > bottomInset
-
-        postNotification(Notifications.KeyboardWillShow, value: self)
-    }
-
-    @objc
     func didShow(notification : NSNotification) {
         postNotification(Notifications.KeyboardDidShow, value: self)
-    }
-
-    @objc
-    func willHide(notification : NSNotification) {
-        setFromNotification(notification)
-        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        bottomInset = 0
-
-        let windowBottom = UIWindow.mainWindow.frame.size.height
-        if endFrame.origin.y >= windowBottom {
-            active = false
-            external = false
-        }
-        else {
-            external = true
-        }
-
-        postNotification(Notifications.KeyboardWillHide, value: self)
     }
 
     @objc
@@ -97,7 +71,7 @@ public class Keyboard {
         postNotification(Notifications.KeyboardDidHide, value: self)
     }
 
-    private func setFromNotification(notification : NSNotification) {
+    func setFromNotification(notification : NSNotification) {
         if let durationValue = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber {
             duration = durationValue.doubleValue
         }

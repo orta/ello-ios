@@ -1,5 +1,6 @@
 let LocalPersonVersion = 1
 
+@objc(LocalPerson)
 public final class LocalPerson: JSONAble {
     public let name: String
     public let emails: [String]

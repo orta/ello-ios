@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let AutoCompleteResultVersion: Int = 1
 
+@objc(AutoCompleteResult)
 public final class AutoCompleteResult: JSONAble {
 
     public var url: NSURL?

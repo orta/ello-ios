@@ -380,7 +380,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         screen.interactionEnabled = false
         service.create(
             content: content,
-            authorId: authorId,
             success: { postOrComment in
                 ElloHUD.hideLoadingHudInView(self.view)
                 self.screen.interactionEnabled = true

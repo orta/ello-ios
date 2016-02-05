@@ -10,6 +10,7 @@ import SwiftyJSON
 
 let ElloNetworkErrorVersion = 1
 
+@objc(ElloNetworkError)
 public class ElloNetworkError: JSONAble {
 
     public enum CodeType: String {

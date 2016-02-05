@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let UserVersion: Int = 1
 
+@objc(User)
 public final class User: JSONAble {
 
     // active record

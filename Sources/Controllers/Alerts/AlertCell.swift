@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+import Foundation
+import ElloUIFonts
+import CoreGraphics
+
 public protocol AlertCellDelegate: class {
     func tappedOkButton()
     func tappedCancelButton()

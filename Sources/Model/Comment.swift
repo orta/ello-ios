@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let CommentVersion = 1
 
+@objc(Comment)
 public final class Comment: JSONAble, Authorable {
 
     // active record

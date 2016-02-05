@@ -10,6 +10,11 @@ import Analytics
 import Keys
 import Crashlytics
 
+func logPresentingAlert(name: String) {
+    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
+}
+
+
 public enum ContentType: String {
     case Post = "Post"
     case Comment = "Comment"
@@ -82,6 +87,14 @@ public extension Tracker {
     func sessionEnded() {
         log("Session Ended")
         agent.track("Session Ended")
+    }
+
+    static func trackRequest(headers headers: String, statusCode: Int, responseJSON: String) {
+        Tracker.responseHeaders = headers
+        Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+        Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+        Tracker.responseJSON = responseJSON
+        Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
     }
 }
 

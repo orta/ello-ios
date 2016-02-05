@@ -33,22 +33,8 @@ class ElloHUD: NSObject {
         return hud
     }
 
-    class func showLoadingHud() -> MBProgressHUD? {
-        if let win = UIApplication.sharedApplication().windows.last {
-            return ElloHUD.showLoadingHudInView(win)
-        }
-        else {
-            return nil
-        }
-    }
-
     class func hideLoadingHudInView(view: UIView) {
         MBProgressHUD.hideHUDForView(view, animated: true)
     }
 
-    class func hideLoadingHud() {
-        if let win = UIApplication.sharedApplication().windows.last {
-            ElloHUD.hideLoadingHudInView(win)
-        }
-    }
 }

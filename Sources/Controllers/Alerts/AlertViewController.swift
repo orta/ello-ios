@@ -7,9 +7,10 @@
 //
 
 import Crashlytics
+import UIKit
 
 private let DesiredWidth: CGFloat = 300
-private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
+let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public enum AlertType {
     case Normal
@@ -166,19 +167,6 @@ public extension AlertViewController {
 
     public func dismiss(animated: Bool = true, completion: ElloEmptyCompletion? = .None) {
         dismissViewControllerAnimated(animated, completion: completion)
-    }
-
-    func keyboardUpdateFrame(keyboard: Keyboard) {
-        let availHeight = UIWindow.mainWindow.frame.height - (Keyboard.shared().active ? Keyboard.shared().endFrame.height : 0)
-        let top = max(15, (availHeight - view.frame.height) / 2)
-        animate(duration: Keyboard.shared().duration) {
-            self.view.frame.origin.y = top
-
-            let bottomInset = Keyboard.shared().keyboardBottomInset(inView: self.tableView)
-            self.tableView.contentInset.bottom = bottomInset
-            self.tableView.scrollIndicatorInsets.bottom = bottomInset
-            self.tableView.scrollEnabled = (bottomInset > 0 || self.view.frame.height == MaxHeight)
-        }
     }
 }
 

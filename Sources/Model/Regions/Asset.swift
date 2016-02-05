@@ -12,6 +12,7 @@ import SwiftyJSON
 
 let AssetVersion = 1
 
+@objc(Asset)
 public final class Asset: JSONAble {
 
     // active record
