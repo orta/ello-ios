@@ -56,10 +56,8 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let hidden = !navBarsVisible()
         showing = true
-        willPresentStreamable(!hidden)
-        UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+        willPresentStreamable(navBarsVisible())
     }
 
     public override func viewWillDisappear(animated: Bool) {
@@ -83,6 +81,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
     }
 
     private func willPresentStreamable(navBarsVisible: Bool) {
+        UIApplication.sharedApplication().setStatusBarHidden(!navBarsVisible, withAnimation: .Slide)
         UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)
