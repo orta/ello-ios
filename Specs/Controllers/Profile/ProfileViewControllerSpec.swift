@@ -98,19 +98,13 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     user = User.stub(["id": "42"])
                     currentUser = User.stub(["id": "not42"])
-                    subject = ProfileViewController(user: user)
+                    subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
                     showController(subject)
                 }
 
-                it("has a 'share' Button") {
-                    let shareButton = subject.elloNavigationItem.rightBarButtonItems?[0]
-                    expect(shareButton).toNot(beNil())
-                }
-
-                it("has a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItems?[1]
-                    expect(moreButton).toNot(beNil())
+                it("has 'share' and 'more following options' buttons") {
+                    expect(subject.elloNavigationItem.rightBarButtonItems?.count) == 2
                 }
             }
 
@@ -120,21 +114,21 @@ class ProfileViewControllerSpec: QuickSpec {
                 var subject: ProfileViewController!
 
                 beforeEach {
+                    ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
+                        RecordedResponse(endpoint: .UserStream(userParam: "42"), response: .NetworkResponse(200,
+                            stubbedData("profile__no_sharing")
+                        )),
+                    ])
+
                     user = User.stub(["id": "42", "hasSharingEnabled": false])
                     currentUser = User.stub(["id": "not42"])
-                    subject = ProfileViewController(user: user)
+                    subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
                     showController(subject)
                 }
 
-                it("does not have a 'share' Button") {
-                    let count = subject.elloNavigationItem.rightBarButtonItems?.count
-                    expect(count) == 1
-                }
-
-                it("has a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItems?[0]
-                    expect(moreButton).toNot(beNil())
+                it("only has a 'more following options' button") {
+                    expect(subject.elloNavigationItem.rightBarButtonItems?.count) == 1
                 }
             }
 
