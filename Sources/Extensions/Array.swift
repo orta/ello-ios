@@ -11,7 +11,7 @@ extension Array {
         return (startIndex..<endIndex).contains(index) ? self[index] : .None
     }
 
-    func find(test: (el: Element) -> Bool) -> Element? {
+    func find(@noescape test: (el: Element) -> Bool) -> Element? {
         for ob in self {
             if test(el: ob) {
                 return ob
@@ -20,7 +20,7 @@ extension Array {
         return nil
     }
 
-    func any(test: (el: Element) -> Bool) -> Bool {
+    func any(@noescape test: (el: Element) -> Bool) -> Bool {
         for ob in self {
             if test(el: ob) {
                 return true
