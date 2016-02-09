@@ -20,9 +20,7 @@
                 {
                     "info": "Allow people to share my posts.",
                     "key": "has_sharing_enabled",
-                    "label": "Sharing",
-                    "dependent_on": ["is_public"],
-                    "conflicts_with": ["made_up_key"]
+                    "label": "Sharing"
                 },
                 {
                     "info": "Allow people to repost my posts.",
@@ -44,7 +42,7 @@
                     }
                 },
                 {
-                    "info": "Let contacts who have my email address find me on Ello.",
+                    "info": "Let friends who have my email address find me on Ello.",
                     "key": "discoverable",
                     "label": "Discoverability"
                 }

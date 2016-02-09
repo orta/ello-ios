@@ -30,7 +30,7 @@ class PostSpec: QuickSpec {
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "tThn9GP4HXth_rigKefSiQ"
+                expect(post.token) == "l9XEKBzB_hB3xkbNb6LdfQ"
                 expect(post.contentWarning) == ""
                 expect(post.summary.count) == 2
                 expect(post.summary[0].kind) == "text"
