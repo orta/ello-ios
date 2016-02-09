@@ -10,10 +10,10 @@ import Foundation
 import MobileCoreServices
 
 extension NSItemProvider {
+
     func isURL() -> Bool {
         return self.hasItemConformingToTypeIdentifier(String(kUTTypeURL))
     }
-
     func isImage() -> Bool {
         return self.hasItemConformingToTypeIdentifier(String(kUTTypeImage))
     }

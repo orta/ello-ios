@@ -62,7 +62,6 @@ struct ElloKeychain: KeychainType {
         set {
             do {
                 if let newValue = newValue {
-                    print("access group = \(keychain.accessGroup)")
                     try keychain.set(newValue, key: AuthTokenKey)
                 }
             }
@@ -94,7 +93,7 @@ struct ElloKeychain: KeychainType {
 
     var authTokenType: String? {
         get {
-            do { return try keychain.getString(AuthTokenType) }
+            do { return try keychain.get(AuthTokenType) }
             catch { return nil }
         }
         set {

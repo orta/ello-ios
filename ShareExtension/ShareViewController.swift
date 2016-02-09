@@ -14,11 +14,6 @@ import Moya
 import Alamofire
 import MobileCoreServices
 
-struct ExtensionItemPreview {
-    let image: UIImage?
-    let link: String?
-}
-
 public class ShareViewController: SLComposeServiceViewController {
 
     private var itemPreviews: [ExtensionItemPreview] = []
@@ -38,86 +33,22 @@ public class ShareViewController: SLComposeServiceViewController {
 
         // Only interested in the first item
         let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
-        // Extract content
-        previewFromExtensionItem(extensionItem) {
+        let filter = { preview in
+            return self.itemPreviews.any {$0 == preview}
+        }
+        let imageProcessor = ShareImageProcessor(existsFilter: filter)
+
+        imageProcessor.previewFromExtensionItem(extensionItem) {
             previews in
-            nextTick {
+            inForeground {
                 self.itemPreviews = previews
             }
         }
         super.presentationAnimationDidFinish()
-
     }
 
     public override func isContentValid() -> Bool {
-        
         return true
-    }
-
-    private func previewFromExtensionItem(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
-        inBackground {
-            var previews: [ExtensionItemPreview] = []
-
-            let attachmentCount = extensionItem.attachments?.count ?? 0
-            let attachmentProcessed = after(attachmentCount) {
-                callback(previews)
-            }
-
-            for attachment in extensionItem.attachments as! [NSItemProvider] {
-                if attachment.isText() {
-                    attachment.loadText(nil) {
-                        (item, error) in
-                        if let item = item as? String {
-                            previews.append(ExtensionItemPreview(image: nil, link: item))
-                        }
-                        attachmentProcessed()
-                    }
-                }
-                else if attachment.isURL() {
-                    var link: String?
-                    var preview: UIImage?
-
-                    let urlAndPreviewLoaded = after(2) {
-                        previews.append(ExtensionItemPreview(image: preview, link: link))
-                        attachmentProcessed()
-                    }
-
-                    attachment.loadURL(nil) {
-                        (item, error) in
-                        if let item = item as? NSURL {
-                            link = item.absoluteString
-                        }
-                        urlAndPreviewLoaded()
-                    }
-                    
-                    attachment.loadPreview(nil) {
-                        (image, error) in
-                        preview = image as? UIImage
-                        urlAndPreviewLoaded()
-                    }
-                }
-                else if attachment.isImage() {
-                    attachment.loadImage(nil) {
-                        (image, error) in
-                        if let imagePath = image as? NSURL,
-                            let data = NSData(contentsOfURL: imagePath),
-                            let image = UIImage(data: data)
-                        {
-                            image.copyWithCorrectOrientationAndSize() { image in
-                                previews.append(ExtensionItemPreview(image: image, link: nil))
-                                attachmentProcessed()
-                            }
-                        }
-                        else {
-                            attachmentProcessed()
-                        }
-                    }
-                }
-                else { // we don't support this type, move on
-                    attachmentProcessed()
-                }
-            }
-        }
     }
 
     public override func didSelectPost() {
@@ -143,14 +74,12 @@ private extension ShareViewController {
         postService.create(
             content: content,
             success: { post in
-                print("Successfully posted from the share controller")
-                //TODO: make sure to track success
+                Tracker.sharedTracker.shareSuccessful()
                 self.donePosting()
                 self.dismissPostingForm()
             },
             failure: { error, statusCode in
-                print("Failed to post from the share controller")
-                //TODO: make sure to track failure
+                Tracker.sharedTracker.shareFailed()
                 self.donePosting()
                 self.showFailedToPost()
             }
@@ -171,14 +100,26 @@ private extension ShareViewController {
 
         let cleanedText = contentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if cleanedText.characters.count > 0 {
-            content.append(.Text(cleanedText))
+            let region = PostEditingService.PostContentRegion.Text(cleanedText)
+            let exists = content.any {$0 == region}
+            if !exists {
+                content.append(region)
+            }
         }
         for preview in itemPreviews {
             if let image = preview.image {
-                content.append(.ImageData(image, nil, nil))
+                let region = PostEditingService.PostContentRegion.ImageData(image, nil, nil)
+                let exists = content.any {$0 == region}
+                if !exists {
+                    content.append(region)
+                }
             }
-            if let text = preview.link {
-                content.append(.Text(text))
+            if let text = preview.text {
+                let region = PostEditingService.PostContentRegion.Text(text)
+                let exists = content.any {$0 == region}
+                if !exists {
+                    content.append(region)
+                }
             }
         }
 

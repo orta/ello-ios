@@ -16,6 +16,18 @@
 import Foundation
 import UIKit
 
+public func ==(lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+    switch (lhs, rhs) {
+    case let (.Text(a), .Text(b)):
+        return a == b
+    case let (.ImageData(la, _, _),.ImageData(ra, _, _)):
+        return la == ra
+    default:
+        return false
+    }
+}
+
+
 public class PostEditingService: NSObject {
     // this can return either a Post or Comment
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void

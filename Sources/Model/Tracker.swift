@@ -241,6 +241,19 @@ public extension Tracker {
     }
 }
 
+// MARK: Share Extension
+public extension Tracker {
+    func shareSuccessful() {
+        log("successfully shared from the share extension")
+        agent.track("successfully shared from the share extension")
+    }
+
+    func shareFailed() {
+        log("failed to share from the share extension")
+        agent.track("failed to share from the share extension")
+    }
+}
+
 // MARK: Onboarding
 public extension Tracker {
     func skippedCommunities() {
