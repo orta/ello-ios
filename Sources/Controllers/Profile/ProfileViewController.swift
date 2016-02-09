@@ -303,14 +303,17 @@ public class ProfileViewController: StreamableViewController {
 
     func addMoreFollowingButton() {
         if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
         guard let user = user else {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
         if let currentUser = currentUser where user.id == currentUser.id {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
@@ -405,6 +408,7 @@ public class ProfileViewController: StreamableViewController {
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
 
+        addMoreFollowingButton()
         Tracker.sharedTracker.profileLoaded(user.atName ?? "(no name)")
     }
 
