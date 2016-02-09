@@ -10,12 +10,12 @@ import Foundation
 import SwiftyUserDefaults
 
 public enum StreamKind {
+    case CurrentUserStream
     case Discover(type: DiscoverType, perPage: Int)
     case Following
     case Starred
     case Notifications(category: String?)
     case PostDetail(postParam: String)
-    case Profile(perPage: Int)
     case SimpleStream(endpoint: ElloAPI, title: String)
     case Unknown
     case UserStream(userParam: String)
@@ -27,7 +27,7 @@ public enum StreamKind {
         case .Starred: return "Starred"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
-        case .Profile: return "Profile"
+        case .CurrentUserStream: return "Profile"
         case let .SimpleStream(_, title): return title
         case .Unknown: return "unknown"
         case .UserStream: return "User Stream"
@@ -63,7 +63,7 @@ public enum StreamKind {
 
     public var tappingTextOpensDetail: Bool {
         switch self {
-            case .PostDetail, .Following, .Profile, .UserStream:
+            case .PostDetail, .Following, .CurrentUserStream, .UserStream:
                 return false
             default:
                 return true
@@ -77,7 +77,7 @@ public enum StreamKind {
         case .Starred: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
-        case let .Profile(perPage): return .Profile(perPage: perPage)
+        case .CurrentUserStream: return .CurrentUserStream
         case let .SimpleStream(endpoint, _): return endpoint
         case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
         case let .UserStream(userParam): return .UserStream(userParam: userParam)
@@ -213,7 +213,7 @@ public enum StreamKind {
 
     public func clientSidePostInsertIndexPath(currentUserId: String?) -> NSIndexPath? {
         switch self {
-        case .Following, .Profile:
+        case .Following, .CurrentUserStream:
             return NSIndexPath(forItem: 1, inSection: 0)
         case let .UserStream(userParam):
             if currentUserId == userParam {

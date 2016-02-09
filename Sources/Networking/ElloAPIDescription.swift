@@ -91,6 +91,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "CreatePost"
         case .CurrentUserProfile:
             return "CurrentUserProfile"
+        case .CurrentUserStream:
+            return "CurrentUserStream"
         case .RePost:
             return "RePost"
         case .DeleteComment:
@@ -141,8 +143,6 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "PostLovers"
         case .PostReposters:
             return "PostReposters"
-        case .Profile:
-            return "Profile"
         case .ProfileUpdate:
             return "ProfileUpdate"
         case .ProfileDelete:

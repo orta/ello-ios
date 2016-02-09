@@ -671,7 +671,7 @@ class StreamDataSourceSpec: QuickSpec {
                         context("StreamKind.Profile") {
 
                             it("inserts the new post at 1, 0") {
-                                subject.streamKind = .Profile(perPage: 10)
+                                subject.streamKind = .CurrentUserStream
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "1"

@@ -167,7 +167,7 @@ class PreloaderSpec: QuickSpec {
                     "posts" : [twoImagePost, threeImagePost]
                 ])
 
-                subject.preloadImages([user], streamKind: StreamKind.Profile(perPage: 10))
+                subject.preloadImages([user], streamKind: StreamKind.CurrentUserStream)
 
                 expect(fakeManager.downloads.count) == 8
             }
