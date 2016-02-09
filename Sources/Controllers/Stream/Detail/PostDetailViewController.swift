@@ -171,6 +171,7 @@ public class PostDetailViewController: StreamableViewController {
         if let currentUser = currentUser {
             items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
         }
+
         if let comments = post.comments {
             items += parser.parse(comments, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
@@ -189,6 +190,10 @@ public class PostDetailViewController: StreamableViewController {
         }
 
         assignRightButton()
+
+        if isOwnPost() {
+            showNavBars(false)
+        }
 
         Tracker.sharedTracker.postLoaded(post.id)
     }
