@@ -32,6 +32,37 @@ default_platform :ios
 platform :ios do
   before_all do
     ENV["FL_BUILD_NUMBER_BUILD_NUMBER"] = `/bin/bash -c "git rev-list master | wc -l | tr -d ' '"`.strip
+
+    required_env = {
+      "FL_VERSION_NUMBER_VERSION_NUMBER" => "current build number",
+      "PROD_APP_ID" =>                      "co.ello.Ello",
+      "DONUT_APP_ID" =>                     "co.ello.ElloStage",
+      "RAINBOW_APP_ID" =>                   "co.ello.ElloDev",
+      "CERTS_OUTPUT_PATH" =>                "./certs",
+      "PROFILE_PATH" =>                     "./fastlane/profiles",
+      "BUILD_OUTPUT_DIRECTORY" =>           "./Build",
+      "BUILD_OUTPUT_NAME" =>                "Ello.ipa",
+      "IPA_PATH" =>                         "./Build/Ello.ipa",
+      "GYM_OUTPUT_DIRECTORY" =>             "./Build",
+      "GYM_OUTPUT_NAME" =>                  "Ello.ipa",
+      "GYM_SCHEME" =>                       "Ello",
+      "XCODE_PROJECT" =>                    "Ello.xcodeproj",
+      "SLACK_URL" =>                        "YOUR_SLACK_URL_HERE",
+      "CRASHLYTICS_API_TOKEN" =>            "YOUR_CRASHLYTICS_API_TOKEN_HERE",
+      "CRASHLYTICS_BUILD_SECRET" =>         "YOUR_CRASHLYTICS_BUILD_SECRET_HERE",
+    }
+    required_env_error = false
+    required_env.each do |key, value|
+      if !ENV[key] || ENV[key] == ""
+        UI.error "ENV[#{key.inspect}] should be set to #{value.inspect}"
+        required_env_error = true
+      end
+    end
+
+    if required_env_error
+      abort
+    end
+
     increment_version_number
     increment_build_number
   end
