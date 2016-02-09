@@ -43,7 +43,7 @@ class AutoCompleteSpec: QuickSpec {
                 }
 
                 context("emoji") {
-                    xit("returns the correct character range and string") {
+                    fit("returns the correct character range and string") {
                         let str = "start :emoji"
                         let result = subject.check(str, location: 9)
 
@@ -54,8 +54,8 @@ class AutoCompleteSpec: QuickSpec {
                 }
 
                 context("double emoji") {
-                    xit("returns the 2nd emoji word part") {
-                        let str = "some long sentance :start::thumbsup"
+                    fit("returns the 2nd emoji word part") {
+                        let str = "some long sentence :start::thumbsup"
                         let result = subject.check(str, location: 29)
 
                         expect(result?.type) == AutoCompleteType.Emoji

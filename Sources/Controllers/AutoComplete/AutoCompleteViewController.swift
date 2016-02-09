@@ -14,15 +14,9 @@ public protocol AutoCompleteDelegate: NSObjectProtocol {
 
 public class AutoCompleteViewController: UIViewController {
     @IBOutlet weak public var tableView: UITableView!
-    public var type = AutoCompleteType.Username
     public let dataSource = AutoCompleteDataSource()
     public let service = AutoCompleteService()
     public weak var delegate: AutoCompleteDelegate?
-
-    public convenience init(type: AutoCompleteType) {
-        self.init()
-        self.type = type
-    }
 
     required public init() {
         super.init(nibName: "AutoCompleteViewController", bundle: .None)
@@ -57,13 +51,20 @@ extension AutoCompleteViewController {
 public extension AutoCompleteViewController {
 
     func load(match: AutoCompleteMatch, loaded: (count: Int) -> Void) {
-        service.loadResults(match.text,
-            type: match.type,
-            success: { (results, responseConfig) in
-                self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type, match: match) }
-                self.tableView.reloadData()
-                loaded(count: self.dataSource.items.count)
-        }, failure: showAutoCompleteLoadFailure)
+        switch match.type {
+        case .Emoji:
+            let results: [AutoCompleteResult] = service.loadEmojiResults(match.text)
+            self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+            self.tableView.reloadData()
+            loaded(count: self.dataSource.items.count)
+        case .Username:
+            service.loadUsernameResults(match.text,
+                success: { (results, responseConfig) in
+                    self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: match.type, match: match) }
+                    self.tableView.reloadData()
+                    loaded(count: self.dataSource.items.count)
+            }, failure: showAutoCompleteLoadFailure)
+        }
     }
 
     func showAutoCompleteLoadFailure(error: NSError, statusCode:Int?) {

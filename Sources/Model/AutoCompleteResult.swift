@@ -18,7 +18,8 @@ public final class AutoCompleteResult: JSONAble {
 
     // MARK: Initialization
 
-    public init() {
+    public init(name: String?) {
+        self.name = name
         super.init(version: AutoCompleteResultVersion)
     }
 
@@ -39,12 +40,13 @@ public final class AutoCompleteResult: JSONAble {
 
     // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AutoCompleteResultFromJSON.rawValue)
-        let result = AutoCompleteResult()
-        result.name = json["name"].string
-        if let avatar = json["image_url"].string, let url = NSURL(string: avatar) {
+        let result = AutoCompleteResult(name: json["name"].string)
+        if let imageUrl = json["image_url"].string,
+            url = NSURL(string: imageUrl)
+        {
             result.url = url
         }
         return result

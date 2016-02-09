@@ -39,8 +39,8 @@ public enum AutoCompleteType: String, CustomStringConvertible {
 public struct AutoComplete {
 
     public init(){}
-    
-    public func check(text:String, location: Int) -> AutoCompleteMatch? {
+
+    public func check(text: String, location: Int) -> AutoCompleteMatch? {
 
         if location >= text.characters.count { return .None }
 
@@ -61,16 +61,16 @@ public struct AutoComplete {
                     type = .Username
                     matchFound = true
                 }
-//                uncomment when we add emoji autocomplete endpoints
-//                else if findEmoji(word) {
-//                    type = .Emoji
-//                    matchFound = true
-//                }
+                else if findEmoji(word) {
+                    type = .Emoji
+                    matchFound = true
+                }
             }
         }
 
-        if matchFound && range != nil && word != nil && type != nil {
-            return AutoCompleteMatch(type: type!, range: range!, text: word!)
+        if let type = type, range = range, word = word
+        where matchFound {
+            return AutoCompleteMatch(type: type, range: range, text: word)
         }
         else {
             return .None

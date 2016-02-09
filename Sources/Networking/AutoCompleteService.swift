@@ -6,21 +6,22 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Alamofire
+import SwiftyJSON
+
 public typealias AutoCompleteServiceSuccessCompletion = (results: [AutoCompleteResult], responseConfig: ResponseConfig) -> ()
 
 public struct AutoCompleteService {
 
     public init(){}
 
-    public func loadResults(
+    public func loadUsernameResults(
         terms: String,
-        type: AutoCompleteType,
         success: AutoCompleteServiceSuccessCompletion,
         failure: ElloFailureCompletion)
     {
-        let endpoint: ElloAPI = type == AutoCompleteType.Emoji ? .EmojiAutoComplete(terms: terms) : .UserNameAutoComplete(terms: terms)
         ElloProvider.shared.elloRequest(
-            endpoint,
+            .UserNameAutoComplete(terms: terms),
             success: { (data, responseConfig) in
                 if let results = data as? [AutoCompleteResult] {
                     success(results: results, responseConfig: responseConfig)
@@ -31,6 +32,40 @@ public struct AutoCompleteService {
             },
             failure: failure
         )
+    }
+
+    public func loadEmojiResults(text: String) -> [AutoCompleteResult] {
+        return AutoCompleteService.emojis.filter {
+            ":\($0):".contains(text)
+        }.map {
+            AutoCompleteResult(name: $0)
+        }
+    }
+
+    static var emojis: [String] = []
+    static func loadEmojiJSON(defaultJSON: String) {
+        let data = stubbedData(defaultJSON)
+        let json: JSON
+        do {
+            json = try JSON(data: data)
+        }
+        catch {
+            json = JSON("")
+        }
+
+        if let emojis = json["emojis"].object as? [String]
+        {
+            self.emojis = emojis
+        }
+
+        Alamofire.request(.GET, "\(ElloURI.baseURL)/emojis.json")
+            .responseJSON { response in
+                if let JSON = response.result.value,
+                    emojis = JSON["emojis"] as? [String]
+                {
+                    self.emojis = emojis
+                }
+            }
     }
 
 }
