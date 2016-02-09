@@ -40,7 +40,7 @@ public class PostEditingService: NSObject {
     }
 
     var editPost: Post?
-    var editComment: Comment?
+    var editComment: ElloComment?
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
@@ -53,7 +53,7 @@ public class PostEditingService: NSObject {
         editPost = post
     }
 
-    convenience init(editComment comment: Comment) {
+    convenience init(editComment comment: ElloComment) {
         self.init()
         editComment = comment
     }
@@ -120,7 +120,7 @@ public class PostEditingService: NSObject {
 
                 switch endpoint {
                 case .CreateComment:
-                    let comment = data as! Comment
+                    let comment = data as! ElloComment
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
                 case .CreatePost, .UpdatePost:
                     let post = data as! Post

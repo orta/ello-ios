@@ -1,3 +1,5 @@
+import Foundation
+
 let LocalPersonVersion = 1
 
 @objc(LocalPerson)

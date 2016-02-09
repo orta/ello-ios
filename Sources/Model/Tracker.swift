@@ -449,14 +449,14 @@ public extension Tracker {
         agent.track("\(type.rawValue) edited", properties: properties)
     }
 
-    func commentCreated(comment: Comment) {
+    func commentCreated(comment: ElloComment) {
         let type: ContentType = .Comment
         let properties = regionDetails(comment.content)
         log("\(type.rawValue) created")
         agent.track("\(type.rawValue) created", properties: properties)
     }
 
-    func commentEdited(comment: Comment) {
+    func commentEdited(comment: ElloComment) {
         let type: ContentType = .Comment
         let properties = regionDetails(comment.content)
         log("\(type.rawValue) edited")

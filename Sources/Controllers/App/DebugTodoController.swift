@@ -89,14 +89,14 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         addAction("Reset Tab bar Tooltips") {
-            Defaults[ElloTab.Discovery.narrationDefaultKey] = nil
-            Defaults[ElloTab.Notifications.narrationDefaultKey] = nil
-            Defaults[ElloTab.Stream.narrationDefaultKey] = nil
-            Defaults[ElloTab.Profile.narrationDefaultKey] = nil
-            Defaults[ElloTab.Post.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Discovery.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Notifications.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Stream.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Profile.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Post.narrationDefaultKey] = nil
         }
         addAction("Reset Intro") {
-            Defaults["IntroDisplayed"] = nil
+            GroupDefaults["IntroDisplayed"] = nil
         }
         addAction("Reset Onboarding") {
             Onboarding.shared().reset()

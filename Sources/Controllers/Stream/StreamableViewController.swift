@@ -20,7 +20,7 @@ public protocol UserTappedDelegate: NSObjectProtocol {
 public protocol CreatePostDelegate: NSObjectProtocol {
     func createPost(text text: String?, fromController: UIViewController)
     func createComment(post: Post, text: String?, fromController: UIViewController)
-    func editComment(comment: Comment, fromController: UIViewController)
+    func editComment(comment: ElloComment, fromController: UIViewController)
     func editPost(post: Post, fromController: UIViewController)
 }
 
@@ -248,7 +248,7 @@ extension StreamableViewController: CreatePostDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    public func editComment(comment: Comment, fromController: UIViewController) {
+    public func editComment(comment: ElloComment, fromController: UIViewController) {
         if OmnibarViewController.canEditRegions(comment.content) {
             let vc = OmnibarViewController(editComment: comment)
             vc.currentUser = self.currentUser

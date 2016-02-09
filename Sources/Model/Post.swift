@@ -61,8 +61,8 @@ public final class Post: JSONAble, Authorable {
         return getLinkObject("reposted_source") as? Post
     }
     // nested resources
-    public var comments: [Comment]? {
-        if let nestedComments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
+    public var comments: [ElloComment]? {
+        if let nestedComments = getLinkArray(MappingType.CommentsType.rawValue) as? [ElloComment] {
             for comment in nestedComments {
                 comment.loadedFromPostId = self.id
             }

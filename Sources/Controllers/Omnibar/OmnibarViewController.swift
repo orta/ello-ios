@@ -23,7 +23,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var editPost: Post?
-    var editComment: Comment?
+    var editComment: ElloComment?
     var rawEditBody: [Regionable]?
     var defaultText: String?
     var canGoBack: Bool = true {
@@ -34,7 +34,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    typealias CommentSuccessListener = (comment: Comment) -> Void
+    typealias CommentSuccessListener = (comment: ElloComment) -> Void
     typealias PostSuccessListener = (post: Post) -> Void
     var commentSuccessListener: CommentSuccessListener?
     var postSuccessListener: PostSuccessListener?
@@ -53,7 +53,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         parentPost = post
     }
 
-    convenience public init(editComment comment: Comment) {
+    convenience public init(editComment comment: ElloComment) {
         self.init(nibName: nil, bundle: nil)
         editComment = comment
         PostService().loadComment(comment.postId, commentId: comment.id, success: { (comment, _) in
@@ -404,7 +404,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {
-        if let comment = postOrComment as? Comment {
+        if let comment = postOrComment as? ElloComment {
             self.emitCommentSuccess(comment)
         }
         else if let post = postOrComment as? Post {
@@ -412,7 +412,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    private func emitCommentSuccess(comment: Comment) {
+    private func emitCommentSuccess(comment: ElloComment) {
         postNotification(CommentChangedNotification, value: (comment, .Create))
         ContentChange.updateCommentCount(comment, delta: 1)
 

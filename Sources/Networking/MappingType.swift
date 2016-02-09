@@ -41,7 +41,7 @@ public enum MappingType: String {
         case CategoriesType:
             return DynamicSettingCategory.fromJSON
         case CommentsType:
-            return Comment.fromJSON
+            return ElloComment.fromJSON
         case ErrorType:
             return ElloNetworkError.fromJSON
         case ErrorsType:

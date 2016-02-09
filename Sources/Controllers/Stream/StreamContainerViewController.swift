@@ -22,10 +22,10 @@ public class StreamContainerViewController: StreamableViewController {
 
     public var currentStreamIndex: Int {
         get {
-            return Defaults[CurrentStreamKey].int ?? 0
+            return GroupDefaults[CurrentStreamKey].int ?? 0
         }
         set(newValue) {
-            Defaults[CurrentStreamKey] = newValue
+            GroupDefaults[CurrentStreamKey] = newValue
         }
     }
 

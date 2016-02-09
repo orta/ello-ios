@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ElloTextViewDelegate: NSObjectProtocol {
     func textViewTapped(link: String, object: ElloAttributedObject)
@@ -15,7 +16,7 @@ protocol ElloTextViewDelegate: NSObjectProtocol {
 
 enum ElloAttributedObject {
     case AttributedPost(post: Post)
-    case AttributedComment(comment: Comment)
+    case AttributedComment(comment: ElloComment)
     case AttributedUser(user: User)
     case AttributedFollowers(user: User)
     case AttributedFollowing(user: User)
@@ -27,7 +28,7 @@ enum ElloAttributedObject {
         case "post":
             if let post = object as? Post { return ElloAttributedObject.AttributedPost(post: post) }
         case "comment":
-            if let comment = object as? Comment { return ElloAttributedObject.AttributedComment(comment: comment) }
+            if let comment = object as? ElloComment { return ElloAttributedObject.AttributedComment(comment: comment) }
         case "user":
             if let user = object as? User { return ElloAttributedObject.AttributedUser(user: user) }
         case "followers":

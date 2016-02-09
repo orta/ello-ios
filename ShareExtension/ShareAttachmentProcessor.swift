@@ -1,5 +1,5 @@
 //
-//  ShareImageProcessor.swift
+//  ShareAttachmentProcessor.swift
 //  Ello
 //
 //  Created by Sean on 2/8/16.
@@ -11,11 +11,11 @@ import UIKit
 
 typealias ExtensionItemProcessor = ExtensionItemPreview? -> Void
 
-public struct ShareImageProcessor {
+public struct ShareAttachmentProcessor {
 
     let existsFilter: (ExtensionItemPreview) -> Bool
 
-    public func previewFromExtensionItem(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
+    public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
         var previews: [ExtensionItemPreview] = []
         processAttachments(0, attachments: extensionItem.attachments as? [NSItemProvider] , previews: &previews, callback: callback)
     }
@@ -23,7 +23,7 @@ public struct ShareImageProcessor {
 
 // MARK: Private
 
-private extension ShareImageProcessor {
+private extension ShareAttachmentProcessor {
 
     func processAttachments(
         index: Int,

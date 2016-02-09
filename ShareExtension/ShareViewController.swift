@@ -31,24 +31,12 @@ public class ShareViewController: SLComposeServiceViewController {
             return
         }
 
-        // Only interested in the first item
-        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
-        let filter = { preview in
-            return self.itemPreviews.any {$0 == preview}
-        }
-        let imageProcessor = ShareImageProcessor(existsFilter: filter)
-
-        imageProcessor.previewFromExtensionItem(extensionItem) {
-            previews in
-            inForeground {
-                self.itemPreviews = previews
-            }
-        }
+        processAttachments()
         super.presentationAnimationDidFinish()
     }
 
     public override func isContentValid() -> Bool {
-        return true
+        return itemPreviews.count > 0
     }
 
     public override func didSelectPost() {
@@ -58,9 +46,26 @@ public class ShareViewController: SLComposeServiceViewController {
     }
 }
 
-
-
+// MARK: Private
 private extension ShareViewController {
+
+    func processAttachments() {
+        // Only interested in the first item
+        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
+
+        let filter = { preview in
+            return self.itemPreviews.any {$0 == preview}
+        }
+        inBackground {
+            let attachmentProcessor = ShareAttachmentProcessor(existsFilter: filter)
+
+            attachmentProcessor.preview(extensionItem) { previews in
+                inForeground {
+                    self.itemPreviews = previews
+                }
+            }
+        }
+    }
 
     func showSpinner() {
         view.addSubview(background)
@@ -146,7 +151,6 @@ private extension ShareViewController {
                 context.cancelRequestWithError(error)
             }
         }
-
 
         let retryAction = AlertAction(title: NSLocalizedString("Retry", comment: "Retry"), style: .Dark) {
             action in

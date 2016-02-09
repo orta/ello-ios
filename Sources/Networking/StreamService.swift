@@ -83,7 +83,7 @@ public class StreamService: NSObject {
         ElloProvider.shared.elloRequest(
             .PostComments(postId: postId),
             success: { (data, responseConfig) in
-                if let comments:[Comment] = data as? [Comment] {
+                if let comments:[ElloComment] = data as? [ElloComment] {
 
                     for comment in comments {
                         comment.loadedFromPostId = postId

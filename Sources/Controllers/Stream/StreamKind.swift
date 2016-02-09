@@ -159,7 +159,7 @@ public enum StreamKind {
                     return accum
                 }
             }
-            else if let comments = jsonables as? [Comment] {
+            else if let comments = jsonables as? [ElloComment] {
                 return comments
             }
             else if let posts = jsonables as? [Post] {
@@ -198,17 +198,17 @@ public enum StreamKind {
     }
 
     public var gridViewPreferenceSet: Bool {
-        let prefSet = Defaults["\(self.cacheKey)GridViewPreferenceSet"].bool
+        let prefSet = GroupDefaults["\(self.cacheKey)GridViewPreferenceSet"].bool
         return prefSet != nil
     }
 
     public func setIsGridView(isGridView: Bool) {
-        Defaults["\(cacheKey)GridViewPreferenceSet"] = true
-        Defaults["\(cacheKey)IsGridView"] = isGridView
+        GroupDefaults["\(cacheKey)GridViewPreferenceSet"] = true
+        GroupDefaults["\(cacheKey)IsGridView"] = isGridView
     }
 
     public var isGridView: Bool {
-        return Defaults["\(cacheKey)IsGridView"].bool ?? false
+        return GroupDefaults["\(cacheKey)IsGridView"].bool ?? false
     }
 
     public func clientSidePostInsertIndexPath(currentUserId: String?) -> NSIndexPath? {

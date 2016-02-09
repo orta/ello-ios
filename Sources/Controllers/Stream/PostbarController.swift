@@ -337,7 +337,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let commentPaths = dataSource.commentIndexPathsForPost(post)
             for path in commentPaths {
                 if let item = dataSource.visibleStreamCellItem(at: path),
-                    comment = item.jsonable as? Comment,
+                    comment = item.jsonable as? ElloComment,
                     let atName = comment.author?.atName
                 where !names.contains(atName)
                 {
@@ -359,7 +359,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         return dataSource.postForIndexPath(indexPath)
     }
 
-    private func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
+    private func commentForIndexPath(indexPath: NSIndexPath) -> ElloComment? {
         return dataSource.commentForIndexPath(indexPath)
     }
 
@@ -370,7 +370,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Following, currentUser: currentUser)
 
         if let currentUser = currentUser {
-            let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
             if post.commentsCount > ElloAPI.PostComments(postId: "").parameters!["per_page"] as? Int {
                 items.append(StreamCellItem(jsonable: jsonables.last ?? newComment, type: .SeeMoreComments))
             }
@@ -393,7 +393,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
         if let currentUser = currentUser {
-            let comment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let comment = ElloComment.newCommentForPost(post, currentUser: currentUser)
             let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment)
 
             let items = [createCommentItem]
