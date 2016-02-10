@@ -78,8 +78,8 @@ public struct AutoComplete {
     }
 }
 
-private let usernameRegex = "([^\\w]|\\s|^)@(\\w+)"
-private let emojiRegex = "([^\\w]|\\s|^):(\\w+)"
+private let usernameRegex = Regex("([^\\w]|\\s|^)@(\\w+)")!
+private let emojiRegex = Regex("([^\\w]|\\s|^):(\\w+)")!
 
 private extension AutoComplete {
 

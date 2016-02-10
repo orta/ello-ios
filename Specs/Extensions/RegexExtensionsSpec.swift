@@ -108,8 +108,11 @@ class RegexExtensionsSpec: QuickSpec {
                     }
                 }
             }
+
             context("testing with regex operators =~ !~") {
                 let pattern = "^tes*t$"
+                let regex = Regex(pattern)!
+
                 let expectations = [
                     "tet": true,
                     "test": true,
@@ -120,6 +123,8 @@ class RegexExtensionsSpec: QuickSpec {
                     it("'\(test)' should return \(expectation)") {
                         expect(test =~ pattern) == expectation
                         expect(test !~ pattern) == !expectation
+                        expect(test =~ regex) == expectation
+                        expect(test !~ regex) == !expectation
                     }
                 }
                 it("should return false for invalid regex") {
@@ -127,8 +132,11 @@ class RegexExtensionsSpec: QuickSpec {
                     expect("anything" !~ "[") == false
                 }
             }
+
             context("matching with ~") {
                 let pattern = "^tes*t$"
+                let regex = Regex(pattern)!
+
                 let expectations = [
                     "tet": true,
                     "test": true,
@@ -140,18 +148,30 @@ class RegexExtensionsSpec: QuickSpec {
                     it("'\(test)' should return \(expected)") {
                         if expectation {
                             expect(test ~ pattern) == test
+                            expect(test ~ regex) == test
                         }
                         else {
                             expect(test ~ pattern).to(beNil())
                         }
                     }
                 }
+
                 it("should return the matched part of a string") {
                     let pattern = "\\w+"
-                    expect("!!!abc!!!" ~ pattern) == "abc"
-                    expect("!!!abc" ~ pattern) == "abc"
-                    expect("abc!!!" ~ pattern) == "abc"
+                    let regex = Regex(pattern)!
+
+                    let expected = "abc"
+                    let tests = [
+                        "!!!\(expected)!!!",
+                        "!!!\(expected)",
+                        "\(expected)!!!",
+                    ]
+                    for test in tests {
+                        expect(test ~ pattern) == expected
+                        expect(test ~ regex) == expected
+                    }
                 }
+
                 it("should return nil for invalid regex") {
                     expect("anything" ~ "[").to(beNil())
                 }
