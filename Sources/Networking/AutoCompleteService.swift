@@ -35,8 +35,15 @@ public struct AutoCompleteService {
     }
 
     public func loadEmojiResults(text: String) -> [AutoCompleteResult] {
+        let emojiName: String
+        if text[text.startIndex] == ":" {
+            emojiName = text.substringFromIndex(text.startIndex.advancedBy(1))
+        }
+        else {
+            emojiName = text
+        }
         return AutoCompleteService.emojis.filter {
-            ":\($0):".contains(text)
+            ":\($0):".contains(emojiName)
         }.map {
             AutoCompleteResult(name: $0, url: "https://ello.co/images/emoji/\($0).png")
         }

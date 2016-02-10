@@ -78,10 +78,13 @@ public struct AutoComplete {
     }
 }
 
+private let usernameRegex = "([^\\w]|\\s|^)@(\\w+)"
+private let emojiRegex = "([^\\w]|\\s|^):(\\w+)"
+
 private extension AutoComplete {
 
     func findUsername(text: String) -> Bool {
-        return text.rangeOfString("([^\\w]|\\s|^)@\\w+", options: .RegularExpressionSearch) != nil
+        return text =~ usernameRegex
     }
 
     func findEmoji(text: String) -> Bool {
@@ -89,7 +92,7 @@ private extension AutoComplete {
         if (text.characters.split { $0 == ":" }.map { String($0) }).count > 1 {
             return false
         }
-        return text.rangeOfString("([^\\w]|\\s|^):\\w+", options: .RegularExpressionSearch) != nil
+        return text =~ emojiRegex
     }
 
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {
