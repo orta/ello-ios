@@ -43,13 +43,13 @@ public struct AutoCompleteService {
             emojiName = text
         }
         return AutoCompleteService.emojis.filter {
-            ":\($0):".contains(emojiName)
+            ":\($0.name):".contains(emojiName)
         }.map {
-            AutoCompleteResult(name: $0, url: "https://ello.co/images/emoji/\($0).png")
+            AutoCompleteResult(name: $0.name, url: $0.url)
         }
     }
 
-    static var emojis: [String] = []
+    static var emojis: [(name: String, url: String)] = []
     static func loadEmojiJSON(defaultJSON: String) {
         let data = stubbedData(defaultJSON)
         let json: JSON
@@ -60,17 +60,17 @@ public struct AutoCompleteService {
             json = JSON("")
         }
 
-        if let emojis = json["emojis"].object as? [String]
+        if let emojis = json["emojis"].object as? [[String: String]]
         {
-            self.emojis = emojis
+            self.emojis = emojis.map { (name: $0["name"] ?? "", url: $0["image_url"] ?? "") }
         }
 
         Alamofire.request(.GET, "\(ElloURI.baseURL)/emojis.json")
             .responseJSON { response in
                 if let JSON = response.result.value,
-                    emojis = JSON["emojis"] as? [String]
+                    emojis = JSON["emojis"] as? [[String: String]]
                 {
-                    self.emojis = emojis
+                    self.emojis = emojis.map { (name: $0["name"] ?? "", url: $0["image_url"] ?? "") }
                 }
             }
     }
