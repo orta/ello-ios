@@ -35,7 +35,6 @@ public class ProfileViewController: StreamableViewController {
     var responseConfig: ResponseConfig?
     var userParam: String!
     var coverImageHeightStart: CGFloat?
-    let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
@@ -138,9 +137,9 @@ public class ProfileViewController: StreamableViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        var height = view.frame.width / ratio
-        height += ElloNavigationBar.Size.height
-        coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
+        let height: CGFloat = 211
+        let maxHeight = height - streamViewController.collectionView.contentOffset.y
+        coverImageHeight.constant = max(maxHeight, height)
         coverImageHeightStart = height
 
         gradientLayer.frame.size = gradientView.frame.size
@@ -201,7 +200,7 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        updateInsets(navBar: navigationBar, streamController: streamViewController)
+        updateInsets(navBar: relationshipControlsView, streamController: streamViewController)
     }
 
     private func hideNavBar(animated animated: Bool) {
@@ -400,7 +399,10 @@ public class ProfileViewController: StreamableViewController {
                 self.coverImage.alpha = 1.0
             }
         }
-        var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: .ProfileHeader)]
+        var items: [StreamCellItem] = [
+            StreamCellItem(jsonable: user, type: .ProfileHeader),
+            StreamCellItem(jsonable: user, type: .Spacer(height: 54)),
+        ]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
