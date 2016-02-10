@@ -23,6 +23,11 @@ public final class AutoCompleteResult: JSONAble {
         super.init(version: AutoCompleteResultVersion)
     }
 
+    public convenience init(name: String, url: String) {
+        self.init(name: name)
+        self.url = NSURL(string: url)
+    }
+
     // MARK: NSCoding
     public required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)

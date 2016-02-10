@@ -38,7 +38,7 @@ public struct AutoCompleteService {
         return AutoCompleteService.emojis.filter {
             ":\($0):".contains(text)
         }.map {
-            AutoCompleteResult(name: $0)
+            AutoCompleteResult(name: $0, url: "https://ello.co/images/emoji/\($0).png")
         }
     }
 
