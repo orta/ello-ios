@@ -377,7 +377,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             context("post editability") {
 
                 beforeEach {
-                    Defaults["OmnibarNewEditorEnabled"] = true
+                    GroupDefaults["OmnibarNewEditorEnabled"] = true
                 }
 
                 it("can edit a single text region") {

@@ -36,12 +36,12 @@ class ElloProviderSpec: QuickSpec {
             it("has one when not in the simulator") {
                 AppSetup.sharedState.isSimulator = false
                 // TODO: figure out how to mock UIDevice.currentDevice().model
-                expect(ElloProvider.serverTrustPolicies["ello.co"]).notTo(beNil())
+                expect(ElloManager.serverTrustPolicies["ello.co"]).notTo(beNil())
             }
 
             it("has zero when in the simulator") {
                 AppSetup.sharedState.isSimulator = true
-                expect(ElloProvider.serverTrustPolicies["ello.co"]).to(beNil())
+                expect(ElloManager.serverTrustPolicies["ello.co"]).to(beNil())
             }
 
         }
@@ -57,7 +57,7 @@ class ElloProviderSpec: QuickSpec {
 
             it("includes 2 ssl certificates in the app") {
                 AppSetup.sharedState.isSimulator = false
-                let policy = ElloProvider.serverTrustPolicies["ello.co"]!
+                let policy = ElloManager.serverTrustPolicies["ello.co"]!
                 var doesValidatesChain = false
                 var doesValidateHost = false
                 var keys = [SecKey]()

@@ -268,7 +268,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             "commentsCount" : 6,
                             "lovesCount" : 14,
                         ])
-                        let comment: Comment = stub([
+                        let comment: ElloComment = stub([
                             "id" : "362",
                             "parentPost" : post,
                             "content" : content
@@ -321,7 +321,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             "commentsCount" : 6,
                             "lovesCount" : 14,
                             ])
-                        let comment: Comment = stub([
+                        let comment: ElloComment = stub([
                             "id" : "362",
                             "parentPost" : post,
                             "content" : content
@@ -348,7 +348,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                             "commentsCount" : 6,
                             "lovesCount" : 14,
                             ])
-                        let comment: Comment = stub([
+                        let comment: ElloComment = stub([
                             "id" : "362",
                             "author": currentUser,
                             "parentPost" : post,

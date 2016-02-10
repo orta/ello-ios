@@ -417,7 +417,7 @@ class ElloAPISpec: QuickSpec {
                     expect(params["email"] as? String) == "me@me.me"
                 }
 
-                it("Join") {
+                describe("Join") {
                     context("without an invitation code") {
                         let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: nil).parameters!
                         expect(params["email"] as? String) == "me@me.me"

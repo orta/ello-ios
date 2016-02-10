@@ -36,7 +36,7 @@ PODS:
   - Moya/Core (6.0.1):
     - Alamofire (~> 3.0)
     - Result (~> 1.0)
-  - Nimble (3.0.0)
+  - Nimble (3.1.0)
   - Nimble-Snapshots (3.0.0):
     - FBSnapshotTestCase (~> 2.0.7)
     - Nimble
@@ -62,7 +62,7 @@ PODS:
   - PINRemoteImage/FLAnimatedImage (1.2.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - Quick (0.8.0)
+  - Quick (0.9.1)
   - Result (1.0.1)
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.x):
@@ -124,6 +124,7 @@ DEPENDENCIES:
   - CRToast (from `https://github.com/ello/CRToast`)
   - ElloUIFonts (~> 1.1.0)
   - Fabric (~> 1.6)
+  - FBSnapshotTestCase (from `https://github.com/neonichu/ios-snapshot-test-case.git`, commit `9e88da88a7a3df2f80838449a5f1e71830179218`)
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController
   - iRate (~> 1.11)
@@ -133,11 +134,11 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 6.0.0)
-  - Nimble (~> 3.0.0)
+  - Nimble (~> 3.1)
   - Nimble-Snapshots (~> 3.0)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit `af312667f0ce830264198366f481f1b222675a31`)
-  - Quick (~> 0.8.0)
+  - Quick (~> 0.9)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (from `https://github.com/ello/SwiftyJSON`, branch `Swift-2.0`)
@@ -151,6 +152,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
+  FBSnapshotTestCase:
+    :commit: 9e88da88a7a3df2f80838449a5f1e71830179218
+    :git: https://github.com/neonichu/ios-snapshot-test-case.git
   JTSImageViewController:
     :git: https://github.com/ello/JTSImageViewController
   Keys:
@@ -175,6 +179,9 @@ CHECKOUT OPTIONS:
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
+  FBSnapshotTestCase:
+    :commit: 9e88da88a7a3df2f80838449a5f1e71830179218
+    :git: https://github.com/neonichu/ios-snapshot-test-case.git
   JTSImageViewController:
     :commit: 4f0a918c38c7606fc5f876774cd3b96701b3f548
     :git: https://github.com/ello/JTSImageViewController
@@ -203,7 +210,7 @@ SPEC CHECKSUMS:
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   ElloUIFonts: 16c31ba0b19e82d613df50fb6498f43560a603a2
   Fabric: ed41fd62173c6bdea24ab02c9d7707161eabb750
-  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
+  FBSnapshotTestCase: a89bbc6ea786ef38c2d4e313b3374177c8597b8f
   FLAnimatedImage: e16a1e1cef08e4c509b47e4acbe3923f65c16135
   ImagePickerSheetController: 3c58c9fee6dcf36485222358a021f6b734f997ba
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
@@ -213,12 +220,12 @@ SPEC CHECKSUMS:
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   Moya: fcd80ed553234960a4d28529c184850a8fb43b80
-  Nimble: 4c353d43735b38b545cbb4cb91504588eb5de926
+  Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
   Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
   OHHTTPStubs: d2bf6a0f407620d67e75a1d3f12d86a2b1dd15c0
   PINCache: 9e70271f1bdd60c0465b7208adcc4b6acc1fc376
   PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
-  Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
+  Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: caef80340451e1f07492fa1e89117f83613bce24
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: 199cfcfd5558377b8f18a9a73439eb4cbc412014
@@ -229,6 +236,6 @@ SPEC CHECKSUMS:
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: b1c65ed30fee8c73b737d5af5c3ddb110a916689
+PODFILE CHECKSUM: 7f8584703c69097a2ae6b31ee9f39d7222c6852f
 
-COCOAPODS: 1.0.0.beta.2
+COCOAPODS: 1.0.0.beta.3

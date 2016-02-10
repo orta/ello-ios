@@ -8,7 +8,7 @@
 
 public protocol PostTappedDelegate: NSObjectProtocol {
     func postTapped(post: Post)
-    func postTapped(post: Post, scrollToComment: Comment?)
+    func postTapped(post: Post, scrollToComment: ElloComment?)
     func postTapped(postId postId: String)
 }
 
@@ -169,7 +169,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
         self.postTapped(postId: post.id, scrollToComment: nil)
     }
 
-    public func postTapped(post: Post, scrollToComment lastComment: Comment?) {
+    public func postTapped(post: Post, scrollToComment lastComment: ElloComment?) {
         self.postTapped(postId: post.id, scrollToComment: lastComment)
     }
 
@@ -177,7 +177,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
         self.postTapped(postId: postId, scrollToComment: nil)
     }
 
-    private func postTapped(postId postId: String, scrollToComment lastComment: Comment?) {
+    private func postTapped(postId postId: String, scrollToComment lastComment: ElloComment?) {
         let vc = PostDetailViewController(postParam: postId)
         vc.scrollToComment = lastComment
         vc.currentUser = currentUser

@@ -38,37 +38,37 @@ class NewContentServiceSpec: QuickSpec {
                 let jsonables = [post, post2, post3]
 
                 beforeEach {
-                    Defaults[streamKind.lastViewedCreatedAtKey] = nil
+                    GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
                 }
 
 
                 context("no existing date stored") {
 
                     it("stores the created_at of the most recent jsonable") {
-                        Defaults[streamKind.lastViewedCreatedAtKey] = nil
+                        GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(Defaults[streamKind.lastViewedCreatedAtKey].date) == mar_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == mar_01_2015
                     }
                 }
 
                 context("older existing date stored") {
 
                     it("stores the created_at of the most recent jsonable") {
-                        Defaults[streamKind.lastViewedCreatedAtKey] = sep_30_1978
+                        GroupDefaults[streamKind.lastViewedCreatedAtKey] = sep_30_1978
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(Defaults[streamKind.lastViewedCreatedAtKey].date) == mar_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == mar_01_2015
                     }
                 }
 
                 context("newer existing date stored") {
 
                     it("keeps the existing date") {
-                        Defaults[streamKind.lastViewedCreatedAtKey] = apr_01_2015
+                        GroupDefaults[streamKind.lastViewedCreatedAtKey] = apr_01_2015
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(Defaults[streamKind.lastViewedCreatedAtKey].date) == apr_01_2015
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == apr_01_2015
                     }
                 }
 
@@ -81,10 +81,10 @@ class NewContentServiceSpec: QuickSpec {
                         let jsonables = [user, user2, user3]
                         let old = NSDate(timeIntervalSince1970: 0)
 
-                        Defaults[streamKind.lastViewedCreatedAtKey] = nil
+                        GroupDefaults[streamKind.lastViewedCreatedAtKey] = nil
                         subject.updateCreatedAt(jsonables, streamKind: streamKind)
 
-                        expect(Defaults[streamKind.lastViewedCreatedAtKey].date) == old
+                        expect(GroupDefaults[streamKind.lastViewedCreatedAtKey].date) == old
                     }
                 }
             }

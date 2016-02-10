@@ -45,42 +45,42 @@ class CGRectExtensionSpec: QuickSpec {
 
         describe("setters") {
             let frame = CGRect(x: 1, y: 2, width: 3, height: 4)
-            it("-atOrigin:") {
+            describe("-atOrigin:") {
                 let newFrame = frame.atOrigin(CGPoint(x: 5, y: 5))
                 it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(5)))}
                 it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(5)))}
                 it("should ignore width")     { expect(newFrame.size.width).to(equal(CGFloat(3)))}
                 it("should ignore height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
             }
-            it("-withSize:") {
+            describe("-withSize:") {
                 let newFrame = frame.withSize(CGSize(width: 5, height: 5))
                 it("should ignore x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should ignore y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
                 it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(5)))}
                 it("should set height") { expect(newFrame.size.height).to(equal(CGFloat(5)))}
             }
-            it("-atX:") {
+            describe("-atX:") {
                 let newFrame = frame.atX(5)
                 it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(5)))}
                 it("should ignore y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
                 it("should ignore width")     { expect(newFrame.size.width).to(equal(CGFloat(3)))}
                 it("should ignore height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
             }
-            it("-atY:") {
+            describe("-atY:") {
                 let newFrame = frame.atY(5)
                 it("should ignore x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(5)))}
                 it("should ignore width")     { expect(newFrame.size.width).to(equal(CGFloat(3)))}
                 it("should ignore height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
             }
-            it("-withWidth:") {
+            describe("-withWidth:") {
                 let newFrame = frame.withWidth(5)
                 it("should ignore x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should ignore y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
                 it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(5)))}
                 it("should ignore height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
             }
-            it("-withHeight:") {
+            describe("-withHeight:") {
                 let newFrame = frame.withHeight(5)
                 it("should ignore x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should ignore y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}

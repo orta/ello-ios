@@ -22,7 +22,7 @@ class CommentSpec: QuickSpec {
                 let parsedComment = stubbedJSONData("comments_comment_details", "comments")
 
                 let createdAtString = "2014-06-02T00:00:00.000Z"
-                let comment = Comment.fromJSON(parsedComment) as! Comment
+                let comment = ElloComment.fromJSON(parsedComment) as! ElloComment
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
                 expect(comment.createdAt) == createdAt
@@ -45,7 +45,7 @@ class CommentSpec: QuickSpec {
         context("parentPost vs loadedFromPost") {
             it("defaults to parentPost") {
                 let post = Post.stub([:])
-                let comment = Comment.stub([
+                let comment = ElloComment.stub([
                     "parentPost": post,
                     ])
                 expect(comment.postId) == post.id
@@ -56,7 +56,7 @@ class CommentSpec: QuickSpec {
             it("can have both") {
                 let post1 = Post.stub([:])
                 let post2 = Post.stub([:])
-                let comment = Comment.stub([
+                let comment = ElloComment.stub([
                     "parentPost": post1,
                     "loadedFromPost": post2
                     ])
@@ -86,7 +86,7 @@ class CommentSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let comment: Comment = stub([:])
+                    let comment: ElloComment = stub([:])
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
                     expect(wasSuccessfulArchived).to(beTrue())
                 }
@@ -164,7 +164,7 @@ class CommentSpec: QuickSpec {
 
                     let content = [textRegion, imageRegion]
 
-                    let comment: Comment = stub([
+                    let comment: ElloComment = stub([
                         "author" : author,
                         "id" : "362",
                         "createdAt" : expectedCreatedAt,
@@ -173,7 +173,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
-                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Comment
+                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! ElloComment
 
                     expect(unArchivedComment).toNot(beNil())
                     expect(unArchivedComment.version) == 1

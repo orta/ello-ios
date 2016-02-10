@@ -31,6 +31,7 @@ public final class Activity: JSONAble {
         case NoisePost = "noise_post" // main feed
 
         // Comments
+
         case FriendComment = "friend_comment"
 
         // Notifications

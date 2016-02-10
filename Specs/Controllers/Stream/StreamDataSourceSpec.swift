@@ -183,7 +183,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 context("isValidIndexPath(_:)") {
                     beforeEach {
-                        let item = StreamCellItem(jsonable: Comment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])), type: .CreateComment)
+                        let item = StreamCellItem(jsonable: ElloComment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])), type: .CreateComment)
                         subject.appendStreamCellItems([item])
                     }
                     it("returns true for valid path (0, 0)") {
@@ -274,7 +274,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns nil when cell doesn't exist") {
-                    let anyItem = StreamCellItem(jsonable: Comment.stub([:]), type: .SeeMoreComments)
+                    let anyItem = StreamCellItem(jsonable: ElloComment.stub([:]), type: .SeeMoreComments)
                     expect(subject.indexPathForItem(anyItem)).to(beNil())
                 }
 
@@ -336,7 +336,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("commentForIndexPath(_:)") {
 
                 beforeEach {
-                    let cellItems = StreamCellItemParser().parse([Comment.stub([:])], streamKind: .Following)
+                    let cellItems = StreamCellItemParser().parse([ElloComment.stub([:])], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -344,7 +344,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns a comment") {
-                    expect(subject.commentForIndexPath(indexPath0)).to(beAKindOf(Comment.self))
+                    expect(subject.commentForIndexPath(indexPath0)).to(beAKindOf(ElloComment.self))
                 }
 
                 it("returns nil when out of bounds") {
@@ -361,7 +361,7 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     let parser = StreamCellItemParser()
                     let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Following)
-                    let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    let commentCellItems = parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .Following)
                     let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
                     let cellItems = postCellItems + commentCellItems + otherPostCellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
@@ -500,25 +500,25 @@ class StreamDataSourceSpec: QuickSpec {
                     let post1CellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Following)
                     cellItems = post1CellItems
                     // creates 4 cells 2x2
-                    let comment1CellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    let comment1CellItems = parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .Following)
                     cellItems += comment1CellItems
                     // one cell
-                    let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments)
+                    let seeMoreCellItem = StreamCellItem(jsonable: ElloComment.stub(["parentPostId": "666"]), type: .SeeMoreComments)
                     cellItems.append(seeMoreCellItem)
                     // creates 4 cells
                     let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
                     cellItems += post2CellItems
                     // creates 2 cells
-                    let comment2CellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
+                    let comment2CellItems = parser.parse([ElloComment.stub(["parentPostId": "777"])], streamKind: .Following)
                     cellItems += comment2CellItems
                     // creates 5 cells
                     let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Following)
                     cellItems += post3CellItems
                     // create 1 cell
-                    let createCommentCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "888"]), type: .CreateComment)
+                    let createCommentCellItem = StreamCellItem(jsonable: ElloComment.stub(["parentPostId": "888"]), type: .CreateComment)
                     cellItems.append(createCommentCellItem)
                     // creates 2 cells
-                    let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Following)
+                    let comment3CellItems = parser.parse([ElloComment.stub(["parentPostId": "888"])], streamKind: .Following)
                     cellItems += comment3CellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -583,8 +583,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let stubCommentCellItems: (commentsVisible: Bool) -> Void = { (commentsVisible: Bool) in
                         let parser = StreamCellItemParser()
                         let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Following)
-                        let commentButtonCellItem = [StreamCellItem(jsonable: Comment.stub(["parentPostId": "456"]), type: .CreateComment)]
-                        let commentCellItems = parser.parse([Comment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Following)
+                        let commentButtonCellItem = [StreamCellItem(jsonable: ElloComment.stub(["parentPostId": "456"]), type: .CreateComment)]
+                        let commentCellItems = parser.parse([ElloComment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Following)
                         var cellItems = postCellItems
                         if commentsVisible {
                             cellItems = cellItems + commentButtonCellItem + commentCellItems
@@ -600,7 +600,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("inserts the new comment") {
                             stubCommentCellItems(commentsVisible: true)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 7
-                            subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            subject.modifyItems(ElloComment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                             expect(subject.commentForIndexPath(NSIndexPath(forItem: 5, inSection: 0))!.id) == "new_comment"
                         }
@@ -608,7 +608,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("doesn't insert the new comment") {
                             stubCommentCellItems(commentsVisible: false)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
-                            subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            subject.modifyItems(ElloComment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                         }
 
@@ -619,7 +619,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("removes the deleted comment") {
                             stubCommentCellItems(commentsVisible: true)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 7
-                            subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            subject.modifyItems(ElloComment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 5
 
                         }
@@ -627,7 +627,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("doesn't remove the deleted comment") {
                             stubCommentCellItems(commentsVisible: false)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
-                            subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            subject.modifyItems(ElloComment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                         }
 
@@ -799,12 +799,12 @@ class StreamDataSourceSpec: QuickSpec {
                 let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
                     let user1: User = stub(["id": "user1"])
                     let post1: Post = stub(["id": "post1", "authorId" : "user1"])
-                    let post1Comment1: Comment = stub([
+                    let post1Comment1: ElloComment = stub([
                         "parentPost": post1,
                         "id" : "comment1",
                         "authorId": "user1"
                     ])
-                    let post1Comment2: Comment = stub([
+                    let post1Comment2: ElloComment = stub([
                         "parentPost": post1,
                         "id" : "comment2",
                         "authorId": "user2"
@@ -926,7 +926,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
-                it("modifies a user when it is the currentUser") {
+                context("modifies a user when it is the currentUser") {
                     it("removes blocked user, their post and all comments on that post") {
                         stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
                         expect(subject.userForIndexPath(indexPath0)!.username) == "sweet"
@@ -943,10 +943,10 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
                     items += parser.parse([post], streamKind: .Following)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
+                    items += parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .Following)
                     items += parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
-                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
+                    items += parser.parse([ElloComment.stub(["parentPostId": "777"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -974,10 +974,10 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
                     items += parser.parse([post], streamKind: .Following)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
+                    items += parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .Following)
                     items += parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
-                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
+                    items += parser.parse([ElloComment.stub(["parentPostId": "777"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1029,7 +1029,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("-heightForIndexPath:numberOfColumns") {
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
+                    items.append(StreamCellItem(jsonable: ElloComment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1088,7 +1088,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
+                    items.append(StreamCellItem(jsonable: ElloComment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1113,7 +1113,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
+                    items.append(StreamCellItem(jsonable: ElloComment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1218,8 +1218,8 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     let items = [
-                        StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment),
-                        StreamCellItem(jsonable: Comment.stub([:]), type: .CommentHeader)
+                        StreamCellItem(jsonable: ElloComment.stub([:]), type: .CreateComment),
+                        StreamCellItem(jsonable: ElloComment.stub([:]), type: .CommentHeader)
                     ]
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1255,8 +1255,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666", "content": [TextRegion.stub([:])]])
                     items += parser.parse([post], streamKind: .Following)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
+                    items += parser.parse([ElloComment.stub(["parentPostId": "666"]), ElloComment.stub(["parentPostId": "666"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1268,7 +1268,7 @@ class StreamDataSourceSpec: QuickSpec {
                     for (index, item) in subject.visibleCellItems.enumerate() {
                         let indexPath = NSIndexPath(forItem: index, inSection: 0)
                         let groupId = subject.groupForIndexPath(indexPath)
-                        if item.jsonable is Post || item.jsonable is Comment {
+                        if item.jsonable is Post || item.jsonable is ElloComment {
                             expect(groupId) == post.id
                         }
                     }
@@ -1325,7 +1325,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let imageCellItem = StreamCellItem(jsonable: post, type: .Image(data: ImageRegion.stub([:])))
                     let anotherImageCellItem = StreamCellItem(jsonable: Post.stub([:]), type: .Image(data: ImageRegion.stub([:])))
 
-                    let comment = Comment.newCommentForPost(post, currentUser: User.stub([:]))
+                    let comment = ElloComment.newCommentForPost(post, currentUser: User.stub([:]))
                     newCellItem = StreamCellItem(jsonable: comment, type: .CreateComment)
 
                     subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
@@ -1365,10 +1365,10 @@ class StreamDataSourceSpec: QuickSpec {
             context("elementsForJSONAble(_:, change:)") {
                 let user1 = User.stub([:])
                 let post1 = Post.stub([:])
-                let comment1 = Comment.stub(["parentPost": post1])
+                let comment1 = ElloComment.stub(["parentPost": post1])
                 let user2 = User.stub([:])
                 let post2 = Post.stub([:])
-                let comment2 = Comment.stub(["parentPost": post2])
+                let comment2 = ElloComment.stub(["parentPost": post2])
                 beforeEach {
                     let cellItems = StreamCellItemParser().parseAllForTesting([
                         user1, post1, comment1,
@@ -1392,7 +1392,7 @@ class StreamDataSourceSpec: QuickSpec {
                 it("should return post and comment (object equality, change = .Delete)") {
                     let items = subject.testingElementsForJSONAble(post1, change: .Delete).1
                     for item in items {
-                        if item.jsonable is Comment {
+                        if item.jsonable is ElloComment {
                             expect(item.jsonable) == comment1
                         }
                         else {
@@ -1413,7 +1413,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
                 it("should return a comment (id equality)") {
-                    let items = subject.testingElementsForJSONAble(Comment.stub(["id": comment1.id]), change: .Create).1
+                    let items = subject.testingElementsForJSONAble(ElloComment.stub(["id": comment1.id]), change: .Create).1
                     for item in items {
                         expect(item.jsonable) == comment1
                     }
@@ -1421,7 +1421,7 @@ class StreamDataSourceSpec: QuickSpec {
                 it("should return post and comment (id equality, change = .Delete)") {
                     let items = subject.testingElementsForJSONAble(Post.stub(["id": post1.id]), change: .Delete).1
                     for item in items {
-                        if item.jsonable is Comment {
+                        if item.jsonable is ElloComment {
                             expect(item.jsonable) == comment1
                         }
                         else {
@@ -1440,7 +1440,7 @@ class StreamDataSourceSpec: QuickSpec {
                     expect(items) == []
                 }
                 it("should return nothing (no matching comment)") {
-                    let items = subject.testingElementsForJSONAble(Comment.stub([:]), change: .Create).1
+                    let items = subject.testingElementsForJSONAble(ElloComment.stub([:]), change: .Create).1
                     expect(items) == []
                 }
                 it("should return nothing (no matching user)") {

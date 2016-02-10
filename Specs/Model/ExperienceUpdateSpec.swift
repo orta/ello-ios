@@ -17,7 +17,7 @@ class ExperienceUpdateSpec: QuickSpec {
             it("should update post comment counts") {
                 let post1 = Post.stub(["id": "post1", "commentsCount": 1])
                 let post2 = Post.stub(["id": "post2", "commentsCount": 1])
-                let comment = Comment.stub([
+                let comment = ElloComment.stub([
                     "parentPost": post1,
                     "loadedFromPost": post2
                     ])

@@ -27,6 +27,7 @@ def standard_pods
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'YapDatabase', '2.8.1'
   pod 'iRate', '~> 1.11'
+  pod 'FBSnapshotTestCase', git: 'https://github.com/neonichu/ios-snapshot-test-case.git', commit: '9e88da88a7a3df2f80838449a5f1e71830179218'
 
   if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
     pod 'ElloUIFonts', '~> 1.1.0'
@@ -55,6 +56,7 @@ target 'ShareExtension' do
   else 
     pod 'ElloOSSUIFonts', '~> 1.0.0'
   end 
+  pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '2.8.1'
   pod 'Alamofire', '~> 3.0'
@@ -68,8 +70,8 @@ end
 target 'Specs' do
   standard_pods
 
-  pod 'Quick', '~> 0.8.0'
-  pod 'Nimble', '~> 3.0.0'
+  pod 'Quick', '~> 0.9'
+  pod 'Nimble', '~> 3.1'
   pod 'Nimble-Snapshots', '~> 3.0'
   pod 'OHHTTPStubs', '~> 4.3'
 end
