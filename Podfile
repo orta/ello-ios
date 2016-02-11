@@ -26,10 +26,10 @@ pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 pod 'iRate', '~> 1.11'
 
 if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
-  pod 'ElloUIFonts', '~> 1.0.0'
-else 
+  pod 'ElloUIFonts', '~> 1.1.0'
+else
   pod 'ElloOSSUIFonts', '~> 1.0.0'
-end 
+end
 
 # swift pods
 pod 'Alamofire', '~> 3.0'
