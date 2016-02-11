@@ -16,7 +16,7 @@ import MobileCoreServices
 
 public class ShareViewController: SLComposeServiceViewController {
 
-    private var itemPreviews: [ExtensionItemPreview] = []
+    public var itemPreviews: [ExtensionItemPreview] = []
     private var postService = PostEditingService()
     private lazy var background: UIView = {
         let view = UIView()
@@ -32,6 +32,7 @@ public class ShareViewController: SLComposeServiceViewController {
         }
 
         processAttachments()
+
         super.presentationAnimationDidFinish()
     }
 
@@ -50,8 +51,9 @@ public class ShareViewController: SLComposeServiceViewController {
 private extension ShareViewController {
 
     func processAttachments() {
-        // Only interested in the first item
-        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
+        guard let extensionItem = extensionContext?.inputItems.safeValue(0) as? NSExtensionItem else {
+            return
+        }
 
         let filter = { preview in
             return self.itemPreviews.any {$0 == preview}

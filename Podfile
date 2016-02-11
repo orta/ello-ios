@@ -26,8 +26,7 @@ def standard_pods
   pod 'SSPullToRefresh', '~> 1.2'
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'YapDatabase', '2.8.1'
-  pod 'iRate', '~> 1.11'
-  pod 'FBSnapshotTestCase', git: 'https://github.com/neonichu/ios-snapshot-test-case.git', commit: '9e88da88a7a3df2f80838449a5f1e71830179218'
+  pod 'iRate', '~> 1.11' 
 
   if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
     pod 'ElloUIFonts', '~> 1.1.0'
@@ -69,7 +68,7 @@ end
 
 target 'Specs' do
   standard_pods
-
+  pod 'FBSnapshotTestCase', git: 'https://github.com/neonichu/ios-snapshot-test-case.git', commit: '9e88da88a7a3df2f80838449a5f1e71830179218'
   pod 'Quick', '~> 0.9'
   pod 'Nimble', '~> 3.1'
   pod 'Nimble-Snapshots', '~> 3.0'

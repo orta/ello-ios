@@ -205,7 +205,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
-                context("with reposts") {
+                fcontext("with reposts") {
                     beforeEach {
                         // there should be 10 reposts
                         // 10 * 7(number of cells for a repost w/ 2 regions) = 70

@@ -9,9 +9,15 @@
 import UIKit
 
 public struct ExtensionItemPreview {
-    let image: UIImage?
-    let imagePath: NSURL?
-    let text: String?
+    public let image: UIImage?
+    public let imagePath: NSURL?
+    public let text: String?
+
+    public init(image: UIImage?, imagePath: NSURL?, text: String?) {
+        self.image = image
+        self.imagePath = imagePath
+        self.text = text
+    }
 
     public var description: String {
         return "image: \(self.image), imagePath: \(self.imagePath) text: \(self.text)"

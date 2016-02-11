@@ -9,11 +9,16 @@
 import Foundation
 import UIKit
 
-typealias ExtensionItemProcessor = ExtensionItemPreview? -> Void
+public typealias ExtensionItemProcessor = ExtensionItemPreview? -> Void
+public typealias ShareAttachmentFilter = (ExtensionItemPreview) -> Bool
 
 public struct ShareAttachmentProcessor {
 
-    let existsFilter: (ExtensionItemPreview) -> Bool
+    let existsFilter: ShareAttachmentFilter
+
+    public init(existsFilter: ShareAttachmentFilter) {
+        self.existsFilter = existsFilter
+    }
 
     public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
         var previews: [ExtensionItemPreview] = []
@@ -63,6 +68,9 @@ private extension ShareAttachmentProcessor {
         else if attachment.isImage() {
             self.processImage(attachment, callback: callback)
         }
+        else {
+            callback(nil)
+        }
     }
 
     func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
@@ -103,8 +111,9 @@ private extension ShareAttachmentProcessor {
     func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         attachment.loadImage(nil) {
             (imageURL, error) in
-            if let imagePath = imageURL as? NSURL,
-                let data = NSData(contentsOfURL: imagePath),
+
+            if let imageURL = imageURL as? NSURL,
+                let data = NSData(contentsOfFile: imageURL.absoluteString),
                 let image = UIImage(data: data)
             {
                 image.copyWithCorrectOrientationAndSize() { image in
