@@ -137,7 +137,8 @@ public class ProfileViewController: StreamableViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let height: CGFloat = 211
+        let ratio: CGFloat = ProfileHeaderCellSizeCalculator.ratio
+        let height: CGFloat = view.frame.width / ratio
         let maxHeight = height - streamViewController.collectionView.contentOffset.y
         coverImageHeight.constant = max(maxHeight, height)
         coverImageHeightStart = height
