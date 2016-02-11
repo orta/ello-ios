@@ -20,19 +20,19 @@ class LoveSpec: QuickSpec {
                 let data = stubbedJSONData("loves_creating_a_love", "loves")
                 let love = Love.fromJSON(data) as! Love
 
-                let createdAtString = "2015-05-20T17:20:22.607Z"
+                let createdAtString = "2015-10-22T17:04:06.789Z"
                 let createdAt: NSDate = createdAtString.toNSDate()!
 
-                let updatedAtString = "2015-05-20T17:20:22.607Z"
+                let updatedAtString = "2015-10-22T17:04:06.789Z"
                 let updatedAt: NSDate = updatedAtString.toNSDate()!
 
                 // active record
-                expect(love.id) == "9"
+                expect(love.id) == "23"
                 expect(love.createdAt) == createdAt
                 expect(love.updatedAt) == updatedAt
                 // required
                 expect(love.deleted) == false
-                expect(love.postId) == "161"
+                expect(love.postId) == "222"
                 expect(love.userId) == "42"
                 expect(love.post).to(beAKindOf(Post.self))
             }
