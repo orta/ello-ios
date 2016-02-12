@@ -178,10 +178,4 @@ extension Keychain {
             try self.set(value, key: key)
         }
     }
-
-//    func updateIfNeeded(value: String?, key: String ) {
-//        if self[key] != value {
-//            self[key] = value
-//        }
-//    }
 }

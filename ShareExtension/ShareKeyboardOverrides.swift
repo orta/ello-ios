@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 
 public extension Keyboard {
+
+    // App extensions do not have access to
+    // UIApplication.sharedApplication, override
+    // these two methods and remove sharedApplication
+    // references in ShareExtension
+
     @objc
     func willShow(notification : NSNotification) {
         active = true

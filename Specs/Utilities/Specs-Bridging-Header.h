@@ -12,8 +12,3 @@
 #import <SSPullToRefresh/SSPullToRefresh.h>
 #import <SVGKit/SVGKit.h>
 #import <YapDatabase/YapDatabase.h>
-#import <FBSnapshotTestCase/FBSnapshotTestController.h>
-#import <FBSnapshotTestCase/FBSnapshotTestCasePlatform.h>
-#import <FBSnapshotTestCase/UIImage+Compare.h>
-#import <FBSnapshotTestCase/UIImage+Diff.h>
-#import <FBSnapshotTestCase/UIImage+Snapshot.h>
