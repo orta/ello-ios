@@ -51,7 +51,7 @@ end
 target 'ShareExtension' do
 
   if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
-    pod 'ElloUIFonts', '~> 1.0.0'
+    pod 'ElloUIFonts', '~> 1.1.0'
   else 
     pod 'ElloOSSUIFonts', '~> 1.0.0'
   end 
