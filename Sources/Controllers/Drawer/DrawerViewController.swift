@@ -11,6 +11,7 @@ import Crashlytics
 public class DrawerViewController: StreamableViewController {
     @IBOutlet weak public var tableView: UITableView!
     weak public var navigationBar: ElloNavigationBar!
+    public var isLoggingOut = false
 
     override var backGestureEdges: UIRectEdge { return .Right }
 
@@ -34,7 +35,6 @@ public class DrawerViewController: StreamableViewController {
 // MARK: View Lifecycle
 extension DrawerViewController {
     override public func viewDidLoad() {
-        addHamburgerButton()
         addLeftButtons()
         setupNavigationBar()
         registerCells()
@@ -54,20 +54,6 @@ extension DrawerViewController {
     }
 }
 
-// MARK: Actions
-extension DrawerViewController {
-
-    func hamburgerButtonTapped() {
-        Tracker.sharedTracker.drawerClosed()
-        navigationController?.popViewControllerAnimated(true)
-    }
-
-    @IBAction func elloTapped() {
-        // no op
-    }
-}
-
-
 // MARK: UITableViewDelegate
 extension DrawerViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -81,13 +67,17 @@ extension DrawerViewController: UITableViewDelegate {
                 let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
                 responder?.onInviteFriends()
             case .Logout:
-                postNotification(AuthenticationNotifications.userLoggedOut, value: ())
+                isLoggingOut = true
+                nextTick {
+                    self.dismissViewControllerAnimated(true, completion: { _ in
+                         postNotification(AuthenticationNotifications.userLoggedOut, value: ())
+                    })
+                }
             default: break
             }
         }
     }
 }
-
 
 // MARK: View Helpers
 private extension DrawerViewController {
@@ -101,11 +91,6 @@ private extension DrawerViewController {
         let logoView = UIImageView(image: Interface.Image.ElloLogo.normalImage)
         logoView.frame = CGRect(x: 15, y: 30, width: 24, height: 24)
         navigationBar.addSubview(logoView)
-    }
-
-    func addHamburgerButton() {
-        let button = UIBarButtonItem(image: Interface.Image.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
-        elloNavigationItem.rightBarButtonItems = [button]
     }
 
     func registerCells() {

@@ -233,12 +233,16 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     // MARK: - IBActions
+    let drawerAnimator = DrawerAnimator()
 
     @IBAction func hamburgerButtonTapped() {
         let drawer = DrawerViewController()
         drawer.currentUser = currentUser
 
-        self.navigationController?.pushViewController(drawer, animated: true)
+        drawer.transitioningDelegate = drawerAnimator
+        drawer.modalPresentationStyle = .Custom
+
+        self.presentViewController(drawer, animated: true, completion: nil)
     }
 
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {

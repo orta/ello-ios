@@ -162,18 +162,6 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        switch (toVC, fromVC) {
-        case (is DrawerViewController, is StreamContainerViewController): return drawerAnimatorForOperation(operation)
-        case (is StreamContainerViewController, is DrawerViewController): return drawerAnimatorForOperation(operation)
-        default: return defaultAnimatorForOperation(operation)
-        }
-    }
-
-    public func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
-    }
-
-    func defaultAnimatorForOperation(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
         case .Push: return ForwardAnimator()
         case .Pop: return BackAnimator()
@@ -181,11 +169,8 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         }
     }
 
-    func drawerAnimatorForOperation(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning? {
-        switch operation {
-        case .Push: return BackAnimator()
-        case .Pop: return ForwardAnimator()
-        default: return .None
-        }
+    public func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactionController
     }
+
 }
