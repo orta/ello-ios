@@ -46,7 +46,7 @@ public class StreamContainerViewController: StreamableViewController {
     public var streamControllerViews:[UIView] = []
 
     private var childStreamControllers: [StreamViewController] {
-        return childViewControllers as! [StreamViewController]
+        return self.childViewControllers.filter { $0 is StreamViewController } as! [StreamViewController]
     }
 
     deinit {
@@ -107,7 +107,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        for controller in self.childViewControllers as! [StreamViewController] {
+        for controller in childStreamControllers {
             updateInsets(navBar: navigationBar, streamController: controller)
         }
     }
