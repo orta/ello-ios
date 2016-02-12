@@ -118,7 +118,6 @@ public class AlertViewController: UIViewController {
     public init(message: String? = nil, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal) {
         self.textAlignment = textAlignment
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
-
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         headerView.label.setLabelText(message ?? "", color: type.headerTextColor)

@@ -42,7 +42,7 @@ public class ShareViewController: SLComposeServiceViewController {
 
     public override func didSelectPost() {
         showSpinner()
-        let content = prepContent()
+        let content = ShareRegionProcessor().prepContent(contentText, itemPreviews: itemPreviews)
         postContent(content)
     }
 }
@@ -55,11 +55,8 @@ private extension ShareViewController {
             return
         }
 
-        let filter = { preview in
-            return self.itemPreviews.any {$0 == preview}
-        }
         inBackground {
-            let attachmentProcessor = ShareAttachmentProcessor(existsFilter: filter)
+            let attachmentProcessor = ShareAttachmentProcessor()
 
             attachmentProcessor.preview(extensionItem) { previews in
                 inForeground {
@@ -100,37 +97,6 @@ private extension ShareViewController {
 
     func dismissPostingForm() {
         self.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
-    }
-
-    func prepContent() -> [PostEditingService.PostContentRegion] {
-        var content: [PostEditingService.PostContentRegion] = []
-
-        let cleanedText = contentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if cleanedText.characters.count > 0 {
-            let region = PostEditingService.PostContentRegion.Text(cleanedText)
-            let exists = content.any {$0 == region}
-            if !exists {
-                content.append(region)
-            }
-        }
-        for preview in itemPreviews {
-            if let image = preview.image {
-                let region = PostEditingService.PostContentRegion.ImageData(image, nil, nil)
-                let exists = content.any {$0 == region}
-                if !exists {
-                    content.append(region)
-                }
-            }
-            if let text = preview.text {
-                let region = PostEditingService.PostContentRegion.Text(text)
-                let exists = content.any {$0 == region}
-                if !exists {
-                    content.append(region)
-                }
-            }
-        }
-
-        return content
     }
 
     func checkIfLoggedIn() -> Bool {

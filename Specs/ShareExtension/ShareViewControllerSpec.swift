@@ -59,6 +59,7 @@ class ShareViewControllerSpec: QuickSpec {
                         subject.presentationAnimationDidFinish()
                         expect(subject.presentedViewController).to(beNil())
                     }
+
                 }
             }
 

@@ -12,13 +12,9 @@ import UIKit
 public typealias ExtensionItemProcessor = ExtensionItemPreview? -> Void
 public typealias ShareAttachmentFilter = (ExtensionItemPreview) -> Bool
 
-public struct ShareAttachmentProcessor {
+public class ShareAttachmentProcessor {
 
-    let existsFilter: ShareAttachmentFilter
-
-    public init(existsFilter: ShareAttachmentFilter) {
-        self.existsFilter = existsFilter
-    }
+    public init(){}
 
     public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
         var previews: [ExtensionItemPreview] = []
@@ -39,7 +35,7 @@ private extension ShareAttachmentProcessor {
         if let attachment = attachments?.safeValue(index) {
             processAttachment(attachment) { preview in
                 if let preview = preview {
-                    let exists = self.existsFilter(preview)
+                    let exists = previews.any {$0 == preview}
                     if !exists {
                         previews.append(preview)
                     }

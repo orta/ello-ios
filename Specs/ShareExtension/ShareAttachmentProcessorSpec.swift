@@ -16,14 +16,11 @@ class ShareAttachmentProcessorSpec: QuickSpec {
         describe("ShareAttachmentProcessor") {
 
             var itemPreviews: [ExtensionItemPreview] = []
-            let filter = { preview in
-                return itemPreviews.any {$0 == preview}
-            }
 
-            var subject = ShareAttachmentProcessor(existsFilter: filter)
+            var subject = ShareAttachmentProcessor()
 
             beforeEach {
-                subject = ShareAttachmentProcessor(existsFilter: filter)
+                subject = ShareAttachmentProcessor()
             }
 
             afterEach {
@@ -59,12 +56,32 @@ class ShareAttachmentProcessorSpec: QuickSpec {
                     let urlPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "https://ello.co")
                     let textPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "hello")
 
-                    waitUntil { done in
+                    waitUntil(timeout: 30) { done in
                         subject.preview(extensionItem) { previews in
                             itemPreviews = previews
                             expect(itemPreviews[0] == urlPreview).to(beTrue())
                             expect(itemPreviews[1] == textPreview).to(beTrue())
                             expect(itemPreviews[2].image).notTo(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("filters out duplicate url items") {
+                    let extensionItem = NSExtensionItem()
+
+                    extensionItem.attachments = [
+                        NSItemProvider(item: NSURL(string: "https://ello.co"), typeIdentifier: String(kUTTypeURL)),
+                        NSItemProvider(item: "https://ello.co", typeIdentifier: String(kUTTypeText))
+                    ]
+
+                    let urlPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "https://ello.co")
+
+                    waitUntil(timeout: 30) { done in
+                        subject.preview(extensionItem) { previews in
+                            itemPreviews = previews
+                            expect(itemPreviews[0] == urlPreview).to(beTrue())
+                            expect(itemPreviews.count) == 1
                             done()
                         }
                     }
