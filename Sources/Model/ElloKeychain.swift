@@ -26,16 +26,17 @@ private let AuthTokenAuthenticated = "ElloAuthTokenAuthenticated"
 private let AuthUsername = "ElloAuthUsername"
 private let AuthPassword = "ElloAuthPassword"
 
-struct ElloKeychain: KeychainType {
+public struct ElloKeychain: KeychainType {
 
-    var keychain: Keychain {
+    public init() {}
+    public var keychain: Keychain {
         get {
             let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "3D5U9ESH74"
             return Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
         }
     }
 
-    var pushToken: NSData? {
+    public var pushToken: NSData? {
         get {
             if let pushToken = try? keychain.getData(PushToken) {
                 return pushToken
@@ -52,7 +53,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var authToken: String? {
+    public var authToken: String? {
         get {
             if let authToken = try? keychain.get(AuthTokenKey) {
                 return authToken
@@ -71,7 +72,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var refreshAuthToken: String? {
+    public var refreshAuthToken: String? {
         get {
             if let refreshAuthToken = try? keychain.get(AuthTokenRefresh) {
                 return refreshAuthToken
@@ -91,7 +92,7 @@ struct ElloKeychain: KeychainType {
     }
 
 
-    var authTokenType: String? {
+    public var authTokenType: String? {
         get {
             do { return try keychain.get(AuthTokenType) }
             catch { return nil }
@@ -109,7 +110,7 @@ struct ElloKeychain: KeychainType {
     }
 
 
-    var isPasswordBased: Bool? {
+    public var isPasswordBased: Bool? {
         get {
             do {
                 let data = try keychain.getData(AuthTokenAuthenticated)
@@ -136,7 +137,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var username: String? {
+    public var username: String? {
         get {
             do { return try keychain.getString(AuthUsername) }
             catch { return nil }
@@ -153,7 +154,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var password: String? {
+    public var password: String? {
         get {
             do { return try keychain.getString(AuthPassword) }
             catch { return nil }
