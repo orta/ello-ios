@@ -33,7 +33,7 @@ class DrawerViewControllerSpec: QuickSpec {
 
             describe("viewDidLoad") {
 
-                var subject = DrawerViewController()
+                var subject: DrawerViewController!
 
                 beforeEach {
                     subject = DrawerViewController()
@@ -49,6 +49,12 @@ class DrawerViewControllerSpec: QuickSpec {
                     subject.viewWillAppear(false) // required because the datasource is not setup until viewWillAppear
                     expect(subject.tableView).to(haveRegisteredIdentifier(DrawerCell.reuseIdentifier()))
                 }
+            }
+
+            describe("appearance") {
+
+                var subject = DrawerViewController()
+                validateAllSnapshots(subject)
             }
         }
     }

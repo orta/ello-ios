@@ -35,17 +35,17 @@ public class DrawerViewController: StreamableViewController {
 // MARK: View Lifecycle
 extension DrawerViewController {
     override public func viewDidLoad() {
+        super.viewDidLoad()
+
         addLeftButtons()
+        setupTableView()
         setupNavigationBar()
         registerCells()
-        super.viewDidLoad()
     }
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
-        tableView.delegate = self
-        tableView.dataSource = dataSource
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -81,10 +81,21 @@ extension DrawerViewController: UITableViewDelegate {
 
 // MARK: View Helpers
 private extension DrawerViewController {
+    func setupTableView() {
+        tableView.backgroundColor = .grey6()
+        tableView.delegate = self
+        tableView.dataSource = dataSource
+    }
+
     func setupNavigationBar() {
         navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height)
         navigationBar.items = [elloNavigationItem]
-        navigationBar.tintColor = UIColor.greyA()
+        navigationBar.tintColor = .greyA()
+
+        let color = UIColor.grey6()
+        navigationBar.backgroundColor = color
+        navigationBar.shadowImage = nil
+        navigationBar.barTintColor = color
     }
 
     func addLeftButtons() {
