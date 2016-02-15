@@ -53,7 +53,7 @@ class DrawerViewControllerSpec: QuickSpec {
 
             describe("appearance") {
 
-                var subject = DrawerViewController()
+                let subject = DrawerViewController()
                 validateAllSnapshots(subject)
             }
         }

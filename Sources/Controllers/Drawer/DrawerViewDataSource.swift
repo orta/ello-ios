@@ -16,7 +16,7 @@ public enum DrawerItemType {
     case External
     case Invite
     case Logout
-    case Plain
+    case Version
 }
 
 public class DrawerViewDataSource: NSObject {
@@ -39,7 +39,7 @@ public class DrawerViewDataSource: NSObject {
             DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/resources/community-directory/", type: .External),
             DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/about/what-is-ello/", type: .External),
             DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, type: .Logout),
-            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Plain),
+            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Version),
         ]
     }()
 
