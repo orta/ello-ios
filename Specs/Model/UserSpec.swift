@@ -32,7 +32,7 @@ class UserSpec: QuickSpec {
                     // optional
                     expect(user.avatar).to(beAKindOf(Asset.self))
                     expect(user.identifiableBy) == ""
-                    expect(user.postsCount!) == 3
+                    expect(user.postsCount!) == 4
                     expect(user.followersCount!) == "0"
                     expect(user.followingCount!) == 0
                     expect(user.formattedShortBio) == "<p>Have been spying for a while now.</p>"

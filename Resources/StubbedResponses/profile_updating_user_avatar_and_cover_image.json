@@ -4,38 +4,44 @@
         "avatar": {
             "large": {
                 "metadata": null,
-                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-large.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png"
             },
             "original": {
-                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
             },
             "regular": {
                 "metadata": null,
-                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-regular.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png"
             },
             "small": {
                 "metadata": null,
-                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-small.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png"
             }
         },
         "background_position": "10% 50%",
-        "confirmed_at": "2015-05-28T15:36:13.771Z",
+        "confirmed_at": "2016-01-22T21:44:42.800Z",
         "cover_image": {
             "optimized": {
                 "metadata": null,
-                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover-optimized.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/ello-optimized-41d0e299.jpg"
             },
             "original": {
-                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover-.jpeg"
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover.png"
             }
         },
-        "created_at": "2015-05-28T15:36:13.808Z",
+        "created_at": "2016-01-22T21:44:42.836Z",
+        "discoverable": true,
         "email": "sterling@isisagency.com",
         "experimental_features": false,
-        "external_links": "http://isisagency.com http://ello.co",
         "external_links_list": [
-            "http://isisagency.com",
-            "http://ello.co"
+            {
+                "text": "isisagency.com",
+                "url": "http://isisagency.com"
+            },
+            {
+                "text": "ello.co",
+                "url": "http://ello.co"
+            }
         ],
         "followers_count": 0,
         "following_count": 0,
@@ -52,10 +58,17 @@
         "loves_count": 0,
         "name": "Sterling",
         "notify_of_comments_via_email": true,
+        "notify_of_comments_via_push": true,
         "notify_of_invitation_acceptances_via_email": true,
+        "notify_of_invitation_acceptances_via_push": true,
         "notify_of_loves_via_email": true,
+        "notify_of_loves_via_push": true,
         "notify_of_mentions_via_email": true,
+        "notify_of_mentions_via_push": true,
         "notify_of_new_followers_via_email": true,
+        "notify_of_new_followers_via_push": true,
+        "notify_of_reposts_via_email": true,
+        "notify_of_reposts_via_push": true,
         "posts_adult_content": true,
         "posts_count": 0,
         "relationship_priority": "self",
@@ -66,6 +79,6 @@
         "subscribe_to_weekly_ello": true,
         "username": "archer",
         "views_adult_content": true,
-        "web_onboarding_version": null
+        "web_onboarding_version": "1"
     }
 }

@@ -5,7 +5,7 @@
             "kind": "comment_on_original_post_notification",
             "links": {
                 "subject": {
-                    "id": "29",
+                    "id": "42",
                     "type": "comments"
                 }
             },
@@ -16,7 +16,7 @@
             "kind": "comment_on_repost_notification",
             "links": {
                 "subject": {
-                    "id": "29",
+                    "id": "42",
                     "type": "comments"
                 }
             },
@@ -27,7 +27,7 @@
             "kind": "comment_notification",
             "links": {
                 "subject": {
-                    "id": "27",
+                    "id": "40",
                     "type": "comments"
                 }
             },
@@ -44,17 +44,22 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-28T15:35:17.149Z",
-                "id": "29",
+                "created_at": "2015-10-22T17:03:41.198Z",
+                "id": "42",
                 "links": {
                     "assets": [],
                     "author": {
                         "href": "/api/v2/users/43",
                         "id": "43",
                         "type": "users"
+                    },
+                    "parent_post": {
+                        "href": "/api/v2/posts/41",
+                        "id": "41",
+                        "type": "posts"
                     }
                 },
-                "post_id": "28",
+                "post_id": "41",
                 "summary": [
                     {
                         "data": "<p>repost comment</p>",
@@ -70,23 +75,127 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-28T15:35:17.110Z",
-                "id": "27",
+                "created_at": "2015-10-22T17:03:41.136Z",
+                "id": "40",
                 "links": {
                     "assets": [],
                     "author": {
                         "href": "/api/v2/users/43",
                         "id": "43",
                         "type": "users"
+                    },
+                    "parent_post": {
+                        "href": "/api/v2/posts/39",
+                        "id": "39",
+                        "type": "posts"
                     }
                 },
-                "post_id": "26",
+                "post_id": "39",
                 "summary": [
                     {
                         "data": "<p>right.</p>",
                         "kind": "text"
                     }
                 ]
+            }
+        ],
+        "posts": [
+            {
+                "author_id": "42",
+                "content": [
+                    {
+                        "data": "<p>Calling Kenny Loggins... lanakane32d</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/6/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "6"
+                        }
+                    }
+                ],
+                "content_warning": null,
+                "created_at": "2015-10-22T17:03:41.099Z",
+                "href": "/api/v2/posts/39",
+                "id": "39",
+                "is_adult_content": true,
+                "summary": [
+                    {
+                        "data": "<p>Calling Kenny Loggins... lanakane32d</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/6/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "6"
+                        }
+                    }
+                ],
+                "token": "CwISGxDUXi0ilelKyDfPcA"
+            },
+            {
+                "author_id": "11",
+                "content": [
+                    {
+                        "data": "<p>Calling Kenny Loggins.</p>",
+                        "kind": "text"
+                    }
+                ],
+                "content_warning": null,
+                "created_at": "2015-10-22T17:03:41.160Z",
+                "href": "/api/v2/posts/41",
+                "id": "41",
+                "is_adult_content": true,
+                "links": {
+                    "reposted_source": {
+                        "href": "/api/v2/posts/39",
+                        "id": "39",
+                        "type": "posts"
+                    }
+                },
+                "repost_content": [
+                    {
+                        "data": "<p>Calling Kenny Loggins... lanakane32d</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/6/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "6"
+                        }
+                    }
+                ],
+                "repost_id": "39",
+                "repost_path": "/archer/post/CwISGxDUXi0ilelKyDfPcA",
+                "summary": [
+                    {
+                        "data": "<p>Calling Kenny Loggins... lanakane32d</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/6/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "6"
+                        }
+                    }
+                ],
+                "token": "5xm7_IbGJKNHxWY2swtgjQ"
             }
         ],
         "users": [

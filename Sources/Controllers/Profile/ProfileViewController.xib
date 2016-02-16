@@ -144,8 +144,8 @@
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-ug-Jgs" userLabel="noPostsBody">
-                            <rect key="frame" x="15" y="62" width="570" height="57"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-ug-Jgs" userLabel="noPostsBody">
+                            <rect key="frame" x="15" y="62" width="570" height="58"/>
                             <string key="text">This person hasn’t posted yet.
 
 Follow or mention them to help them get started!  </string>
