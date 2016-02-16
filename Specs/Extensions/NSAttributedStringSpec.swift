@@ -13,7 +13,7 @@ import Nimble
 
 class NSAttributedStringSpec: QuickSpec {
     override func spec() {
-        fdescribe("NSAttributedString") {
+        describe("NSAttributedString") {
             describe("joinWithNewlines(_: NSAttributedString)") {
                 it("can insert two newlines") {
                     let subject1 = NSAttributedString(string: "one")
