@@ -216,28 +216,54 @@ class OmnibarScreenSpec: QuickSpec {
                 xcontext("func keyboardWillHide()") {
                 }
                 context("func startEditing()") {
-                    context("if the first region is text") {
-                        it("should set the currentTextPath") {
+                    context("if the only region is text") {
+                        it("should set the currentTextPath.row to 0") {
                             subject.currentTextPath = nil
                             subject.regions = [.Text("")]
                             subject.startEditing()
                             expect(subject.currentTextPath?.row) == 0
                         }
                     }
-                        context("if the first region is an image") {
-                        it("should not set the currentTextPath") {
+                    context("if the first region is an image") {
+                        it("should set the currentTextPath.row to 2") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Image(UIImage(), nil, nil)]
+                            subject.regions = [.Image(UIImage(), nil, nil), .Text("")]
                             subject.startEditing()
-                            expect(subject.currentTextPath?.row).to(beNil())
+                            expect(subject.currentTextPath?.row) == 2  // image, spacer, text
                         }
                     }
-                        context("if the first region is an image") {
+                    context("if the only region is text and image") {
                         it("should not set the currentTextPath") {
                             subject.currentTextPath = nil
-                            subject.regions = [.Error(NSURL(string: "http://foo.com")!)]
+                            subject.regions = [.Text(""), .Image(UIImage(), nil, nil)]
                             subject.startEditing()
-                            expect(subject.currentTextPath?.row).to(beNil())
+                            expect(subject.currentTextPath?.row) == 0  // text, spacer, image, spacer, text
+                        }
+                    }
+                }
+                context("func startEditingLast()") {
+                    context("if the only region is text") {
+                        it("should set the currentTextPath.row to 0") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Text("")]
+                            subject.startEditingLast()
+                            expect(subject.currentTextPath?.row) == 0
+                        }
+                    }
+                    context("if the first region is an image") {
+                        it("should set the currentTextPath.row to 2") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Image(UIImage(), nil, nil), .Text("")]
+                            subject.startEditingLast()
+                            expect(subject.currentTextPath?.row) == 2  // image, spacer, text
+                        }
+                    }
+                    context("if the only region is text and image") {
+                        it("should not set the currentTextPath") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Text(""), .Image(UIImage(), nil, nil)]
+                            subject.startEditingLast()
+                            expect(subject.currentTextPath?.row) == 4  // text, image, spacer, text
                         }
                     }
                 }

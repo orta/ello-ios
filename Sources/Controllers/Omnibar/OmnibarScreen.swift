@@ -196,6 +196,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let tabbarSubmitButton = UIButton()
 
     let regionsTableView = UITableView()
+    let textEditingControl = UIControl()
     let textScrollView = UIScrollView()
     let textContainer = UIView()
     let textView: UITextView
@@ -225,10 +226,41 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         setupTableViews()
         setupKeyboardViews()
         setupViewHierarchy()
+
+        regionsTableView.addObserver(self, forKeyPath: "contentSize", options: [.New], context: nil)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        regionsTableView.removeObserver(self, forKeyPath: "contentSize", context: nil)
+    }
+
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        let sup = { super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context) }
+        guard let keyPath = keyPath, change = change else {
+            sup()
+            return
+        }
+
+        switch keyPath {
+        case "contentSize":
+            if let contentSize = (change[NSKeyValueChangeNewKey] as? NSValue)?.CGSizeValue() {
+                let contentHeight: CGFloat = ceil(contentSize.height) + regionsTableView.contentInset.bottom
+                let height: CGFloat = max(0, regionsTableView.frame.height - contentHeight)
+                let y = regionsTableView.frame.height - height - regionsTableView.contentInset.bottom
+                textEditingControl.frame = CGRect(
+                    x: 0,
+                    y: y,
+                    width: self.frame.width,
+                    height: height
+                    )
+            }
+        default:
+            sup()
+        }
     }
 
 // MARK: View setup code
@@ -300,12 +332,15 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: OmnibarRegion.OmnibarSpacerCell)
         regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
+        textEditingControl.addTarget(self, action: Selector("startEditingLast"), forControlEvents: .TouchUpInside)
+        regionsTableView.addSubview(textEditingControl)
+
         textScrollView.delegate = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
-        textScrollView.addGestureRecognizer(tapGesture)
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: Selector("stopEditing"))
-        swipeGesture.direction = .Down
-        textScrollView.addGestureRecognizer(swipeGesture)
+        let stopEditingTapGesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
+        textScrollView.addGestureRecognizer(stopEditingTapGesture)
+        let stopEditingSwipeGesture = UISwipeGestureRecognizer(target: self, action: Selector("stopEditing"))
+        stopEditingSwipeGesture.direction = .Down
+        textScrollView.addGestureRecognizer(stopEditingSwipeGesture)
         textScrollView.clipsToBounds = true
         textContainer.backgroundColor = UIColor.whiteColor()
 
@@ -412,8 +447,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             }
         }
         return editableRegions
-        // NB: don't call `reloadData` here, because this method is called as part of
-        // lots of table view updates
     }
 
 // MARK: Public interface
@@ -486,9 +519,32 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.becomeFirstResponder()
     }
 
+    func startEditingLast() {
+        var lastTextRow: Int?
+        for (row, indexedRegion) in editableRegions.enumerate() {
+            let region = indexedRegion.1
+            if region.isText {
+                lastTextRow = row
+            }
+        }
+
+        if let lastTextRow = lastTextRow {
+            startEditingAtPath(NSIndexPath(forRow: lastTextRow, inSection: 0))
+        }
+    }
+
     public func startEditing() {
-        if let (_, region) = editableRegions.first where region.isText {
-            startEditingAtPath(NSIndexPath(forItem: 0, inSection: 0))
+        var firstTextRow: Int?
+        for (row, indexedRegion) in editableRegions.enumerate() {
+            let region = indexedRegion.1
+            if region.isText {
+                firstTextRow = row
+                break
+            }
+        }
+
+        if let firstTextRow = firstTextRow {
+            startEditingAtPath(NSIndexPath(forRow: firstTextRow, inSection: 0))
         }
     }
 
@@ -701,10 +757,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     func backAction() {
         delegate?.omnibarCancel()
-    }
-
-    public func startEditingAction() {
-        startEditing()
     }
 
     public func cancelEditingAction() {
