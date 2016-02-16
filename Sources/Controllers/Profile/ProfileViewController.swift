@@ -81,7 +81,7 @@ public class ProfileViewController: StreamableViewController {
         // this user must have the profile property assigned (since it is currentUser)
         self.user = user
         self.userParam = user.id
-        self.initialStreamKind = .Profile(perPage: 10)
+        self.initialStreamKind = .CurrentUserStream
         super.init(nibName: "ProfileViewController", bundle: nil)
 
         streamViewController.streamKind = initialStreamKind

@@ -137,8 +137,18 @@ extension OmnibarScreen: UITextViewDelegate {
 extension OmnibarScreen: AutoCompleteDelegate {
     public func itemSelected(item: AutoCompleteItem) {
         if let name = item.result.name {
-            let prefix = item.type == .Username ? "@" : ":"
-            let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
+            let prefix: String
+            let suffix: String
+            if item.type == .Username {
+                prefix = "@"
+                suffix = ""
+            }
+            else {
+                prefix = ":"
+                suffix = ":"
+            }
+
+            let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: "\(prefix)\(name)\(suffix) ")
             let currentText = ElloAttributedString.style(newText)
             textView.attributedText = currentText
             textViewDidChange(textView)

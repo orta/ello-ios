@@ -77,9 +77,8 @@ class ProfileViewControllerSpec: QuickSpec {
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    user = User.stub(["id": "42"])
                     currentUser = User.stub(["id": "42"])
-                    subject = ProfileViewController(user: user)
+                    subject = ProfileViewController(user: currentUser)
                     subject.currentUser = currentUser
                     showController(subject)
                 }
@@ -91,12 +90,10 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when NOT displaying the currentUser") {
-                var user: User!
                 var currentUser: User!
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    user = User.stub(["id": "42"])
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
@@ -109,7 +106,6 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when displaying a private user") {
-                var user: User!
                 var currentUser: User!
                 var subject: ProfileViewController!
 
@@ -120,7 +116,6 @@ class ProfileViewControllerSpec: QuickSpec {
                         )),
                     ])
 
-                    user = User.stub(["id": "42", "hasSharingEnabled": false])
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser

@@ -17,7 +17,7 @@ class AuthStateSpec: QuickSpec {
             describe("supports(AuthState)") {
                 let noTokenReqd: [ElloAPI] = [.Auth(email: "", password: ""), .ReAuth(token: ""), .AnonymousCredentials]
                 let anonymous: [ElloAPI] = [.Availability(content: [:]), .Join(email: "", username: "", password: "", invitationCode: nil)]
-                let authdOnly: [ElloAPI] = [.AmazonCredentials, .AwesomePeopleStream, .NoiseStream, .Profile(perPage: 1), .UserStream(userParam: "")]
+                let authdOnly: [ElloAPI] = [.AmazonCredentials, .AwesomePeopleStream, .NoiseStream, .CurrentUserStream, .UserStream(userParam: "")]
                 let expectations: [(AuthState, supported: [ElloAPI], unsupported: [ElloAPI])] = [
                     (.NoToken, supported: noTokenReqd, unsupported: authdOnly),
                     (.Anonymous, supported: noTokenReqd + anonymous, unsupported: authdOnly),
