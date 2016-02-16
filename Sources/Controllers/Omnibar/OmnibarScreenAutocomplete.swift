@@ -117,7 +117,7 @@ extension OmnibarScreen: UITextViewDelegate {
             textView.becomeFirstResponder()
         }
 
-        let height = AutoCompleteCell.cellHeight() * CGFloat(min(3, count))
+        let height = AutoCompleteCell.cellHeight() * min(CGFloat(3.5), CGFloat(count))
         let constraintIndex = textView.inputAccessoryView?.constraints.indexOf { $0.firstAttribute == .Height }
         if let index = constraintIndex,
             inputAccessoryView = textView.inputAccessoryView,

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasGroteskRegular.otf">
+            <string>AtlasGrotesk-Regular</string>
             <string>AtlasGrotesk-Regular</string>
             <string>AtlasGrotesk-Regular</string>
         </mutableArray>
@@ -21,7 +22,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" id="wSf-I7-82o" userLabel="scrollView">
-                        <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="591" height="40"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="ksw-W9-asc" userLabel="bottomContentView">
@@ -36,7 +37,7 @@
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="GaF-Tx-YnB" userLabel="innerContentView">
-                                <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="591" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xgh-dM-cqB" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
@@ -53,14 +54,14 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="imV-Ww-GEq" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                        <rect key="frame" x="561" y="0.0" width="30" height="50"/>
+                                        <rect key="frame" x="561" y="0.0" width="30" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                         <connections>
                                             <action selector="chevronButtonTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="3ku-Y7-iVI"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zST-5M-mHb" userLabel="timestampLabel">
-                                        <rect key="frame" x="474" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="474" y="0.0" width="50" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
@@ -68,9 +69,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="S9N-jg-uFq" userLabel="usernameButton">
-                                        <rect key="frame" x="46" y="0.0" width="288" height="50"/>
+                                        <rect key="frame" x="46" y="0.0" width="288" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
+                                        <state key="normal" title="@username"/>
                                         <connections>
                                             <action selector="usernameTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="gnL-P6-2WP"/>
                                         </connections>
@@ -81,12 +83,23 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="MiT-PR-hRg" userLabel="replyButton">
-                                        <rect key="frame" x="527" y="0.0" width="34" height="50"/>
+                                        <rect key="frame" x="527" y="0.0" width="34" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                         <state key="normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <imageView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="jN1-6u-O8Q" userLabel="repostIconView">
+                                        <rect key="frame" x="112" y="22" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by @username" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Vt-SC-xuk" userLabel="repostedByLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="139" y="25" width="100" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -110,6 +123,8 @@
                 <outlet property="innerContentView" destination="GaF-Tx-YnB" id="MaJ-m3-eBU"/>
                 <outlet property="relationshipControl" destination="He7-hG-gQl" id="bVI-h5-win"/>
                 <outlet property="replyButton" destination="MiT-PR-hRg" id="MpA-gQ-2Re"/>
+                <outlet property="repostIconView" destination="jN1-6u-O8Q" id="Lbg-Ho-0YV"/>
+                <outlet property="repostedByLabel" destination="2Vt-SC-xuk" id="iSF-5f-b6M"/>
                 <outlet property="scrollView" destination="wSf-I7-82o" id="Hrm-Me-eV1"/>
                 <outlet property="timestampLabel" destination="zST-5M-mHb" id="rz7-sL-nBo"/>
                 <outlet property="usernameButton" destination="S9N-jg-uFq" id="6qx-UK-Ym9"/>

@@ -35,7 +35,6 @@ public class ProfileViewController: StreamableViewController {
     var responseConfig: ResponseConfig?
     var userParam: String!
     var coverImageHeightStart: CGFloat?
-    let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
@@ -138,9 +137,10 @@ public class ProfileViewController: StreamableViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        var height = view.frame.width / ratio
-        height += ElloNavigationBar.Size.height
-        coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
+        let ratio: CGFloat = ProfileHeaderCellSizeCalculator.ratio
+        let height: CGFloat = view.frame.width / ratio
+        let maxHeight = height - streamViewController.collectionView.contentOffset.y
+        coverImageHeight.constant = max(maxHeight, height)
         coverImageHeightStart = height
 
         gradientLayer.frame.size = gradientView.frame.size
@@ -201,7 +201,7 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        updateInsets(navBar: navigationBar, streamController: streamViewController)
+        updateInsets(navBar: relationshipControlsView, streamController: streamViewController)
     }
 
     private func hideNavBar(animated animated: Bool) {
@@ -303,17 +303,26 @@ public class ProfileViewController: StreamableViewController {
 
     func addMoreFollowingButton() {
         if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
-        if let user = user, currentUser = currentUser where user.id == currentUser.id {
+        guard let user = user else {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
-        elloNavigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")),
-            UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")),
-        ]
+        if let currentUser = currentUser where user.id == currentUser.id {
+            elloNavigationItem.rightBarButtonItems = []
+            return
+        }
+
+        var rightBarButtonItems: [UIBarButtonItem] = []
+        if user.hasSharingEnabled {
+            rightBarButtonItems.append(UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")))
+        }
+        rightBarButtonItems.append(UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")))
+        elloNavigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
     @IBAction func mentionButtonTapped() {
@@ -347,7 +356,7 @@ public class ProfileViewController: StreamableViewController {
             let shareURL = NSURL(string: shareLink)
         {
             Tracker.sharedTracker.userShared(user)
-            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
+            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(readableClassName() ?? "ProfileViewController")
@@ -391,7 +400,10 @@ public class ProfileViewController: StreamableViewController {
                 self.coverImage.alpha = 1.0
             }
         }
-        var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: .ProfileHeader)]
+        var items: [StreamCellItem] = [
+            StreamCellItem(jsonable: user, type: .ProfileHeader),
+            StreamCellItem(jsonable: user, type: .Spacer(height: 54)),
+        ]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
@@ -399,6 +411,7 @@ public class ProfileViewController: StreamableViewController {
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
 
+        addMoreFollowingButton()
         Tracker.sharedTracker.profileLoaded(user.atName ?? "(no name)")
     }
 

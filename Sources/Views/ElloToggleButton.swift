@@ -9,7 +9,17 @@
 public class ElloToggleButton: UIButton {
     private let attributes = [NSFontAttributeName: UIFont.defaultFont()]
 
+    public var text: String? {
+        didSet {
+            toggleButton()
+        }
+    }
     public var value: Bool = false {
+        didSet {
+            toggleButton()
+        }
+    }
+    override public var enabled: Bool {
         didSet {
             toggleButton()
         }
@@ -17,20 +27,24 @@ public class ElloToggleButton: UIButton {
 
     override public func awakeFromNib() {
         super.awakeFromNib()
-        layer.borderColor = UIColor.greyA().CGColor
         layer.borderWidth = 1
 
-        setTitleColor(UIColor.greyA(), forState: .Normal)
+        toggleButton()
     }
 
-    public func setText(text: String, color: UIColor = UIColor.greyA()) {
+    public func setText(text: String, color: UIColor) {
         let string = NSMutableAttributedString(string: text, attributes: attributes)
         string.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location: 0, length: string.length))
         setAttributedTitle(string, forState: .Normal)
     }
 
     private func toggleButton() {
-        backgroundColor = value ? UIColor.greyA() : UIColor.whiteColor()
-        setText(value ? "Yes" : "No", color: value ? .whiteColor() : .greyA())
+        let highlightedColor: UIColor = enabled ? .greyA() : .greyC()
+        let offColor: UIColor = .whiteColor()
+
+        layer.borderColor = highlightedColor.CGColor
+        backgroundColor = value ? highlightedColor : offColor
+        let text = self.text ?? (value ? "Yes" : "No")
+        setText(text, color: value ? offColor : highlightedColor)
     }
 }
