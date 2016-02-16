@@ -97,7 +97,7 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/v2/posts/fake-id/comments"
                     }
                     it("Profile is valid") {
-                        expect(ElloAPI.Profile(perPage: 10).path) == "/api/v2/profile"
+                        expect(ElloAPI.CurrentUserStream.path) == "/api/v2/profile"
                     }
                     it("ProfileUpdate is valid") {
                         expect(ElloAPI.ProfileUpdate(body: [:]).path) == "/api/v2/profile"
@@ -171,7 +171,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.PostDetail(postParam: ""),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileDelete,
                         ElloAPI.ProfileToggles,
                         ElloAPI.ProfileUpdate(body: [:]),
@@ -240,7 +240,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.PostDetail(postParam: ""),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileDelete,
                         ElloAPI.ProfileToggles,
                         ElloAPI.ProfileUpdate(body: [:]),
@@ -323,7 +323,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.PostDetail(postParam: ""),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileToggles,
                         ElloAPI.SearchForUsers(terms: ""),
                         ElloAPI.SearchForPosts(terms: ""),
@@ -461,8 +461,8 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("Profile") {
-                    let params = ElloAPI.Profile(perPage: 42).parameters!
-                    expect(params["post_count"] as? Int) == 42
+                    let params = ElloAPI.CurrentUserStream.parameters!
+                    expect(params["post_count"] as? Int) == 10
                 }
 
                 xit("PushSubscriptions, DeleteSubscriptions") {
