@@ -873,7 +873,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-		stopEditing()
+        stopEditing()
+        let pickerSheet = UIImagePickerController.imagePickerSheetForImagePicker(openImageSheet)
+        self.delegate?.omnibarPresentController(pickerSheet)
     }
 
 }
