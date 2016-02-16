@@ -332,7 +332,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: OmnibarRegion.OmnibarSpacerCell)
         regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
-        textEditingControl.addTarget(self, action: Selector("startEditing"), forControlEvents: .TouchUpInside)
+        textEditingControl.addTarget(self, action: Selector("startEditingLast"), forControlEvents: .TouchUpInside)
         regionsTableView.addSubview(textEditingControl)
 
         textScrollView.delegate = self
@@ -517,6 +517,20 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.frame = OmnibarTextCell.boundsForTextView(rect)
         textContainer.frame = textView.frame.grow(all: 10)
         textView.becomeFirstResponder()
+    }
+
+    func startEditingLast() {
+        var lastTextRow: Int?
+        for (row, indexedRegion) in editableRegions.enumerate() {
+            let region = indexedRegion.1
+            if region.isText {
+                lastTextRow = row
+            }
+        }
+
+        if let lastTextRow = lastTextRow {
+            startEditingAtPath(NSIndexPath(forRow: lastTextRow, inSection: 0))
+        }
     }
 
     public func startEditing() {
@@ -743,10 +757,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     func backAction() {
         delegate?.omnibarCancel()
-    }
-
-    public func startEditingAction() {
-        startEditing()
     }
 
     public func cancelEditingAction() {
