@@ -39,8 +39,8 @@ public enum AutoCompleteType: String, CustomStringConvertible {
 public struct AutoComplete {
 
     public init(){}
-    
-    public func check(text:String, location: Int) -> AutoCompleteMatch? {
+
+    public func check(text: String, location: Int) -> AutoCompleteMatch? {
 
         if location >= text.characters.count { return .None }
 
@@ -61,16 +61,16 @@ public struct AutoComplete {
                     type = .Username
                     matchFound = true
                 }
-//                uncomment when we add emoji autocomplete endpoints
-//                else if findEmoji(word) {
-//                    type = .Emoji
-//                    matchFound = true
-//                }
+                else if findEmoji(word) {
+                    type = .Emoji
+                    matchFound = true
+                }
             }
         }
 
-        if matchFound && range != nil && word != nil && type != nil {
-            return AutoCompleteMatch(type: type!, range: range!, text: word!)
+        if let type = type, range = range, word = word
+        where matchFound {
+            return AutoCompleteMatch(type: type, range: range, text: word)
         }
         else {
             return .None
@@ -78,10 +78,13 @@ public struct AutoComplete {
     }
 }
 
+private let usernameRegex = Regex("([^\\w]|\\s|^)@(\\w+)")!
+private let emojiRegex = Regex("([^\\w]|\\s|^):(\\w+)")!
+
 private extension AutoComplete {
 
     func findUsername(text: String) -> Bool {
-        return text.rangeOfString("([^\\w]|\\s|^)@\\w+", options: .RegularExpressionSearch) != nil
+        return text =~ usernameRegex
     }
 
     func findEmoji(text: String) -> Bool {
@@ -89,7 +92,7 @@ private extension AutoComplete {
         if (text.characters.split { $0 == ":" }.map { String($0) }).count > 1 {
             return false
         }
-        return text.rangeOfString("([^\\w]|\\s|^):\\w+", options: .RegularExpressionSearch) != nil
+        return text =~ emojiRegex
     }
 
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {

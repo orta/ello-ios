@@ -65,21 +65,36 @@ class Regex {
 infix operator =~ {}
 infix operator !~ {}
 infix operator ~ {}
+
 func =~ (input: String, pattern: String) -> Bool {
     if let regex = Regex(pattern) {
-        return regex.test(input)
+        return input =~ regex
     }
     return false
 }
+
+func =~ (input: String, regex: Regex) -> Bool {
+    return regex.test(input)
+}
+
 func !~ (input: String, pattern: String) -> Bool {
     if let regex = Regex(pattern) {
-        return !regex.test(input)
+        return input !~ regex
     }
     return false
 }
+
+func !~ (input: String, regex: Regex) -> Bool {
+    return !regex.test(input)
+}
+
 func ~ (input: String, pattern: String) -> String? {
     if let regex = Regex(pattern) {
-        return regex.match(input)
+        return input ~ regex
     }
     return nil
+}
+
+func ~ (input: String, regex: Regex) -> String? {
+    return regex.match(input)
 }
