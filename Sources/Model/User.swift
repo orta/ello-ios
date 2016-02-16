@@ -226,7 +226,7 @@ extension User {
     func hasProperty(key: String) -> Bool {
         if respondsToSelector(Selector(key.camelCase)) {
             return true
-        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+        } else if profile?.respondsToSelector(Selector(key.camelCase)) == true {
             return true
         }
         return false
@@ -234,10 +234,10 @@ extension User {
 
     func propertyForSettingsKey(key: String) -> Bool {
         var value: Bool? = false
-        if respondsToSelector(Selector(key.camelCase)) {
-            value = valueForKey(key.camelCase) as? Bool
-        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+        if profile?.respondsToSelector(Selector(key.camelCase)) == true {
             value = profile?.valueForKey(key.camelCase) as? Bool
+        } else if respondsToSelector(Selector(key.camelCase)) {
+            value = valueForKey(key.camelCase) as? Bool
         }
         return value ?? false
     }

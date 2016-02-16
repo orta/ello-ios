@@ -16,7 +16,7 @@ PODS:
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
   - CRToast (0.0.7)
-  - ElloUIFonts (1.0.0)
+  - ElloUIFonts (1.1.0)
   - Fabric (1.6.1)
   - FBSnapshotTestCase (2.0.7):
     - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
@@ -83,7 +83,7 @@ DEPENDENCIES:
   - Analytics/Segmentio
   - Crashlytics (~> 3.4)
   - CRToast (from `https://github.com/ello/CRToast`)
-  - ElloUIFonts (~> 1.0.0)
+  - ElloUIFonts (~> 1.1.0)
   - Fabric (~> 1.6)
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController
@@ -162,13 +162,13 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
+  1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   Analytics: 51d6163cb568c8ede69f2b92ef4779d91e1524e2
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
-  ElloUIFonts: fa5c9e92dcb525cea857b3b33452d99c17d2edf0
+  ElloUIFonts: 16c31ba0b19e82d613df50fb6498f43560a603a2
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
   FLAnimatedImage: e16a1e1cef08e4c509b47e4acbe3923f65c16135

@@ -21,12 +21,13 @@ public class StreamRepostHeaderCell: UICollectionViewCell {
             else {
                 repostedByLabel.setLabelText("")
             }
+            setNeedsUpdateConstraints()
         }
     }
 
     override public func awakeFromNib() {
         super.awakeFromNib()
-        repostIconView.image = Interface.Image.Repost.normalImage
+        repostIconView.image = Interface.Image.Repost.selectedImage
         repostedByLabel.numberOfLines = 0
         repostedByLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }

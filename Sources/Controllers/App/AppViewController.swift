@@ -392,9 +392,9 @@ public extension AppViewController {
     }
 
     private func logOutCurrentUser() {
+        PushNotificationController.sharedController.deregisterStoredToken()
         ElloProvider.shared.logout()
         Defaults[CurrentStreamKey] = nil
-        PushNotificationController.sharedController.deregisterStoredToken()
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil

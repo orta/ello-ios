@@ -279,7 +279,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let shareURL = NSURL(string: shareLink)
         {
             Tracker.sharedTracker.postShared(post)
-            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
+            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
@@ -372,7 +372,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         if let currentUser = currentUser {
             let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
             if post.commentsCount > ElloAPI.PostComments(postId: "").parameters!["per_page"] as? Int {
-                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments))
+                items.append(StreamCellItem(jsonable: jsonables.last ?? newComment, type: .SeeMoreComments))
             }
             else {
                 items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 10.0)))

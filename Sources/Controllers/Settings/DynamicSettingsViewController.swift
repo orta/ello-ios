@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SwiftyJSON
-
 private let DynamicSettingsCellHeight: CGFloat = 50
 
 private enum DynamicSettingsSection: Int {
@@ -23,6 +21,7 @@ private enum DynamicSettingsSection: Int {
 class DynamicSettingsViewController: UITableViewController {
     var dynamicCategories: [DynamicSettingCategory] = []
     var currentUser: User?
+    var hideLoadingHud: BasicBlock = ElloHUD.hideLoadingHud
 
     var height: CGFloat {
         return DynamicSettingsCellHeight * CGFloat(dynamicCategories.count + 1)
@@ -50,13 +49,13 @@ class DynamicSettingsViewController: UITableViewController {
                         return categoryArr
                     }
                 }
-                ElloHUD.hideLoadingHud()
+                self.hideLoadingHud()
             },
             failure: { _, _ in
-                ElloHUD.hideLoadingHud()
+                self.hideLoadingHud()
             },
             noContent: {
-                ElloHUD.hideLoadingHud()
+                self.hideLoadingHud()
             }
         )
     }

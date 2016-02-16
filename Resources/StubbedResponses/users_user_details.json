@@ -5,16 +5,59 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/94/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/94/archer.jpg"
                     }
                 },
-                "id": "33"
+                "id": "94"
             }
         ],
         "posts": [
+            {
+                "author_id": "420",
+                "comments_count": 0,
+                "content": [
+                    {
+                        "data": "<p>this is a repost</p>",
+                        "kind": "text"
+                    }
+                ],
+                "content_warning": "NSFW.",
+                "created_at": "2014-06-06T00:00:00.000Z",
+                "href": "/api/v2/posts/518",
+                "id": "518",
+                "is_adult_content": true,
+                "links": {
+                    "assets": [],
+                    "repost_author": {
+                        "href": "/api/v2/users/42",
+                        "id": "42",
+                        "type": "users"
+                    }
+                },
+                "loved": false,
+                "loves_count": 0,
+                "repost_content": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "repost_id": "514",
+                "repost_path": "/archer/post/wDJ2qp1Jwlx93EQtcrxhow",
+                "reposted": false,
+                "reposts_count": 0,
+                "summary": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "token": "cGC4N4ysTecYxV5Ft5lkag",
+                "views_count": 0
+            },
             {
                 "author_id": "420",
                 "comments_count": 0,
@@ -26,21 +69,22 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/94/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "33"
+                            "assets": "94"
                         }
                     }
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-06T00:00:00.000Z",
-                "href": "/api/v2/posts/344",
-                "id": "344",
+                "href": "/api/v2/posts/516",
+                "id": "516",
+                "is_adult_content": true,
                 "links": {
                     "assets": [
-                        "33"
+                        "94"
                     ]
                 },
                 "loved": false,
@@ -55,45 +99,49 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/94/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "33"
+                            "assets": "94"
                         }
                     }
                 ],
-                "token": "s2bUG0eh37hCOgKnvYrbeQ",
+                "token": "9_SKuf7VmCyjqlNSG_bEUQ",
                 "views_count": 0
-            },
+            }
+        ],
+        "users": [
             {
-                "author_id": "420",
-                "comments_count": 0,
-                "content": [
-                    {
-                        "data": "<p>Hello, I am a post with awesome content!</p>",
-                        "kind": "text"
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-pixellated-97fbdf62.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-pixellated-97fbdf62.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-pixellated-97fbdf62.png"
                     }
-                ],
-                "content_warning": "NSFW.",
-                "created_at": "2014-06-05T00:00:00.000Z",
-                "href": "/api/v2/posts/343",
-                "id": "343",
-                "links": {
-                    "assets": []
                 },
-                "loved": false,
-                "loves_count": 0,
-                "reposted": false,
-                "reposts_count": 0,
-                "summary": [
-                    {
-                        "data": "<p>Hello, I am a post with awesome content!</p>",
-                        "kind": "text"
-                    }
-                ],
-                "token": "5n91B09Hp9qEXrVhvPyU2A",
-                "views_count": 0
+                "experimental_features": false,
+                "has_commenting_enabled": true,
+                "has_loves_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
+                "href": "/api/v2/users/42",
+                "id": "42",
+                "name": "Sterling",
+                "posts_adult_content": true,
+                "relationship_priority": "self",
+                "username": "archer",
+                "views_adult_content": false
             }
         ]
     },
@@ -126,7 +174,16 @@
             }
         },
         "experimental_features": true,
-        "external_links": "http://isis.com http://ello.co",
+        "external_links_list": [
+            {
+                "text": "isis.com",
+                "url": "http://isis.com"
+            },
+            {
+                "text": "ello.co",
+                "url": "http://ello.co"
+            }
+        ],
         "followers_count": 0,
         "following_count": 0,
         "formatted_short_bio": "<p>Have been spying for a while now.</p>",
@@ -139,13 +196,13 @@
         "links": {
             "posts": {
                 "ids": [
-                    "344",
-                    "343"
+                    "518",
+                    "516"
                 ],
                 "pagination": {
-                    "last": "http://ello.co/api/v2/users/420/posts?after=true",
-                    "next": "http://ello.co/api/v2/users/420/posts?before=2014-06-05T00%3A00%3A00.000000000%2B0000",
-                    "total_count": "3",
+                    "last": "http://ello.co/api/v2/users/420/posts?after=true&per_page=2",
+                    "next": "http://ello.co/api/v2/users/420/posts?before=2014-06-06T00%3A00%3A00.000000000%2B0000&per_page=2",
+                    "total_count": "4",
                     "total_pages": "2",
                     "total_pages_remaining": "1"
                 }
@@ -154,7 +211,7 @@
         "loves_count": 0,
         "name": "Pamilanderson",
         "posts_adult_content": true,
-        "posts_count": 3,
+        "posts_count": 4,
         "relationship_priority": null,
         "username": "pam",
         "views_adult_content": false
