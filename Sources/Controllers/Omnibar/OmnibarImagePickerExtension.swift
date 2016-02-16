@@ -22,56 +22,13 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
     }
 
     private func processPHAssets(assets: [PHAsset]) {
-        guard let asset = assets.first else {
-            self.interactionEnabled = true
-            return
-        }
-
         self.interactionEnabled = false
-
-        func done() {
-            processPHAssets(Array<PHAsset>(assets[1..<assets.count]))
-        }
-
-        var image: UIImage?
-        var imageData: NSData?
-        let imageAndData = after(2) {
-            guard let image = image, imageData = imageData else {
-                done()
-                return
+        AssetsToRegions.processPHAssets(assets) { imageData in
+            self.interactionEnabled = true
+            for imageDatum in imageData {
+                let (image, imageData, type) = imageDatum
+                self.addImage(image, data: imageData, type: type)
             }
-
-            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-            imageData.getBytes(buffer, length: imageData.length)
-            if self.isGif(buffer, length: imageData.length) {
-                self.addImage(image, data: imageData, type: "image/gif")
-                done()
-            }
-            else {
-                image.copyWithCorrectOrientationAndSize() { image in
-                    self.addImage(image)
-                    done()
-                }
-            }
-            buffer.dealloc(imageData.length)
-        }
-
-        PHImageManager.defaultManager().requestImageForAsset(
-            asset,
-            targetSize: PHImageManagerMaximumSize,
-            contentMode: .Default,
-            options: nil
-        ) { phImage, info in
-            image = phImage
-            imageAndData()
-        }
-
-        PHImageManager.defaultManager().requestImageDataForAsset(
-            asset,
-            options: nil
-        ) { phData, dataUTI, orientation, info in
-            imageData = phData
-            imageAndData()
         }
     }
 
