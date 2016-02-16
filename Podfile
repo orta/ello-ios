@@ -7,7 +7,7 @@ platform :ios, '8.0'
 # Yep.
 inhibit_all_warnings!
 
-xcodeproj 'Ello'
+project 'Ello'
 
 
 # Opt into framework support (required for Swift support in CocoaPods RC1)
@@ -18,8 +18,7 @@ def ello_app_pods
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'Fabric', '~> 1.6'
   pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
-  pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
-  pod 'MBProgressHUD', '~> 0.9.0'
+  pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'  
   pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
   pod 'SSPullToRefresh', '~> 1.2'
   pod 'iRate', '~> 1.11' 
@@ -34,6 +33,7 @@ def common_pods
   else 
     pod 'ElloOSSUIFonts', '~> 1.0.0'
   end 
+  pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
   pod 'YapDatabase', '2.8.1'
