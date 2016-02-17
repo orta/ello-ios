@@ -78,12 +78,12 @@ private extension ShareViewController {
         postService.create(
             content: content,
             success: { post in
-                Tracker.sharedTracker.shareSuccessful()
+//                Tracker.sharedTracker.shareSuccessful()
                 self.donePosting()
                 self.dismissPostingForm()
             },
             failure: { error, statusCode in
-                Tracker.sharedTracker.shareFailed()
+//                Tracker.sharedTracker.shareFailed()
                 self.donePosting()
                 self.showFailedToPost()
             }

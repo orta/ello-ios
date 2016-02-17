@@ -16,6 +16,7 @@ def ello_app_pods
   pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extension'  
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'Fabric', '~> 1.6'
+  pod 'Analytics/Segmentio'
   pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'  
   pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
@@ -31,8 +32,7 @@ def common_pods
     pod 'ElloUIFonts', '~> 1.1.0'
   else 
     pod 'ElloOSSUIFonts', '~> 1.0.0'
-  end 
-  pod 'Analytics/Segmentio'
+  end   
   pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
