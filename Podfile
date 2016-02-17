@@ -39,6 +39,7 @@ pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
 pod 'WebLinking', '~> 1.0'
+pod 'ImagePickerSheetController'
 
 target 'Specs' do
   pod 'Quick', '~> 0.8.0'

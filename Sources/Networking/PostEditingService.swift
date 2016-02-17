@@ -18,12 +18,11 @@ public class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
+    public typealias ImageData = (UIImage, NSData?, String?)
     public enum PostContentRegion {
         case Text(String)
         case ImageData(UIImage, NSData?, String?)
     }
-
-    typealias ImageData = (UIImage, NSData?, String?)
 
     var editPost: Post?
     var editComment: Comment?
