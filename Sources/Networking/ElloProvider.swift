@@ -9,7 +9,6 @@
 import Crashlytics
 import Foundation
 import Moya
-import WebLinking
 import Result
 import Alamofire
 
@@ -441,26 +440,7 @@ extension ElloProvider {
         config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
         config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String
         config.totalPagesRemaining = response?.allHeaderFields["X-Total-Pages-Remaining"] as? String
-        if let nextLink = response?.findLink(relation: "next") {
-            if let comps = NSURLComponents(string: nextLink.uri) {
-                config.nextQueryItems = comps.queryItems
-            }
-        }
-        if let prevLink = response?.findLink(relation: "prev") {
-            if let comps = NSURLComponents(string: prevLink.uri) {
-                config.prevQueryItems = comps.queryItems
-            }
-        }
-        if let firstLink = response?.findLink(relation: "first") {
-            if let comps = NSURLComponents(string: firstLink.uri) {
-                config.firstQueryItems = comps.queryItems
-            }
-        }
-        if let lastLink = response?.findLink(relation: "last") {
-            if let comps = NSURLComponents(string: lastLink.uri) {
-                config.lastQueryItems = comps.queryItems
-            }
-        }
-        return config
+
+        return parseLinks(response, config: config)
     }
 }
