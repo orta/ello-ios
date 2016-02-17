@@ -21,6 +21,7 @@ def ello_app_pods
   pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'  
   pod 'PINRemoteImage', git: 'https://github.com/pinterest/PINRemoteImage.git', commit: 'af312667f0ce830264198366f481f1b222675a31'
   pod 'SSPullToRefresh', '~> 1.2'
+  pod 'ImagePickerSheetController'
   pod 'iRate', '~> 1.11' 
   # swift pods
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
