@@ -13,8 +13,7 @@ project 'Ello'
 # Opt into framework support (required for Swift support in CocoaPods RC1)
 use_frameworks!
 def ello_app_pods
-  pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extension'
-  pod 'Analytics/Segmentio'
+  pod '1PasswordExtension', git: 'https://github.com/ello/onepassword-app-extension'  
   pod 'CRToast', git: 'https://github.com/ello/CRToast'
   pod 'Fabric', '~> 1.6'
   pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
@@ -33,6 +32,7 @@ def common_pods
   else 
     pod 'ElloOSSUIFonts', '~> 1.0.0'
   end 
+  pod 'Analytics/Segmentio'
   pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
   pod 'FLAnimatedImage', '~> 1.0'
