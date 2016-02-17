@@ -12,7 +12,7 @@ public class StreamEmbedCell: StreamImageCell {
     @IBOutlet weak var playIcon: UIImageView!
     public var embedUrl: NSURL?
 
-    @IBAction override func imageTapped(sender: UIButton) {
+    @IBAction override func imageTapped() {
         if let url = embedUrl {
             postNotification(externalWebNotification, value: url.URLString)
         }
