@@ -12,6 +12,7 @@ private struct ElloColors {
     static let grey231F20       : UIColor = UIColor(hex: 0x231F20)
     static let grey3            : UIColor = UIColor(hex: 0x333333)
     static let grey4D           : UIColor = UIColor(hex: 0x4D4D4D)
+    static let grey5            : UIColor = UIColor(hex: 0x555555)
     static let grey6            : UIColor = UIColor(hex: 0x666666)
     static let greyA            : UIColor = UIColor(hex: 0xAAAAAA)
     static let greyC            : UIColor = UIColor(hex: 0xCCCCCC)
@@ -37,6 +38,9 @@ public extension UIColor {
 
     // common background color
     class func grey3() -> UIColor { return ElloColors.grey3 }
+
+    // dark line color
+    class func grey5() -> UIColor { return ElloColors.grey5 }
 
     // often used for text:
     class func greyA() -> UIColor { return ElloColors.greyA }

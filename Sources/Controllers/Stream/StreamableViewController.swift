@@ -41,9 +41,9 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
         streamViewController.createPostDelegate = self
 
         streamViewController.willMoveToParentViewController(self)
-        let streamViewContainer = viewForStream()
-        streamViewContainer.addSubview(streamViewController.view)
-        streamViewController.view.frame = streamViewContainer.bounds
+        let containerForStream = viewForStream()
+        containerForStream.addSubview(streamViewController.view)
+        streamViewController.view.frame = containerForStream.bounds
         streamViewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)

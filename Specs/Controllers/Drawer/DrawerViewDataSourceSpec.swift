@@ -51,7 +51,7 @@ class DrawerViewDataSourceSpec: QuickSpec {
 
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.name.hasPrefix("Ello v")) == true
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.type) == DrawerItemType.Plain
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.type) == DrawerItemType.Version
                 }
             }
         }

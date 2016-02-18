@@ -33,22 +33,23 @@ class DrawerViewControllerSpec: QuickSpec {
 
             describe("viewDidLoad") {
 
-                var subject = DrawerViewController()
+                var subject: DrawerViewController!
 
                 beforeEach {
                     subject = DrawerViewController()
                     showController(subject)
                 }
 
-                it("sets the right bar button item") {
-                    let button = subject.elloNavigationItem.rightBarButtonItem
-                    expect(button).toNot(beNil())
-                }
-
                 it("registers cells") {
                     subject.viewWillAppear(false) // required because the datasource is not setup until viewWillAppear
                     expect(subject.tableView).to(haveRegisteredIdentifier(DrawerCell.reuseIdentifier()))
                 }
+            }
+
+            describe("appearance") {
+
+                let subject = DrawerViewController()
+                validateAllSnapshots(subject)
             }
         }
     }
