@@ -1,8 +1,10 @@
 osx_image: xcode7.2
 language: objective-c
 xcode_sdk: iphonesimulator9.2
+
 git:
   depth: 1
+
 before_install:
 - gem install cocoapods -v '1.0.0.beta.3'
 - xcrun instruments -w "iPhone 6 (9.2) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
@@ -18,6 +20,7 @@ install:
 - bundle exec pod keys set HttpProtocol $ELLO_HTTP_PROTOCOL Ello
 - bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
 - bundle exec pod install
+
 before_script:
 - export LANG=en_US.UTF-8
 
@@ -27,6 +30,7 @@ notifications:
   email: false
   slack:
     secure: ZikJQt/R40LMj27fu2ub9Zq87FF6kZXx3fXy9lz/nWFuc7EWcQC8SzVOCizSp+cq/wrsyBPfitkQwVsFpxx/6aJC0r+t4/zIwK21aLIkkHYLzS5qJpifYeTp7kAiQ0eFWLNLxRSwDVEMlfcvgHl7kGmvJQkzHm9mkQaWBJAJayc=
+
 env:
   global:
   - secure: NlynF9hcXA5hGxY3ApAMmYrTDmszD5ocS8/aKPYZXdlBXOJ0c2DC6EiPhNXxFsWXOfIS8cO8r0cxGCRDU1bsmw0MR8t9/i4o1uw3l+F8ftHZQHKCC6BDbTrPYgi79ojNjjNtO/BM98U2ew6Rk8eqN+tjpxX0DWU+3Mwp30NaZm8=
