@@ -5,38 +5,5 @@ xcode_sdk: iphonesimulator9.2
 git:
   depth: 1
 
-before_install:
-- xcrun instruments -w "iPhone 6 (9.2) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
-
 install:
-- sudo bundle install
-- bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
-- bundle exec pod keys set ClientSecret $ELLO_CLIENT_SECRET Ello
-- bundle exec pod keys set Domain $ELLO_DOMAIN Ello
-- bundle exec pod keys set Salt $ELLO_SALT Ello
-- bundle exec pod keys set CrashlyticsKey $ELLO_CRASHLYTICS_KEY Ello
-- bundle exec pod keys set FirebaseKey $ELLO_FIREBASE_KEY Ello
-- bundle exec pod keys set HttpProtocol $ELLO_HTTP_PROTOCOL Ello
-- bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
-- bundle exec pod install
-
-before_script:
-- export LANG=en_US.UTF-8
-
-script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.0,name=iPhone 6" clean test | xcpretty -f `xcpretty-travis-formatter`'
-
-notifications:
-  email: false
-  slack:
-    secure: ZikJQt/R40LMj27fu2ub9Zq87FF6kZXx3fXy9lz/nWFuc7EWcQC8SzVOCizSp+cq/wrsyBPfitkQwVsFpxx/6aJC0r+t4/zIwK21aLIkkHYLzS5qJpifYeTp7kAiQ0eFWLNLxRSwDVEMlfcvgHl7kGmvJQkzHm9mkQaWBJAJayc=
-
-env:
-  global:
-  - secure: NlynF9hcXA5hGxY3ApAMmYrTDmszD5ocS8/aKPYZXdlBXOJ0c2DC6EiPhNXxFsWXOfIS8cO8r0cxGCRDU1bsmw0MR8t9/i4o1uw3l+F8ftHZQHKCC6BDbTrPYgi79ojNjjNtO/BM98U2ew6Rk8eqN+tjpxX0DWU+3Mwp30NaZm8=
-  - secure: v5s+GDcGM/kgAT5fTuz1nbPlO2obuPjtl7enNfUId9XrpAy5P/2u1SfQvvMGU32uiWV7misINsw3LldX8lCG1GliwBeTtFsk+FmuatU92So87ji2rGy3Nw3gcZx8gYHkvc8mRTzn7WXFcs9ZC9m9knJLKLKDcj1zVbgX/0qv1R4=
-  - secure: PcijtSDEVk+43rP715U1PEM5i6EcQuAHN/GIFr1hNnex+ae7H+TDsY1tdlLCFefyN0yj+uI9FKoTWLz4jfACXw7XHiu17/QBRushIteTDtCH4wcMFCzzt10n95wOrF0bZld8g9tIThZ4BqQQIyGlbantY/HxkXZz0mtXoiYnIvI=
-  - secure: Wt7q431Xlin77h4AKbAYf7QVRCJyK92f9aTSbz3vcJ7oGko0As0Q/HNTfxFglTttay1crJv94dMHNscHHO0E/mzfATKx3FXMfSeHPmr+73cg+5M5zrPOfVMGd6qW5qOZpOxCABXKSwYiQZRcWwcN313oKE02w46rDozqv93+zdo=
-  - secure: NyXTXD0ae8WFav0FnqyuG+byCPXXwSgMnCd67Pq2adyFHzV7WEj6QtwpbuheatB3h+6lIPNGhYriC+4w6tPcCPzCu+i2JPeW5p3kFDJ/MZDpwWCwaBzbgqDrmsS2TDCxibzvEmHdOAMV4f097jACPWeIMrMekKfbATsxPMHKjws=
-  - secure: rSjd2UJV5N4DH2GvhfUE6a8ZcT5nN1NWnZPrJ8h6tNd896U/NZi+myWERLbiclBp0pqXB3J8xCR01Klk2MK5z1kHnCYsDC+cUGsa6X7OOAMliIWGcsOkXeK6RcnM64wdXVK0UiPLY6RHAc9jo9+HSbGUL/Uc+VDVRfe1Kt0jhI8=
-  - secure: MAphXemYWMsswqQH9XHXk+AHfykEStqrVBBlY4BxL5213TDzfZCsH0ERMn5Fx5ppuAatGi0Mk6kFjdj802X0gkF2WXQysFPxR5cl1LPLaL9Cfzmd/k0ZsMCaHmbRLUar4IgHPCIFXItnjti3s/jZTF94BaWho/UCYPmA+MrG/pg=
-  - secure: Ba6zrt57BLhlnZdac9s/t35bv5saMveHtM0eMe3jvRVapkTAIRHlRPpgDvGwLdiTSeI+228vT6Sl/W91pEJKvnfNGsBW9va4og1PSiLA/uA9yzGLWnR/XEGqy5QouPFS4J5WhO3tWxesUipF1rdOfywRPTrQ4l3RrUaoYWXzu7M=
+- bundle install
