@@ -27,7 +27,7 @@ install:
 before_script:
 - export LANG=en_US.UTF-8
 
-script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.0,name=iPhone 6" clean test | xcpretty -f `xcpretty-travis-formatter`'
+script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.2,name=iPhone 6s" clean test | xcpretty -f `xcpretty-travis-formatter`'
 
 notifications:
   email: false
