@@ -96,10 +96,6 @@ public class StreamImageCell: StreamRegionableCell {
         imageView.backgroundColor = UIColor.whiteColor()
     }
 
-    @IBAction func imageDoubleTapped() {
-        print("=============== \(__FILE__) line \(__LINE__) ===============")
-    }
-
     private func loadImage(url: NSURL) {
         self.imageView.pin_setImageFromURL(url) { result in
             let success = result.image != nil || result.animatedImage != nil
@@ -179,5 +175,9 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBAction func imageTapped() {
         streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
+    }
+
+    @IBAction func imageDoubleTapped() {
+        print("=============== \(__FILE__) line \(__LINE__) ===============")
     }
 }
