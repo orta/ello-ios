@@ -6,6 +6,7 @@ git:
   depth: 1
 
 before_install:
+- bundle install
 - gem install cocoapods -v '1.0.0.beta.3'
 - xcrun instruments -w "iPhone 6 (9.2) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
 
