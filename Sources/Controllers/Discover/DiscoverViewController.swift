@@ -75,7 +75,7 @@ public class DiscoverViewController: StreamableViewController {
     }
 
     private func setupInviteFriendsButton() {
-        chevron.image = Interface.Image.AngleBracket.whiteImage
+        chevron.image = InterfaceImage.AngleBracket.whiteImage
         inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
         inviteLabel.font = UIFont.defaultFont()
         inviteLabel.textColor = .whiteColor()

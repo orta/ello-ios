@@ -19,7 +19,7 @@ extension UIBarButtonItem {
         return UIBarButtonItem(customView: button)
     }
 
-    convenience init(image: Interface.Image, target: AnyObject, action: Selector) {
+    convenience init(image: InterfaceImage, target: AnyObject, action: Selector) {
         let frame = CGRect(x: 0, y: 0, width: 36.0, height: 44.0)
         let button = UIButton(frame: frame)
         button.setImage(image, imageStyle: .Normal, forState: .Normal)

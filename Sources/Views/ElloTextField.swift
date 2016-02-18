@@ -17,9 +17,9 @@ enum ValidationState {
 
     var imageRepresentation: UIImage? {
         switch self {
-        case .Loading: return Interface.Image.ValidationLoading.normalImage
-        case .Error: return Interface.Image.ValidationError.normalImage
-        case .OK: return Interface.Image.ValidationOK.normalImage
+        case .Loading: return InterfaceImage.ValidationLoading.normalImage
+        case .Error: return InterfaceImage.ValidationError.normalImage
+        case .OK: return InterfaceImage.ValidationOK.normalImage
         case .None: return nil
         }
     }

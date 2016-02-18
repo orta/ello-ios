@@ -14,7 +14,7 @@ class NewElloTabBar: UIView {
 
     enum Display {
         case Title(String)
-        case Image(Interface.Image)
+        case Image(InterfaceImage)
     }
 
     struct Item {
@@ -29,7 +29,7 @@ class NewElloTabBar: UIView {
             }
         }
 
-        var interfaceImage: Interface.Image? {
+        var interfaceImage: InterfaceImage? {
             switch display {
             case let .Image(interfaceImage): return interfaceImage
             default: return nil

@@ -27,7 +27,7 @@ public class AvatarButton: UIButton {
     }
 
     private func setup() {
-        let star = Interface.Image.Star.selectedImage
+        let star = InterfaceImage.Star.selectedImage
         starIcon.image = star
         starIcon.frame.size = starSize
         starIcon.hidden = true

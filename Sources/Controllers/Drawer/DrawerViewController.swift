@@ -99,7 +99,7 @@ private extension DrawerViewController {
     }
 
     func addLeftButtons() {
-        let logoView = UIImageView(image: Interface.Image.ElloLogo.normalImage)
+        let logoView = UIImageView(image: InterfaceImage.ElloLogo.normalImage)
         logoView.frame = CGRect(x: 15, y: 30, width: 24, height: 24)
         navigationBar.addSubview(logoView)
     }

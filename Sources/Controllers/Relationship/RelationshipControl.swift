@@ -285,15 +285,15 @@ public class RelationshipControl: UIView {
         var image: UIImage? {
             switch self {
             case .Muted: return nil
-            case .Starred, .Following: return Interface.Image.CheckSmall.whiteImage
-            default: return Interface.Image.PlusSmall.selectedImage
+            case .Starred, .Following: return InterfaceImage.CheckSmall.whiteImage
+            default: return InterfaceImage.PlusSmall.selectedImage
             }
         }
 
         var highlightedImage: UIImage? {
             switch self {
             case .Muted, .Starred, .Following: return self.image
-            default: return Interface.Image.PlusSmall.whiteImage
+            default: return InterfaceImage.PlusSmall.whiteImage
             }
         }
     }

@@ -71,13 +71,13 @@ public class OnboardingNextButton: LightElloButton {
 
     func updateImage() {
         if !enabled {
-            chevron?.image = Interface.Image.AngleBracket.disabledImage
+            chevron?.image = InterfaceImage.AngleBracket.disabledImage
         }
         else if highlighted {
-            chevron?.image = Interface.Image.AngleBracket.selectedImage
+            chevron?.image = InterfaceImage.AngleBracket.selectedImage
         }
         else {
-            chevron?.image = Interface.Image.AngleBracket.normalImage
+            chevron?.image = InterfaceImage.AngleBracket.normalImage
         }
     }
 

@@ -188,7 +188,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
 // MARK: Search
 public extension StreamableViewController {
     func addSearchButton() {
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: Interface.Image.Search.normalImage, style: .Done, target: self, action: Selector("searchButtonTapped"))
+        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: InterfaceImage.Search.normalImage, style: .Done, target: self, action: Selector("searchButtonTapped"))
     }
 
     func searchButtonTapped() {

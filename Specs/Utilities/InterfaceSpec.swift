@@ -17,7 +17,7 @@ class InterfaceSpec: QuickSpec {
         describe("Interface") {
             describe("Image") {
                 describe("image(style:)") {
-                    let styles: [(Interface.Image, Interface.Image.Style)] = [
+                    let styles: [(InterfaceImage, InterfaceImage.Style)] = [
                         (.ElloLogo, .Normal),
                         (.Eye, .Selected),
                         (.BreakLink, .White),
@@ -32,7 +32,7 @@ class InterfaceSpec: QuickSpec {
                 }
 
                 describe("normalImage") {
-                    let normalImages: [Interface.Image] = [
+                    let normalImages: [InterfaceImage] = [
                         .ElloLogo,
                         .Eye,
                         .Heart,
@@ -83,7 +83,7 @@ class InterfaceSpec: QuickSpec {
                     }
                 }
                 describe("selectedImage") {
-                    let selectedImages: [Interface.Image] = [
+                    let selectedImages: [InterfaceImage] = [
                         .Eye,
                         .Heart,
                         .Repost,
@@ -126,7 +126,7 @@ class InterfaceSpec: QuickSpec {
                     }
                 }
                 describe("whiteImage") {
-                    let whiteImages: [Interface.Image] = [
+                    let whiteImages: [InterfaceImage] = [
                         .BreakLink,
                         .BubbleBody,
                         .Camera,
@@ -148,7 +148,7 @@ class InterfaceSpec: QuickSpec {
                     }
                 }
                 describe("disabledImage") {
-                    let disabledImages: [Interface.Image] = [
+                    let disabledImages: [InterfaceImage] = [
                         .AngleBracket,
                     ]
                     for image in disabledImages {
@@ -159,7 +159,7 @@ class InterfaceSpec: QuickSpec {
                     }
                 }
                 describe("redImage") {
-                    let redImages: [Interface.Image] = [
+                    let redImages: [InterfaceImage] = [
                         .X,
                     ]
                     for image in redImages {

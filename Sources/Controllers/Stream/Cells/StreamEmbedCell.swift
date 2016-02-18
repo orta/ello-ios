@@ -18,7 +18,7 @@ public class StreamEmbedCell: StreamImageCell {
         }
     }
 
-    public func setPlayImageIcon(icon: Interface.Image) {
+    public func setPlayImageIcon(icon: InterfaceImage) {
         playIcon.image = icon.normalImage
     }
 }

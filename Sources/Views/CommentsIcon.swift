@@ -10,12 +10,12 @@ public class CommentsIcon: BasicIcon {
     private let commentTailView: UIView
 
     public init() {
-        let iconImage = Interface.Image.BubbleBody.normalImage
-        let iconSelectedImage = Interface.Image.BubbleBody.selectedImage
+        let iconImage = InterfaceImage.BubbleBody.normalImage
+        let iconSelectedImage = InterfaceImage.BubbleBody.selectedImage
         let icon = UIImageView(image: iconImage)
         let iconSelected = UIImageView(image: iconSelectedImage)
 
-        let commentTail = Interface.Image.BubbleTail.normalImage
+        let commentTail = InterfaceImage.BubbleTail.normalImage
         commentTailView = UIImageView(image: commentTail)
         super.init(normalIconView: icon, selectedIconView: iconSelected)
         addSubview(commentTailView)

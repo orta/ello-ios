@@ -66,7 +66,7 @@ public class StreamContainerViewController: StreamableViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl
-        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: Interface.Image.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         addSearchButton()
         navigationBar.items = [elloNavigationItem]
 
