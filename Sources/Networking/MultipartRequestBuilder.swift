@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
+
 public class MultipartRequestBuilder {
     public let boundaryConstant : String
     private var body : NSMutableData

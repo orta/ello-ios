@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import UIKit
+
 private struct ElloColors {
     static let grey231F20       : UIColor = UIColor(hex: 0x231F20)
     static let grey3            : UIColor = UIColor(hex: 0x333333)

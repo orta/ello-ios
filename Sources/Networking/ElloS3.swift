@@ -14,6 +14,7 @@
 //   //.onProgress() { (progress : Float) in }
 //   .start()
 
+import Foundation
 
 
 public class ElloS3 {

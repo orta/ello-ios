@@ -10,7 +10,7 @@ public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
     var postParam: String!
-    var scrollToComment: Comment?
+    var scrollToComment: ElloComment?
 
     var navigationBar: ElloNavigationBar!
     var localToken: String!
@@ -171,7 +171,7 @@ public class PostDetailViewController: StreamableViewController {
 
         // add in the comment button if we have a current user
         if let currentUser = currentUser {
-            items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
+            items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
         }
 
         if let comments = post.comments {
@@ -209,9 +209,9 @@ public class PostDetailViewController: StreamableViewController {
         Tracker.sharedTracker.postLoaded(post.id)
     }
 
-    private func scrollToComment(comment: Comment) {
+    private func scrollToComment(comment: ElloComment) {
         let commentItem = streamViewController.dataSource.visibleCellItems.find { item in
-            return (item.jsonable as? Comment)?.id == comment.id
+            return (item.jsonable as? ElloComment)?.id == comment.id
         } ?? streamViewController.dataSource.visibleCellItems.last
 
         if let commentItem = commentItem, indexPath = self.streamViewController.dataSource.indexPathForItem(commentItem) {

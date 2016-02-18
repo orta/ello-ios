@@ -18,7 +18,7 @@ public struct StreamCellItemParser {
         if let posts = filteredItems as? [Post] {
             return postCellItems(posts, streamKind: streamKind)
         }
-        if let comments = filteredItems as? [Comment] {
+        if let comments = filteredItems as? [ElloComment] {
             return commentCellItems(comments)
         }
         if let notifications = filteredItems as? [Notification] {
@@ -76,7 +76,7 @@ public struct StreamCellItemParser {
         return cellItems
     }
 
-    private func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
+    private func commentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
             cellItems.append(StreamCellItem(jsonable: comment, type: .CommentHeader))
@@ -127,7 +127,7 @@ public extension StreamCellItemParser {
     public func testingPostCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         return postCellItems(posts, streamKind: streamKind)
     }
-    public func testingCommentCellItems(comments: [Comment]) -> [StreamCellItem] {
+    public func testingCommentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
         return commentCellItems(comments)
     }
     public func testingPostToggleItems(post: Post) -> [StreamCellItem] {

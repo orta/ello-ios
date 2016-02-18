@@ -12,6 +12,7 @@ import SwiftyJSON
 
 let TextRegionVersion = 1
 
+@objc(TextRegion)
 public final class TextRegion: JSONAble, Regionable {
     public var isRepost: Bool = false
 

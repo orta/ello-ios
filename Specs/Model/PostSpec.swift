@@ -51,8 +51,8 @@ class PostSpec: QuickSpec {
                 // links
                 expect(post.author).to(beAKindOf(User.self))
                 expect(post.comments!.count) == 2
-                expect(post.comments![0]).to(beAKindOf(Comment.self))
-                expect(post.comments![1]).to(beAKindOf(Comment.self))
+                expect(post.comments![0]).to(beAKindOf(ElloComment.self))
+                expect(post.comments![1]).to(beAKindOf(ElloComment.self))
                 expect(post.assets!.count) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
@@ -189,7 +189,7 @@ class PostSpec: QuickSpec {
                         "url" : NSURL(string: "http://www.example5.com")!
                     ])
 
-                    let comment: Comment = stub([
+                    let comment: ElloComment = stub([
                         "author": author
                     ])
 
@@ -258,7 +258,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.author!.id) == "555"
                     expect(unArchivedPost.assets!.count) == 1
                     expect(unArchivedPost.comments!.count) == 1
-                    expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
+                    expect(unArchivedPost.comments![0]).to(beAKindOf(ElloComment.self))
                     // computed
                     expect(post.collapsed) == true
                     expect(post.shareLink) == "https://ello.co/thenim/post/toke-en"

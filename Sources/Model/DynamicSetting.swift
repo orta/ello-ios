@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let DynamicSettingVersion = 1
 
+@objc(DynamicSetting)
 public final class DynamicSetting: JSONAble {
     public let label: String
     public let key: String

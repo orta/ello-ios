@@ -9,6 +9,8 @@
 import Foundation
 
 let UserAvatarCellModelVersion = 1
+
+@objc(UserAvatarCellModel)
 public final class UserAvatarCellModel: JSONAble {
 
     public let icon: Interface.Image

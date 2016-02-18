@@ -1,3 +1,5 @@
+import UIKit
+
 public extension UIView {
     class func loadFromNib<T: UIView>() -> T {
         let nib = UINib(nibName: T.readableClassName(), bundle: NSBundle(forClass: T.self))

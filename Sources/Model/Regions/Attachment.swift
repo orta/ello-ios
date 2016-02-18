@@ -12,6 +12,7 @@ import SwiftyJSON
 
 let AttachmentVersion = 1
 
+@objc(Attachment)
 public final class Attachment: JSONAble {
 
     // required

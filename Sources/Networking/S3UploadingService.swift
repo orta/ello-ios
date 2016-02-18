@@ -7,7 +7,8 @@
 //
 
 import Moya
-
+import Foundation
+import UIKit
 
 public class S3UploadingService: NSObject {
     typealias S3UploadSuccessCompletion = (url : NSURL?) -> Void

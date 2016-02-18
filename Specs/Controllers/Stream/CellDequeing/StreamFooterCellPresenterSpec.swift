@@ -10,6 +10,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("single column view") {
 
                 it("configures a stream footer cell") {
+                    GroupDefaults["FollowingIsGridView"] = false
                     let post: Post = stub([
                         "id" : "768",
                         "viewsCount" : 9,
@@ -44,6 +45,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
 
+                    GroupDefaults["StarredIsGridView"] = true
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.commentsControl.selected).to(beFalse())

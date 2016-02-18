@@ -23,8 +23,8 @@ class PreloaderSpec: QuickSpec {
         var imagePostWithSummary: Post!
         var twoImagePost: Post!
         var threeImagePost: Post!
-        var oneImageComment: Comment!
-        var threeImageComment: Comment!
+        var oneImageComment: ElloComment!
+        var threeImageComment: ElloComment!
         var user1: User!
         var user2: User!
         var user3: User!
@@ -116,13 +116,13 @@ class PreloaderSpec: QuickSpec {
                 "author" : user3
             ])
 
-            oneImageComment = Comment.stub([
+            oneImageComment = ElloComment.stub([
                 "id" : "9",
                 "content" : [imageRegion],
                 "author" : user1
             ])
 
-            threeImageComment = Comment.stub([
+            threeImageComment = ElloComment.stub([
                 "id" : "11",
                 "content" : [imageRegion, imageRegion, imageRegion],
                 "author" : user3

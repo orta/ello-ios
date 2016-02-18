@@ -12,7 +12,7 @@ import TimeAgoInWords
 @objc
 public protocol NotificationDelegate {
     func userTapped(user: User)
-    func commentTapped(comment: Comment)
+    func commentTapped(comment: ElloComment)
     func postTapped(post: Post)
 }
 

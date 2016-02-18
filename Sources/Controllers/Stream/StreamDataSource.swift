@@ -100,7 +100,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         let item = visibleStreamCellItem(at: indexPath)
 
         if let notification = item?.jsonable as? Notification {
-            if let comment = notification.activity.subject as? Comment {
+            if let comment = notification.activity.subject as? ElloComment {
                 return comment.loadedFromPost
             }
             return notification.activity.subject as? Post
@@ -114,9 +114,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return region?.asset
     }
 
-    public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
+    public func commentForIndexPath(indexPath: NSIndexPath) -> ElloComment? {
         let item = visibleStreamCellItem(at: indexPath)
-        return item?.jsonable as? Comment
+        return item?.jsonable as? ElloComment
     }
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
@@ -141,7 +141,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths = [NSIndexPath]()
         for (index, value) in visibleCellItems.enumerate() {
-            if let comment = value.jsonable as? Comment where comment.loadedFromPostId == post.id {
+            if let comment = value.jsonable as? ElloComment where comment.loadedFromPostId == post.id {
                 indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
             }
         }
@@ -309,7 +309,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             var reloadPaths: [NSIndexPath]?
 
             // if comment, add new comment cells
-            if  let comment = jsonable as? Comment,
+            if  let comment = jsonable as? ElloComment,
                 let parentPost = comment.loadedFromPost
             {
                 let indexPaths = self.commentIndexPathsForPost(parentPost)
@@ -372,7 +372,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }, completion: nil)
                 }
             }
-            else if let comment = jsonable as? Comment, firstIndexPath = oldIndexPaths.first  {
+            else if let comment = jsonable as? ElloComment, firstIndexPath = oldIndexPaths.first  {
                 let firstIndexPath = oldIndexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
                     if path.section == memo.section {
                         return path.item > memo.section ? memo : path
@@ -526,9 +526,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func elementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
         var indexPaths = [NSIndexPath]()
         var items = [StreamCellItem]()
-        if let comment = jsonable as? Comment {
+        if let comment = jsonable as? ElloComment {
             for (index, item) in visibleCellItems.enumerate() {
-                if let itemComment = item.jsonable as? Comment where comment.id == itemComment.id {
+                if let itemComment = item.jsonable as? ElloComment where comment.id == itemComment.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                     items.append(item)
                 }
@@ -541,7 +541,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     items.append(item)
                 }
                 else if change == .Delete || change == .Replaced {
-                    if let itemComment = item.jsonable as? Comment where itemComment.loadedFromPostId == post.id || itemComment.postId == post.id {
+                    if let itemComment = item.jsonable as? ElloComment where itemComment.loadedFromPostId == post.id || itemComment.postId == post.id {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }
@@ -556,7 +556,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }
-                    else if let itemComment = item.jsonable as? Comment {
+                    else if let itemComment = item.jsonable as? ElloComment {
                         if  user.id == itemComment.authorId ||
                             user.id == itemComment.loadedFromPost?.authorId
                         {

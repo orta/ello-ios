@@ -17,7 +17,7 @@ extension StreamCellItemParser {
             if let post = item as? Post {
                 retItems += testingPostCellItems([post], streamKind: .Following)
             }
-            if let comment = item as? Comment {
+            if let comment = item as? ElloComment {
                 retItems += testingCommentCellItems([comment])
             }
             if let notification = item as? Notification {

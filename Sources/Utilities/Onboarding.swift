@@ -15,7 +15,7 @@ private let _currentVersion = 1
 public class Onboarding {
     private var version: Int {
         didSet {
-            Defaults["ViewedOnboardingVersion"] = version
+            GroupDefaults["ViewedOnboardingVersion"] = version
         }
     }
 
@@ -36,7 +36,7 @@ public class Onboarding {
     }
 
     init() {
-        version = Defaults["ViewedOnboardingVersion"].int ?? 0
+        version = GroupDefaults["ViewedOnboardingVersion"].int ?? 0
     }
 
     public func hasSeenLatestVersion() -> Bool {

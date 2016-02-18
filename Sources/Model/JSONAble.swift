@@ -7,11 +7,13 @@
 //
 
 import YapDatabase
+import Foundation
 
 public typealias FromJSONClosure = (data: [String: AnyObject], fromLinked: Bool) -> JSONAble
 
 let JSONAbleVersion = 1
 
+@objc(JSONAble)
 public class JSONAble: NSObject, NSCoding {
     // links
     public var links: [String: AnyObject]?

@@ -108,11 +108,11 @@ public class ElloTabBarController: UIViewController, HasAppController {
 public extension ElloTabBarController {
 
     class func didShowNarration(tab: ElloTab) -> Bool {
-        return Defaults[tab.narrationDefaultKey].bool ?? false
+        return GroupDefaults[tab.narrationDefaultKey].bool ?? false
     }
 
     class func didShowNarration(tab: ElloTab, _ value: Bool) {
-        Defaults[tab.narrationDefaultKey] = value
+        GroupDefaults[tab.narrationDefaultKey] = value
     }
 
 }

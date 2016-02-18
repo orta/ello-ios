@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+
 public typealias AlertHandler = ((AlertAction) -> Void)?
 public typealias AlertCellConfigClosure = (
     cell: AlertCell,

@@ -114,7 +114,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         streamViewController.loadInitialPage()
     }
 
-    public func commentTapped(comment: Comment) {
+    public func commentTapped(comment: ElloComment) {
         if let post = comment.loadedFromPost {
             postTapped(post)
         }

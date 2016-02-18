@@ -96,14 +96,14 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-        let introDisplayed = Defaults["IntroDisplayed"].bool ?? false
+        let introDisplayed = GroupDefaults["IntroDisplayed"].bool ?? false
 
         if authToken.isPasswordBased {
             self.loadCurrentUser()
         }
         else if !introDisplayed {
             presentViewController(IntroViewController(), animated: false) {
-                Defaults["IntroDisplayed"] = true
+                GroupDefaults["IntroDisplayed"] = true
                 self.showButtons()
             }
         }
@@ -394,7 +394,7 @@ public extension AppViewController {
     private func logOutCurrentUser() {
         PushNotificationController.sharedController.deregisterStoredToken()
         ElloProvider.shared.logout()
-        Defaults[CurrentStreamKey] = nil
+        GroupDefaults[CurrentStreamKey] = nil
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil

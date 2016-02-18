@@ -9,7 +9,6 @@
 import Crashlytics
 import Foundation
 import Moya
-import WebLinking
 import Result
 import Alamofire
 
@@ -30,24 +29,6 @@ public class ElloProvider {
         }
     }
 
-    public static var serverTrustPolicies: [String: ServerTrustPolicy] {
-        var policyDict = [String: ServerTrustPolicy]()
-        // make Charles plays nice in the sim by not adding a policy
-        if !AppSetup.sharedState.isSimulator {
-            policyDict["ello.co"] = .PinPublicKeys(
-                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
-                validateCertificateChain: true,
-                validateHost: true
-            )
-        }
-        return policyDict
-    }
-
-    public static let manager = Manager(
-        configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-        serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloProvider.serverTrustPolicies)
-    )
-
     public static func endpointClosure(target: ElloAPI) -> Endpoint<ElloAPI> {
         let sampleResponseClosure = { return EndpointSampleResponse.NetworkResponse(200, target.sampleData) }
 
@@ -58,7 +39,11 @@ public class ElloProvider {
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: ElloManager.manager)
+    }
+
+    public static func ShareExtensionProvider() -> MoyaProvider<ElloAPI> {
+        return MoyaProvider<ElloAPI>(endpointClosure: ElloProvider.endpointClosure, manager: ElloManager.shareExtensionManager)
     }
 
     private struct SharedProvider {
@@ -285,46 +270,7 @@ public class ElloProvider {
 
 // MARK: Generate error helper methods
 
-extension ElloProvider {
 
-    static func unCastableJSONAble(failure: ElloFailureCompletion) {
-        let elloError = NSError.networkError(nil, code: ElloErrorCode.JSONMapping)
-        failure(error: elloError, statusCode: 200)
-    }
-
-    public static func generateElloError(data: NSData?, statusCode: Int?) -> NSError {
-        var elloNetworkError: ElloNetworkError?
-
-        if let data = data {
-            let (mappedJSON, _): (AnyObject?, NSError?) = Mapper.mapJSON(data)
-
-            if mappedJSON != nil {
-                if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
-                }
-            }
-        }
-        else if statusCode == 401 {
-            elloNetworkError = ElloNetworkError(attrs: nil, code: .unauthenticated, detail: nil, messages: nil, status: "401", title: "unauthenticated")
-        }
-
-        let errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
-        let elloError = NSError.networkError(elloNetworkError, code: errorCodeType)
-
-        return elloError
-    }
-
-    public static func failedToSendRequest(failure: ElloFailureCompletion) {
-        let elloError = NSError.networkError("Failed to send request", code: ElloErrorCode.NetworkFailure)
-        failure(error: elloError, statusCode: nil)
-    }
-
-    public static func failedToMapObjects(failure: ElloFailureCompletion) {
-        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
-        let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
-        failure(error: elloError, statusCode: nil)
-    }
-}
 
 // MARK: elloRequest implementation
 extension ElloProvider {
@@ -340,11 +286,8 @@ extension ElloProvider {
             if let response = response {
                 // set crashlytics stuff before processing
                 let headers = response.allHeaderFields.description
-                Tracker.responseHeaders = headers
-                Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
-                Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-                Tracker.responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
-                Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
+                let responseJSON = NSString(data: data, encoding: NSUTF8StringEncoding) as? String ?? "failed to parse data"
+                Tracker.trackRequest(headers: headers, statusCode: statusCode, responseJSON: responseJSON)
             }
 
             switch statusCode {
@@ -497,26 +440,7 @@ extension ElloProvider {
         config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
         config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String
         config.totalPagesRemaining = response?.allHeaderFields["X-Total-Pages-Remaining"] as? String
-        if let nextLink = response?.findLink(relation: "next") {
-            if let comps = NSURLComponents(string: nextLink.uri) {
-                config.nextQueryItems = comps.queryItems
-            }
-        }
-        if let prevLink = response?.findLink(relation: "prev") {
-            if let comps = NSURLComponents(string: prevLink.uri) {
-                config.prevQueryItems = comps.queryItems
-            }
-        }
-        if let firstLink = response?.findLink(relation: "first") {
-            if let comps = NSURLComponents(string: firstLink.uri) {
-                config.firstQueryItems = comps.queryItems
-            }
-        }
-        if let lastLink = response?.findLink(relation: "last") {
-            if let comps = NSURLComponents(string: lastLink.uri) {
-                config.lastQueryItems = comps.queryItems
-            }
-        }
-        return config
+
+        return parseLinks(response, config: config)
     }
 }

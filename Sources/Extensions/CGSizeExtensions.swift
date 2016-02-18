@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import CoreGraphics
+
 public extension CGSize {
     public func scaledSize(maxSize: CGSize) -> CGSize {
         var newSize = self

@@ -21,6 +21,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>co.ello.Ello</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ello</string>

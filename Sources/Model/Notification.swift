@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
+
 public enum NotificationFilterType: String {
     case All = "NotificationFilterTypeAll"
     case Comments = "NotificationFilterTypeComments"
@@ -46,6 +48,7 @@ public enum NotificationFilterType: String {
 
 let NotificationVersion = 1
 
+@objc(Notification)
 public final class Notification: JSONAble, Authorable {
 
     // required
@@ -84,7 +87,7 @@ public final class Notification: JSONAble, Authorable {
             self.author = post.author
             self.postId = post.id
         }
-        else if let comment = activity.subject as? Comment {
+        else if let comment = activity.subject as? ElloComment {
             self.author = comment.author
             self.postId = comment.postId
         }
@@ -103,7 +106,7 @@ public final class Notification: JSONAble, Authorable {
         if let post = activity.subject as? Post {
             assignRegionsFromContent(post.summary)
         }
-        else if let comment = activity.subject as? Comment {
+        else if let comment = activity.subject as? ElloComment {
             let parentSummary = comment.parentPost?.summary
             if let summary = comment.summary {
                 assignRegionsFromContent(summary, parentSummary: parentSummary)

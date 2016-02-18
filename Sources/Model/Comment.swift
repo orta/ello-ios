@@ -11,7 +11,8 @@ import SwiftyJSON
 
 let CommentVersion = 1
 
-public final class Comment: JSONAble, Authorable {
+@objc(ElloComment)
+public final class ElloComment: JSONAble, Authorable {
 
     // active record
     public let id: String
@@ -112,7 +113,7 @@ public final class Comment: JSONAble, Authorable {
             // send data to segment to try to get more data about this
             Tracker.sharedTracker.createdAtCrash("Comment", json: json.rawString())
         }
-        let comment = Comment(
+        let comment = ElloComment(
             id: json["id"].stringValue,
             createdAt: createdAt,
             authorId: json["author_id"].stringValue,
@@ -131,8 +132,8 @@ public final class Comment: JSONAble, Authorable {
         return comment
     }
 
-    public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
-        let comment = Comment(
+    public class func newCommentForPost(post: Post, currentUser: User) -> ElloComment {
+        let comment = ElloComment(
             id: NSUUID().UUIDString,
             createdAt: NSDate(),
             authorId: currentUser.id,

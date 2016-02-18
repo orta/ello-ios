@@ -38,11 +38,6 @@
                BlueprintName = "Specs"
                ReferencedContainer = "container:Ello.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "FunctionalTests">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

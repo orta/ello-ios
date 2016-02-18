@@ -188,11 +188,11 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 prevTabValues = [
-                    ElloTab.Discovery: Defaults[ElloTab.Discovery.narrationDefaultKey].bool,
-                    ElloTab.Notifications: Defaults[ElloTab.Notifications.narrationDefaultKey].bool,
-                    ElloTab.Stream: Defaults[ElloTab.Stream.narrationDefaultKey].bool,
-                    ElloTab.Profile: Defaults[ElloTab.Profile.narrationDefaultKey].bool,
-                    ElloTab.Post: Defaults[ElloTab.Post.narrationDefaultKey].bool
+                    ElloTab.Discovery: GroupDefaults[ElloTab.Discovery.narrationDefaultKey].bool,
+                    ElloTab.Notifications: GroupDefaults[ElloTab.Notifications.narrationDefaultKey].bool,
+                    ElloTab.Stream: GroupDefaults[ElloTab.Stream.narrationDefaultKey].bool,
+                    ElloTab.Profile: GroupDefaults[ElloTab.Profile.narrationDefaultKey].bool,
+                    ElloTab.Post: GroupDefaults[ElloTab.Post.narrationDefaultKey].bool
                 ]
 
                 subject = ElloTabBarController.instantiateFromStoryboard()
@@ -209,22 +209,22 @@ class ElloTabBarControllerSpec: QuickSpec {
             }
             afterEach {
                 for (tab, value) in prevTabValues {
-                    Defaults[tab.narrationDefaultKey] = value
+                    GroupDefaults[tab.narrationDefaultKey] = value
                 }
             }
 
             it("should set the narration values") {
                 let tab = ElloTab.Stream
                 ElloTabBarController.didShowNarration(tab, false)
-                expect(Defaults[tab.narrationDefaultKey].bool).to(beFalse())
+                expect(GroupDefaults[tab.narrationDefaultKey].bool).to(beFalse())
                 ElloTabBarController.didShowNarration(tab, true)
-                expect(Defaults[tab.narrationDefaultKey].bool).to(beTrue())
+                expect(GroupDefaults[tab.narrationDefaultKey].bool).to(beTrue())
             }
             it("should get the narration values") {
                 let tab = ElloTab.Stream
-                Defaults[tab.narrationDefaultKey] = false
+                GroupDefaults[tab.narrationDefaultKey] = false
                 expect(ElloTabBarController.didShowNarration(tab)).to(beFalse())
-                Defaults[tab.narrationDefaultKey] = true
+                GroupDefaults[tab.narrationDefaultKey] = true
                 expect(ElloTabBarController.didShowNarration(tab)).to(beTrue())
             }
             it("should NOT show the narrationView when changing to a tab that has already shown the narrationView") {

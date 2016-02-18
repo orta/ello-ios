@@ -191,7 +191,7 @@ extension Post: Stubbable {
             }
             post.addLinkArray("assets", array: assetIds)
         }
-        if let comments = values["comments"] as? [Comment] {
+        if let comments = values["comments"] as? [ElloComment] {
             var commentIds = [String]()
             for comment in comments {
                 commentIds.append(comment.id)
@@ -213,8 +213,8 @@ extension Post: Stubbable {
 
 }
 
-extension Comment: Stubbable {
-    class func stub(values: [String: AnyObject]) -> Comment {
+extension ElloComment: Stubbable {
+    class func stub(values: [String: AnyObject]) -> ElloComment {
 
         // create necessary links
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? NSUUID().UUIDString])
@@ -224,7 +224,7 @@ extension Comment: Stubbable {
         let loadedFromPost: Post = (values["loadedFromPost"] as? Post) ?? parentPost
         ElloLinkedStore.sharedInstance.setObject(loadedFromPost, forKey: loadedFromPost.id, inCollection: MappingType.PostsType.rawValue)
 
-        let comment = Comment(
+        let comment = ElloComment(
             id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             authorId: author.id,
@@ -320,7 +320,7 @@ extension Activity: Stubbable {
             activity.addLinkObject("subject", key: post.id, collection: MappingType.PostsType.rawValue)
             ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
         }
-        else if let comment = values["subject"] as? Comment {
+        else if let comment = values["subject"] as? ElloComment {
             activity.addLinkObject("subject", key: comment.id, collection: MappingType.CommentsType.rawValue)
             ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
         }

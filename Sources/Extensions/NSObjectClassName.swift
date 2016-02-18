@@ -1,3 +1,5 @@
+import Foundation
+
 extension NSObject {
     func readableClassName() -> String {
         return self.dynamicType.readableClassName()

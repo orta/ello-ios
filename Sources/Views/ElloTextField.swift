@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import UIKit
+import Foundation
+
 enum ValidationState {
     case Loading
     case Error

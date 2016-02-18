@@ -8,7 +8,7 @@
 
 public protocol PostTappedDelegate: NSObjectProtocol {
     func postTapped(post: Post)
-    func postTapped(post: Post, scrollToComment: Comment?)
+    func postTapped(post: Post, scrollToComment: ElloComment?)
     func postTapped(postId postId: String)
 }
 
@@ -20,7 +20,7 @@ public protocol UserTappedDelegate: NSObjectProtocol {
 public protocol CreatePostDelegate: NSObjectProtocol {
     func createPost(text text: String?, fromController: UIViewController)
     func createComment(post: Post, text: String?, fromController: UIViewController)
-    func editComment(comment: Comment, fromController: UIViewController)
+    func editComment(comment: ElloComment, fromController: UIViewController)
     func editPost(post: Post, fromController: UIViewController)
 }
 
@@ -169,7 +169,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
         self.postTapped(postId: post.id, scrollToComment: nil)
     }
 
-    public func postTapped(post: Post, scrollToComment lastComment: Comment?) {
+    public func postTapped(post: Post, scrollToComment lastComment: ElloComment?) {
         self.postTapped(postId: post.id, scrollToComment: lastComment)
     }
 
@@ -177,7 +177,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
         self.postTapped(postId: postId, scrollToComment: nil)
     }
 
-    private func postTapped(postId postId: String, scrollToComment lastComment: Comment?) {
+    private func postTapped(postId postId: String, scrollToComment lastComment: ElloComment?) {
         let vc = PostDetailViewController(postParam: postId)
         vc.scrollToComment = lastComment
         vc.currentUser = currentUser
@@ -248,7 +248,7 @@ extension StreamableViewController: CreatePostDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    public func editComment(comment: Comment, fromController: UIViewController) {
+    public func editComment(comment: ElloComment, fromController: UIViewController) {
         if OmnibarViewController.canEditRegions(comment.content) {
             let vc = OmnibarViewController(editComment: comment)
             vc.currentUser = self.currentUser

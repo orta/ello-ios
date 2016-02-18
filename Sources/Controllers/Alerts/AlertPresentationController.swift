@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+
 public class AlertPresentationController: UIPresentationController {
 
     let background: UIView = {

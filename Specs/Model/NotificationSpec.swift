@@ -71,7 +71,7 @@ class NotificationSpec: QuickSpec {
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a post summary!</p>")]
                     ])
-                let comment: Comment = stub([
+                let comment: ElloComment = stub([
                     "parentPost": post,
                     "author": user,
                     "summary": [TextRegion(content: "<p>This is a comment summary!</p>")]
@@ -107,7 +107,7 @@ class NotificationSpec: QuickSpec {
                         imageRegion2,
                     ]
                 ])
-                let comment: Comment = stub([
+                let comment: ElloComment = stub([
                     "parentPost": post,
                     "author": user,
                     "summary": [
