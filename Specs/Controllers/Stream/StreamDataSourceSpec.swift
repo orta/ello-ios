@@ -263,11 +263,12 @@ class StreamDataSourceSpec: QuickSpec {
                             posts.append(Post.stub([
                                 "id": "\(index)",
                                 "contentWarning": index % 2 == 0 ? "" : "NSFW",
-                                "content": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])]
+                                "summary": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])],
+                                "content": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])],
                                 ])
                             )
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Starred)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -334,7 +335,10 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     let asset = Asset.stub([:])
                     let region = ImageRegion.stub(["asset": asset])
-                    let post = Post.stub(["content": [region]])
+                    let post = Post.stub([
+                        "summary": [region],
+                        "content": [region],
+                    ])
                     let cellItems = StreamCellItemParser().parse([post], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
