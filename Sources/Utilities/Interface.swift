@@ -199,8 +199,16 @@ public struct InterfaceString {
         static let About = NSLocalizedString("About", comment: "About")
         static let Logout = NSLocalizedString("Logout", comment: "Logout")
         static let Version: String = {
-            let marketingVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String) ?? "???"
-            let buildVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? "???"
+            let marketingVersion: String
+            let buildVersion: String
+            if AppSetup.sharedState.isSimulator {
+                marketingVersion = "SPECS"
+                buildVersion = "specs"
+            }
+            else {
+                marketingVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String) ?? "???"
+                buildVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? "???"
+             }
             return NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment: "version number")
         }()
     }
