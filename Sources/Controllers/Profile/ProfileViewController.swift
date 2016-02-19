@@ -238,9 +238,9 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func showUserLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         alertController.addAction(action)
@@ -253,12 +253,12 @@ public class ProfileViewController: StreamableViewController {
         var noPostsHeaderText: String
         var noPostsBodyText: String
         if user?.id == currentUser?.id {
-            noPostsHeaderText = NSLocalizedString("Welcome to your Profile", comment: "")
-            noPostsBodyText = NSLocalizedString("Everything you post lives here!\n\nThis is the place to find everyone you’re following and everyone that’s following you. You’ll find your Loves here too!", comment: "")
+            noPostsHeaderText = InterfaceString.Profile.CurrentUserNoResultsTitle
+            noPostsBodyText = InterfaceString.Profile.CurrentUserNoResultsBody
         }
         else {
-            noPostsHeaderText = NSLocalizedString("Ello is more fun with friends!", comment: "")
-            noPostsBodyText = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
+            noPostsHeaderText = InterfaceString.Profile.NoResultsTitle
+            noPostsBodyText = InterfaceString.Profile.NoResultsBody
         }
 
         noPostsHeader.text = noPostsHeaderText
@@ -389,7 +389,7 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.responseConfig = responseConfig
         // clear out this view
         streamViewController.clearForInitialLoad()
-        title = user.atName ?? InterfaceString.Profile.Title.localized
+        title = user.atName ?? InterfaceString.Profile.Title
         if let cachedImage = cachedImage(.CoverImage) {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0

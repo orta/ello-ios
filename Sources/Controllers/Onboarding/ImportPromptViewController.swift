@@ -54,29 +54,26 @@ extension ImportPromptViewController {
         case .NotDetermined:
             promptForAddressBookAccess()
         case .Denied:
-            let message = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.",
-                comment: "Access to contacts denied by user")
+            let message = InterfaceString.Friends.AccessDenied
             displayAddressBookAlert(message)
         case .Restricted:
-            let message = NSLocalizedString("Access to your contacts has been denied by the system.",
-                comment: "Access to contacts denied by system")
+            let message = InterfaceString.Friends.AccessRestricted
             displayAddressBookAlert(message)
         }
     }
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Find your friends on Ello using your contacts.\n\nEllo does not sell user data, and never contacts anyone without your permission.",
-            comment: "Use address book permission prompt")
+        let message = InterfaceString.Friends.ImportPermissionPrompt
         let alertController = AlertViewController(message: message)
 
-        let importMessage = NSLocalizedString("Find my friends", comment: "Find my friends action")
+        let importMessage = InterfaceString.Friends.ImportAllow
         let action = AlertAction(title: importMessage, style: .Dark) { action in
             Tracker.sharedTracker.importContactsInitiated()
             self.proceedWithImport()
         }
         alertController.addAction(action)
 
-        let cancelMessage = NSLocalizedString("Skip", comment: "Skip action")
+        let cancelMessage = InterfaceString.Skip
         let cancelAction = AlertAction(title: cancelMessage, style: .Light) { _ in
             Tracker.sharedTracker.importContactsDenied()
         }
@@ -111,10 +108,10 @@ extension ImportPromptViewController {
 
     private func displayAddressBookAlert(message: String) {
         let alertController = AlertViewController(
-            message: "We were unable to access your address book\n\(message)"
+            message: String(format: InterfaceString.Friends.ImportErrorTemplate, message)
         )
 
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: .None)
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: .None)
         alertController.addAction(action)
 
         logPresentingAlert("ImportPromptViewController")

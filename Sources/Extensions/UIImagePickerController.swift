@@ -41,21 +41,21 @@ extension UIImagePickerController {
         let alertController: AlertViewController
 
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            alertController = AlertViewController(message: NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)"))
+            alertController = AlertViewController(message: InterfaceString.ImagePicker.ChooseSource)
 
-            let cameraAction = AlertAction(title: NSLocalizedString("Camera", comment: "camera button"), style: .Dark) { _ in
+            let cameraAction = AlertAction(title: InterfaceString.ImagePicker.Camera, style: .Dark) { _ in
                 Tracker.sharedTracker.imageAddedFromCamera()
                 callback(.elloCameraPickerController)
             }
             alertController.addAction(cameraAction)
 
-            let libraryAction = AlertAction(title: NSLocalizedString("Library", comment: "library button"), style: .Dark) { _ in
+            let libraryAction = AlertAction(title: InterfaceString.ImagePicker.Library, style: .Dark) { _ in
                 Tracker.sharedTracker.imageAddedFromLibrary()
                 callback(.elloPhotoLibraryPickerController)
             }
             alertController.addAction(libraryAction)
 
-            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "cancel button"), style: .Light) { _ in
+            let cancelAction = AlertAction(title: InterfaceString.ImagePicker.NoSourceAvailable, style: .Light) { _ in
                 Tracker.sharedTracker.addImageCanceled()
             }
             alertController.addAction(cancelAction)
@@ -64,9 +64,9 @@ extension UIImagePickerController {
             callback(.elloPhotoLibraryPickerController)
             return nil
         } else {
-            alertController = AlertViewController(message: NSLocalizedString("Sorry, but your device doesn’t have a photo library!", comment: "device doesn't support photo library"))
+            alertController = AlertViewController(message: InterfaceString.Cancel)
 
-            let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
+            let cancelAction = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
             alertController.addAction(cancelAction)
         }
 
@@ -79,7 +79,7 @@ extension UIImagePickerController {
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
             controller.addAction(
                 ImagePickerAction(
-                    title: NSLocalizedString("Take Photo Or Video", comment: "Camera button"),
+                    title: InterfaceString.ImagePicker.TakePhoto,
                     handler: { _ in
                         Tracker.sharedTracker.imageAddedFromCamera()
                         callback(.Controller(.elloCameraPickerController))
@@ -89,8 +89,8 @@ extension UIImagePickerController {
         }
         controller.addAction(
             ImagePickerAction(
-                title: NSLocalizedString("Photo Library", comment: "Library button"),
-                secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("Add %lu Image(s)", comment: "Add Images"), $0) as String },
+                title: InterfaceString.ImagePicker.PhotoLibrary,
+                secondaryTitle: { NSString.localizedStringWithFormat(InterfaceString.ImagePicker.AddImagesTemplate, $0) as String },
                 handler: { _ in
                     Tracker.sharedTracker.imageAddedFromLibrary()
                     callback(.Controller(.elloPhotoLibraryPickerController))
@@ -99,7 +99,7 @@ extension UIImagePickerController {
                 }
             )
         )
-        controller.addAction(ImagePickerAction(title: NSLocalizedString("Cancel", comment: "Action Title"), style: .Cancel, handler: { _ in
+        controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .Cancel, handler: { _ in
             Tracker.sharedTracker.addImageCanceled()
         }))
 

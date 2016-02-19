@@ -9,8 +9,8 @@
 public class StreamToggleCell: UICollectionViewCell {
     static let reuseIdentifier = "StreamToggleCell"
 
-    let closedMessage = NSLocalizedString("Tap to View.", comment: "Tap to View.")
-    let openedMessage = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")
+    let closedMessage = InterfaceString.NSFW.Show
+    let openedMessage = InterfaceString.NSFW.Hide
 
     weak var label:ElloToggleLabel!
 }

@@ -107,7 +107,7 @@ extension SearchViewController: SearchScreenDelegate {
         trackSearch(text, isPostSearch: isPostSearch)
         searchText = text
         let endpoint = isPostSearch ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
-        streamViewController.noResultsMessages = (title: NSLocalizedString("We couldn't find any matches.", comment: "No search results found title"), body: NSLocalizedString("Try another search?", comment: "No search results found body"))
+        streamViewController.noResultsMessages = (title: InterfaceString.Search.NoMatches, body: InterfaceString.Search.TryAgain)
         streamViewController.streamKind = .SimpleStream(endpoint: endpoint, title: "")
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)

@@ -34,7 +34,7 @@ public struct DynamicSettingCellPresenter {
         if setting.key == DynamicSetting.accountDeletionSetting.key {
             cell.toggleButton.hidden = true
             cell.deleteButton.hidden = false
-            cell.deleteButton.text = NSLocalizedString("Delete", comment: "delete button")
+            cell.deleteButton.text = InterfaceString.Delete
             cell.contentView.hidden = false
         } else {
             cell.toggleButton.hidden = false

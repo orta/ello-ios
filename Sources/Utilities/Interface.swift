@@ -122,148 +122,282 @@ public enum InterfaceImage: String {
     var redImage: UIImage? { return SVGKImage(named: "\(self.rawValue)_red.svg").UIImage }
 }
 
-public enum InterfaceString {
+public struct InterfaceString {
 
-    public enum Followers {
-        case CurrentUserNoResultsBody
-        case CurrentUserNoResultsTitle
-        case NoResultsBody
-        case NoResultsTitle
-        case Title
+    public struct Tab {
+        public struct PopupTitle {
+            static let Discover = NSLocalizedString("Discover", comment: "Discover pop up title")
+            static let Notifications = NSLocalizedString("Notifications", comment: "Notifications pop up title")
+            static let Stream = NSLocalizedString("Streams", comment: "Stream pop up title")
+            static let Profile = NSLocalizedString("Your Profile", comment: "Profile pop up title")
+            static let Omnibar = NSLocalizedString("Post", comment: "Omnibar pop up title")
+        }
 
-        var localized: String {
-            switch self {
-            case .CurrentUserNoResultsBody:
-                return NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
-            case .CurrentUserNoResultsTitle:
-                return NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
-            case .NoResultsBody:
-                return NSLocalizedString("Be the first to follow them and give them some love! Following interesting people makes Ello way more fun.", comment: "Non-current user following no results body")
-            case .NoResultsTitle:
-                return NSLocalizedString("This person doesn't have any followers yet! ", comment: "Non-current user followers no results title")
-            case .Title:
-                return NSLocalizedString("Followers", comment: "Followers title")
-            }
+        public struct PopupText {
+            static let Discover = NSLocalizedString("Find friends and creators. View beautiful art & inspiring stories.", comment: "Discover pop up text")
+            static let Notifications = NSLocalizedString("Stay up to date with real-time alerts.", comment: "Notifications pop up text")
+            static let Stream = NSLocalizedString("View posts by everyone you follow. Keep them organized in Following & Starred.", comment: "Stream pop up text")
+            static let Profile = NSLocalizedString("Everything you’ve posted in one place. Settings too!", comment: "Profile pop up text")
+            static let Omnibar = NSLocalizedString("Text, images, links & GIFs from one easy place.", comment: "Omnibar pop up text")
         }
     }
 
-    public enum Following {
-        case CurrentUserNoResultsBody
-        case CurrentUserNoResultsTitle
-        case NoResultsBody
-        case NoResultsTitle
-        case Title
+    public struct Followers {
+        static let CurrentUserNoResultsTitle = NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
+        static let CurrentUserNoResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
+        static let NoResultsTitle = NSLocalizedString("This person doesn't have any followers yet! ", comment: "Non-current user followers no results title")
+        static let NoResultsBody = NSLocalizedString("Be the first to follow them and give them some love! Following interesting people makes Ello way more fun.", comment: "Non-current user following no results body")
+        static let Title = NSLocalizedString("Followers", comment: "Followers title")
+    }
 
-        var localized: String {
-            switch self {
-            case .CurrentUserNoResultsBody:
-                return NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
-            case .CurrentUserNoResultsTitle:
-                return NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
-            case .NoResultsBody:
-                return NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
-            case .NoResultsTitle:
-                return NSLocalizedString("This person isn't following anyone yet!", comment: "Non-current user followoing no results title")
-            case .Title:
-                return NSLocalizedString("Following", comment: "Following title")
-            }
+    public struct Following {
+        static let CurrentUserNoResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
+        static let CurrentUserNoResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
+        static let NoResultsTitle = NSLocalizedString("This person isn't following anyone yet!", comment: "Non-current user followoing no results title")
+        static let NoResultsBody = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
+        static let Title = NSLocalizedString("Following", comment: "Following title")
+    }
+
+    public struct FollowingStream {
+        static let NoResultsTitle = NSLocalizedString("Welcome to Following!", comment: "No following results title")
+        static let NoResultsBody = NSLocalizedString("Follow people and things that inspire you.", comment: "No following results body.")
+    }
+
+    public struct StarredStream {
+        static let NoResultsTitle = NSLocalizedString("Welcome to Starred!", comment: "No starred results title")
+        static let NoResultsBody = NSLocalizedString("When you Star someone their posts appear here. Star people to create a second stream.", comment: "No following results body.")
+    }
+
+    public struct Notifications {
+        static let Title = NSLocalizedString("Notifications", comment: "Notifications title")
+        static let NoResultsTitle = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
+        static let NoResultsBody = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
+    }
+
+    public struct Discover {
+        static let Title = NSLocalizedString("Discover", comment: "Discover title")
+    }
+
+    public struct Search {
+        static let Title = NSLocalizedString("Search", comment: "Search title")
+        static let Prompt = NSLocalizedString("Search Ello", comment: "search ello prompt")
+        static let Posts = NSLocalizedString("Posts", comment: "Posts search toggle")
+        static let People = NSLocalizedString("People", comment: "People search toggle")
+        static let FindFriendsButton = NSLocalizedString("Find your friends", comment: "Find your friends button title")
+        static let FindFriendsPrompt = NSLocalizedString("Ello is better with friends.\nFind or invite yours:", comment: "Ello is better with friends button title")
+        static let NoMatches = NSLocalizedString("We couldn't find any matches.", comment: "No search results found title")
+        static let TryAgain = NSLocalizedString("Try another search?", comment: "No search results found body")
+    }
+
+    public struct Drawer {
+        static let Store = NSLocalizedString("Store", comment: "Store")
+        static let Invite = NSLocalizedString("Invite", comment: "Invite")
+        static let Help = NSLocalizedString("Help", comment: "Help")
+        static let Resources = NSLocalizedString("Resources", comment: "Resources")
+        static let About = NSLocalizedString("About", comment: "About")
+        static let Logout = NSLocalizedString("Logout", comment: "Logout")
+        static let Version: String = {
+            let marketingVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String) ?? "???"
+            let buildVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? "???"
+            return NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment: "version number")
+        }()
+    }
+
+    public struct Settings {
+        static let EditProfile = NSLocalizedString("Edit Profile", comment: "Edit Profile Title")
+        static let Name = NSLocalizedString("Name", comment: "name setting")
+        static let Links = NSLocalizedString("Links", comment: "links setting")
+        static let AvatarUploaded = NSLocalizedString("You’ve updated your Avatar.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Avatar updated copy")
+        static let CoverImageUploaded = NSLocalizedString("You’ve updated your Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Cover Image updated copy")
+        static let DeleteAccountTitle = NSLocalizedString("Account Deletion", comment: "account deletion button")
+        static let DeleteAccount = NSLocalizedString("Delete Account", comment: "account deletion label")
+        static let DeleteAccountExplanation = NSLocalizedString("By deleting your account you remove your personal information from Ello. Your account cannot be restored.", comment: "By deleting your account you remove your personal information from Ello. Your account cannot be restored.")
+        static let DeleteAccountConfirm = NSLocalizedString("Delete Account?", comment: "delete account question")
+        static let AccountIsBeingDeleted = NSLocalizedString("Your account is in the process of being deleted.", comment: "Your account is in the process of being deleted.")
+        static let RedirectedCountdownTemplate = NSLocalizedString("You will be redirected in %d...", comment: "You will be redirected in ...")
+    }
+
+    public struct Profile {
+        static let Title = NSLocalizedString("Profile", comment: "Profile Title")
+        static let PostsCount = NSLocalizedString("Posts", comment: "Posts count header")
+        static let FollowingCount = NSLocalizedString("Following", comment: "Following count header")
+        static let LovesCount = NSLocalizedString("Loves", comment: "Loves count header")
+        static let FollowersCount = NSLocalizedString("Followers", comment: "Followers count header")
+        static let CurrentUserNoResultsTitle = NSLocalizedString("Welcome to your Profile", comment: "")
+        static let CurrentUserNoResultsBody = NSLocalizedString("Everything you post lives here!\n\nThis is the place to find everyone you’re following and everyone that’s following you. You’ll find your Loves here too!", comment: "")
+        static let NoResultsTitle = NSLocalizedString("Ello is more fun with friends!", comment: "")
+        static let NoResultsBody = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
+    }
+
+    public struct Post {
+        static let LovedByList = NSLocalizedString("Loved by", comment: "Loved by list title")
+        static let RepostedByList = NSLocalizedString("Reposted by", comment: "Reposted by list title")
+
+        static let Edit = NSLocalizedString("Edit", comment: "Edit Post Button Title")
+        static let Delete = NSLocalizedString("Delete", comment: "Delete Post Button Title")
+        static let DeletePostConfirm = NSLocalizedString("Delete Post?", comment: "Delete Post confirmation")
+        static let DeleteCommentConfirm = NSLocalizedString("Delete Comment?", comment: "Delete Comment confirmation")
+        static let RepostConfirm = NSLocalizedString("Repost?", comment: "Repost confirmation")
+        static let RepostSuccess = NSLocalizedString("Success!", comment: "Successful repost alert")
+        static let RepostError = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
+        static let CannotEditPost = NSLocalizedString("Looks like this post was created on the web!\n\nThe videos and embedded content it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable post error message")
+        static let CannotEditComment = NSLocalizedString("Looks like this comment was created on the web!\n\nThe videos and embedded content it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable comment error message")
+    }
+
+    public struct Omnibar {
+        static let EnterURL = NSLocalizedString("Enter the URL", comment: "Enter the URL")
+        static let CreatePostTitle = NSLocalizedString("Post", comment: "Create a post")
+        static let CreatePostButton = NSLocalizedString("Post", comment: "Post")
+        static let EditPostTitle = NSLocalizedString("Edit this post", comment: "Edit this post")
+        static let EditPostButton = NSLocalizedString("Edit Post", comment: "Edit Post")
+        static let EditCommentTitle = NSLocalizedString("Edit this comment", comment: "Edit this comment")
+        static let EditCommentButton = NSLocalizedString("Edit Comment", comment: "Edit Comment")
+        static let CreateCommentTitle = NSLocalizedString("Leave a comment", comment: "Leave a comment")
+        static let CreateCommentButton = NSLocalizedString("Comment", comment: "Comment")
+        static let TooLongError = NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message")
+        static let CreatedPost = NSLocalizedString("Post successfully created!", comment: "Post successfully created!")
+    }
+
+    public struct Loves {
+        static let CurrentUserNoResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "Current user no loves results title")
+        static let CurrentUserNoResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "Current user no loves results body.")
+        static let NoResultsTitle = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "Non-current user no loves results title")
+        static let NoResultsBody = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "Non-current user no loves results body.")
+        static let Title = NSLocalizedString("Loves", comment: "love stream")
+    }
+
+    public struct Relationship {
+        static let Follow = NSLocalizedString("Follow", comment: "Follow relationship")
+        static let Following = NSLocalizedString("Following", comment: "Following relationship")
+        static let Starred = NSLocalizedString("Starred", comment: "Starred relationship")
+        static let Muted = NSLocalizedString("Muted", comment: "Muted relationship")
+    }
+
+    public struct PushNotifications {
+        static let PermissionPrompt = NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can adjust this in your settings.\n", comment: "Turn on Push Notifications prompt")
+        static let PermissionYes = NSLocalizedString("Yes Please", comment: "Allow")
+        static let PermissionNo = NSLocalizedString("No Thanks", comment: "Disallow")
+    }
+
+    public struct Friends {
+        static let ImportPermissionPrompt = NSLocalizedString("Find your friends on Ello using your contacts.\n\nEllo does not sell user data, and never contacts anyone without your permission.", comment: "Use address book permission prompt")
+        static let ImportAllow = NSLocalizedString("Find my friends", comment: "Find my friends action")
+        static let ImportNotNow = NSLocalizedString("Not now", comment: "Not now action")
+        static let ImportErrorTemplate = NSLocalizedString("We were unable to access your address book\n%@", comment: "Unable to access address book and error message")
+        static let AccessDenied = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.", comment: "Access to contacts denied by user")
+        static let AccessRestricted = NSLocalizedString("Access to your contacts has been denied by the system.", comment: "Access to contacts denied by system")
+
+        static let FindAndInvite = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
+        static let SearchPrompt = NSLocalizedString("Name or email", comment: "Find friends prompt")
+
+        static let Resend = NSLocalizedString("Re-send", comment: "invite friends cell re-send")
+        static let Invite = NSLocalizedString("Invite", comment: "invite friends cell invite")
+    }
+
+    public struct NSFW {
+        static let Show = NSLocalizedString("Tap to View.", comment: "Tap to View.")
+        static let Hide = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")
+    }
+
+    public struct ImagePicker {
+        static let ChooseSource = NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)")
+        static let Camera = NSLocalizedString("Camera", comment: "camera button")
+        static let Library = NSLocalizedString("Library", comment: "library button")
+        static let NoSourceAvailable = NSLocalizedString("Sorry, but your device doesn’t have a photo library!", comment: "device doesn't support photo library")
+        static let TakePhoto = NSLocalizedString("Take Photo Or Video", comment: "Camera button")
+        static let PhotoLibrary = NSLocalizedString("Photo Library", comment: "Library button")
+        static let AddImagesTemplate = NSLocalizedString("Add %lu Image(s)", comment: "Add Images")
+    }
+
+    public struct WebBrowser {
+        static let TermsAndConditions = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
+    }
+
+    public struct SignIn {
+        static let EmailInvalid = NSLocalizedString("Invalid email", comment: "Invalid email message")
+        static let PasswordInvalid = NSLocalizedString("Invalid password", comment: "Invalid password message")
+        static let CredentialsInvalid = NSLocalizedString("Invalid credentials", comment: "Invalid credentials message")
+        static let LoadUserError = NSLocalizedString("Unable to load user.", comment: "Unable to load user message")
+        static let ForgotPassword = NSLocalizedString("Forgot Password", comment: "forgot password title")
+    }
+
+    public struct Join {
+        static let SignInAfterJoinError = NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
+        static let Email = NSLocalizedString("Email", comment: "email key")
+        static let EmailRequired = NSLocalizedString("Email is required.", comment: "email is required message")
+        static let EmailInvalid = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+        static let Username = NSLocalizedString("Username", comment: "username key")
+        static let UsernameRequired = NSLocalizedString("Username is required.", comment: "username is required message")
+        static let UsernameUnavailable = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+        static let UsernameSuggestionTemplate = NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions showmes")
+        static let Password = NSLocalizedString("Password", comment: "password key")
+        static let PasswordInvalid = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
+    }
+
+    public struct Rate {
+        static let Title = NSLocalizedString("Love Ello?", comment: "rate app prompt title")
+        static let Continue = NSLocalizedString("Rate us: ⭐️⭐️⭐️⭐️⭐️", comment: "rate app button title")
+        static let Cancel = NSLocalizedString("No Thanks", comment: "do not rate app button title")
+    }
+
+    public struct Onboard {
+        static let ChooseAvatar = NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button")
+        static let ChooseHeader = NSLocalizedString("Choose Your Header", comment: "Choose your header button")
+
+        public struct FindYourFriends {
+            static let Title = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
+            static let Description = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
+            static let NoResultsTitle = NSLocalizedString("Find your friends!", comment: "Import friends no results title")
+            static let NoResultsBody = NSLocalizedString("Thanks. We didn’t find any of your friends.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover and Search screen.", comment: "Import friends no results body.")
+        }
+        public struct AwesomePeople {
+            static let Title = NSLocalizedString("Follow some awesome people.", comment: "Awesome People Selection Header text")
+            static let Description = NSLocalizedString("Ello is full of interesting and creative people committed to building a positive community.", comment: "Awesome People Selection Description text")
+        }
+        public struct Community {
+            static let Title = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
+            static let Description = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
+        }
+        public struct CoverImage {
+            static let Title = NSLocalizedString("Customize your profile.", comment: "Header Image Selection text")
+            static let Description = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
+        }
+        static let PickAnotherImage = NSLocalizedString("Pick Another", comment: "Pick another button")
+        static let UploadFailed = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "image upload failed during onboarding message")
+        static let RelationshipFailed = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "relationship status update failed during onboarding message")
+        public struct Profile {
+            static let Name = NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text")
+            static let Bio = NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text")
+            static let Links = NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text")
+            static let LinksFailed = NSLocalizedString("Something is wrong with those links.\n\nThey need to start with ‘http://’ or ‘https://’", comment: "Updating Links failed during onboarding message")
         }
     }
 
-    public enum Starred {
-        case Title
-
-        var localized: String {
-            switch self {
-            case .Title:
-                return NSLocalizedString("Starred", comment: "Starred title")
-            }
-        }
+    public struct Share {
+        static let FailedToPost = NSLocalizedString("Uh oh, failed to post to Ello.", comment: "Failed to post to Ello")
+        static let PleaseLogin = NSLocalizedString("Please login to the Ello app first to use this feature.", comment: "Not logged in message.")
     }
 
-    public enum Discover {
-        case Title
-
-        var localized: String {
-            switch self {
-            case .Title:
-                return NSLocalizedString("Discover", comment: "Discover title")
-            }
-        }
+    public struct App {
+        static let OpenInSafari = NSLocalizedString("Open in Safari", comment: "Open in Safari")
+        static let LoggedOut = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
+        static let LoginAndView = NSLocalizedString("Login and view", comment: "Login and view prompt")
+        static let OldVersion = NSLocalizedString("The version of the app you’re using is too old, and is no longer compatible with our API.\n\nPlease update the app to the latest version, using the “Updates” tab in the App Store.", comment: "App out of date message")
+        static let LoggedOutError = NSLocalizedString("You must be logged in", comment: "You must be logged in")
     }
 
-    public enum Profile {
-        case Title
+    static let GenericError = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Generic error message")
+    static let UnknownError = NSLocalizedString("Unknown error", comment: "Unknown error message")
 
-        var localized: String {
-            switch self {
-            case .Title:
-                return NSLocalizedString("Profile", comment: "Profile Title")
-            }
-        }
-    }
-
-    public enum Post {
-        case Edit
-        case Delete
-
-        var localized: String {
-            switch self {
-            case .Edit:
-                return NSLocalizedString("Edit", comment: "Edit Post Button Title")
-            case .Delete:
-                return NSLocalizedString("Delete", comment: "Delete Post Button Title")
-            }
-        }
-    }
-
-    public enum Loves {
-        case CurrentUserNoResultsBody
-        case CurrentUserNoResultsTitle
-        case NoResultsBody
-        case NoResultsTitle
-        case Title
-
-        var localized: String {
-            switch self {
-            case .CurrentUserNoResultsBody:
-                return NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "Current user no loves results body.")
-            case .CurrentUserNoResultsTitle:
-                return NSLocalizedString("You haven't Loved any posts yet!", comment: "Current user no loves results title")
-            case .NoResultsBody:
-                return NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "Non-current user no loves results body.")
-            case .NoResultsTitle:
-                return NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "Non-current user no loves results title")
-            case .Title:
-                return NSLocalizedString("Loves", comment: "love stream")
-            }
-        }
-    }
-
-    public enum Startup {
-        case SignInAfterJoinError
-
-        var localized: String {
-            switch self {
-            case .SignInAfterJoinError:
-                return NSLocalizedString("Your account has been created, but there was an error logging in, please try again", comment: "After successfully joining, there was an error signing in")
-            }
-        }
-    }
-
-    case LoggedOut
-    case Cancel
-    case OpenInSafari
-
-    var localized: String {
-        switch self {
-        case .LoggedOut:
-            return NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
-        case .Cancel:
-            return NSLocalizedString("Cancel", comment: "Cancel")
-        case .OpenInSafari:
-            return NSLocalizedString("Open in Safari", comment: "Open in Safari")
-        }
-    }
-
+    static let Yes = NSLocalizedString("Yes", comment: "Yes")
+    static let No = NSLocalizedString("No", comment: "No")
+    static let Cancel = NSLocalizedString("Cancel", comment: "Cancel")
+    static let Retry = NSLocalizedString("Retry", comment: "Retry")
+    static let AreYouSure = NSLocalizedString("Are You Sure?", comment: "are you sure question")
+    static let OK = NSLocalizedString("OK", comment: "OK")
+    static let ThatIsOK = NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!")
+    static let Delete = NSLocalizedString("Delete", comment: "Delete")
+    static let Next = NSLocalizedString("Next", comment: "Next button")
+    static let Done = NSLocalizedString("Done", comment: "Done button title")
+    static let Skip = NSLocalizedString("Skip", comment: "Skip action")
 }

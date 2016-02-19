@@ -42,19 +42,15 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         }
         addAction("ImagePickerSheetController") {
             let controller = ImagePickerSheetController(mediaType: .ImageAndVideo)
-            controller.addAction(ImagePickerAction(title: NSLocalizedString("Take Photo Or Video", comment: "Action Title"), secondaryTitle: NSLocalizedString("Add comment", comment: "Action Title"), handler: { _ in
-                // presentImagePickerController(.Camera)
+            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.TakePhoto, handler: { _ in
+                print("=============== \(__FILE__) line \(__LINE__) ===============")
+            }))
+            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.PhotoLibrary, secondaryTitle: { NSString.localizedStringWithFormat(InterfaceString.ImagePicker.AddImagesTemplate, $0) as String}, handler: { _ in
                 print("=============== \(__FILE__) line \(__LINE__) ===============")
             }, secondaryHandler: { _, numberOfPhotos in
-                print("Comment \(numberOfPhotos) photos")
-            }))
-            controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title"), $0) as String}, handler: { _ in
-                // presentImagePickerController(.PhotoLibrary)
                 print("=============== \(__FILE__) line \(__LINE__) ===============")
-            }, secondaryHandler: { _, numberOfPhotos in
-                print("Send \(controller.selectedImageAssets)")
             }))
-            controller.addAction(ImagePickerAction(title: NSLocalizedString("Cancel", comment: "Action Title"), style: .Cancel, handler: { _ in
+            controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .Cancel, handler: { _ in
                 print("Cancelled")
             }))
 
@@ -89,7 +85,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         addAction("Reset Tab bar Tooltips") {
-            GroupDefaults[ElloTab.Discovery.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Discover.narrationDefaultKey] = nil
             GroupDefaults[ElloTab.Notifications.narrationDefaultKey] = nil
             GroupDefaults[ElloTab.Stream.narrationDefaultKey] = nil
             GroupDefaults[ElloTab.Profile.narrationDefaultKey] = nil

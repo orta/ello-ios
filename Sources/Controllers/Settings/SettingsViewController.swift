@@ -189,7 +189,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
         navigationItem.leftBarButtonItem = backItem
-        navigationItem.title = NSLocalizedString("Edit Profile", comment: "Edit Profile Screen Title")
+        navigationItem.title = InterfaceString.Settings.EditProfile
         navigationItem.fixNavBarItemPadding()
     }
 
@@ -208,7 +208,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             avatarImage.pin_setImageFromURL(imageURL)
         }
 
-        nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
+        nameTextFieldView.label.setLabelText(InterfaceString.Settings.Name)
         nameTextFieldView.textField.text = currentUser?.name
 
         let updateNameFunction = debounce(0.5) { [unowned self] in
@@ -230,7 +230,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             updateNameFunction()
         }
 
-        linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
+        linksTextFieldView.label.setLabelText(InterfaceString.Settings.Links)
         linksTextFieldView.textField.spellCheckingType = .No
         linksTextFieldView.textField.autocapitalizationType = .None
         linksTextFieldView.textField.autocorrectionType = .No
@@ -333,7 +333,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                     postNotification(CurrentUserChangedNotification, value: user)
                 }
                 self.coverImage.image = image
-                self.alertUserOfImageProcessing()
+                self.alertUserOfImageProcessing(InterfaceString.Settings.CoverImageUploaded)
             }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
             })
@@ -354,7 +354,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                     postNotification(CurrentUserChangedNotification, value: user)
                 }
                 self.avatarImage.image = image
-                self.alertUserOfImageProcessing()
+                self.alertUserOfImageProcessing(InterfaceString.Settings.AvatarUploaded)
             }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
             })
@@ -374,10 +374,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
     }
 
-    private func alertUserOfImageProcessing() {
-        let message = NSLocalizedString("You’ve updated your Avatar/Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Settings image updated copy")
+    private func alertUserOfImageProcessing(message: String) {
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "ok"), style: .Light, handler: .None)
+        let action = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
         alertController.addAction(action)
         logPresentingAlert("SettingsViewController")
         presentViewController(alertController, animated: true, completion: .None)

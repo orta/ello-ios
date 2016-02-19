@@ -68,9 +68,9 @@ public extension AutoCompleteViewController {
     }
 
     func showAutoCompleteLoadFailure(error: NSError, statusCode:Int?) {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
         alertController.addAction(action)
         logPresentingAlert("AutoCompleteViewController")
         presentViewController(alertController, animated: true) {

@@ -16,8 +16,8 @@ class NewElloTabBarSpecs: QuickSpec {
     override func spec() {
         xdescribe("NewElloTabBar.ItemView") {
             let tests: [String: NewElloTabBar.Item] = [
-                "should support a selected? title": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
-                "should support a selected? title with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: false),
+                "should support a selected? title": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title), redDotHidden: true),
+                "should support a selected? title with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title), redDotHidden: false),
                 "should support a selected? svg": NewElloTabBar.Item(alignment: .Left, display: .Image(.Bolt), redDotHidden: true),
                 "should support a selected? svg with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Image(.Bolt), redDotHidden: false),
             ]
@@ -48,12 +48,12 @@ class NewElloTabBarSpecs: QuickSpec {
             it("should accept some NewElloTabBar.Items") {
                 let subject = NewElloTabBar()
                 subject.items = [
-                    NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
+                    NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title), redDotHidden: true),
                     NewElloTabBar.Item(alignment: .Right, display: .Image(.Bolt), redDotHidden: false),
                 ]
 
                 expect(subject.items.count) == 2
-                expect(subject.items[0].title) == InterfaceString.Following.Title.localized
+                expect(subject.items[0].title) == InterfaceString.Following.Title
                 expect(subject.items[1].interfaceImage) == .Bolt
             }
             describe("snapshots") {
@@ -62,9 +62,9 @@ class NewElloTabBarSpecs: QuickSpec {
                 beforeEach {
                     subject = NewElloTabBar()
                     subject.items = [
-                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
-                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Starred.Title.localized), redDotHidden: false),
-                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Discover.Title.localized), redDotHidden: true),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title), redDotHidden: true),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Starred.Title), redDotHidden: false),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Discover.Title), redDotHidden: true),
                         NewElloTabBar.Item(alignment: .Right, display: .Image(.Bolt), redDotHidden: false),
                         NewElloTabBar.Item(alignment: .Right, display: .Image(.Search), redDotHidden: true),
                     ]

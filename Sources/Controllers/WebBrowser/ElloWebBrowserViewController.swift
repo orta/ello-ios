@@ -132,7 +132,7 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
              .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
-            self.selectTab(.Discovery)
+            self.selectTab(.Discover)
         case .BetaPublicProfiles,
              .Enter,
              .Exit,

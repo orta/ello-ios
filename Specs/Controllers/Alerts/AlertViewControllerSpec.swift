@@ -24,7 +24,7 @@ class AlertViewControllerSpec: QuickSpec {
 
         describe("snapshots") {
             let subject = AlertViewController(message: "hey there!")
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
             subject.addAction(action)
 
             validateAllSnapshots(subject)

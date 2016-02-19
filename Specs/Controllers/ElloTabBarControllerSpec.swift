@@ -188,7 +188,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 prevTabValues = [
-                    ElloTab.Discovery: GroupDefaults[ElloTab.Discovery.narrationDefaultKey].bool,
+                    ElloTab.Discover: GroupDefaults[ElloTab.Discover.narrationDefaultKey].bool,
                     ElloTab.Notifications: GroupDefaults[ElloTab.Notifications.narrationDefaultKey].bool,
                     ElloTab.Stream: GroupDefaults[ElloTab.Stream.narrationDefaultKey].bool,
                     ElloTab.Profile: GroupDefaults[ElloTab.Profile.narrationDefaultKey].bool,
@@ -228,7 +228,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 expect(ElloTabBarController.didShowNarration(tab)).to(beTrue())
             }
             it("should NOT show the narrationView when changing to a tab that has already shown the narrationView") {
-                ElloTabBarController.didShowNarration(.Discovery, true)
+                ElloTabBarController.didShowNarration(.Discover, true)
                 ElloTabBarController.didShowNarration(.Notifications, true)
                 ElloTabBarController.didShowNarration(.Stream, true)
                 ElloTabBarController.didShowNarration(.Profile, true)
@@ -240,7 +240,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 expect(subject.isShowingNarration).to(beFalse())
             }
             it("should show the narrationView when changing to a tab that hasn't shown the narrationView yet") {
-                ElloTabBarController.didShowNarration(.Discovery, false)
+                ElloTabBarController.didShowNarration(.Discover, false)
                 ElloTabBarController.didShowNarration(.Notifications, false)
                 ElloTabBarController.didShowNarration(.Stream, false)
                 ElloTabBarController.didShowNarration(.Profile, false)

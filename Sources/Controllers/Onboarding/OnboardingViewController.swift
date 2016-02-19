@@ -50,7 +50,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     }()
     public private(set) lazy var nextButton: OnboardingNextButton = {
         let button = OnboardingNextButton()
-        button.setTitle(NSLocalizedString("Next", comment: "Next button"), forState: .Normal)
+        button.setTitle(InterfaceString.Next, forState: .Normal)
         return button
     }()
     public var canGoNext: Bool {
@@ -364,10 +364,10 @@ extension OnboardingViewController {
         }
 
         if viewController == onboardingViewControllers.last {
-            nextButton.setTitle(NSLocalizedString("Done", comment: "Done button title"), forState: .Normal)
+            nextButton.setTitle(InterfaceString.Done, forState: .Normal)
         }
         else {
-            nextButton.setTitle(NSLocalizedString("Next", comment: "Next button title"), forState: .Normal)
+            nextButton.setTitle(InterfaceString.Next, forState: .Normal)
         }
 
         if var onboardingStep = viewController as? OnboardingStep {

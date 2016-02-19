@@ -36,7 +36,7 @@ public class OnboardingSkipButton: WhiteElloButton {
     override func sharedSetup() {
         super.sharedSetup()
         self.setTitleColor(UIColor.greyA(), forState: .Normal)
-        self.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
+        self.setTitle(InterfaceString.Skip, forState: .Normal)
     }
 
 }

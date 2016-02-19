@@ -53,7 +53,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
 // MARK: init
 
-    public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text")) {
+    public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String = InterfaceString.Search.Title, fieldPlaceholderText: String = InterfaceString.Search.Prompt) {
         throttled = debounce(0.8)
         bottomInset = 0
         self.navBarTitle = navBarTitle
@@ -132,13 +132,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private func setupToggleButtons() {
         searchControlsContainer.frame.size.height += 43
         self.postsToggleButton = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
-        postsToggleButton?.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
+        postsToggleButton?.setTitle(InterfaceString.Search.Posts, forState: .Normal)
         postsToggleButton?.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
 
         postsToggleButton?.addToView(searchControlsContainer)
 
         self.peopleToggleButton = OutlineElloButton(frame: CGRect(x: postsToggleButton?.frame.maxX ?? 0, y: buttonY, width: btnWidth, height: 33))
-        peopleToggleButton?.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
+        peopleToggleButton?.setTitle(InterfaceString.Search.People, forState: .Normal)
         peopleToggleButton?.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
 
         peopleToggleButton?.addToView(searchControlsContainer)
@@ -185,7 +185,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             width: containerFrame.width - margins.left - margins.right,
             height: buttonHeight
             ))
-        button.setTitle(NSLocalizedString("Find your friends", comment: "Find your friends button title"), forState: .Normal)
+        button.setTitle(InterfaceString.Search.FindFriendsButton, forState: .Normal)
         button.addTarget(self, action: Selector("findFriendsTapped"), forControlEvents: .TouchUpInside)
         button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
@@ -196,7 +196,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             height: containerFrame.height - margins.bottom - button.frame.height
         )
         label.numberOfLines = 2
-        label.setLabelText(NSLocalizedString("Ello is better with friends.\nFind or invite yours:", comment: "Ello is better with friends button title"))
+        label.setLabelText(InterfaceString.Search.FindFriendsPrompt)
         label.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
 
         self.addSubview(findFriendsContainer)
