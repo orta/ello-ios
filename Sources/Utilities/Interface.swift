@@ -159,11 +159,13 @@ public struct InterfaceString {
     }
 
     public struct FollowingStream {
+        static let Title = NSLocalizedString("Following", comment: "Following title")
         static let NoResultsTitle = NSLocalizedString("Welcome to Following!", comment: "No following results title")
         static let NoResultsBody = NSLocalizedString("Follow people and things that inspire you.", comment: "No following results body.")
     }
 
     public struct StarredStream {
+        static let Title = NSLocalizedString("Starred", comment: "Starred title")
         static let NoResultsTitle = NSLocalizedString("Welcome to Starred!", comment: "No starred results title")
         static let NoResultsBody = NSLocalizedString("When you Star someone their posts appear here. Star people to create a second stream.", comment: "No following results body.")
     }

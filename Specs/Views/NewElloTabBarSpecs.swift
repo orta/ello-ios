@@ -62,8 +62,8 @@ class NewElloTabBarSpecs: QuickSpec {
                 beforeEach {
                     subject = NewElloTabBar()
                     subject.items = [
-                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title), redDotHidden: true),
-                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Starred.Title), redDotHidden: false),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.FollowingStream.Title), redDotHidden: true),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.StarredStream.Title), redDotHidden: false),
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Discover.Title), redDotHidden: true),
                         NewElloTabBar.Item(alignment: .Right, display: .Image(.Bolt), redDotHidden: false),
                         NewElloTabBar.Item(alignment: .Right, display: .Image(.Search), redDotHidden: true),
