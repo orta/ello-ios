@@ -28,13 +28,11 @@ test-reports/*
 *.dat
 *.dep
 
-# .env variables
 .env
 
-# cocoapods ignores
-Pods/*
+/Pods/*
 
-# tmp
 tmp/
 
-fastlane/report.xml
+/fastlane/report.xml
+/fastlane/test_output/
