@@ -28,6 +28,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillHideObserver: NotificationObserver?
     private var throttled: ThrottledBlock
     public private(set) var navigationBar: ElloNavigationBar!
+    public private(set) var navigationItem: UINavigationItem!
     public private(set) var searchField: UITextField!
     private var searchControlsContainer: UIView!
     private var postsToggleButton: OutlineElloButton?
@@ -96,7 +97,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationBar = ElloNavigationBar(frame: frame)
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
 
-        let navigationItem = UINavigationItem(title: navBarTitle)
+        navigationItem = UINavigationItem(title: navBarTitle)
         let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
         navigationItem.leftBarButtonItems = [leftItem]
         navigationItem.fixNavBarItemPadding()
