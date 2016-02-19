@@ -61,3 +61,16 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
         return false
     }
 }
+
+// MARK: Search
+public extension BaseElloViewController {
+    func addSearchButton() {
+        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: InterfaceImage.Search.normalImage, style: .Done, target: self, action: Selector("searchButtonTapped"))
+    }
+
+    func searchButtonTapped() {
+        let search = SearchViewController()
+        search.currentUser = currentUser
+        self.navigationController?.pushViewController(search, animated: true)
+    }
+}
