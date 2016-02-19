@@ -17,17 +17,7 @@ public enum ElloTab: Int {
 
     static let DefaultTab = ElloTab.Stream
 
-    public var key: String {
-        switch self {
-            case Discover:      return "Discover"
-            case Notifications: return "Notifications"
-            case Stream:        return "Stream"
-            case Profile:       return "Profile"
-            case Post:          return "Omnibar"
-        }
-    }
-
-    public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(key)" }
+    public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(self)" }
 
     public var narrationTitle: String {
         switch self {

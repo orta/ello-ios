@@ -213,6 +213,14 @@ class ElloTabBarControllerSpec: QuickSpec {
                 }
             }
 
+            it("should never change the key") {
+                expect(ElloTab.Discover.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationDiscover"
+                expect(ElloTab.Notifications.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationNotifications"
+                expect(ElloTab.Stream.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationStream"
+                expect(ElloTab.Profile.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationProfile"
+                expect(ElloTab.Post.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationOmnibar"
+            }
+
             it("should set the narration values") {
                 let tab = ElloTab.Stream
                 ElloTabBarController.didShowNarration(tab, false)
