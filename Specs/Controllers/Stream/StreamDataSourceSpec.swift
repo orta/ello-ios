@@ -45,12 +45,9 @@ class StreamDataSourceSpec: QuickSpec {
         let imageSizeCalculator = StreamImageCellSizeCalculator()
 
         describe("StreamDataSourceSpec") {
-            beforeSuite {
+            beforeEach {
                 StreamKind.Following.setIsGridView(true)
                 StreamKind.Starred.setIsGridView(false)
-            }
-
-            beforeEach {
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Following
                 subject = StreamDataSource(streamKind: .Following,
