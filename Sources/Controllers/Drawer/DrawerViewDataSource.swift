@@ -8,12 +8,16 @@
 
 public struct DrawerItem {
     public let name: String
-    public var link: String?
     public let type: DrawerItemType
+
+    public init(name: String, type: DrawerItemType) {
+        self.name = name
+        self.type = type
+    }
 }
 
 public enum DrawerItemType {
-    case External
+    case External(String)
     case Invite
     case Logout
     case Version
