@@ -40,7 +40,7 @@ public final class Asset: JSONAble {
     public var isLargeGif: Bool {
         if isGif {
             if let size = self.optimized?.size {
-                return size >= 2_097_152
+                return size >= 3_145_728
             }
         }
         return false
