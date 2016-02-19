@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
-import SwiftyUserDefaults
 
 
 class OmnibarMockScreen: OmnibarScreenProtocol {
@@ -126,7 +126,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("has the correct submit title") {
-                    expect(subject.screen.submitTitle) == ""
+                    expect(subject.screen.submitTitle) == InterfaceString.Omnibar.CreatePostButton
                 }
             }
 
@@ -375,10 +375,6 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("post editability") {
-
-                beforeEach {
-                    GroupDefaults["OmnibarNewEditorEnabled"] = true
-                }
 
                 it("can edit a single text region") {
                     let regions: [Regionable]? = [

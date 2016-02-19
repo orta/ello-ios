@@ -87,8 +87,8 @@ extension DynamicSetting {
 
 public extension DynamicSetting {
     static var accountDeletionSetting: DynamicSetting {
-        let label = NSLocalizedString("Delete Account", comment: "account deletion label")
-        let info = NSLocalizedString("By deleting your account you remove your personal information from Ello. Your account cannot be restored.", comment: "By deleting your account you remove your personal information from Ello. Your account cannot be restored.")
+        let label = InterfaceString.Settings.DeleteAccount
+        let info = InterfaceString.Settings.DeleteAccountExplanation
         return DynamicSetting(label: label, key: "delete_account", dependentOn: [], conflictsWith: [], info: info, linkLabel: .None, linkURL: .None)
     }
 }

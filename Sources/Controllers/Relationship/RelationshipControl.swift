@@ -227,10 +227,10 @@ public class RelationshipControl: UIView {
 
         var title: String {
             switch self {
-            case .None: return NSLocalizedString("Follow", comment: "Follow button title")
-            case .Following: return InterfaceString.Following.Title.localized
-            case .Starred: return InterfaceString.Starred.Title.localized
-            case .Muted: return NSLocalizedString("Muted", comment: "Muted button title")
+            case .None: return InterfaceString.Relationship.Follow
+            case .Following: return InterfaceString.Relationship.Following
+            case .Starred: return InterfaceString.Relationship.Starred
+            case .Muted: return InterfaceString.Relationship.Muted
             }
         }
 
@@ -285,15 +285,15 @@ public class RelationshipControl: UIView {
         var image: UIImage? {
             switch self {
             case .Muted: return nil
-            case .Starred, .Following: return Interface.Image.CheckSmall.whiteImage
-            default: return Interface.Image.PlusSmall.selectedImage
+            case .Starred, .Following: return InterfaceImage.CheckSmall.whiteImage
+            default: return InterfaceImage.PlusSmall.selectedImage
             }
         }
 
         var highlightedImage: UIImage? {
             switch self {
             case .Muted, .Starred, .Following: return self.image
-            default: return Interface.Image.PlusSmall.whiteImage
+            default: return InterfaceImage.PlusSmall.whiteImage
             }
         }
     }

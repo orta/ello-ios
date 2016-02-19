@@ -1,6 +1,15 @@
-import Ello
+//
+//  AlertViewControllerSpec.swift
+//  Ello
+//
+//  Created by Gordon Fontenot on 4/7/2015.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+@testable import Ello
 import Quick
 import Nimble
+
 
 class AlertViewControllerSpec: QuickSpec {
 
@@ -24,7 +33,7 @@ class AlertViewControllerSpec: QuickSpec {
 
         describe("snapshots") {
             let subject = AlertViewController(message: "hey there!")
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
             subject.addAction(action)
 
             validateAllSnapshots(subject)

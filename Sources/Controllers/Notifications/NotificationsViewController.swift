@@ -47,15 +47,15 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewDidLoad()
 
         screen.delegate = self
-        self.title = NSLocalizedString("Notifications", comment: "Notifications")
+        self.title = InterfaceString.Notifications.Title
         addSearchButton()
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
-        let noResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
+        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
+        let noResultsBody = InterfaceString.Notifications.NoResultsBody
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
     }

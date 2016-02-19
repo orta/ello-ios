@@ -17,11 +17,11 @@ public class Rate: NSObject {
         iRate.sharedInstance().delegate = self
         iRate.sharedInstance().onlyPromptIfLatestVersion = true
         iRate.sharedInstance().previewMode = false
-        iRate.sharedInstance().messageTitle = NSLocalizedString("Love Ello?", comment: "rate app prompt title")
+        iRate.sharedInstance().messageTitle = InterfaceString.Rate.Title
         iRate.sharedInstance().message = ""
         iRate.sharedInstance().updateMessage = ""
-        iRate.sharedInstance().rateButtonLabel = NSLocalizedString("Rate us: ⭐️⭐️⭐️⭐️⭐️", comment: "rate app button title")
-        iRate.sharedInstance().cancelButtonLabel = NSLocalizedString("No Thanks", comment: "do not rate app button title")
+        iRate.sharedInstance().rateButtonLabel = InterfaceString.Rate.Continue
+        iRate.sharedInstance().cancelButtonLabel = InterfaceString.Rate.Cancel
         iRate.sharedInstance().usesUntilPrompt = 3
         iRate.sharedInstance().eventsUntilPrompt = 3
         iRate.sharedInstance().daysUntilPrompt = 7

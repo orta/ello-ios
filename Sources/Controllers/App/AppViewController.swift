@@ -170,10 +170,10 @@ public class AppViewController: BaseElloViewController {
             self.showExternalWebView(url)
         }
         apiOutOfDateObserver = NotificationObserver(notification: ErrorStatusCode.Status410.notification) { [unowned self] error in
-            let message = NSLocalizedString("The version of the app you’re using is too old, and is no longer compatible with our API.\n\nPlease update the app to the latest version, using the “Updates” tab in the App Store.", comment: "App out of date message")
+            let message = InterfaceString.App.OldVersion
             let alertController = AlertViewController(message: message)
 
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
             alertController.addAction(action)
 
             self.presentViewController(alertController, animated: true, completion: nil)
@@ -370,10 +370,10 @@ public extension AppViewController {
         if isLoggedIn() {
             removeViewController() {
                 if shouldAlert {
-                    let message = InterfaceString.LoggedOut.localized
+                    let message = InterfaceString.App.LoggedOut
                     let alertController = AlertViewController(message: message)
 
-                    let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                    let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
                     alertController.addAction(action)
 
                     self.presentViewController(alertController, animated: true, completion: nil)
@@ -514,13 +514,13 @@ extension AppViewController {
 
         let alertController = AlertViewController(message: path)
 
-        let yes = AlertAction(title: NSLocalizedString("Login and view", comment: "Yes"), style: .Dark) { _ in
+        let yes = AlertAction(title: InterfaceString.App.LoginAndView, style: .Dark) { _ in
             self.deepLinkPath = path
             self.showSignInScreen()
         }
         alertController.addAction(yes)
 
-        let viewBrowser = AlertAction(title: NSLocalizedString("Open in Safari", comment: "Open in Safari"), style: .Light) { _ in
+        let viewBrowser = AlertAction(title: InterfaceString.App.OpenInSafari, style: .Light) { _ in
             if let pathURL = NSURL(string: path) {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
@@ -531,7 +531,7 @@ extension AppViewController {
     }
 
     private func showDiscoverScreen(vc: ElloTabBarController) {
-        vc.selectedTab = .Discovery
+        vc.selectedTab = .Discover
     }
 
     private func showFriendsScreen(vc: ElloTabBarController) {
@@ -587,14 +587,14 @@ extension AppViewController {
         let noResultsTitle: String
         let noResultsBody: String
         if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
-            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
+            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle
+            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody
         }
         else {
-            noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
-            noResultsBody = InterfaceString.Followers.NoResultsBody.localized
+            noResultsTitle = InterfaceString.Followers.NoResultsTitle
+            noResultsBody = InterfaceString.Followers.NoResultsBody
         }
-        let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title.localized)
+        let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title)
         followersVC.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         followersVC.currentUser = currentUser
         pushDeepLinkViewController(followersVC)
@@ -605,14 +605,14 @@ extension AppViewController {
         let noResultsTitle: String
         let noResultsBody: String
         if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
-            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
+            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle
+            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody
         }
         else {
-            noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
-            noResultsBody = InterfaceString.Following.NoResultsBody.localized
+            noResultsTitle = InterfaceString.Following.NoResultsTitle
+            noResultsBody = InterfaceString.Following.NoResultsBody
         }
-        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title.localized)
+        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title)
         vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
@@ -623,14 +623,14 @@ extension AppViewController {
         let noResultsTitle: String
         let noResultsBody: String
         if username == currentUser?.username {
-            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
-            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
+            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle
+            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody
         }
         else {
-            noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
-            noResultsBody = InterfaceString.Loves.NoResultsBody.localized
+            noResultsTitle = InterfaceString.Loves.NoResultsTitle
+            noResultsBody = InterfaceString.Loves.NoResultsBody
         }
-        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title.localized)
+        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title)
         vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         vc.currentUser = currentUser
         pushDeepLinkViewController(vc)
@@ -707,10 +707,10 @@ public extension AppViewController {
                 bar.backgroundColor = .blackColor()
                 nav.navigationBar.addSubview(bar)
 
-                let closeItem = UIBarButtonItem(image: Interface.Image.X.normalImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeTodoController"))
+                let closeItem = UIBarButtonItem(image: InterfaceImage.X.normalImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeTodoController"))
                 ctlr.navigationItem.leftBarButtonItem = closeItem
 
-                let addItem = UIBarButtonItem(image: Interface.Image.PlusSmall.normalImage, style: UIBarButtonItemStyle.Plain, target: ctlr, action: Selector("addTodoItem"))
+                let addItem = UIBarButtonItem(image: InterfaceImage.PlusSmall.normalImage, style: UIBarButtonItemStyle.Plain, target: ctlr, action: Selector("addTodoItem"))
                 ctlr.navigationItem.rightBarButtonItem = addItem
 
                 presentViewController(nav, animated: true, completion: nil)

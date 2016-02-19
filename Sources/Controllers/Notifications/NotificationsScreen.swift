@@ -29,7 +29,7 @@ public class NotificationsScreen : UIView {
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), forState: .Normal)
         return button
     }
-    private class func filterButton(image interfaceImage: Interface.Image) -> UIButton {
+    private class func filterButton(image interfaceImage: InterfaceImage) -> UIButton {
         let button = filterButton()
         button.setImage(interfaceImage.normalImage, forState: .Normal)
         button.setImage(interfaceImage.whiteImage, forState: .Selected)

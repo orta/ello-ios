@@ -264,7 +264,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         for button in [tabbarSubmitButton, keyboardSubmitButton] {
             button.backgroundColor = UIColor.blackColor()
             button.setImages(.Pencil, white: true)
-            button.setTitle("Post", forState: .Normal)
+            button.setTitle(InterfaceString.Omnibar.CreatePostButton, forState: .Normal)
             button.setTitleColor(.whiteColor(), forState: .Normal)
             button.setTitleColor(.grey6(), forState: .Disabled)
             button.titleLabel?.font = UIFont.defaultFont()
@@ -575,7 +575,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public func reportError(title: String, errorMessage: String) {
         let alertController = AlertViewController(message: "\(title)\n\n\(errorMessage)\n\nIf you are uploading multiple images, this error could be due to slow internet and/or too many images.")
 
-        let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
+        let cancelAction = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         delegate?.omnibarPresentController(alertController)
@@ -706,12 +706,12 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         else if canPost() && !isEditing {
             let alertController = AlertViewController()
 
-            let deleteAction = AlertAction(title: NSLocalizedString("Delete", comment: "Delete button"), style: ActionStyle.Dark, handler: { _ in
+            let deleteAction = AlertAction(title: InterfaceString.Delete, style: ActionStyle.Dark, handler: { _ in
                 self.resetEditor()
             })
             alertController.addAction(deleteAction)
 
-            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button"), style: .Light, handler: .None)
+            let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light, handler: .None)
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
@@ -854,7 +854,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     func requestLinkURL(handler: (NSURL?) -> Void) {
         let alertController = AlertViewController()
 
-        let urlAction = AlertAction(title: NSLocalizedString("Enter the URL", comment: "Enter the URL"), style: .URLInput)
+        let urlAction = AlertAction(title: InterfaceString.Omnibar.EnterURL, style: .URLInput)
         alertController.addAction(urlAction)
 
         let okCancelAction = AlertAction(title: "", style: .OKCancel) { _ in

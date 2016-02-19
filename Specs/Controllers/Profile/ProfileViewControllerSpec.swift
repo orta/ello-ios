@@ -72,7 +72,6 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when displaying the currentUser") {
-                var user: User!
                 var currentUser: User!
                 var subject: ProfileViewController!
 

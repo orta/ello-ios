@@ -110,9 +110,9 @@ private extension ShareViewController {
     }
 
     func showFailedToPost() {
-        let message = NSLocalizedString("Uh oh, failed to post to Ello.", comment: "Failed to post to Ello")
+        let message = InterfaceString.Share.FailedToPost
         let failedVC = AlertViewController(message: message)
-        let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Light) {
+        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light) {
             action in
             if let context = self.extensionContext {
                 let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)
@@ -120,7 +120,7 @@ private extension ShareViewController {
             }
         }
 
-        let retryAction = AlertAction(title: NSLocalizedString("Retry", comment: "Retry"), style: .Dark) {
+        let retryAction = AlertAction(title: InterfaceString.Retry, style: .Dark) {
             action in
             self.didSelectPost()
         }
@@ -131,9 +131,9 @@ private extension ShareViewController {
     }
 
     func showNotSignedIn() {
-        let message = NSLocalizedString("Please login to the Ello app first to use this feature.", comment: "Not logged in message.")
+        let message = InterfaceString.Share.PleaseLogin
         let notSignedInVC = AlertViewController(message: message)
-        let cancelAction = AlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .Dark) {
+        let cancelAction = AlertAction(title: InterfaceString.OK, style: .Dark) {
             action in
             if let context = self.extensionContext {
                 let error = NSError(domain: "co.ello.Ello", code: 0, userInfo: nil)

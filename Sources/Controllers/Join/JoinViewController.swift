@@ -205,7 +205,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                             })
                     },
                     failure: { error, _ in
-                        let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+                        let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
                         self.showErrorLabel(errorTitle)
                         joinAborted()
                     })
@@ -234,7 +234,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showSignInScreen(email: String, _ password: String) {
         let signInController = SignInViewController()
         _ = signInController.view
-        signInController.showErrorFromJoin(InterfaceString.Startup.SignInAfterJoinError.localized)
+        signInController.showErrorFromJoin(InterfaceString.Join.SignInAfterJoinError)
         signInController.emailTextField.text = email
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
@@ -256,7 +256,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         browser.tintColor = UIColor.greyA()
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
-        browser.title = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
+        browser.title = InterfaceString.WebBrowser.TermsAndConditions
 
         presentViewController(nav, animated: true, completion: nil)
     }
@@ -337,13 +337,13 @@ extension JoinViewController {
 
     private func emailErrorMessage(email: String) -> String? {
         if email.isEmpty {
-            return NSLocalizedString("Email is required.", comment: "email is required message")
+            return InterfaceString.Join.EmailRequired
         }
         else if email.isValidEmail() {
             return nil
         }
         else {
-            return NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+            return InterfaceString.Join.EmailInvalid
         }
     }
 
@@ -355,7 +355,7 @@ extension JoinViewController {
             }
 
             if !availability.isEmailAvailable {
-                let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                let msg = InterfaceString.Join.EmailInvalid
                 self.showErrorLabel(msg)
                 completion(false)
             }
@@ -363,7 +363,7 @@ extension JoinViewController {
                 completion(true)
             }
         }, failure: { error, _ in
-            let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+            let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
             self.showErrorLabel(errorTitle)
             completion(false)
         })
@@ -377,12 +377,12 @@ extension JoinViewController {
             }
 
             if !availability.isUsernameAvailable {
-                let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+                let msg = InterfaceString.Join.UsernameUnavailable
                 self.showErrorLabel(msg)
 
                 if !availability.usernameSuggestions.isEmpty {
                     let suggestions = availability.usernameSuggestions.joinWithSeparator(", ")
-                    let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions showmes"), suggestions)
+                    let msg = String(format: InterfaceString.Join.UsernameSuggestionTemplate, suggestions)
                     self.showMessageLabel(msg)
                 }
                 completion(false)
@@ -392,7 +392,7 @@ extension JoinViewController {
                 completion(true)
             }
         }, failure: { error, _ in
-            let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+            let errorTitle = error.elloErrorMessage ?? InterfaceString.UnknownError
             self.showErrorLabel(errorTitle)
             self.hideMessageLabel()
             completion(false)
@@ -405,7 +405,7 @@ extension JoinViewController {
 
     private func usernameErrorMessage(username: String) -> String? {
         if username.isEmpty {
-            return NSLocalizedString("Username is required.", comment: "username is required message")
+            return InterfaceString.Join.UsernameRequired
         }
         else {
             return nil
@@ -421,7 +421,7 @@ extension JoinViewController {
             return nil
         }
         else {
-            return NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
+            return InterfaceString.Join.PasswordInvalid
         }
     }
 

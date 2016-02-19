@@ -67,7 +67,7 @@ public struct ProfileHeaderCellPresenter {
             }
 
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
-            cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
+            cell.postsButton.title = InterfaceString.Profile.PostsCount
             cell.postsButton.count = postCount
             if let postCount = user.postsCount where postCount > 0 {
                 cell.postsButton.enabled = true
@@ -77,12 +77,12 @@ public struct ProfileHeaderCellPresenter {
             }
 
             let followingCount = user.followingCount?.numberToHuman(showZero: true) ?? "0"
-            cell.followingButton.title = NSLocalizedString("Following", comment: "Following")
+            cell.followingButton.title = InterfaceString.Profile.FollowingCount
             cell.followingButton.count = followingCount
 
 
             let lovesCount = user.lovesCount?.numberToHuman(showZero: true) ?? "0"
-            cell.lovesButton.title = NSLocalizedString("Loves", comment: "Loves")
+            cell.lovesButton.title = InterfaceString.Profile.LovesCount
             cell.lovesButton.count = lovesCount
 
             // The user.followersCount is a String due to a special case where that can return ∞ for the ello user.
@@ -94,7 +94,7 @@ public struct ProfileHeaderCellPresenter {
             else {
                 fCount = user.followersCount ?? "0"
             }
-            cell.followersButton.title = NSLocalizedString("Followers", comment: "Followers")
+            cell.followersButton.title = InterfaceString.Profile.FollowersCount
             cell.followersButton.count = fCount
         }
     }

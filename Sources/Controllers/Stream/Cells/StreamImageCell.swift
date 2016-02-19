@@ -12,7 +12,7 @@ import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
     static let reuseIdentifier = "StreamImageCell"
-    
+
     // this little hack prevents constraints from breaking on initial load
     override public var bounds: CGRect {
         didSet {
@@ -48,7 +48,7 @@ public class StreamImageCell: StreamRegionableCell {
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
         set {
-            largeImagePlayButton?.image = Interface.Image.VideoPlay.normalImage
+            largeImagePlayButton?.image = InterfaceImage.VideoPlay.normalImage
             largeImagePlayButton?.hidden = !newValue
         }
     }
@@ -62,7 +62,7 @@ public class StreamImageCell: StreamRegionableCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         if let playButton = largeImagePlayButton {
-            playButton.image = Interface.Image.VideoPlay.normalImage
+            playButton.image = InterfaceImage.VideoPlay.normalImage
         }
     }
 

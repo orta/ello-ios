@@ -66,7 +66,7 @@ public class StreamContainerViewController: StreamableViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl
-        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: Interface.Image.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         addSearchButton()
         navigationBar.items = [elloNavigationItem]
 
@@ -184,13 +184,13 @@ public class StreamContainerViewController: StreamableViewController {
 
             switch kind {
             case .Following:
-                let noResultsTitle = NSLocalizedString("Welcome to Following!", comment: "No following results title")
-                let noResultsBody = NSLocalizedString("Follow people and things that inspire you.", comment: "No following results body.")
+                let noResultsTitle = InterfaceString.FollowingStream.NoResultsTitle
+                let noResultsBody = InterfaceString.FollowingStream.NoResultsBody
                 friendsViewController = vc
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
             case .Starred:
-                let noResultsTitle = NSLocalizedString("Welcome to Starred!", comment: "No starred results title")
-                let noResultsBody = NSLocalizedString("When you Star someone their posts appear here. Star people to create a second stream.", comment: "No following results body.")
+                let noResultsTitle = InterfaceString.StarredStream.NoResultsTitle
+                let noResultsBody = InterfaceString.StarredStream.NoResultsBody
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
             default:
                 break

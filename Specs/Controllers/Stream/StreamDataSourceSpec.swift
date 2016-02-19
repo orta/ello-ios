@@ -45,6 +45,11 @@ class StreamDataSourceSpec: QuickSpec {
         let imageSizeCalculator = StreamImageCellSizeCalculator()
 
         describe("StreamDataSourceSpec") {
+            beforeSuite {
+                StreamKind.Following.setIsGridView(true)
+                StreamKind.Starred.setIsGridView(false)
+            }
+
             beforeEach {
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Following
@@ -160,7 +165,6 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             describe("collectionView(_:numberOfItemsInSection:)") {
-
                 context("with posts") {
                     beforeEach {
                         // there should be 10 posts
@@ -206,29 +210,47 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 context("with reposts") {
-                    beforeEach {
-                        // there should be 10 reposts
-                        // 10 * 7(number of cells for a repost w/ 2 regions) = 70
-                        var posts = [Post]()
-                        for index in 1...10 {
-                            posts.append(Post.stub([
-                                "id": "\(index)",
-                                "repostContent": [TextRegion.stub([:]), TextRegion.stub([:])],
-                                "content": [TextRegion.stub([:]), TextRegion.stub([:])]
-                                ])
-                            )
+                    var posts = [Post]()
+                    for index in 1...10 {
+                        posts.append(Post.stub([
+                            "id": "\(index)",
+                            "repostContent": [TextRegion.stub([:]), TextRegion.stub([:])],
+                            "content": [TextRegion.stub([:]), TextRegion.stub([:])]
+                            ])
+                        )
+                    }
+                    context("Following stream") {
+                        beforeEach {
+                            let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
+                            subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                                vc.collectionView.dataSource = subject
+                                vc.collectionView.reloadData()
+                            }
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
-                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                            vc.collectionView.dataSource = subject
-                            vc.collectionView.reloadData()
+                        it("returns the correct number of rows") {
+                            // there should be 10 reposts
+                            // 10 * 5(number of cells for a repost w/ 2 regions) = 50
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 50
                         }
                     }
 
-                    it("returns the correct number of rows") {
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 70
+                    context("Starred stream") {
+                        beforeEach {
+                            let cellItems = StreamCellItemParser().parse(posts, streamKind: .Starred)
+                            subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                                vc.collectionView.dataSource = subject
+                                vc.collectionView.reloadData()
+                            }
+                        }
+
+                        it("returns the correct number of rows") {
+                            // there should be 10 reposts
+                            // 10 * 7(number of cells for a repost w/ 2 regions) = 70
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 70
+                        }
                     }
                 }
+
 
                 context("with collapsed and non collapsed posts") {
                     beforeEach {
@@ -241,11 +263,12 @@ class StreamDataSourceSpec: QuickSpec {
                             posts.append(Post.stub([
                                 "id": "\(index)",
                                 "contentWarning": index % 2 == 0 ? "" : "NSFW",
-                                "content": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])]
+                                "summary": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])],
+                                "content": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])],
                                 ])
                             )
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Starred)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -312,7 +335,10 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     let asset = Asset.stub([:])
                     let region = ImageRegion.stub(["asset": asset])
-                    let post = Post.stub(["content": [region]])
+                    let post = Post.stub([
+                        "summary": [region],
+                        "content": [region],
+                    ])
                     let cellItems = StreamCellItemParser().parse([post], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject

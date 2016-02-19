@@ -154,7 +154,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         replyButton.setTitle("", forState: .Normal)
         replyButton.setImages(.Reply)
 
-        repostIconView.image = Interface.Image.Repost.selectedImage
+        repostIconView.image = InterfaceImage.Repost.selectedImage
     }
 
     override public func layoutSubviews() {

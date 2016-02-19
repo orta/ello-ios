@@ -9,43 +9,33 @@
 import SwiftyUserDefaults
 
 public enum ElloTab: Int {
-    case Discovery
+    case Discover
     case Notifications
     case Stream
     case Profile
-    case Post
+    case Omnibar
 
     static let DefaultTab = ElloTab.Stream
 
-    public var title: String {
-        switch self {
-            case Discovery:     return "Discovery"
-            case Notifications: return "Notifications"
-            case Stream:        return "Stream"
-            case Profile:       return "Profile"
-            case Post:          return "Omnibar"
-        }
-    }
-
-    public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(title)" }
+    public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(self)" }
 
     public var narrationTitle: String {
         switch self {
-            case Discovery:     return "Discover"
-            case Notifications: return "Notifications"
-            case Stream:        return "Streams"
-            case Profile:       return "Your Profile"
-            case Post:          return "Post"
+            case Discover:      return InterfaceString.Tab.PopupTitle.Discover
+            case Notifications: return InterfaceString.Tab.PopupTitle.Notifications
+            case Stream:        return InterfaceString.Tab.PopupTitle.Stream
+            case Profile:       return InterfaceString.Tab.PopupTitle.Profile
+            case Omnibar:       return InterfaceString.Tab.PopupTitle.Omnibar
         }
     }
 
     public var narrationText: String {
         switch self {
-            case Discovery:     return "Find friends and creators. View beautiful art & inspiring stories."
-            case Notifications: return "Stay up to date with real-time alerts."
-            case Stream:        return "View posts by everyone you follow. Keep them organized in Following & Starred."
-            case Profile:       return "Everything you’ve posted in one place. Settings too!"
-            case Post:          return "Text, images, links & GIFs from one easy place."
+            case Discover:      return InterfaceString.Tab.PopupText.Discover
+            case Notifications: return InterfaceString.Tab.PopupText.Notifications
+            case Stream:        return InterfaceString.Tab.PopupText.Stream
+            case Profile:       return InterfaceString.Tab.PopupText.Profile
+            case Omnibar:       return InterfaceString.Tab.PopupText.Omnibar
         }
     }
 
@@ -389,8 +379,8 @@ extension ElloTabBarController {
                 self.narrationView.pointerX = rect.midX
             }
         }
-        narrationView.title = NSLocalizedString(selectedTab.narrationTitle, comment: "\(selectedTab.title) narration title")
-        narrationView.text = NSLocalizedString(selectedTab.narrationText, comment: "\(selectedTab.title) narration text")
+        narrationView.title = selectedTab.narrationTitle
+        narrationView.text = selectedTab.narrationText
     }
 
     private func animateInStartFrame() -> CGRect {

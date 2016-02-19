@@ -136,7 +136,7 @@ public class ElloTextFieldView: UIView {
 public extension ElloTextFieldView {
 
     class func styleAsUsername(usernameView: ElloTextFieldView) {
-        usernameView.label.setLabelText(NSLocalizedString("Username", comment: "username key"))
+        usernameView.label.setLabelText(InterfaceString.Join.Username)
         styleAsUsernameField(usernameView.textField)
     }
     class func styleAsUsernameField(textField: UITextField) {
@@ -151,7 +151,7 @@ public extension ElloTextFieldView {
     }
 
     class func styleAsEmail(emailView: ElloTextFieldView) {
-        emailView.label.setLabelText(NSLocalizedString("Email", comment: "email key"))
+        emailView.label.setLabelText(InterfaceString.Join.Email)
         styleAsEmailField(emailView.textField)
     }
     class func styleAsEmailField(textField: UITextField) {
@@ -166,7 +166,7 @@ public extension ElloTextFieldView {
     }
 
     class func styleAsPassword(passwordView: ElloTextFieldView) {
-        passwordView.label.setLabelText(NSLocalizedString("Password", comment: "password key"))
+        passwordView.label.setLabelText(InterfaceString.Join.Password)
         styleAsPasswordField(passwordView.textField)
     }
     class func styleAsPasswordField(textField: UITextField) {

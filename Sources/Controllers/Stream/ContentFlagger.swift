@@ -87,7 +87,7 @@ public class ContentFlagger {
             alertController.addAction(action)
         }
 
-        let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Light) { _ in
+        let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light) { _ in
             Tracker.sharedTracker.contentFlaggingCanceled(self.contentType, contentId: self.flaggableId)
         }
 

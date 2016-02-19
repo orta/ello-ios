@@ -31,7 +31,7 @@ public class ElloLogoView: FLAnimatedImageView {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.image = Interface.Image.ElloLogo.normalImage
+        self.image = InterfaceImage.ElloLogo.normalImage
     }
 
     override public func willMoveToWindow(newWindow: UIWindow?) {

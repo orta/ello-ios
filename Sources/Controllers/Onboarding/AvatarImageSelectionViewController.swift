@@ -118,7 +118,7 @@ private extension AvatarImageSelectionViewController {
             height: 50
             ))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
-        chooseImageButton.setTitle(NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button"), forState: .Normal)
+        chooseImageButton.setTitle(InterfaceString.Onboard.ChooseAvatar, forState: .Normal)
         chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton

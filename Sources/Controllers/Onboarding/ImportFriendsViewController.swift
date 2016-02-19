@@ -26,8 +26,8 @@ public class ImportFriendsViewController: OnboardingUserListViewController {
 
     override func setupStreamController() {
         super.setupStreamController()
-        let noResultsTitle = NSLocalizedString("Find your friends!", comment: "Import friends no results title")
-        let noResultsBody = NSLocalizedString("Thanks. We didn’t find any of your friends.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover and Search screen.", comment: "Import friends no results body.")
+        let noResultsTitle = InterfaceString.Onboard.FindYourFriends.NoResultsTitle
+        let noResultsBody = InterfaceString.Onboard.FindYourFriends.NoResultsBody
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.initialLoadClosure = findFriendsFromContacts
     }
@@ -83,8 +83,8 @@ public class ImportFriendsViewController: OnboardingUserListViewController {
         inviteItems.sortInPlace { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
         users = foundItems.map { $0.jsonable as! User }
         let filteredUsers = InviteService.filterUsers(users!, currentUser: currentUser)
-        let header = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
-        let message = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
+        let header = InterfaceString.Onboard.FindYourFriends.Title
+        let message = InterfaceString.Onboard.FindYourFriends.Description
         appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: filteredUsers.count)
         // this calls doneLoading when cells are added

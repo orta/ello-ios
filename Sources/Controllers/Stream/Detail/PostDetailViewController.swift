@@ -90,9 +90,9 @@ public class PostDetailViewController: StreamableViewController {
     }
 
     private func showPostLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         alertController.addAction(action)
@@ -151,7 +151,7 @@ public class PostDetailViewController: StreamableViewController {
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
             items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
-            loversModel = UserAvatarCellModel(icon: .Heart, seeMoreTitle: NSLocalizedString("Loved by", comment: "Loved by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            loversModel = UserAvatarCellModel(icon: .Heart, seeMoreTitle: InterfaceString.Post.LovedByList, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             loversModel!.endpoint = .PostLovers(postId: post.id)
             items.append(StreamCellItem(jsonable: loversModel!, type: .UserAvatars))
         }
@@ -160,7 +160,7 @@ public class PostDetailViewController: StreamableViewController {
             if loversModel == nil {
                 items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
             }
-            repostersModel = UserAvatarCellModel(icon: .Repost, seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            repostersModel = UserAvatarCellModel(icon: .Repost, seeMoreTitle: InterfaceString.Post.RepostedByList, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             repostersModel!.endpoint = .PostReposters(postId: post.id)
             items.append(StreamCellItem(jsonable: repostersModel!, type: .UserAvatars))
         }
@@ -282,10 +282,10 @@ public class PostDetailViewController: StreamableViewController {
             return
         }
 
-        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
+        let message = InterfaceString.Post.DeletePostConfirm
         let alertController = AlertViewController(message: message)
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) { _ in
+        let yesAction = AlertAction(title: InterfaceString.Yes, style: .Dark) { _ in
             if let userPostCount = currentUser.postsCount {
                 currentUser.postsCount = userPostCount - 1
                 postNotification(CurrentUserChangedNotification, value: currentUser)
@@ -300,7 +300,7 @@ public class PostDetailViewController: StreamableViewController {
                 }
             )
         }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+        let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)

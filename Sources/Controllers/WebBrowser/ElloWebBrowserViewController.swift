@@ -17,9 +17,9 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
         // tell AppDelegate to allow rotation
         AppDelegate.restrictRotation = false
-        let xButton = UIBarButtonItem(image: Interface.Image.X.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
+        let xButton = UIBarButtonItem(image: InterfaceImage.X.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
-        let shareButton = UIBarButtonItem(image: Interface.Image.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("shareButtonPressed:"))
+        let shareButton = UIBarButtonItem(image: InterfaceImage.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("shareButtonPressed:"))
 
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton
@@ -132,7 +132,7 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
              .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
-            self.selectTab(.Discovery)
+            self.selectTab(.Discover)
         case .BetaPublicProfiles,
              .Enter,
              .Exit,

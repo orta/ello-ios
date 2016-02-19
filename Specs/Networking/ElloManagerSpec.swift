@@ -17,7 +17,7 @@ class ElloManagerSpec: QuickSpec {
 
         describe("ElloManager") {
             afterEach {
-                AppSetup.sharedState.isSimulator = nil
+                AppSetup.sharedState.isSimulator = true
             }
 
             describe("serverTrustPolicies") {

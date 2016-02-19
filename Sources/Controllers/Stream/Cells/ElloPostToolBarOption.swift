@@ -44,7 +44,7 @@ public enum ElloPostToolBarOption {
         return UIBarButtonItem(customView: self.imageLabelControl())
     }
 
-    private func imageLabelControl(interfaceImage: Interface.Image, count: Int = 0) -> UIControl {
+    private func imageLabelControl(interfaceImage: InterfaceImage, count: Int = 0) -> UIControl {
         let icon = UIImageView(image: interfaceImage.normalImage)
         let iconSelected = UIImageView(image: interfaceImage.selectedImage)
         var iconDisabled: UIView? = nil
