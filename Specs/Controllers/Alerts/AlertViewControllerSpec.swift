@@ -1,6 +1,15 @@
-import Ello
+//
+//  AlertViewControllerSpec.swift
+//  Ello
+//
+//  Created by Gordon Fontenot on 4/7/2015.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+@testable import Ello
 import Quick
 import Nimble
+
 
 class AlertViewControllerSpec: QuickSpec {
 
