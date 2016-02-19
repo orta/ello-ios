@@ -264,7 +264,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         for button in [tabbarSubmitButton, keyboardSubmitButton] {
             button.backgroundColor = UIColor.blackColor()
             button.setImages(.Pencil, white: true)
-            button.setTitle("Post", forState: .Normal)
+            button.setTitle(InterfaceString.Omnibar.CreatePostButton, forState: .Normal)
             button.setTitleColor(.whiteColor(), forState: .Normal)
             button.setTitleColor(.grey6(), forState: .Disabled)
             button.titleLabel?.font = UIFont.defaultFont()

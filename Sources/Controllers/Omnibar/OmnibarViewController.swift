@@ -136,7 +136,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 screen.submitTitle = InterfaceString.Omnibar.CreateCommentButton
             }
             else {
-                screen.title = InterfaceString.Omnibar.CreatePostTitle
+                screen.title = ""
                 screen.submitTitle = InterfaceString.Omnibar.CreatePostButton
             }
 

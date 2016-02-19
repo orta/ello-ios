@@ -126,7 +126,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("has the correct submit title") {
-                    expect(subject.screen.submitTitle) == ""
+                    expect(subject.screen.submitTitle) == InterfaceString.Omnibar.CreatePostButton
                 }
             }
 
