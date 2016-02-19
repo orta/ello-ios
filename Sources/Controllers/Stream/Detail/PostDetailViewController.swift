@@ -107,10 +107,10 @@ public class PostDetailViewController: StreamableViewController {
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
-        assignRightButton()
+        assignRightButtons()
     }
 
-    private func assignRightButton() {
+    private func assignRightButtons() {
         if post == nil {
             elloNavigationItem.rightBarButtonItems = []
         }
@@ -123,7 +123,8 @@ public class PostDetailViewController: StreamableViewController {
             }
             else {
                 elloNavigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(image: .Dots, target: self, action: Selector("flagPost"))
+                    UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped")),
+                    UIBarButtonItem(image: .Dots, target: self, action: Selector("flagPost")),
                 ]
             }
         }
@@ -200,7 +201,7 @@ public class PostDetailViewController: StreamableViewController {
             }
         }
 
-        assignRightButton()
+        assignRightButtons()
 
         if isOwnPost() {
             showNavBars(false)
