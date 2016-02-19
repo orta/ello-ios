@@ -89,7 +89,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             GroupDefaults[ElloTab.Notifications.narrationDefaultKey] = nil
             GroupDefaults[ElloTab.Stream.narrationDefaultKey] = nil
             GroupDefaults[ElloTab.Profile.narrationDefaultKey] = nil
-            GroupDefaults[ElloTab.Post.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Omnibar.narrationDefaultKey] = nil
         }
         addAction("Reset Intro") {
             GroupDefaults["IntroDisplayed"] = nil

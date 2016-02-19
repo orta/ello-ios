@@ -401,7 +401,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
                 if let vc = self.parentViewController as? ElloTabBarController
                 where didGoToPreviousTab {
-                    vc.selectedTab = .Post
+                    vc.selectedTab = .Omnibar
                 }
             }
         )

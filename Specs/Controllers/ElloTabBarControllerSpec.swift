@@ -192,7 +192,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                     ElloTab.Notifications: GroupDefaults[ElloTab.Notifications.narrationDefaultKey].bool,
                     ElloTab.Stream: GroupDefaults[ElloTab.Stream.narrationDefaultKey].bool,
                     ElloTab.Profile: GroupDefaults[ElloTab.Profile.narrationDefaultKey].bool,
-                    ElloTab.Post: GroupDefaults[ElloTab.Post.narrationDefaultKey].bool
+                    ElloTab.Omnibar: GroupDefaults[ElloTab.Omnibar.narrationDefaultKey].bool
                 ]
 
                 subject = ElloTabBarController.instantiateFromStoryboard()
@@ -218,7 +218,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 expect(ElloTab.Notifications.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationNotifications"
                 expect(ElloTab.Stream.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationStream"
                 expect(ElloTab.Profile.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationProfile"
-                expect(ElloTab.Post.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationOmnibar"
+                expect(ElloTab.Omnibar.narrationDefaultKey) == "ElloTabBarControllerDidShowNarrationOmnibar"
             }
 
             it("should set the narration values") {
@@ -240,7 +240,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ElloTabBarController.didShowNarration(.Notifications, true)
                 ElloTabBarController.didShowNarration(.Stream, true)
                 ElloTabBarController.didShowNarration(.Profile, true)
-                ElloTabBarController.didShowNarration(.Post, true)
+                ElloTabBarController.didShowNarration(.Omnibar, true)
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                 expect(subject.selectedViewController).to(equal(child1))
@@ -252,7 +252,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ElloTabBarController.didShowNarration(.Notifications, false)
                 ElloTabBarController.didShowNarration(.Stream, false)
                 ElloTabBarController.didShowNarration(.Profile, false)
-                ElloTabBarController.didShowNarration(.Post, false)
+                ElloTabBarController.didShowNarration(.Omnibar, false)
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                 expect(subject.selectedViewController).to(equal(child1), description: "selectedViewController")
