@@ -280,7 +280,7 @@ public class ProfileViewController: StreamableViewController {
             self.elloNavigationItem.leftBarButtonItems = [item]
             self.elloNavigationItem.fixNavBarItemPadding()
         }
-        addMoreFollowingButton()
+        assignRightButtons()
     }
 
     private func setupGradient() {
@@ -301,9 +301,11 @@ public class ProfileViewController: StreamableViewController {
         gradientView.layer.addSublayer(gradientLayer)
     }
 
-    func addMoreFollowingButton() {
+    func assignRightButtons() {
         if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
-            elloNavigationItem.rightBarButtonItems = []
+            elloNavigationItem.rightBarButtonItems = [
+                UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped")),
+            ]
             return
         }
 
@@ -411,7 +413,7 @@ public class ProfileViewController: StreamableViewController {
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
 
-        addMoreFollowingButton()
+        assignRightButtons()
         Tracker.sharedTracker.profileLoaded(user.atName ?? "(no name)")
     }
 

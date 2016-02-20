@@ -22,7 +22,7 @@ public enum SettingsRow: Int {
 
 
 public class SettingsContainerViewController: BaseElloViewController {
-    weak public var elloNavBar: ElloNavigationBar!
+    weak public var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     public var navBarsVisible: Bool = true
     private var settingsViewController: SettingsViewController?
@@ -64,7 +64,7 @@ public class SettingsContainerViewController: BaseElloViewController {
             else {
                 hideNavBars()
             }
-            elloNavBar.items = [settings.navigationItem]
+            navigationBar.items = [settings.navigationItem]
             settings.scrollLogic.isShowing = navBarsVisible
         }
     }
@@ -191,6 +191,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = InterfaceString.Settings.EditProfile
         navigationItem.fixNavBarItemPadding()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped"))
+    }
+
+    @IBAction func searchButtonTapped() {
+        containerController?.searchButtonTapped()
     }
 
     private func setupDefaultValues() {
