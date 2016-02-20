@@ -22,7 +22,7 @@ class AssetSpec: QuickSpec {
         }
         context("large gifs") {
             it("should return 'true' for 'isLargeGif'") {
-                let attachment: Attachment = stub(["size": 2_100_000, "type": "image/gif"])
+                let attachment: Attachment = stub(["size": 4_100_000, "type": "image/gif"])
                 let asset: Asset = stub(["optimized": attachment])
                 expect(asset.isLargeGif).to(beTrue())
             }
