@@ -64,21 +64,21 @@ class BlockUserModalViewControllerSpec: QuickSpec {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Mute) {
                     _ in
                 }
-                expect(subject.titleText).to(equal("Would you like to \runmute or block @archer?"))
+                expect(subject.titleText).to(equal("Would you like to \nunmute or block @archer?"))
             }
 
             it("is correct when relationship is block") {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Block) {
                     _ in
                 }
-                expect(subject.titleText).to(equal("Would you like to \rmute or unblock @archer?"))
+                expect(subject.titleText).to(equal("Would you like to \nmute or unblock @archer?"))
             }
 
             it("is correct when relationship is not block or mute") {
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     _ in
                 }
-                expect(subject.titleText).to(equal("Would you like to \rmute or block @archer?"))
+                expect(subject.titleText).to(equal("Would you like to \nmute or block @archer?"))
             }
         }
 

@@ -2,125 +2,12 @@
 //  InterfaceString.swift
 //  Ello
 //
-//  Created by Sean on 10/13/15.
-//  Copyright © 2015 Ello. All rights reserved.
+//  Created by Colin Gray on 2/23/2016.
+//  Copyright (c) 2016 Ello. All rights reserved.
 //
 
-import SVGKit
+import Foundation
 
-
-public enum InterfaceImage: String {
-    public enum Style {
-        case Normal
-        case White
-        case Selected
-        case Disabled
-        case Red
-    }
-
-    case ElloLogo = "ello_logo"
-
-    // Postbar Icons
-    case Eye = "eye"
-    case Heart = "hearts"
-    case Repost = "repost"
-    case Share = "share"
-    case XBox = "xbox"
-    case Pencil = "pencil"
-    case Reply = "reply"
-    case Flag = "flag"
-
-    // Notification Icons
-    case Comments = "bubble"
-    case Invite = "relationships"
-
-    // TabBar Icons
-    case Sparkles = "sparkles"
-    case Bolt = "bolt"
-    case Omni = "omni"
-    case Person = "person"
-    case CircBig = "circbig"
-    case NarrationPointer = "narration_pointer"
-
-    // Validation States
-    case ValidationLoading = "circ"
-    case ValidationError = "x_red"
-    case ValidationOK = "check_green"
-
-    // NavBar Icons
-    case Search = "search"
-    case Burger = "burger"
-
-    // Grid/List Icons
-    case Grid = "grid"
-    case List = "list"
-
-    // Omnibar
-    case Reorder = "reorder"
-    case Camera = "camera"
-    case Check = "check"
-    case Arrow = "arrow"
-    case Link = "link"
-    case BreakLink = "breaklink"
-
-    // Commenting
-    case ReplyAll = "replyall"
-    case BubbleBody = "bubble_body"
-    case BubbleTail = "bubble_tail"
-
-    // Relationship
-    case Star = "star"
-
-    // Alert
-    case Question = "question"
-
-    // Generic
-    case X = "x"
-    case Dots = "dots"
-    case PlusSmall = "plussmall"
-    case CheckSmall = "checksmall"
-    case AngleBracket = "abracket"
-
-    // Embeds
-    case AudioPlay = "embetter_audio_play"
-    case VideoPlay = "embetter_video_play"
-
-    func image(style: Style) -> UIImage? {
-        switch style {
-        case .Normal:   return normalImage
-        case .White:    return whiteImage
-        case .Selected: return selectedImage
-        case .Disabled: return disabledImage
-        case .Red:      return redImage
-        }
-    }
-
-    var normalImage: UIImage! {
-        switch self {
-        case .ElloLogo,
-            .AudioPlay,
-            .VideoPlay,
-            .BubbleTail,
-            .NarrationPointer,
-            .ValidationError,
-            .ValidationOK:
-            return SVGKImage(named: "\(self.rawValue).svg").UIImage
-        default:
-            return SVGKImage(named: "\(self.rawValue)_normal.svg").UIImage
-        }
-    }
-    var selectedImage: UIImage! { return SVGKImage(named: "\(self.rawValue)_selected.svg").UIImage }
-    var whiteImage: UIImage? { return SVGKImage(named: "\(self.rawValue)_white.svg").UIImage }
-    var disabledImage: UIImage? {
-        switch self {
-        case .Repost, .AngleBracket:
-            return SVGKImage(named: "\(self.rawValue)_disabled.svg").UIImage
-        default:
-            return nil
-        }
-    }
-    var redImage: UIImage? { return SVGKImage(named: "\(self.rawValue)_red.svg").UIImage }
-}
 
 public struct InterfaceString {
 
@@ -151,11 +38,11 @@ public struct InterfaceString {
     }
 
     public struct Following {
+        static let Title = NSLocalizedString("Following", comment: "Following title")
         static let CurrentUserNoResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
         static let CurrentUserNoResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
         static let NoResultsTitle = NSLocalizedString("This person isn't following anyone yet!", comment: "Non-current user followoing no results title")
         static let NoResultsBody = NSLocalizedString("Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)", comment: "Non-current user following no results body")
-        static let Title = NSLocalizedString("Following", comment: "Following title")
     }
 
     public struct FollowingStream {
@@ -178,6 +65,9 @@ public struct InterfaceString {
 
     public struct Discover {
         static let Title = NSLocalizedString("Discover", comment: "Discover title")
+        static let Featured = NSLocalizedString("Featured", comment: "Discover tab titled Featured")
+        static let Trending = NSLocalizedString("Trending", comment: "Discover tab titled Trending")
+        static let Recent = NSLocalizedString("Recent", comment: "Discover tab titled Recent")
     }
 
     public struct Search {
@@ -229,6 +119,8 @@ public struct InterfaceString {
 
     public struct Profile {
         static let Title = NSLocalizedString("Profile", comment: "Profile Title")
+        static let Mention = NSLocalizedString("@ Mention", comment: "Mention button title")
+        static let EditProfile = NSLocalizedString("Edit Profile", comment: "Edit Profile button title")
         static let PostsCount = NSLocalizedString("Posts", comment: "Posts count header")
         static let FollowingCount = NSLocalizedString("Following", comment: "Following count header")
         static let LovesCount = NSLocalizedString("Loves", comment: "Loves count header")
@@ -281,6 +173,15 @@ public struct InterfaceString {
         static let Following = NSLocalizedString("Following", comment: "Following relationship")
         static let Starred = NSLocalizedString("Starred", comment: "Starred relationship")
         static let Muted = NSLocalizedString("Muted", comment: "Muted relationship")
+
+        static let MuteButton = NSLocalizedString("Mute", comment: "Mute button title")
+        static let BlockButton = NSLocalizedString("Block", comment: "Block button title")
+
+        static let UnmuteAlertTemplate = NSLocalizedString("Would you like to \nunmute or block %@?", comment: "alert prompt before unmuting or blocking")
+        static let BlockAlertTemplate = NSLocalizedString("Would you like to \nmute or unblock %@?", comment: "alert prompt before muting or unblocking")
+        static let MuteAlertTemplate = NSLocalizedString("Would you like to \nmute or block %@?", comment: "alert prompt before muting or blocking")
+        static let MuteWarningTemplate = NSLocalizedString("%@ will not be able to comment on your posts. If %@ mentions you, you will not be notified.", comment: "muting explanation")
+        static let BlockWarningTemplate = NSLocalizedString("%@ will not be able to follow you or view your profile, posts or find you in search.", comment: "muting explanation")
     }
 
     public struct PushNotifications {

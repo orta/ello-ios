@@ -8,7 +8,7 @@
 
 import FLAnimatedImage
 
-public class ElloMentionButton: RoundedElloButton {
+public class ProfileButton: RoundedElloButton {
     override public func sharedSetup() {
         super.sharedSetup()
 
@@ -20,6 +20,20 @@ public class ElloMentionButton: RoundedElloButton {
     override func updateOutline() {
         super.updateOutline()
         backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor()
+    }
+}
+
+public class ElloMentionButton: RoundedElloButton {
+    override public func sharedSetup() {
+        super.sharedSetup()
+        setTitle(InterfaceString.Profile.Mention, forState: .Normal)
+    }
+}
+
+public class ElloEditProfileButton: RoundedElloButton {
+    override public func sharedSetup() {
+        super.sharedSetup()
+        setTitle(InterfaceString.Profile.EditProfile, forState: .Normal)
     }
 }
 

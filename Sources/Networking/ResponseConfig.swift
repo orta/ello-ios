@@ -20,7 +20,7 @@ public class ResponseConfig: CustomStringConvertible {
             "totalCount: \(totalCount)",
             "totalPagesRemaining: \(totalPagesRemaining)"
         ]
-        return descripArray.joinWithSeparator("\r\t")
+        return descripArray.joinWithSeparator("\n\t")
     }
     public var nextQueryItems: [AnyObject]? // before (older)
     public var prevQueryItems: [AnyObject]? // after (newer)
