@@ -60,7 +60,7 @@ public final class Notification: JSONAble, Authorable {
     // computed
     public var createdAt: NSDate { return activity.createdAt }
     public var groupId:String { return activity.id }
-    public var subject: AnyObject? { willSet { attributedTitleStore = nil } }
+    public var subject: JSONAble? { willSet { attributedTitleStore = nil } }
 
     // notification specific
     public var textRegion: TextRegion?

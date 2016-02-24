@@ -29,7 +29,7 @@ class NotificationSpec: QuickSpec {
                 expect(notification.groupId) == activity.id
                 expect(notification.activity.kind) == Activity.Kind.RepostNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.Post
-                expect(notification.subject?.id) == post.id
+                expect((notification.subject as? Post)?.id) == post.id
 
                 expect(notification.attributedTitle.string) == "@foo reposted your post."
                 expect(notification.textRegion?.content) == "<p>This is a post summary!</p>"
@@ -58,7 +58,7 @@ class NotificationSpec: QuickSpec {
                 expect(notification.groupId) == activity.id
                 expect(notification.activity.kind) == Activity.Kind.RepostNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.Post
-                expect(notification.subject?.id) == post.id
+                expect((notification.subject as? Post)?.id) == post.id
 
                 expect(notification.attributedTitle.string) == "@foo reposted your post."
                 expect(notification.textRegion?.content) == "<p>summary1!</p><br/><p>summary2!</p>"
@@ -85,7 +85,7 @@ class NotificationSpec: QuickSpec {
                 expect(notification.groupId) == activity.id
                 expect(notification.activity.kind) == Activity.Kind.CommentMentionNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.Comment
-                expect(notification.subject?.id) == comment.id
+                expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(notification.attributedTitle.string) == "@foo mentioned you in a comment."
                 expect(notification.textRegion?.content) == "<p>This is a post summary!</p><br/><p>This is a comment summary!</p>"
@@ -126,7 +126,7 @@ class NotificationSpec: QuickSpec {
                 expect(notification.groupId) == activity.id
                 expect(notification.activity.kind) == Activity.Kind.CommentMentionNotification
                 expect(notification.activity.subjectType) == Activity.SubjectType.Comment
-                expect(notification.subject?.id) == comment.id
+                expect((notification.subject as? ElloComment)?.id) == comment.id
 
                 expect(notification.attributedTitle.string) == "@foo mentioned you in a comment."
                 expect(notification.textRegion?.content) == "<p>summary1!</p><br/><p>summary2!</p><br/><p>comment summary1!</p><br/><p>comment summary2!</p>"
