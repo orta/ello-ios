@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake', '~> 10.0.0'
-gem 'cocoapods', '1.0.0.beta.3'
+gem 'cocoapods', '1.0.0.beta.4'
 gem 'cocoapods-keys', '~> 1.6.0'
 gem "mini_magick"
 gem 'plist'

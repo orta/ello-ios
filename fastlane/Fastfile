@@ -16,7 +16,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "1.50.0"
+fastlane_version "1.63.0"
 
 default_platform :ios
 
@@ -86,9 +86,20 @@ platform :ios do
     # use the UDID of the newly created provisioning profile
     ENV["PROFILE_UDID"] = udid
 
+    share_udid = sigh(
+      app_identifier: ENV["SHARE_EXTENSION_PROD_APP_ID"], 
+      output_path: ENV["PROFILE_PATH"],
+      development: false
+    )
+
+    # use the UDID of the newly created provisioning profile
+    # for the share extension
+    ENV["SHARE_PROFILE_UDID"] = share_udid
+
     gym(
       configuration: "Release",
       sdk: "iphoneos",
+      use_legacy_build_api: true,
       clean: true
     )
 
