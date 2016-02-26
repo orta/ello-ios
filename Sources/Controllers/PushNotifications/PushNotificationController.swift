@@ -90,10 +90,14 @@ public extension PushNotificationController {
 
     func updateBadgeCount(userInfo: [NSObject: AnyObject]) {
         if  let aps = userInfo["aps"] as? [NSObject: AnyObject],
-            let badge = aps["badge"] as? Int
+            let badges = aps["badge"] as? Int
         {
-            UIApplication.sharedApplication().applicationIconBadgeNumber = badge
+            updateBadgeCount(badges)
         }
+    }
+
+    func updateBadgeCount(badges: Int) {
+        UIApplication.sharedApplication().applicationIconBadgeNumber = badges
     }
 
     func hasAlert(userInfo: [NSObject: AnyObject]) -> Bool {

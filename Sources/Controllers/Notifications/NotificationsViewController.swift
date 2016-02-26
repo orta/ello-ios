@@ -53,11 +53,8 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
+
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
-        let noResultsBody = InterfaceString.Notifications.NoResultsBody
-        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
     }
 
@@ -76,7 +73,11 @@ public class NotificationsViewController: StreamableViewController, Notification
     override func setupStreamController() {
         super.setupStreamController()
 
+        streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         streamViewController.notificationDelegate = self
+        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
+        let noResultsBody = InterfaceString.Notifications.NoResultsBody
+        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
     }
 
     override public func showNavBars(scrollToBottom: Bool) {
