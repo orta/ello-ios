@@ -59,8 +59,8 @@ public struct InterfaceString {
 
     public struct Notifications {
         static let Title = NSLocalizedString("Notifications", comment: "Notifications title")
-        static let NoResultsTitle = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
-        static let NoResultsBody = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
+        static let NoResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
+        static let NoResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
     }
 
     public struct Discover {
