@@ -13,11 +13,6 @@ import Nimble
 class ShareRegionProcessorSpec: QuickSpec {
     override func spec() {
         describe("ShareRegionProcessor") {
-            var subject = ShareRegionProcessor()
-
-            beforeEach {
-                subject = ShareRegionProcessor()
-            }
 
             describe("prepContent(_:itemPreviews)") {
 
@@ -30,7 +25,7 @@ class ShareRegionProcessorSpec: QuickSpec {
                     ]
 
                     let contextText = "yo"
-                    let prepped = subject.prepContent(contextText, itemPreviews: items)
+                    let prepped = ShareRegionProcessor.prepContent(contextText, itemPreviews: items)
 
                     expect(prepped.count) == 4
                     expect(prepped[0] == PostEditingService.PostContentRegion.Text("yo")) == true
@@ -46,7 +41,7 @@ class ShareRegionProcessorSpec: QuickSpec {
                 ]
 
                 let contextText = "yo"
-                let prepped = subject.prepContent(contextText, itemPreviews: items)
+                let prepped = ShareRegionProcessor.prepContent(contextText, itemPreviews: items)
 
                 expect(prepped.count) == 1
                 expect(prepped[0] == PostEditingService.PostContentRegion.Text("yo")) == true

@@ -37,12 +37,12 @@ public class ShareViewController: SLComposeServiceViewController {
     }
 
     public override func isContentValid() -> Bool {
-        return itemPreviews.count > 0
+        return ShareAttachmentProcessor.hasContent(contentText, extensionItem: extensionContext?.inputItems.safeValue(0) as? NSExtensionItem)
     }
 
     public override func didSelectPost() {
         showSpinner()
-        let content = ShareRegionProcessor().prepContent(contentText, itemPreviews: itemPreviews)
+        let content = ShareRegionProcessor.prepContent(contentText, itemPreviews: itemPreviews)
         postContent(content)
     }
 }
@@ -56,11 +56,10 @@ private extension ShareViewController {
         }
 
         inBackground {
-            let attachmentProcessor = ShareAttachmentProcessor()
-
-            attachmentProcessor.preview(extensionItem) { previews in
+            ShareAttachmentProcessor.preview(extensionItem) { previews in
                 inForeground {
                     self.itemPreviews = previews
+                    self.isContentValid()
                 }
             }
         }
@@ -71,7 +70,9 @@ private extension ShareViewController {
         animate {
             self.background.alpha = 0.5
         }
-        ElloHUD.showLoadingHudInView(view)
+        inForeground {
+            ElloHUD.showLoadingHudInView(self.view)
+        }
     }
 
     func postContent(content: [PostEditingService.PostContentRegion]) {
@@ -91,8 +92,10 @@ private extension ShareViewController {
     }
 
     func donePosting() {
-        ElloHUD.hideLoadingHudInView(self.view)
-        self.background.removeFromSuperview()
+        inForeground {
+            ElloHUD.hideLoadingHudInView(self.view)
+            self.background.removeFromSuperview()
+        }
     }
 
     func dismissPostingForm() {

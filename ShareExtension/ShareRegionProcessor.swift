@@ -12,7 +12,7 @@ public class ShareRegionProcessor {
 
     public init(){}
 
-    public func prepContent(contentText: String, itemPreviews: [ExtensionItemPreview]) -> [PostEditingService.PostContentRegion] {
+    public static func prepContent(contentText: String, itemPreviews: [ExtensionItemPreview]) -> [PostEditingService.PostContentRegion] {
         var content: [PostEditingService.PostContentRegion] = []
 
         let cleanedText = contentText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())

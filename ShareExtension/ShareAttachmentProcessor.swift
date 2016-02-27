@@ -16,17 +16,38 @@ public class ShareAttachmentProcessor {
 
     public init(){}
 
-    public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
+    static public func preview(extensionItem: NSExtensionItem, callback: [ExtensionItemPreview] -> Void) {
         var previews: [ExtensionItemPreview] = []
         processAttachments(0, attachments: extensionItem.attachments as? [NSItemProvider] , previews: &previews, callback: callback)
     }
+
+    static public func hasContent(contentText: String?, extensionItem: NSExtensionItem?) -> Bool {
+        let cleanedText = contentText?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if cleanedText?.characters.count > 0 {
+            return true
+        }
+
+        guard let extensionItem = extensionItem else {
+            return false
+        }
+
+        if let attachments = extensionItem.attachments as? [NSItemProvider] {
+            for attachment in attachments {
+                if attachment.isImage() || attachment.isURL() || attachment.isImage() {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }
+
 
 // MARK: Private
 
 private extension ShareAttachmentProcessor {
 
-    func processAttachments(
+    static func processAttachments(
         index: Int,
         attachments: [NSItemProvider]?,
         inout previews: [ExtensionItemPreview],
@@ -53,7 +74,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor)
+    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor)
     {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
@@ -69,7 +90,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         attachment.loadText(nil) {
             (item, error) in
             var preview: ExtensionItemPreview?
@@ -80,7 +101,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    func processURL(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processURL(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         var link: String?
         var preview: UIImage?
 
@@ -104,17 +125,22 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
+    static func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         attachment.loadImage(nil) {
             (imageURL, error) in
 
-            if let imageURL = imageURL as? NSURL,
-                let data = NSData(contentsOfFile: imageURL.absoluteString),
-                let image = UIImage(data: data)
-            {
-                image.copyWithCorrectOrientationAndSize() { image in
-                    let item = ExtensionItemPreview(image: image, imagePath: nil, text: nil)
-                    callback(item)
+            if let imageURL = imageURL as? NSURL{
+                var data: NSData? = NSData(contentsOfURL: imageURL)
+                if data == nil {
+                    data = NSData(contentsOfFile: imageURL.absoluteString)
+                }
+                if let data = data,
+                    let image = UIImage(data: data) {
+
+                    image.copyWithCorrectOrientationAndSize() { image in
+                        let item = ExtensionItemPreview(image: image, imagePath: nil, text: nil)
+                        callback(item)
+                    }
                 }
             }
             else {
