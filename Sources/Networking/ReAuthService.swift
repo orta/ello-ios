@@ -32,7 +32,7 @@ public class ReAuthService {
                 switch statusCode {
                 case 200...299:
                     AuthToken.storeToken(data, isPasswordBased: true)
-                    log("refreshToken: \(refreshToken), received new token: \(token.token)")
+                    log("created re-auth token: \(AuthToken().token)")
                     success()
                 default:
                     log("refreshToken: \(refreshToken), failed to receive new token")
@@ -58,7 +58,7 @@ public class ReAuthService {
                     switch statusCode {
                     case 200...299:
                         AuthToken.storeToken(data, isPasswordBased: true)
-                        log("created new token: \(AuthToken().token)")
+                        log("created re-login token: \(AuthToken().token)")
                         success()
                     default:
                         let elloError = ElloProvider.generateElloError(data, statusCode: statusCode)
