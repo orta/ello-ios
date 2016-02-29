@@ -69,6 +69,7 @@ public class PostDetailViewController: StreamableViewController {
 
         PostService().loadPost(
             postParam,
+            needsComments: true,
             success: { (post, responseConfig) in
                 if !self.streamViewController.isValidInitialPageLoadingToken(self.localToken) { return }
                 self.postLoaded(post, responseConfig: responseConfig)

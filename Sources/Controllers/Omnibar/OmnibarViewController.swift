@@ -67,12 +67,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     convenience public init(editPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         editPost = post
-        PostService().loadPost(post.id, success: { (post, _) in
-            self.rawEditBody = post.body
-            if let body = post.body where self.isViewLoaded() {
-                self.prepareScreenForEditing(body)
-            }
-        })
+        PostService().loadPost(post.id,
+            needsComments: false,
+            success: { (post, _) in
+                self.rawEditBody = post.body
+                if let body = post.body where self.isViewLoaded() {
+                    self.prepareScreenForEditing(body)
+                }
+            })
     }
 
     convenience public init(parentPost post: Post, defaultText: String?) {

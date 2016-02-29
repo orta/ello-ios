@@ -18,11 +18,12 @@ public struct PostService {
 
     public func loadPost(
         postParam: String,
+        needsComments: Bool,
         success: PostSuccessCompletion,
         failure: ElloFailureCompletion? = nil)
     {
         ElloProvider.shared.elloRequest(
-            ElloAPI.PostDetail(postParam: postParam),
+            ElloAPI.PostDetail(postParam: postParam, needsComments: needsComments),
             success: { (data, responseConfig) in
                 if let post = data as? Post {
                     Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))
