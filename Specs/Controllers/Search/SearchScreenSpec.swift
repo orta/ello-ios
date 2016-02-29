@@ -9,6 +9,7 @@
 import Quick
 import Nimble
 import Ello
+import Nimble_Snapshots
 
 public class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
@@ -27,7 +28,7 @@ class SearchScreenSpec: QuickSpec {
             var subject: SearchScreen!
 
             beforeEach {
-                subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                subject = SearchScreen(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: 568)), isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
             }
 
             context("hasBackButton") {
@@ -35,6 +36,9 @@ class SearchScreenSpec: QuickSpec {
                     let prevItems = subject.navigationItem.leftBarButtonItems
                     expect(subject.hasBackButton) == true
                     expect(subject.navigationItem.leftBarButtonItem) == prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:true"))
                 }
 
                 it("can have a close button instead (left item changes)") {
@@ -42,6 +46,9 @@ class SearchScreenSpec: QuickSpec {
                     subject.hasBackButton = false
                     expect(subject.hasBackButton) == false
                     expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:false"))
                 }
 
                 it("can have an explicit back button (left item changes)") {
@@ -53,6 +60,9 @@ class SearchScreenSpec: QuickSpec {
                     subject.hasBackButton = true
                     expect(subject.hasBackButton) == true
                     expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:true"))
                 }
             }
 

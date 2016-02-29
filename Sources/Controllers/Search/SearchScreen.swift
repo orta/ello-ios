@@ -109,16 +109,17 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupNavigationBarItems() {
         navigationItem = UINavigationItem(title: navBarTitle)
-        let leftItem: UIBarButtonItem
-        if isSearchView {
-            leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
+
+        if hasBackButton {
+            let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
+            navigationItem.leftBarButtonItems = [leftItem]
+            navigationItem.fixNavBarItemPadding()
         }
         else {
-            leftItem = UIBarButtonItem.closeButton(target: self, action: Selector("backTapped"))
+            let leftItem = UIBarButtonItem.closeButton(target: self, action: Selector("backTapped"))
+            navigationItem.leftBarButtonItems = [leftItem]
         }
-        navigationItem.leftBarButtonItems = [leftItem]
 
-        navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
     }
 
