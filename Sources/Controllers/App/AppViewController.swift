@@ -707,7 +707,7 @@ public extension AppViewController {
                 bar.backgroundColor = .blackColor()
                 nav.navigationBar.addSubview(bar)
 
-                let closeItem = UIBarButtonItem(image: InterfaceImage.X.normalImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeTodoController"))
+                let closeItem = UIBarButtonItem.closeButton(target: self, action: Selector("closeTodoController"))
                 ctlr.navigationItem.leftBarButtonItem = closeItem
 
                 let addItem = UIBarButtonItem(image: InterfaceImage.PlusSmall.normalImage, style: UIBarButtonItemStyle.Plain, target: ctlr, action: Selector("addTodoItem"))
