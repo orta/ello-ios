@@ -91,7 +91,7 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.NotificationsStream(category: nil).path) == "/api/v2/notifications"
                     }
                     it("PostDetail is valid") {
-                        expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/v2/posts/some-param"
+                        expect(ElloAPI.PostDetail(postParam: "some-param", needsComments: true).path) == "/api/v2/posts/some-param"
                     }
                     it("PostComments is valid") {
                         expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/v2/posts/fake-id/comments"
@@ -168,7 +168,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NotificationsNewContent(createdAt: NSDate()),
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", needsComments: true),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
                         ElloAPI.CurrentUserStream,
@@ -237,7 +237,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NoiseStream,
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", needsComments: true),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
                         ElloAPI.CurrentUserStream,
@@ -320,7 +320,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NotificationsNewContent(createdAt: NSDate()),
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", needsComments: true),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
                         ElloAPI.CurrentUserStream,
@@ -458,6 +458,17 @@ class ElloAPISpec: QuickSpec {
                 it("PostComments") {
                     let params = ElloAPI.PostComments(postId: "comments-id").parameters!
                     expect(params["per_page"] as? Int) == 10
+                }
+
+                describe("PostDetail") {
+                    it("needsComments true") {
+                        let params = ElloAPI.PostDetail(postParam: "post-id", needsComments: true).parameters!
+                        expect(params["comment_count"] as? Bool) == true
+                    }
+                    it("needsComments false") {
+                        let params = ElloAPI.PostDetail(postParam: "post-id", needsComments: false).parameters!
+                        expect(params["comment_count"] as? Bool) == false
+                    }
                 }
 
                 it("Profile") {
