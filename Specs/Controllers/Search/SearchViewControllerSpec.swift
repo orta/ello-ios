@@ -13,7 +13,8 @@ import Nimble
 
 
 class SearchMockScreen: NSObject, SearchScreenProtocol {
-    var delegate : SearchScreenDelegate?
+    var delegate: SearchScreenDelegate?
+    var hasBackButton: Bool = true
 
     func viewForStream() -> UIView {
         return UIView()

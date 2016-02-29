@@ -19,6 +19,11 @@ extension UIBarButtonItem {
         return UIBarButtonItem(customView: button)
     }
 
+    class func closeButton(target target: AnyObject, action: Selector) -> UIBarButtonItem {
+        let closeItem = UIBarButtonItem(image: InterfaceImage.X.normalImage, style: UIBarButtonItemStyle.Plain, target: target, action: action)
+        return closeItem
+    }
+
     convenience init(image: InterfaceImage, target: AnyObject, action: Selector) {
         let frame = CGRect(x: 0, y: 0, width: 36.0, height: 44.0)
         let button = UIButton(frame: frame)

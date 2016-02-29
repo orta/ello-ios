@@ -44,9 +44,14 @@ public class AddFriendsViewController: StreamableViewController {
         ]
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        screen.hasBackButton = (navigationController != nil)
+    }
+
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if isMovingToParentViewController() {
+        if isMovingToParentViewController() || presentingViewController != nil {
             showNavBars(false)
             updateInsets()
             ElloHUD.showLoadingHudInView(streamViewController.view)
@@ -146,7 +151,12 @@ public class AddFriendsViewController: StreamableViewController {
 extension AddFriendsViewController: SearchScreenDelegate {
 
     public func searchCanceled() {
-        navigationController?.popViewControllerAnimated(true)
+        if let navigationController = navigationController {
+            navigationController.popViewControllerAnimated(true)
+        }
+        else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 
     public func searchFieldCleared() {
