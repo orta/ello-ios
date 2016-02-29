@@ -17,12 +17,6 @@ class ShareAttachmentProcessorSpec: QuickSpec {
 
             var itemPreviews: [ExtensionItemPreview] = []
 
-            var subject = ShareAttachmentProcessor()
-
-            beforeEach {
-                subject = ShareAttachmentProcessor()
-            }
-
             afterEach {
                 itemPreviews = []
             }
@@ -57,8 +51,9 @@ class ShareAttachmentProcessorSpec: QuickSpec {
                     let textPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "hello")
 
                     waitUntil(timeout: 30) { done in
-                        subject.preview(extensionItem) { previews in
+                        ShareAttachmentProcessor.preview(extensionItem) { previews in
                             itemPreviews = previews
+                            expect(itemPreviews.count) == 3
                             expect(itemPreviews[0] == urlPreview).to(beTrue())
                             expect(itemPreviews[1] == textPreview).to(beTrue())
                             expect(itemPreviews[2].image).notTo(beNil())
@@ -78,12 +73,43 @@ class ShareAttachmentProcessorSpec: QuickSpec {
                     let urlPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "https://ello.co")
 
                     waitUntil(timeout: 30) { done in
-                        subject.preview(extensionItem) { previews in
+                        ShareAttachmentProcessor.preview(extensionItem) { previews in
                             itemPreviews = previews
                             expect(itemPreviews[0] == urlPreview).to(beTrue())
                             expect(itemPreviews.count) == 1
                             done()
                         }
+                    }
+                }
+            }
+
+            describe("hasContent(_:)") {
+                context("has something to share") {
+                    let extensionItem = NSExtensionItem()
+
+                    extensionItem.attachments = [
+                        NSItemProvider(item: NSURL(string: "https://ello.co"), typeIdentifier: String(kUTTypeURL)),
+                        NSItemProvider(item: "https://ello.co", typeIdentifier: String(kUTTypeText))
+                    ]
+
+                    it("returns true if content text is present and extension item is nil") {
+                        expect(ShareAttachmentProcessor.hasContent("content", extensionItem: nil)) == true
+                    }
+
+                    it("returns true if content text is nil and extension item is present") {
+                        expect(ShareAttachmentProcessor.hasContent(nil, extensionItem: extensionItem)) == true
+                    }
+
+                    it("returns true if content text is present and extension item is present") {
+                        expect(ShareAttachmentProcessor.hasContent("content", extensionItem: extensionItem)) == true
+                    }
+
+                }
+
+                context("has nothing to share") {
+
+                    it("returns false if nothing is present") {
+                        expect(ShareAttachmentProcessor.hasContent(nil, extensionItem: nil)) == false
                     }
                 }
             }

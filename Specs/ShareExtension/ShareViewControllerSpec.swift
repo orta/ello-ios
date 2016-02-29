@@ -62,30 +62,6 @@ class ShareViewControllerSpec: QuickSpec {
 
                 }
             }
-
-            describe("isContentValid()"){
-                context("has something to share") {
-
-                    beforeEach {
-                        subject.itemPreviews = [ExtensionItemPreview(image: nil, imagePath: nil, text: "hi")]
-                    }
-
-                    it("returns true if contentText is present") {
-                        expect(subject.isContentValid()) == true
-                    }
-                }
-
-                context("has nothing to share") {
-
-                    beforeEach {
-                        subject.itemPreviews = []
-                    }
-
-                    it("returns false if nothing is present") {
-                        expect(subject.isContentValid()) == false
-                    }
-                }
-            }
         }
     }
 }
