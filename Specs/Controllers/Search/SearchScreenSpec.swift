@@ -30,6 +30,32 @@ class SearchScreenSpec: QuickSpec {
                 subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
             }
 
+            context("hasBackButton") {
+                it("has a back button by default") {
+                    let prevItems = subject.navigationItem.leftBarButtonItems
+                    expect(subject.hasBackButton) == true
+                    expect(subject.navigationItem.leftBarButtonItem) == prevItems![0]
+                }
+
+                it("can have a close button instead (left item changes)") {
+                    let prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = false
+                    expect(subject.hasBackButton) == false
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+                }
+
+                it("can have an explicit back button (left item changes)") {
+                    var prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = false
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = true
+                    expect(subject.hasBackButton) == true
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+                }
+            }
+
             context("UITextFieldDelegate") {
 
                 describe("textFieldShouldReturn(_:)") {

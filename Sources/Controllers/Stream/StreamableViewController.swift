@@ -338,7 +338,12 @@ extension StreamableViewController: InviteResponder {
                     let vc = AddFriendsViewController(addressBook: addressBook)
                     vc.currentUser = self.currentUser
                     vc.userTappedDelegate = self
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if let navigationController = self.navigationController {
+                        navigationController.pushViewController(vc, animated: true)
+                    }
+                    else {
+                        self.presentViewController(vc, animated: true, completion: nil)
+                    }
                 case let .Failure(addressBookError):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(false)
                     self.displayAddressBookAlert(addressBookError.rawValue)

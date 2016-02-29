@@ -18,7 +18,8 @@ public protocol SearchScreenDelegate {
 
 @objc
 public protocol SearchScreenProtocol {
-    var delegate : SearchScreenDelegate? { get set }
+    var delegate: SearchScreenDelegate? { get set }
+    var hasBackButton: Bool { get set }
     func viewForStream() -> UIView
     func updateInsets(bottom bottom: CGFloat)
 }
@@ -38,7 +39,12 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var bottomInset: CGFloat
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
-    private var isSearchView = true
+    private var isSearchView: Bool
+    public var hasBackButton: Bool = true {
+        didSet {
+            setupNavigationBarItems()
+        }
+    }
 
     private var btnWidth: CGFloat {
         get {
@@ -54,7 +60,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
 // MARK: init
 
-    public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String = InterfaceString.Search.Title, fieldPlaceholderText: String = InterfaceString.Search.Prompt) {
+    public init(frame: CGRect, isSearchView: Bool, navBarTitle: String = InterfaceString.Search.Title, fieldPlaceholderText: String = InterfaceString.Search.Prompt) {
         throttled = debounce(0.8)
         bottomInset = 0
         self.navBarTitle = navBarTitle
@@ -96,14 +102,24 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
         navigationBar = ElloNavigationBar(frame: frame)
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
+        self.addSubview(navigationBar)
 
+        self.setupNavigationBarItems()
+    }
+
+    private func setupNavigationBarItems() {
         navigationItem = UINavigationItem(title: navBarTitle)
-        let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
+        let leftItem: UIBarButtonItem
+        if isSearchView {
+            leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
+        }
+        else {
+            leftItem = UIBarButtonItem.closeButton(target: self, action: Selector("backTapped"))
+        }
         navigationItem.leftBarButtonItems = [leftItem]
+
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
-
-        self.addSubview(navigationBar)
     }
 
     private func setupSearchField() {
