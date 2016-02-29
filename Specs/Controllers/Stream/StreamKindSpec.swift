@@ -60,7 +60,8 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.Notifications(category: "").lastViewedCreatedAtKey) == "Notifications_createdAt"
                     expect(StreamKind.PostDetail(postParam: "param").lastViewedCreatedAtKey) == "PostDetail_createdAt"
                     expect(StreamKind.CurrentUserStream.lastViewedCreatedAtKey) == "Profile_createdAt"
-                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "SimpleStream.meat_createdAt"
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "SearchForPosts_createdAt"
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "SimpleStream.meat_createdAt"
                     expect(StreamKind.Unknown.lastViewedCreatedAtKey) == "unknown_createdAt"
                     expect(StreamKind.UserStream(userParam: "n/a").lastViewedCreatedAtKey) == "UserStream_createdAt"
                 }
