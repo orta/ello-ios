@@ -54,7 +54,7 @@ public struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs)
     }
 
-    static func attributedTitle(kind: Activity.Kind, author: User?, subject: AnyObject?) -> NSAttributedString {
+    static func attributedTitle(kind: Activity.Kind, author: User?, subject: JSONAble?) -> NSAttributedString {
         switch kind {
             case .RepostNotification:
                 if let post = subject as? Post {

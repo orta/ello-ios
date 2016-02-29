@@ -27,11 +27,11 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.Following.name) == "Following"
                     expect(StreamKind.Starred.name) == "Starred"
                     expect(StreamKind.Notifications(category: "").name) == "Notifications"
-                    expect(StreamKind.PostDetail(postParam: "param").name) == "Post Detail"
+                    expect(StreamKind.PostDetail(postParam: "param").name) == ""
                     expect(StreamKind.CurrentUserStream.name) == "Profile"
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").name) == "meat"
-                    expect(StreamKind.Unknown.name) == "unknown"
-                    expect(StreamKind.UserStream(userParam: "n/a").name) == "User Stream"
+                    expect(StreamKind.Unknown.name) == ""
+                    expect(StreamKind.UserStream(userParam: "n/a").name) == ""
                 }
             }
 
@@ -42,11 +42,12 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.Following.cacheKey) == "Following"
                     expect(StreamKind.Starred.cacheKey) == "Starred"
                     expect(StreamKind.Notifications(category: "").cacheKey) == "Notifications"
-                    expect(StreamKind.PostDetail(postParam: "param").cacheKey) == "Post Detail"
+                    expect(StreamKind.PostDetail(postParam: "param").cacheKey) == "PostDetail"
                     expect(StreamKind.CurrentUserStream.cacheKey) == "Profile"
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").cacheKey) == "SearchForPosts"
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").cacheKey) == "SimpleStream.meat"
                     expect(StreamKind.Unknown.cacheKey) == "unknown"
-                    expect(StreamKind.UserStream(userParam: "n/a").cacheKey) == "User Stream"
+                    expect(StreamKind.UserStream(userParam: "n/a").cacheKey) == "UserStream"
                 }
             }
 
@@ -57,11 +58,12 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.Following.lastViewedCreatedAtKey) == "Following_createdAt"
                     expect(StreamKind.Starred.lastViewedCreatedAtKey) == "Starred_createdAt"
                     expect(StreamKind.Notifications(category: "").lastViewedCreatedAtKey) == "Notifications_createdAt"
-                    expect(StreamKind.PostDetail(postParam: "param").lastViewedCreatedAtKey) == "Post Detail_createdAt"
+                    expect(StreamKind.PostDetail(postParam: "param").lastViewedCreatedAtKey) == "PostDetail_createdAt"
                     expect(StreamKind.CurrentUserStream.lastViewedCreatedAtKey) == "Profile_createdAt"
-                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "meat_createdAt"
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "SearchForPosts_createdAt"
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").lastViewedCreatedAtKey) == "SimpleStream.meat_createdAt"
                     expect(StreamKind.Unknown.lastViewedCreatedAtKey) == "unknown_createdAt"
-                    expect(StreamKind.UserStream(userParam: "n/a").lastViewedCreatedAtKey) == "User Stream_createdAt"
+                    expect(StreamKind.UserStream(userParam: "n/a").lastViewedCreatedAtKey) == "UserStream_createdAt"
                 }
             }
 

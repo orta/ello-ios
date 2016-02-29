@@ -22,34 +22,40 @@ public enum StreamKind {
 
     public var name: String {
         switch self {
-        case .Discover: return "Discover"
-        case .Following: return "Following"
-        case .Starred: return "Starred"
-        case .Notifications: return "Notifications"
-        case .PostDetail: return "Post Detail"
-        case .CurrentUserStream: return "Profile"
+        case .Discover: return InterfaceString.Discover.Title
+        case .Following: return InterfaceString.FollowingStream.Title
+        case .Starred: return InterfaceString.StarredStream.Title
+        case .Notifications: return InterfaceString.Notifications.Title
+        case .PostDetail: return ""
+        case .CurrentUserStream: return InterfaceString.Profile.Title
         case let .SimpleStream(_, title): return title
-        case .Unknown: return "unknown"
-        case .UserStream: return "User Stream"
+        case .Unknown: return ""
+        case .UserStream: return ""
         }
     }
 
     public var cacheKey: String {
         switch self {
-        case let .SimpleStream(endpoint, _):
+        case .Discover: return "Discover"
+        case .Following: return "Following"
+        case .Starred: return "Starred"
+        case .Notifications: return "Notifications"
+        case .PostDetail: return "PostDetail"
+        case .CurrentUserStream: return "Profile"
+        case .Unknown: return "unknown"
+        case .UserStream: return "UserStream"
+        case let .SimpleStream(endpoint, title):
             switch endpoint {
             case .SearchForPosts:
                 return "SearchForPosts"
             default:
-                return self.name
+                return "SimpleStream.\(title)"
             }
-        default:
-            return self.name
         }
     }
 
     public var lastViewedCreatedAtKey: String {
-        return self.name + "_createdAt"
+        return self.cacheKey + "_createdAt"
     }
 
     public var columnCount: Int {
