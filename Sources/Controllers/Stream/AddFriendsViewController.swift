@@ -51,7 +51,7 @@ public class AddFriendsViewController: StreamableViewController {
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if isMovingToParentViewController() {
+        if isMovingToParentViewController() || presentingViewController != nil {
             showNavBars(false)
             updateInsets()
             ElloHUD.showLoadingHudInView(streamViewController.view)
