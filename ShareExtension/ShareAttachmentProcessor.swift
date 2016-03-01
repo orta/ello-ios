@@ -102,26 +102,14 @@ private extension ShareAttachmentProcessor {
     }
 
     static func processURL(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
-        var link: String?
-        var preview: UIImage?
-
-        let urlAndPreviewLoaded = after(2) {
-            let item = ExtensionItemPreview(image: preview, imagePath: nil, text: link)
-            callback(item)
-        }
-
         attachment.loadURL(nil) {
             (item, error) in
+            var link: String?
             if let item = item as? NSURL {
                 link = item.absoluteString
             }
-            urlAndPreviewLoaded()
-        }
-
-        attachment.loadPreview(nil) {
-            (image, error) in
-            preview = image as? UIImage
-            urlAndPreviewLoaded()
+            let item = ExtensionItemPreview(image: nil, imagePath: nil, text: link)
+            callback(item)
         }
     }
 
