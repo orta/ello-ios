@@ -22,8 +22,9 @@ public struct PostService {
         success: PostSuccessCompletion,
         failure: ElloFailureCompletion? = nil)
     {
+        let commentCount = needsComments ? 10 : 0
         ElloProvider.shared.elloRequest(
-            ElloAPI.PostDetail(postParam: postParam, needsComments: needsComments),
+            ElloAPI.PostDetail(postParam: postParam, commentCount: commentCount),
             success: { (data, responseConfig) in
                 if let post = data as? Post {
                     Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))

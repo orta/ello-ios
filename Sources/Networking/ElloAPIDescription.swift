@@ -37,8 +37,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "Loves(userId: \(userId))"
         case let .PostComments(postId):
             return "PostComments(postId: \(postId))"
-        case let .PostDetail(postParam, needsComments):
-            return "PostDetail(postParam: \(postParam), needsComments: \(needsComments))"
+        case let .PostDetail(postParam, commentCount):
+            return "PostDetail(postParam: \(postParam), commentCount: \(commentCount))"
         case let .PostLovers(postId):
             return "PostLovers(postId: \(postId))"
         case let .PostReposters(postId):

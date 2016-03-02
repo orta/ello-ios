@@ -82,7 +82,7 @@ public enum StreamKind {
         case .Following: return .FriendStream
         case .Starred: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
-        case let .PostDetail(postParam): return .PostDetail(postParam: postParam, needsComments: true)
+        case let .PostDetail(postParam): return .PostDetail(postParam: postParam, commentCount: 10)
         case .CurrentUserStream: return .CurrentUserStream
         case let .SimpleStream(endpoint, _): return endpoint
         case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
