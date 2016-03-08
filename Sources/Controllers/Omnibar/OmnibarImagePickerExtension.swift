@@ -21,7 +21,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
         }
     }
 
-    private func processPHAssets(assets: [PHAsset]) {
+    private func processPHAssets(assets: [PHAsset], done: ElloEmptyCompletion = {}) {
         self.interactionEnabled = false
         AssetsToRegions.processPHAssets(assets) { imageData in
             self.interactionEnabled = true
@@ -29,6 +29,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
                 let (image, imageData, type) = imageDatum
                 self.addImage(image, data: imageData, type: type)
             }
+            done()
         }
     }
 
@@ -41,7 +42,7 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
                asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
-                processPHAssets([asset])
+                processPHAssets([asset], done: done)
             }
             else {
                 image.copyWithCorrectOrientationAndSize() { image in
