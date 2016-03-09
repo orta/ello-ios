@@ -48,12 +48,14 @@ public struct AssetsToRegions {
             }
             buffer.dealloc(imageData.length)
         }
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .HighQualityFormat
 
         PHImageManager.defaultManager().requestImageForAsset(
             asset,
             targetSize: PHImageManagerMaximumSize,
             contentMode: .Default,
-            options: nil
+            options: options
         ) { phImage, info in
             image = phImage
             imageAndData()
