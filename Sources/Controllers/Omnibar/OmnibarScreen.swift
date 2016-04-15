@@ -168,6 +168,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.backgroundColor = UIColor.clearColor()
         textView.tintColor = UIColor.blackColor()
         textView.keyboardAppearance = .Dark
+        textView.keyboardType = .Twitter
 
         super.init(frame: frame)
 
