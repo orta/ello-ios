@@ -31,6 +31,27 @@ class SearchScreenSpec: QuickSpec {
                 subject = SearchScreen(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: 568)), isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
             }
 
+            context("searching for people") {
+                it("should set the search text to 'atsign' if the search field is empty") {
+                    subject.searchField.text = ""
+                    subject.onPeopleTapped()
+                    expect(subject.searchField.text) == "@"
+                }
+
+                it("should set the search text to 'atsign' if the search field is null") {
+                    subject.searchField.text = nil
+                    subject.onPeopleTapped()
+                    expect(subject.searchField.text) == "@"
+                }
+
+                it("should clear the search text if it was 'atsign' and you search for posts") {
+                    subject.onPeopleTapped()
+                    subject.searchField.text = "@"
+                    subject.onPostsTapped()
+                    expect(subject.searchField.text) == ""
+                }
+            }
+
             context("hasBackButton") {
                 it("has a back button by default") {
                     let prevItems = subject.navigationItem.leftBarButtonItems
