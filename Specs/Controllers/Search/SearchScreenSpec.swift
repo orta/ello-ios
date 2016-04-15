@@ -124,8 +124,7 @@ class SearchScreenSpec: QuickSpec {
                     context("is search view") {
 
                         beforeEach {
-                            let isSearchView = true
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: isSearchView, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("hides find friends text") {
@@ -138,8 +137,7 @@ class SearchScreenSpec: QuickSpec {
                     context("is NOT search view") {
 
                         beforeEach {
-                            let isSearchView = false
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: isSearchView, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: CGRectZero, isSearchView: false, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("shows find friends text") {
