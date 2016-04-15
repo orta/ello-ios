@@ -26,11 +26,11 @@ public extension NewContentService {
 
     public func startPolling() {
         checkForNewNotifications()
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
     public func restartPolling() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
     public func stopPolling() {

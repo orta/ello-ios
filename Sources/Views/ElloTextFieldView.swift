@@ -22,7 +22,7 @@ public class ElloTextFieldView: UIView {
 
     public var textFieldDidChange: (String -> Void)? {
         didSet {
-            textField.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
+            textField.addTarget(self, action: #selector(ElloTextFieldView.valueChanged), forControlEvents: .EditingChanged)
         }
     }
 

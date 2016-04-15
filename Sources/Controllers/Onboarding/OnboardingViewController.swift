@@ -185,7 +185,7 @@ private extension OnboardingViewController {
             height: Size.buttonContainerHeight
         ).inset(all: inset)
         skipButton.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
-        skipButton.addTarget(self, action: Selector("skipToNextStep"), forControlEvents: .TouchUpInside)
+        skipButton.addTarget(self, action: #selector(OnboardingViewController.skipToNextStep), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(skipButton)
 
         nextButton.frame = CGRect(
@@ -195,7 +195,7 @@ private extension OnboardingViewController {
             height: Size.buttonContainerHeight
         ).inset(all: inset)
         nextButton.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleBottomMargin]
-        nextButton.addTarget(self, action: Selector("proceedToNextStep"), forControlEvents: .TouchUpInside)
+        nextButton.addTarget(self, action: #selector(OnboardingViewController.proceedToNextStep), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
     }
 

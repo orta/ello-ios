@@ -11,7 +11,7 @@ public class DrawerPopControl: UIControl {
 
     public init() {
         super.init(frame: .zero)
-        addTarget(self, action: Selector("pop"), forControlEvents: .TouchDown)
+        addTarget(self, action: #selector(DrawerPopControl.pop), forControlEvents: .TouchDown)
     }
 
     func pop() {

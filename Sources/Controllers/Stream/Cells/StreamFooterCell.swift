@@ -155,16 +155,16 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     private func flexibleItem() -> UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
     }
 
     private func addButtonHandlers() {
-        commentsControl.addTarget(self, action: Selector("commentsButtonTapped"), forControlEvents: .TouchUpInside)
-        lovesControl.addTarget(self, action: Selector("lovesButtonTapped"), forControlEvents: .TouchUpInside)
-        replyControl.addTarget(self, action: Selector("replyButtonTapped"), forControlEvents: .TouchUpInside)
-        repostControl.addTarget(self, action: Selector("repostButtonTapped"), forControlEvents: .TouchUpInside)
-        shareControl.addTarget(self, action: Selector("shareButtonTapped"), forControlEvents: .TouchUpInside)
-        viewsControl.addTarget(self, action: Selector("viewsButtonTapped"), forControlEvents: .TouchUpInside)
+        commentsControl.addTarget(self, action: #selector(StreamFooterCell.commentsButtonTapped), forControlEvents: .TouchUpInside)
+        lovesControl.addTarget(self, action: #selector(StreamFooterCell.lovesButtonTapped), forControlEvents: .TouchUpInside)
+        replyControl.addTarget(self, action: #selector(StreamFooterCell.replyButtonTapped), forControlEvents: .TouchUpInside)
+        repostControl.addTarget(self, action: #selector(StreamFooterCell.repostButtonTapped), forControlEvents: .TouchUpInside)
+        shareControl.addTarget(self, action: #selector(StreamFooterCell.shareButtonTapped), forControlEvents: .TouchUpInside)
+        viewsControl.addTarget(self, action: #selector(StreamFooterCell.viewsButtonTapped), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions

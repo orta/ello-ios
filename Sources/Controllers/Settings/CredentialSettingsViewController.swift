@@ -67,7 +67,7 @@ public class CredentialSettingsViewController: UITableViewController {
         ElloTextFieldView.styleAsPassword(passwordView)
         passwordView.textFieldDidChange = self.passwordChanged
 
-        currentPasswordField.addTarget(self, action: Selector("currentPasswordChanged"), forControlEvents: .EditingChanged)
+        currentPasswordField.addTarget(self, action: #selector(CredentialSettingsViewController.currentPasswordChanged), forControlEvents: .EditingChanged)
 
         tableView.scrollsToTop = false
     }

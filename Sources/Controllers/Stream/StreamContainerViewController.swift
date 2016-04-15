@@ -66,7 +66,7 @@ public class StreamContainerViewController: StreamableViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl
-        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: InterfaceImage.Burger.normalImage, style: .Done, target: self, action: #selector(StreamContainerViewController.hamburgerButtonTapped))
         addSearchButton()
         navigationBar.items = [elloNavigationItem]
 
@@ -201,7 +201,7 @@ public class StreamContainerViewController: StreamableViewController {
     private func setupStreamsSegmentedControl() {
         let control = ElloSegmentedControl(items: streamValues.map{ $0.name })
         control.style = .Compact
-        control.addTarget(self, action: Selector("streamSegmentTapped:"), forControlEvents: .ValueChanged)
+        control.addTarget(self, action: #selector(StreamContainerViewController.streamSegmentTapped(_:)), forControlEvents: .ValueChanged)
         control.frame.size.height = 19.0
         control.layer.borderWidth = 1.0
         control.selectedSegmentIndex = 0

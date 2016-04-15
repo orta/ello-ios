@@ -148,7 +148,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         styleUsernameButton()
         styleTimestampLabel()
 
-        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("postTapped:"))
+        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(StreamHeaderCell.postTapped(_:)))
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
 
         replyButton.setTitle("", forState: .Normal)
@@ -338,7 +338,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func flexibleItem() -> UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
     }
 
     private func addObservers() {
@@ -354,10 +354,10 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
-        editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: #selector(StreamHeaderCell.flagButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: #selector(StreamHeaderCell.replyButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: #selector(StreamHeaderCell.deleteButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        editControl.addTarget(self, action: #selector(StreamHeaderCell.editButtonTapped(_:)), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameButton() {
@@ -437,14 +437,15 @@ extension StreamHeaderCell {
         openChevron(isOpen: false)
     }
 
-    private func rotateChevron(var angle: CGFloat) {
+    private func rotateChevron(angle: CGFloat) {
+        var normalized = angle
         if angle < CGFloat(-M_PI) {
-            angle = CGFloat(-M_PI)
+            normalized = CGFloat(-M_PI)
         }
         else if angle > CGFloat(M_PI) {
-            angle = CGFloat(M_PI)
+            normalized = CGFloat(M_PI)
         }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+        self.chevronButton.transform = CGAffineTransformMakeRotation(normalized)
     }
 
 }

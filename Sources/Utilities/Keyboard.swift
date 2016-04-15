@@ -38,10 +38,10 @@ public class Keyboard {
 
     public init() {
         let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("willShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("didShow:"), name: UIKeyboardDidShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("willHide:"), name: UIKeyboardWillHideNotification, object: nil)
-        center.addObserver(self, selector: Selector("didHide:"), name: UIKeyboardDidHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(Keyboard.willShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(Keyboard.didShow(_:)), name: UIKeyboardDidShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(Keyboard.willHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(Keyboard.didHide(_:)), name: UIKeyboardDidHideNotification, object: nil)
     }
 
     deinit {

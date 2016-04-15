@@ -75,7 +75,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         skipButton.center.y = pageControl.center.y
         skipButton.autoresizingMask = [.FlexibleBottomMargin, .FlexibleLeftMargin]
         skipButton.setTitleColor(UIColor.greyA(), forState: .Normal)
-        skipButton.addTarget(self, action: "didTouchSkipIntro:", forControlEvents: .TouchUpInside)
+        skipButton.addTarget(self, action: #selector(IntroViewController.didTouchSkipIntro(_:)), forControlEvents: .TouchUpInside)
 
         // Add subviews
         view.addSubview(pageControl)
@@ -107,11 +107,11 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
 
         pageControl.currentPage = index
 
-        if(index <= 0){
+        if index <= 0 {
             return nil
         }
 
-        index--
+        index -= 1
 
         return viewControllerAtIndex(index)
     }
@@ -122,7 +122,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
 
         pageControl.currentPage = index
 
-        index++
+        index += 1
 
         if index >= viewControllers.count {
             return nil

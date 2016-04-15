@@ -51,7 +51,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
             let title = InterfaceString.Settings.AccountIsBeingDeleted
             titleLabel.text = title
             titleLabel.font = UIFont(descriptor: titleLabel.font.fontDescriptor(), size: 18)
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("tick"), userInfo: .None, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(DeleteAccountConfirmationViewController.tick), userInfo: .None, repeats: true)
             infoLabel.hidden = true
             buttonView.hidden = true
             cancelView.hidden = false
@@ -63,7 +63,8 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
         let text = NSString(format: InterfaceString.Settings.RedirectedCountdownTemplate, counter) as String
         nextTick {
             self.cancelLabel.setLabelText(text, color: .whiteColor(), alignment: .Center)
-            if self.counter-- <= 0 {
+            self.counter -= 1
+            if self.counter <= 0 {
                 self.deleteAccount()
             }
         }

@@ -122,7 +122,7 @@ public extension ElloTabBarController {
         tabBar.delegate = self
         modalTransitionStyle = .CrossDissolve
 
-        let gesture = UITapGestureRecognizer(target: self, action: Selector("dismissNarrationView"))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(ElloTabBarController.dismissNarrationView))
         narrationView.userInteractionEnabled = true
         narrationView.addGestureRecognizer(gesture)
 

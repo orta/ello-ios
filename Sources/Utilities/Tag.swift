@@ -194,7 +194,7 @@ public class Tag: CustomStringConvertible {
 
         var c = html.characters.startIndex
         while state != .End {
-            let current = html.substringWithRange(Range<String.CharacterView.Index>(start: c, end: html.characters.endIndex))
+            let current = html.substringWithRange(Range<String.CharacterView.Index>(c ..< html.characters.endIndex))
 
             var nextPossibleStates = [State]()
             for possible in state.nextPossibleStates {

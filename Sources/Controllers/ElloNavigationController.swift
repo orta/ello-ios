@@ -73,7 +73,7 @@ public class ElloNavigationController: UINavigationController {
 
         delegate = self
 
-        backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: Selector("handleBackGesture:"))
+        backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(ElloNavigationController.handleBackGesture(_:)))
         if let backGesture = backGesture {
             self.view.addGestureRecognizer(backGesture)
         }

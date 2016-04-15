@@ -113,7 +113,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             index = min(index + unionSize, itemCounts) - 1
             let rect2 = allItemAttributes[index].frame
             unionRects.append(CGRectUnion(rect1, rect2))
-            index++
+            index += 1
         }
     }
 
@@ -200,20 +200,20 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         var end = unionRects.count
         var attrs = [UICollectionViewLayoutAttributes]()
 
-        for var i = 0; i < end; i++ {
+        for i in 0 ..< end {
             if CGRectIntersectsRect(rect, unionRects[i]) {
                 begin = i * unionSize;
                 break
             }
         }
-        for var i = self.unionRects.count - 1; i>=0; i-- {
+        for i in (0 ..< self.unionRects.count).reverse() {
             if CGRectIntersectsRect(rect, unionRects[i]) {
                 end = min((i+1) * unionSize, allItemAttributes.count)
                 break
             }
         }
 
-        for var i = begin; i < end; i++ {
+        for i in begin ..< end {
             let attr = allItemAttributes[i]
             if CGRectIntersectsRect(rect, attr.frame) {
                 attrs.append(attr)

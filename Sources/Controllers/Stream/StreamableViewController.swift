@@ -24,6 +24,7 @@ public protocol CreatePostDelegate: NSObjectProtocol {
     func editPost(post: Post, fromController: UIViewController)
 }
 
+@objc
 public protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }

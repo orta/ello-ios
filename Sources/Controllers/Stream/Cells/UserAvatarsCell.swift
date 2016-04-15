@@ -53,7 +53,7 @@ public class UserAvatarsCell: UICollectionViewCell {
             let ab = AvatarButton()
             ab.frame = CGRect(x: startX, y: 0.0, width: 30.0, height: 30.0)
             ab.setUser(user)
-            ab.addTarget(self, action: Selector("avatarTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+            ab.addTarget(self, action: #selector(UserAvatarsCell.avatarTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             avatarsView.addSubview(ab)
             avatarButtons.append(ab)
             startX += 40.0

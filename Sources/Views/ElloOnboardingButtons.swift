@@ -59,7 +59,7 @@ public class OnboardingNextButton: LightElloButton {
         addSubview(chevron)
         self.chevron = chevron
 
-        addTarget(self, action: Selector("updateImage"), forControlEvents: [.TouchDown, .TouchDragEnter, .TouchUpInside, .TouchCancel, .TouchDragExit])
+        addTarget(self, action: #selector(OnboardingNextButton.updateImage), forControlEvents: [.TouchDown, .TouchDragEnter, .TouchUpInside, .TouchCancel, .TouchDragExit])
     }
 
     override public func layoutSubviews() {

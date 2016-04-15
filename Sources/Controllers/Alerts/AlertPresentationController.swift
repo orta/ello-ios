@@ -29,7 +29,7 @@ public extension AlertPresentationController {
         let alertViewController = presentedViewController as! AlertViewController
         alertViewController.resize()
 
-        let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
+        let gesture = UITapGestureRecognizer(target:self, action: #selector(AlertPresentationController.dismiss))
         background.addGestureRecognizer(gesture)
     }
 }

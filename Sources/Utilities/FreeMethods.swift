@@ -90,7 +90,7 @@ private func times_(times: Int, @noescape block: TakesIndexBlock) {
     if times <= 0 {
         return
     }
-    for var i = 0 ; i < times ; ++i {
+    for i in 0 ..< times {
         block(i)
     }
 }
@@ -164,12 +164,12 @@ public func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
 
 public func delay(duration: NSTimeInterval, block: BasicBlock) {
     let proc = Proc(block)
-    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
 }
 
 public func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
     let proc = Proc(block)
-    let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
     return {
         timer.invalidate()
     }
@@ -183,7 +183,7 @@ public func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         if let prevTimer = timer {
             prevTimer.invalidate()
         }
-        timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
     }
 }
 
@@ -195,7 +195,7 @@ public func debounce(timeout: NSTimeInterval) -> ThrottledBlock {
             prevTimer.invalidate()
         }
         let proc = Proc(block)
-        timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
     }
 }
 
@@ -208,7 +208,7 @@ public func throttle(interval: NSTimeInterval, block: BasicBlock) -> BasicBlock 
 
     return {
         if timer == nil {
-            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
+            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
         }
     }
 }
@@ -226,7 +226,7 @@ public func throttle(interval: NSTimeInterval) -> ThrottledBlock {
                 lastBlock?()
             }
 
-            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
+            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
         }
     }
 }

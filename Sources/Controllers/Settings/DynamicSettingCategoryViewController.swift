@@ -27,7 +27,7 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     }
 
     private func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(DynamicSettingCategoryViewController.backAction))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = category?.label
         navigationItem.fixNavBarItemPadding()

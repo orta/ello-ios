@@ -43,12 +43,12 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         addAction("ImagePickerSheetController") {
             let controller = ImagePickerSheetController(mediaType: .ImageAndVideo)
             controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.TakePhoto, handler: { _ in
-                print("=============== \(__FILE__) line \(__LINE__) ===============")
+                print("=============== \(#file) line \(#line) ===============")
             }))
             controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.PhotoLibrary, secondaryTitle: { NSString.localizedStringWithFormat(InterfaceString.ImagePicker.AddImagesTemplate, $0) as String}, handler: { _ in
-                print("=============== \(__FILE__) line \(__LINE__) ===============")
+                print("=============== \(#file) line \(#line) ===============")
             }, secondaryHandler: { _, numberOfPhotos in
-                print("=============== \(__FILE__) line \(__LINE__) ===============")
+                print("=============== \(#file) line \(#line) ===============")
             }))
             controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .Cancel, handler: { _ in
                 print("Cancelled")

@@ -181,8 +181,8 @@ public class RelationshipControl: UIView {
     }
 
     private func addTargets() {
-        followingButton.addTarget(self, action: Selector("followingButtonTapped:"), forControlEvents: .TouchUpInside)
-        starButton.addTarget(self, action: Selector("starButtonTapped:"), forControlEvents: .TouchUpInside)
+        followingButton.addTarget(self, action: #selector(RelationshipControl.followingButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        starButton.addTarget(self, action: #selector(RelationshipControl.starButtonTapped(_:)), forControlEvents: .TouchUpInside)
     }
 
     private func updateRelationshipPriority() {

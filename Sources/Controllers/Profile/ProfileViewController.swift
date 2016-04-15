@@ -290,7 +290,7 @@ public class ProfileViewController: StreamableViewController {
         navigationController?.navigationBarHidden = true
         navigationBar.items = [elloNavigationItem]
         if !isRootViewController() {
-            let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: #selector(StreamableViewController.backTapped(_:)))
             self.elloNavigationItem.leftBarButtonItems = [item]
             self.elloNavigationItem.fixNavBarItemPadding()
         }
@@ -318,7 +318,7 @@ public class ProfileViewController: StreamableViewController {
     func assignRightButtons() {
         if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
             elloNavigationItem.rightBarButtonItems = [
-                UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped")),
+                UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
             ]
             return
         }
@@ -335,9 +335,9 @@ public class ProfileViewController: StreamableViewController {
 
         var rightBarButtonItems: [UIBarButtonItem] = []
         if user.hasSharingEnabled {
-            rightBarButtonItems.append(UIBarButtonItem(image: .Share, target: self, action: Selector("sharePostTapped")))
+            rightBarButtonItems.append(UIBarButtonItem(image: .Share, target: self, action: #selector(ProfileViewController.sharePostTapped)))
         }
-        rightBarButtonItems.append(UIBarButtonItem(image: .Dots, target: self, action: Selector("moreButtonTapped")))
+        rightBarButtonItems.append(UIBarButtonItem(image: .Dots, target: self, action: #selector(ProfileViewController.moreButtonTapped)))
         elloNavigationItem.rightBarButtonItems = rightBarButtonItems
     }
 

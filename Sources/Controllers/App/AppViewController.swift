@@ -112,10 +112,14 @@ public class AppViewController: BaseElloViewController {
         }
     }
 
-    public func loadCurrentUser(var failure: ElloErrorCompletion? = nil) {
-        if failure == nil {
+    public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
+        let failureCompletion: ElloErrorCompletion
+        if let failure = failure {
+            failureCompletion = failure
+        }
+        else {
             logoView.animateLogo()
-            failure = { _ in
+            failureCompletion = { _ in
                 self.logoView.stopAnimatingLogo()
             }
         }
@@ -135,7 +139,7 @@ public class AppViewController: BaseElloViewController {
                 }
             },
             failure: { (error, _) in
-                self.failedToLoadCurrentUser(failure, error: error)
+                self.failedToLoadCurrentUser(failureCompletion, error: error)
             })
     }
 
@@ -707,11 +711,8 @@ public extension AppViewController {
                 bar.backgroundColor = .blackColor()
                 nav.navigationBar.addSubview(bar)
 
-                let closeItem = UIBarButtonItem.closeButton(target: self, action: Selector("closeTodoController"))
+                let closeItem = UIBarButtonItem.closeButton(target: self, action: #selector(AppViewController.closeTodoController))
                 ctlr.navigationItem.leftBarButtonItem = closeItem
-
-                let addItem = UIBarButtonItem(image: InterfaceImage.PlusSmall.normalImage, style: UIBarButtonItemStyle.Plain, target: ctlr, action: Selector("addTodoItem"))
-                ctlr.navigationItem.rightBarButtonItem = addItem
 
                 presentViewController(nav, animated: true, completion: nil)
             }

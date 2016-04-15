@@ -107,9 +107,9 @@ public class ImageLabelControl: UIControl {
     }
 
     private func addTargets() {
-        button.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: [.TouchDown, .TouchDragEnter])
-        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: [.TouchCancel, .TouchDragExit])
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpInside(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchDown(_:)), forControlEvents: [.TouchDown, .TouchDragEnter])
+        button.addTarget(self, action: #selector(ImageLabelControl.buttonTouchUpOutside(_:)), forControlEvents: [.TouchCancel, .TouchDragExit])
     }
 
     private func updateTextColor() {

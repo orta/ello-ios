@@ -111,12 +111,12 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationItem = UINavigationItem(title: navBarTitle)
 
         if hasBackButton {
-            let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
+            let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(SearchScreen.backTapped))
             navigationItem.leftBarButtonItems = [leftItem]
             navigationItem.fixNavBarItemPadding()
         }
         else {
-            let leftItem = UIBarButtonItem.closeButton(target: self, action: Selector("backTapped"))
+            let leftItem = UIBarButtonItem.closeButton(target: self, action: #selector(SearchScreen.backTapped))
             navigationItem.leftBarButtonItems = [leftItem]
         }
 
@@ -137,7 +137,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.returnKeyType = .Search
         searchField.keyboardType = .Default
         searchField.delegate = self
-        searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
+        searchField.addTarget(self, action: #selector(SearchScreen.searchFieldDidChange), forControlEvents: .EditingChanged)
         searchControlsContainer.addSubview(searchField)
 
         let lineFrame = searchField.frame.fromBottom().growUp(1)
@@ -151,13 +151,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchControlsContainer.frame.size.height += 43
         self.postsToggleButton = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
         postsToggleButton?.setTitle(InterfaceString.Search.Posts, forState: .Normal)
-        postsToggleButton?.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
+        postsToggleButton?.addTarget(self, action: #selector(SearchScreen.onPostsTapped), forControlEvents: .TouchUpInside)
 
         postsToggleButton?.addToView(searchControlsContainer)
 
         self.peopleToggleButton = OutlineElloButton(frame: CGRect(x: postsToggleButton?.frame.maxX ?? 0, y: buttonY, width: btnWidth, height: 33))
         peopleToggleButton?.setTitle(InterfaceString.Search.People, forState: .Normal)
-        peopleToggleButton?.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
+        peopleToggleButton?.addTarget(self, action: #selector(SearchScreen.onPeopleTapped), forControlEvents: .TouchUpInside)
 
         peopleToggleButton?.addToView(searchControlsContainer)
 
@@ -204,7 +204,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             height: buttonHeight
             ))
         button.setTitle(InterfaceString.Search.FindFriendsButton, forState: .Normal)
-        button.addTarget(self, action: Selector("findFriendsTapped"), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SearchScreenDelegate.findFriendsTapped), forControlEvents: .TouchUpInside)
         button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
         let label = ElloLabel()
@@ -253,7 +253,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 // MARK: actions
 
     @objc
-    private func backTapped() {
+    func backTapped() {
         delegate?.searchCanceled()
     }
 

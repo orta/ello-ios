@@ -40,7 +40,7 @@ public class AddFriendsViewController: StreamableViewController {
         self.view = searchScreen
         searchScreen.delegate = self
         searchScreen.navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped")),
+            UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
         ]
     }
 

@@ -86,7 +86,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {
-        let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
+        let responder = targetForAction(#selector(EditProfileResponder.onEditProfile), withSender: self) as? EditProfileResponder
         responder?.onEditProfile()
     }
 
@@ -139,7 +139,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func postsTapped(sender: UIButton) {
-        let responder = targetForAction("onPostsTapped", withSender: self) as? PostsTappedResponder
+        let responder = targetForAction(#selector(PostsTappedResponder.onPostsTapped), withSender: self) as? PostsTappedResponder
         responder?.onPostsTapped()
     }
 }

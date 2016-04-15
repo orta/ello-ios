@@ -232,11 +232,11 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     private func setupAvatarView() {
         avatarButton.backgroundColor = UIColor.blackColor()
         avatarButton.clipsToBounds = true
-        avatarButton.addTarget(self, action: Selector("profileImageTapped"), forControlEvents: .TouchUpInside)
+        avatarButton.addTarget(self, action: #selector(OmnibarScreen.profileImageTapped), forControlEvents: .TouchUpInside)
     }
 
     private func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(OmnibarScreen.backAction))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
@@ -251,15 +251,15 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     private func setupToolbarButtons() {
         cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         cancelButton.setImages(.X)
-        cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
+        cancelButton.addTarget(self, action: #selector(OmnibarScreen.cancelEditingAction), forControlEvents: .TouchUpInside)
 
         reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         reorderButton.setImages(.Reorder)
-        reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
+        reorderButton.addTarget(self, action: #selector(OmnibarScreen.toggleReorderingTable), forControlEvents: .TouchUpInside)
 
         cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 9.5, bottom: 4, right: 9.5)
         cameraButton.setImages(.Camera)
-        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+        cameraButton.addTarget(self, action: #selector(OmnibarScreen.addImageAction), forControlEvents: .TouchUpInside)
 
         for button in [tabbarSubmitButton, keyboardSubmitButton] {
             button.backgroundColor = UIColor.blackColor()
@@ -270,7 +270,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             button.titleLabel?.font = UIFont.defaultFont()
             button.contentEdgeInsets.left = -5
             button.imageEdgeInsets.right = 5
-            button.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: #selector(OmnibarScreen.submitAction), forControlEvents: .TouchUpInside)
             button.frame.size.height = Size.keyboardButtonSize.height
         }
     }
@@ -288,13 +288,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: OmnibarRegion.OmnibarSpacerCell)
         regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
-        textEditingControl.addTarget(self, action: Selector("startEditingLast"), forControlEvents: .TouchUpInside)
+        textEditingControl.addTarget(self, action: #selector(OmnibarScreen.startEditingLast), forControlEvents: .TouchUpInside)
         regionsTableView.addSubview(textEditingControl)
 
         textScrollView.delegate = self
-        let stopEditingTapGesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
+        let stopEditingTapGesture = UITapGestureRecognizer(target: self, action: #selector(OmnibarScreen.stopEditing))
         textScrollView.addGestureRecognizer(stopEditingTapGesture)
-        let stopEditingSwipeGesture = UISwipeGestureRecognizer(target: self, action: Selector("stopEditing"))
+        let stopEditingSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(OmnibarScreen.stopEditing))
         stopEditingSwipeGesture.direction = .Down
         textScrollView.addGestureRecognizer(stopEditingSwipeGesture)
         textScrollView.clipsToBounds = true
@@ -322,7 +322,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             button.frame.size = Size.keyboardButtonSize
         }
 
-        boldButton.addTarget(self, action: Selector("boldButtonTapped"), forControlEvents: .TouchUpInside)
+        boldButton.addTarget(self, action: #selector(OmnibarScreen.boldButtonTapped), forControlEvents: .TouchUpInside)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
             NSFontAttributeName: UIFont.defaultBoldFont(),
             NSForegroundColorAttributeName: UIColor.whiteColor()
@@ -336,7 +336,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             NSForegroundColorAttributeName: UIColor.blackColor()
             ]), forState: .Selected)
 
-        italicButton.addTarget(self, action: Selector("italicButtonTapped"), forControlEvents: .TouchUpInside)
+        italicButton.addTarget(self, action: #selector(OmnibarScreen.italicButtonTapped), forControlEvents: .TouchUpInside)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
             NSFontAttributeName: UIFont.defaultItalicFont(),
             NSForegroundColorAttributeName: UIColor.whiteColor()
@@ -350,7 +350,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             NSForegroundColorAttributeName: UIColor.blackColor()
             ]), forState: .Selected)
 
-        linkButton.addTarget(self, action: Selector("linkButtonTapped"), forControlEvents: .TouchUpInside)
+        linkButton.addTarget(self, action: #selector(OmnibarScreen.linkButtonTapped), forControlEvents: .TouchUpInside)
         linkButton.enabled = false
         linkButton.setImage(.Link, imageStyle: .White, forState: .Normal)
         linkButton.setImage(.BreakLink, imageStyle: .White, forState: .Selected)

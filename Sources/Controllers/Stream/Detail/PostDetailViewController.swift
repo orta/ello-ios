@@ -104,7 +104,7 @@ public class PostDetailViewController: StreamableViewController {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
         view.addSubview(navigationBar)
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
+        let item = UIBarButtonItem.backChevronWithTarget(self, action: #selector(StreamableViewController.backTapped(_:)))
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
@@ -118,14 +118,14 @@ public class PostDetailViewController: StreamableViewController {
         else {
             if isOwnPost() {
                 elloNavigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(image: .XBox, target: self, action: Selector("deletePost")),
-                    UIBarButtonItem(image: .Pencil, target: self, action: Selector("editPost")),
+                    UIBarButtonItem(image: .XBox, target: self, action: #selector(PostDetailViewController.deletePost)),
+                    UIBarButtonItem(image: .Pencil, target: self, action: #selector(PostDetailViewController.editPost(_:fromController:))),
                 ]
             }
             else {
                 elloNavigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped")),
-                    UIBarButtonItem(image: .Dots, target: self, action: Selector("flagPost")),
+                    UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
+                    UIBarButtonItem(image: .Dots, target: self, action: #selector(PostDetailViewController.flagPost)),
                 ]
             }
         }

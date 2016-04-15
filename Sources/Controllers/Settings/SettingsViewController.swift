@@ -187,12 +187,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(SettingsViewController.backAction))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = InterfaceString.Settings.EditProfile
         navigationItem.fixNavBarItemPadding()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .Search, target: self, action: Selector("searchButtonTapped"))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .Search, target: self, action: #selector(SettingsViewController.searchButtonTapped))
     }
 
     @IBAction func searchButtonTapped() {

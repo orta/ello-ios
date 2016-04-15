@@ -97,7 +97,7 @@ private extension AutoComplete {
 
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {
         var startIndex = 0
-        for var i = index ; i > 0 ; i-- {
+        for i in (0 ... index).reverse() {
             let cursorIndex = str.startIndex.advancedBy(i)
             let letter = str[cursorIndex]
             var prevLetter: Character?
