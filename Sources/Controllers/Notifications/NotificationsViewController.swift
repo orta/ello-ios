@@ -11,6 +11,7 @@ import WebKit
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
 
     private var hasNewContent = false
+    var fromTabBar = false
     private var newNotificationsObserver: NotificationObserver?
     public var categoryFilterType = NotificationFilterType.All
 
@@ -64,11 +65,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
 
-        if hasNewContent {
+        if hasNewContent && fromTabBar {
             hasNewContent = false
             ElloHUD.showLoadingHudInView(streamViewController.view)
             streamViewController.loadInitialPage()
         }
+        fromTabBar = false
     }
 
     override func setupStreamController() {
@@ -161,7 +163,13 @@ private extension NotificationsViewController {
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
             [unowned self] _ in
-            self.hasNewContent = true
+            if self.navigationController?.childViewControllers.count == 1 {
+                ElloHUD.showLoadingHudInView(self.streamViewController.view)
+                self.streamViewController.loadInitialPage()
+            }
+            else {
+                self.hasNewContent = true
+            }
         }
     }
 
