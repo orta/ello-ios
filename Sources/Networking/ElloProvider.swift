@@ -311,7 +311,8 @@ extension ElloProvider {
         postNotification(AuthenticationNotifications.invalidToken, value: true)
     }
 
-    private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion) {
+    private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion) {
+        var newResponseConfig: ResponseConfig?
         var mappedObjects: AnyObject?
         let completion: ElloEmptyCompletion = {
             if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
@@ -324,12 +325,12 @@ extension ElloProvider {
                     let pagingPathNode = links[pagingPath] as? [String:AnyObject]
                 {
                     if let pagination = pagingPathNode["pagination"] as? [String:String] {
-                        responseConfig = self.parsePagination(pagination)
+                        newResponseConfig = self.parsePagination(pagination)
                     }
                 }
             }
             if let mappedObjects: AnyObject = mappedObjects {
-                success(data: mappedObjects, responseConfig: responseConfig)
+                success(data: mappedObjects, responseConfig: newResponseConfig ?? responseConfig)
             }
             else {
                 ElloProvider.failedToMapObjects(failure)

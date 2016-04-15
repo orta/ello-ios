@@ -135,15 +135,16 @@ public class PostEditingService: NSObject {
         )
     }
 
-    func replaceLocalImageRegions(var content: [Regionable], regions: [Regionable]) -> [Regionable] {
+    func replaceLocalImageRegions(content: [Regionable], regions: [Regionable]) -> [Regionable] {
+        var replacedContent = content
         for (index, regionable) in content.enumerate() {
             if let _ = regionable as? ImageRegion,
                 let replaceRegion = regions.safeValue(index) as? ImageRegion
             {
-                content[index] = replaceRegion
+                replacedContent[index] = replaceRegion
             }
         }
-        return content
+        return replacedContent
     }
 
     // Each image is given its own "uploader", which will fetch new credentials

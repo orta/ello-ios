@@ -75,9 +75,8 @@ public class ElloTextField: UITextField {
         return rect
     }
 
-    private func rectForBounds(var bounds: CGRect) -> CGRect {
-        bounds.size.width -= 15
-        return CGRectInset(bounds, 15, 10)
+    private func rectForBounds(bounds: CGRect) -> CGRect {
+        return bounds.shrinkLeft(15).inset(topBottom: 10, sides: 15)
     }
 
 }
