@@ -79,11 +79,11 @@ private extension ShareAttachmentProcessor {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
         }
-        else if attachment.isURL() {
-            self.processURL(attachment, callback: callback)
-        }
         else if attachment.isImage() {
             self.processImage(attachment, callback: callback)
+        }
+        else if attachment.isURL() {
+            self.processURL(attachment, callback: callback)
         }
         else {
             callback(nil)
