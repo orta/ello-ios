@@ -72,6 +72,10 @@ class OmnibarScreenSpec: QuickSpec {
         }
 
         describe("OmnibarScreen") {
+            it("should use the '.Twitter' keyboard") {
+                expect(subject.textView.keyboardType) == .Twitter
+            }
+
             describe("tapping the avatar") {
                 it("should push the profile VC on to the navigation controller") {
                     subject.currentUser = User.stub(["id": "1"])
