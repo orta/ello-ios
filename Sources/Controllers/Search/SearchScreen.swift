@@ -167,13 +167,23 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     public func onPostsTapped() {
         postsToggleButton?.selected = true
         peopleToggleButton?.selected = false
-        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        var searchFieldText = searchField.text ?? ""
+        if searchFieldText == "@" {
+            searchFieldText = ""
+        }
+        searchField.text = searchFieldText
+        delegate?.toggleChanged(searchFieldText, isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     public func onPeopleTapped() {
         peopleToggleButton?.selected = true
         postsToggleButton?.selected = false
-        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        var searchFieldText = searchField.text ?? ""
+        if searchFieldText == "" {
+            searchFieldText = "@"
+        }
+        searchField.text = searchFieldText
+        delegate?.toggleChanged(searchFieldText, isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     private func setupStreamView() {
