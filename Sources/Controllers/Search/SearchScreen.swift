@@ -104,7 +104,15 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
         self.addSubview(navigationBar)
 
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(SearchScreen.activateSearchField))
+        navigationBar.addGestureRecognizer(gesture)
+
         self.setupNavigationBarItems()
+    }
+
+    func activateSearchField() {
+        searchField.becomeFirstResponder()
     }
 
     private func setupNavigationBarItems() {
