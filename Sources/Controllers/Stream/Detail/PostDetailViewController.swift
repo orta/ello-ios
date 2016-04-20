@@ -172,7 +172,8 @@ public class PostDetailViewController: StreamableViewController {
         }
 
         // add in the comment button if we have a current user
-        if let currentUser = currentUser {
+        let commentingEnabled = post.author?.hasCommentingEnabled ?? true
+        if let currentUser = currentUser where commentingEnabled {
             items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
         }
 
