@@ -48,6 +48,8 @@ class DynamicSettingsViewController: UITableViewController {
                         }
                         return categoryArr
                     }
+                    self.tableView.reloadData()
+                    (self.parentViewController as? SettingsViewController)?.tableView.reloadData()
                 }
                 self.hideLoadingHud()
             },
