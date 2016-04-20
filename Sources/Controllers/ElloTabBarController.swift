@@ -256,10 +256,20 @@ extension ElloTabBarController: UITabBarDelegate {
                     if shouldReloadFriendStream() {
                         postNotification(NewContentNotifications.reloadStreamContent, value: self)
                     }
+                    else if shouldReloadNotificationsStream() {
+                        postNotification(NewContentNotifications.newNotifications, value: NewContentService())
+                    }
                 }
             }
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
+            }
+
+            if selectedTab == .Notifications {
+                if let navigationViewController = selectedViewController as? UINavigationController,
+                    notificationsViewController = navigationViewController.childViewControllers[0] as? NotificationsViewController {
+                    notificationsViewController.fromTabBar = true
+                }
             }
         }
     }
@@ -292,6 +302,10 @@ private extension ElloTabBarController {
 
     func shouldReloadFriendStream() -> Bool {
         return selectedTab.rawValue == 2 && streamsDot?.hidden == false
+    }
+
+    func shouldReloadNotificationsStream() -> Bool {
+        return selectedTab.rawValue == 1 && streamsDot?.hidden == false
     }
 
     func updateTabBarItems() {
