@@ -95,7 +95,7 @@ public struct StreamCellItemParser {
     }
 
     private func regionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
-        var cellArray:[StreamCellItem] = []
+        var cellArray: [StreamCellItem] = []
         for region in content {
             let kind = RegionKind(rawValue: region.kind) ?? .Unknown
             let type = kind.streamCellType(region)
