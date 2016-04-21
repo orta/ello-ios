@@ -201,7 +201,9 @@ public extension ElloTabBarController {
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
             [unowned self] _ in
-            self.notificationsDot?.hidden = false
+            if self.selectedTab != .Notifications {
+                self.notificationsDot?.hidden = false
+            }
         }
 
         newStreamContentObserver = NotificationObserver(notification: NewContentNotifications.newStreamContent) {
@@ -258,6 +260,7 @@ extension ElloTabBarController: UITabBarDelegate {
                     }
                     else if shouldReloadNotificationsStream() {
                         postNotification(NewContentNotifications.newNotifications, value: NewContentService())
+                        self.notificationsDot?.hidden = true
                     }
                 }
             }
@@ -305,7 +308,7 @@ private extension ElloTabBarController {
     }
 
     func shouldReloadNotificationsStream() -> Bool {
-        return selectedTab.rawValue == 1 && streamsDot?.hidden == false
+        return selectedTab == .Notifications && notificationsDot?.hidden == false
     }
 
     func updateTabBarItems() {

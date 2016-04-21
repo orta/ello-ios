@@ -63,11 +63,13 @@ public class NotificationsViewController: StreamableViewController, Notification
         navigationController?.navigationBarHidden = true
 
         if hasNewContent && fromTabBar {
-            hasNewContent = false
             ElloHUD.showLoadingHudInView(streamViewController.view)
             streamViewController.loadInitialPage()
+            hasNewContent = false
         }
         fromTabBar = false
+
+        PushNotificationController.sharedController.updateBadgeCount(0)
     }
 
     override func setupStreamController() {
@@ -115,6 +117,9 @@ public class NotificationsViewController: StreamableViewController, Notification
         streamViewController.hideNoResults()
         streamViewController.removeAllCellItems()
         streamViewController.loadInitialPage()
+        if filterType == .All {
+            hasNewContent = false
+        }
     }
 
     public func commentTapped(comment: ElloComment) {
@@ -151,6 +156,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+        self.hasNewContent = false
     }
 
 }
