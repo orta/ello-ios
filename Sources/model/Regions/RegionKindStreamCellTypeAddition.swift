@@ -9,16 +9,16 @@
 import Foundation
 
 extension RegionKind {
-    public func streamCellType(regionable: Regionable) -> StreamCellType {
+    public func streamCellTypes(regionable: Regionable) -> [StreamCellType] {
         switch self {
         case .Image:
-            return .Image(data: regionable)
+            return [.Image(data: regionable)]
         case .Text:
-            return .Text(data: regionable)
+            return [.Text(data: regionable)]
         case .Embed:
-            return .Embed(data: regionable)
+            return [.Embed(data: regionable)]
         case .Unknown:
-            return .Unknown
+            return [.Unknown]
         }
     }
 }
