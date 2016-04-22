@@ -182,6 +182,47 @@ class ElloTabBarControllerSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("tapping notification item") {
+                let responder: NotificationObserver!
+                var responded = false
+                var notificationsItem: UITabBarItem!
+
+                beforeEach {
+                    responder = NotificationObserver(notification: NewContentNotifications.reloadNotifications) { _ in
+                        responded = true
+                    }
+                    subject = ElloTabBarController.instantiateFromStoryboard()
+                    let children = subject.childViewControllers
+                    for child in children {
+                        child.removeFromParentViewController()
+                    }
+                    subject.addChildViewController(child1)
+                    subject.addChildViewController(child2)
+                    subject.addChildViewController(child3)
+                    subject.addChildViewController(child4)
+                    subject.addChildViewController(child5)
+                    subject.selectedTab = .Discover
+
+                    notificationsItem = subject.tabBar.items[ElloTab.Notifications.rawValue]
+                }
+
+                afterEach {
+                    responder.removeObserver()
+                    responded = false
+                }
+
+                it("should not notify after one tap") {
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    expect(responded) == false
+                }
+
+                it("should not notify after two taps") {
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    expect(responded) == true
+                }
+            }
         }
 
         context("showing the narration") {
