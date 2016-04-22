@@ -12,7 +12,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     private var hasNewContent = false
     var fromTabBar = false
-    private var newNotificationsObserver: NotificationObserver?
+    private var reloadNotificationsObserver: NotificationObserver?
     public var categoryFilterType = NotificationFilterType.All
 
     override public var tabBarItem: UITabBarItem? {
@@ -41,7 +41,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     deinit {
         navigationNotificationObserver?.removeObserver()
-        newNotificationsObserver?.removeObserver()
+        reloadNotificationsObserver?.removeObserver()
     }
 
     override public func viewDidLoad() {
@@ -168,9 +168,11 @@ private extension NotificationsViewController {
             self.respondToNotification(components)
         }
 
-        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+        reloadNotificationsObserver = NotificationObserver(notification: NewContentNotifications.reloadNotifications) {
             [unowned self] _ in
-            self.hasNewContent = true
+            ElloHUD.showLoadingHudInView(self.streamViewController.view)
+            self.streamViewController.loadInitialPage()
+            self.hasNewContent = false
         }
     }
 

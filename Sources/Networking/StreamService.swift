@@ -18,7 +18,7 @@ public struct StreamLoadedNotifications {
 public class StreamService: NSObject {
 
     public func loadStream(
-        endpoint:ElloAPI,
+        endpoint: ElloAPI,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
         failure: ElloFailureCompletion? = nil,
