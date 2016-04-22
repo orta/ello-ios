@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble

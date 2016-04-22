@@ -7,6 +7,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import SwiftyUserDefaults
 import Quick
@@ -49,7 +50,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         describe("initialization") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
             }
 
@@ -65,7 +66,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         describe("-viewDidLoad") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
                 _ = subject.view
             }
@@ -89,7 +90,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         context("selecting tab bar items") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
                 let children = subject.childViewControllers
                 for child in children {
@@ -186,7 +187,7 @@ class ElloTabBarControllerSpec: QuickSpec {
         context("showing the narration") {
             var prevTabValues: [ElloTab: Bool?]!
 
-            beforeEach() {
+            beforeEach {
                 prevTabValues = [
                     ElloTab.Discover: GroupDefaults[ElloTab.Discover.narrationDefaultKey].bool,
                     ElloTab.Notifications: GroupDefaults[ElloTab.Notifications.narrationDefaultKey].bool,
