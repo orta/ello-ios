@@ -10,7 +10,7 @@ import QuartzCore
 import FLAnimatedImage
 import CoreGraphics
 
-private let AngleToValue = (360.0 * M_PI) / 180.0
+private let AngleToValue = 2 * M_PI
 
 public class ElloLogoView: FLAnimatedImageView {
     struct Size {
