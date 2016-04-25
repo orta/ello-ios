@@ -19,7 +19,7 @@ class AutoCompleteCellPresenterSpec: QuickSpec {
 
             context("username") {
                 it("configures a AutoCompleteCell") {
-                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start:"test".startIndex, end: "test".endIndex), text: "test")
+                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: ("test".startIndex..<"test".endIndex), text: "test")
                     let result = AutoCompleteResult(name: "Billy", url: "http://www.example.com/avatar")
                     let item = AutoCompleteItem(result: result, type: AutoCompleteType.Username, match: match)
 
@@ -39,7 +39,7 @@ class AutoCompleteCellPresenterSpec: QuickSpec {
 
             context("emoji") {
                 it("configures a AutoCompleteCell") {
-                    let match = AutoCompleteMatch(type: AutoCompleteType.Emoji, range: Range<String.Index>(start: "test".startIndex, end: "test".endIndex), text: "test")
+                    let match = AutoCompleteMatch(type: AutoCompleteType.Emoji, range: ("test".startIndex..<"test".endIndex), text: "test")
                     let result = AutoCompleteResult(name: "thumbsup", url: "http://www.example.com/emoji")
                     let item = AutoCompleteItem(result: result, type: AutoCompleteType.Emoji, match: match)
 

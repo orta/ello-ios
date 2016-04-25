@@ -24,7 +24,7 @@ class AutoCompleteDataSourceSpec: QuickSpec {
             describe("itemForIndexPath(_:)") {
 
                 beforeEach {
-                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start: "test".startIndex, end: "test".endIndex), text: "test")
+                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: (start: "test".startIndex..<"test".endIndex), text: "test")
                     let item1 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
                     let item2 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Emoji, match: match)
                     let item3 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
@@ -54,7 +54,7 @@ class AutoCompleteDataSourceSpec: QuickSpec {
                 describe("tableView(_:numberOfrowsInSection:)") {
 
                     it("returns the correct count") {
-                        let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start: "test".startIndex, end: "test".endIndex), text: "test")
+                        let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: (start: "test".startIndex..<"test".endIndex), text: "test")
                         let item1 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
                         let item2 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
                         let item3 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
@@ -77,7 +77,7 @@ class AutoCompleteDataSourceSpec: QuickSpec {
                     }
 
                     it("returns an AutoCompleteCell") {
-                        let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start:"test".startIndex, end: "test".endIndex), text: "test")
+                        let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: (start:"test".startIndex..<"test".endIndex), text: "test")
                         let item1 = AutoCompleteItem(result: AutoCompleteResult(name: "test"), type: AutoCompleteType.Username, match: match)
                         let items = [item1]
                         vc.dataSource.items = items
