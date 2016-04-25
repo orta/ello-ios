@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - Alamofire (3.2.0)
+  - Alamofire (3.3.1)
   - Analytics/Core-iOS (2.0.17):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
   - Analytics/Segmentio (2.0.17):
@@ -13,21 +13,21 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.2.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.6.0):
+  - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - CRToast (0.0.7)
   - ElloUIFonts (1.1.0)
-  - Fabric (1.6.5)
-  - FBSnapshotTestCase (2.0.7):
-    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
-  - FBSnapshotTestCase/Core (2.0.7)
-  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+  - Fabric (1.6.7)
+  - FBSnapshotTestCase (2.1.0):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.0)
+  - FBSnapshotTestCase/Core (2.1.0)
+  - FBSnapshotTestCase/SwiftSupport (2.1.0):
     - FBSnapshotTestCase/Core
-  - FLAnimatedImage (1.0.10)
+  - FLAnimatedImage (1.0.12)
   - ImagePickerSheetController (0.9.1)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
-  - KeychainAccess (2.3.3)
+  - KeychainAccess (2.3.5)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
   - MBProgressHUD (0.9.2)
@@ -36,25 +36,25 @@ PODS:
   - Moya/Core (6.0.1):
     - Alamofire (~> 3.0)
     - Result (~> 1.0)
-  - Nimble (3.1.0)
-  - Nimble-Snapshots (3.0.0):
-    - FBSnapshotTestCase (~> 2.0.7)
+  - Nimble (4.0.1)
+  - Nimble-Snapshots (4.0.1):
+    - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
-  - OHHTTPStubs (4.7.0):
-    - OHHTTPStubs/Default (= 4.7.0)
-  - OHHTTPStubs/Core (4.7.0)
-  - OHHTTPStubs/Default (4.7.0):
+  - OHHTTPStubs (4.8.0):
+    - OHHTTPStubs/Default (= 4.8.0)
+  - OHHTTPStubs/Core (4.8.0)
+  - OHHTTPStubs/Default (4.8.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.7.0):
+  - OHHTTPStubs/JSON (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.7.0):
+  - OHHTTPStubs/NSURLSession (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.7.0)
-  - PINCache (2.2)
+  - OHHTTPStubs/OHPathHelpers (4.8.0)
+  - PINCache (2.2.2)
   - PINRemoteImage (1.2.3):
     - PINRemoteImage/FLAnimatedImage (= 1.2.3)
   - PINRemoteImage/Core (1.2.3):
@@ -62,14 +62,14 @@ PODS:
   - PINRemoteImage/FLAnimatedImage (1.2.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - Quick (0.9.1)
+  - Quick (0.9.2)
   - Result (1.0.2)
   - SSPullToRefresh (1.2.4)
-  - SVGKit (2.x):
+  - SVGKit (2.0.1):
     - CocoaLumberjack (~> 2.x)
   - SwiftyJSON (3.0.0)
   - SwiftyUserDefaults (1.3.0)
-  - TimeAgoInWords (2.0.0)
+  - TimeAgoInWords (2.0.1)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
   - WebLinking (1.0.0)
   - YapDatabase (2.8.1):
@@ -124,7 +124,7 @@ DEPENDENCIES:
   - CRToast (from `https://github.com/ello/CRToast`)
   - ElloUIFonts (~> 1.1.0)
   - Fabric (~> 1.6)
-  - FBSnapshotTestCase (from `https://github.com/neonichu/ios-snapshot-test-case.git`, commit `9e88da88a7a3df2f80838449a5f1e71830179218`)
+  - FBSnapshotTestCase
   - FLAnimatedImage (~> 1.0)
   - ImagePickerSheetController
   - iRate (~> 1.11)
@@ -134,8 +134,8 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 6.0.0)
-  - Nimble (~> 3.1)
-  - Nimble-Snapshots (~> 3.0)
+  - Nimble (~> 4.0)
+  - Nimble-Snapshots (~> 4.0)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit `af312667f0ce830264198366f481f1b222675a31`)
   - Quick (~> 0.9)
@@ -152,9 +152,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
-  FBSnapshotTestCase:
-    :commit: 9e88da88a7a3df2f80838449a5f1e71830179218
-    :git: https://github.com/neonichu/ios-snapshot-test-case.git
   JTSImageViewController:
     :git: https://github.com/ello/JTSImageViewController
   Keys:
@@ -179,63 +176,60 @@ CHECKOUT OPTIONS:
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
-  FBSnapshotTestCase:
-    :commit: 9e88da88a7a3df2f80838449a5f1e71830179218
-    :git: https://github.com/neonichu/ios-snapshot-test-case.git
   JTSImageViewController:
     :commit: 4f0a918c38c7606fc5f876774cd3b96701b3f548
     :git: https://github.com/ello/JTSImageViewController
   KINWebBrowser:
-    :commit: 4524b755e283c195578016c17dd96c26568b4ec1
+    :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
     :git: https://github.com/ello/KINWebBrowser
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
   SVGKit:
-    :commit: 84dab910adddb9f949cd13bcc0af6765506ad903
+    :commit: d9ae846e78d697ffb72366b9e3944034a35bafbd
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: c96832365b9ba4e8fa17fad2fa67399e3ed055de
     :git: https://github.com/ello/SwiftyJSON
   TimeAgoInWords:
-    :commit: 75a5e5aec55d8b37d31dee57fa6512dcfb6b3ed5
+    :commit: 3cf3e8b3b8d76168a2324294db70790fade54925
     :git: https://github.com/ello/TimeAgoInWords
 
 SPEC CHECKSUMS:
   1PasswordExtension: faed6b7ab3f1e26551b08fef580c88bff0d0f247
-  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
+  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
   Analytics: 51d6163cb568c8ede69f2b92ef4779d91e1524e2
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   ElloUIFonts: 16c31ba0b19e82d613df50fb6498f43560a603a2
-  Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
-  FBSnapshotTestCase: a89bbc6ea786ef38c2d4e313b3374177c8597b8f
-  FLAnimatedImage: e16a1e1cef08e4c509b47e4acbe3923f65c16135
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FBSnapshotTestCase: 366ecd378511d7716c79991cd8067d1eed23578d
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   ImagePickerSheetController: 3c58c9fee6dcf36485222358a021f6b734f997ba
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
-  KeychainAccess: 9b7e49e48277e329b1b3195e54697ed313d30acf
+  KeychainAccess: e283c1981a6c5655e1984cd411c6faf16fa165ae
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   Moya: fcd80ed553234960a4d28529c184850a8fb43b80
-  Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
-  Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
-  OHHTTPStubs: d2bf6a0f407620d67e75a1d3f12d86a2b1dd15c0
-  PINCache: 7a50338b82fd2d1993d6e9d2edc4ffb56d6d3c39
+  Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
+  Nimble-Snapshots: 2d15a585b816f7d14947ed6e172218f9d0980ea8
+  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
+  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
-  Quick: a5221fc21788b6aeda934805e68b061839bc3165
+  Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
-  SVGKit: 199cfcfd5558377b8f18a9a73439eb4cbc412014
+  SVGKit: 2afbeaf2c2be4615476951284750c3ddb790d0c7
   SwiftyJSON: 6f102a82daf888b0e39fe71ff12e36605c02babb
   SwiftyUserDefaults: 507da0dcabec653f76ecab845635a6d220c1484a
-  TimeAgoInWords: be1144596814c8de5d2fe51a60977ec98115e4fb
+  TimeAgoInWords: 10f520fe4f41d0e7ae6c550bb394f9b9074b1140
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: f130fe5298a36d8c99e3472b5b4f8d957869677f
+PODFILE CHECKSUM: 6ed710c38acb1a75c06dd588f95bb86e8c29a942
 
 COCOAPODS: 1.0.0.beta.4
