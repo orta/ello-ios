@@ -153,7 +153,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                         fail("content[0] is not PostEditingService.PostContentRegion.Image")
                         return
                     }
-                    expect(outImage == image)
+                    expect(outImage) == image
 
                     guard case let PostEditingService.PostContentRegion.ImageData(_, outData, outType) = content[1] else {
                         fail("content[1] is not PostEditingService.PostContentRegion.ImageData")

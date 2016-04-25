@@ -73,7 +73,7 @@ class OmnibarScreenSpec: QuickSpec {
 
         describe("OmnibarScreen") {
             it("should use the '.Twitter' keyboard") {
-                expect(subject.textView.keyboardType) == .Twitter
+                expect(subject.textView.keyboardType) == UIKeyboardType.Twitter
             }
 
             describe("tapping the avatar") {
