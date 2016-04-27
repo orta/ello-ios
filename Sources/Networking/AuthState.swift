@@ -30,7 +30,7 @@ public enum AuthState {
         switch self {
         case Initial: return [.NoToken, .Anonymous, .Authenticated]
 
-        case NoToken: return [.UserCredsSent, .AnonymousCredsSent, .ShouldTryAnonymousCreds]
+        case NoToken: return [.Authenticated, .UserCredsSent, .AnonymousCredsSent, .ShouldTryAnonymousCreds]
         case Anonymous: return [.UserCredsSent, .NoToken]
         case Authenticated: return [.RefreshTokenSent, .NoToken]
 
