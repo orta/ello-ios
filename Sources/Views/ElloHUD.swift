@@ -28,7 +28,7 @@ class ElloHUD: NSObject {
         let elloLogo = ElloLogoView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         elloLogo.animateLogo()
         hud.customView = elloLogo
-        hud.mode = MBProgressHUDMode.CustomView
+        hud.mode = .CustomView
         hud.removeFromSuperViewOnHide = true
         return hud
     }
