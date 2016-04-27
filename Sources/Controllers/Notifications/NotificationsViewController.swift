@@ -54,8 +54,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.loadInitialPage()
+        reload()
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -63,13 +62,17 @@ public class NotificationsViewController: StreamableViewController, Notification
         navigationController?.navigationBarHidden = true
 
         if hasNewContent && fromTabBar {
-            ElloHUD.showLoadingHudInView(streamViewController.view)
-            streamViewController.loadInitialPage()
-            hasNewContent = false
+            reload()
         }
         fromTabBar = false
 
         PushNotificationController.sharedController.updateBadgeCount(0)
+    }
+
+    func reload() {
+        let spinner = ElloHUD.showLoadingHudInView(streamViewController.view, debug: true).customView as? ElloLogoView
+        streamViewController.loadInitialPage()
+        hasNewContent = false
     }
 
     override func setupStreamController() {
@@ -113,13 +116,9 @@ public class NotificationsViewController: StreamableViewController, Notification
     public func activatedCategory(filterType: NotificationFilterType) {
         screen.selectFilterButton(filterType)
         streamViewController.streamKind = .Notifications(category: filterType.category)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.hideNoResults()
         streamViewController.removeAllCellItems()
-        streamViewController.loadInitialPage()
-        if filterType == .All {
-            hasNewContent = false
-        }
+        reload()
     }
 
     public func commentTapped(comment: ElloComment) {
@@ -154,9 +153,7 @@ public class NotificationsViewController: StreamableViewController, Notification
             navigationController?.popToRootViewControllerAnimated(true)
         }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.loadInitialPage()
-        self.hasNewContent = false
+        reload()
     }
 
 }
@@ -170,9 +167,12 @@ private extension NotificationsViewController {
 
         reloadNotificationsObserver = NotificationObserver(notification: NewContentNotifications.reloadNotifications) {
             [unowned self] _ in
-            ElloHUD.showLoadingHudInView(self.streamViewController.view)
-            self.streamViewController.loadInitialPage()
-            self.hasNewContent = false
+            if self.navigationController?.childViewControllers.count == 1 {
+                self.reload()
+            }
+            else {
+                self.hasNewContent = true
+            }
         }
     }
 
