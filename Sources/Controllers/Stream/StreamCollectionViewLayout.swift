@@ -62,7 +62,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             return collectionView!.delegate as? StreamCollectionViewLayoutDelegate
         }
     }
-    var columnHeights = [Double]()
+    var columnHeights = [CGFloat]()
     var sectionItemAttributes = [[UICollectionViewLayoutAttributes]]()
     var allItemAttributes = [UICollectionViewLayoutAttributes]()
     var unionRects = [CGRect]()
@@ -108,7 +108,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
 
         let itemCounts = allItemAttributes.count
         var index = 0
-        while(index < itemCounts){
+        while index < itemCounts {
             let rect1 = allItemAttributes[index].frame
             index = min(index + unionSize, itemCounts) - 1
             let rect2 = allItemAttributes[index].frame
@@ -156,7 +156,13 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             }
 
             let xOffset = sectionInset.left + (calculatedItemWidth + minimumColumnSpacing) * CGFloat(currentColumIndex)
-            let yOffset = columnHeights[currentColumIndex]
+            let yOffset: CGFloat
+            if isFullWidth {
+                yOffset = columnHeights.maxElement() ?? 0
+             }
+             else {
+                yOffset = columnHeights[currentColumIndex]
+             }
 
             var itemHeight : CGFloat = 0.0
 
@@ -165,16 +171,18 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             }
 
             attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-            attributes.frame = CGRectMake(xOffset, CGFloat(yOffset), calculatedItemWidth, itemHeight)
+            attributes.frame = CGRectMake(xOffset, yOffset, calculatedItemWidth, itemHeight)
             itemAttributes.append(attributes)
 
             allItemAttributes.append(attributes)
-            if isFullWidth && columnCount > 1 {
-                columnHeights[0] = Double(CGRectGetMaxY(attributes.frame))
-                columnHeights[1] = Double(CGRectGetMaxY(attributes.frame))
+            let maxY = CGRectGetMaxY(attributes.frame)
+            if isFullWidth {
+                for (index, _) in columnHeights.enumerate() {
+                    columnHeights[index] = maxY
+                }
             }
             else {
-                columnHeights[currentColumIndex] = Double(CGRectGetMaxY(attributes.frame))
+                columnHeights[currentColumIndex] = maxY
             }
         }
 
@@ -188,7 +196,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         }
 
         let contentWidth = self.collectionView!.bounds.size.width
-        return CGSize(width: contentWidth, height: CGFloat(columnHeights.first!))
+        return CGSize(width: contentWidth, height: CGFloat(columnHeights.maxElement() ?? 0))
     }
 
     override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
