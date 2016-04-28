@@ -76,6 +76,34 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(subject.textView.keyboardType) == UIKeyboardType.Twitter
             }
 
+            describe("entering links (requestLinkValidator)") {
+                let expectations = [
+                    ("", false),
+                    ("http://", false),
+                    ("://", false),
+                    ("://ello.co", false),
+                    ("ello", false),
+                    ("http://ello", false),
+                    ("http://ello.", false),
+                    ("http://ello/foo.html", false),
+
+                    ("ello.co", true),
+                    ("http://ello.co", true),
+                    ("https://ello.co", true),
+                    ("http://any.where/foo", true),
+                ]
+                for (url, nonNil) in expectations {
+                    it("should \(nonNil ? "" : "not") accept \(url)") {
+                        if nonNil {
+                            expect(subject.requestLinkValidator(url)).toNot(beNil())
+                        }
+                        else {
+                            expect(subject.requestLinkValidator(url)).to(beNil())
+                        }
+                    }
+                }
+            }
+
             describe("tapping the avatar") {
                 it("should push the profile VC on to the navigation controller") {
                     subject.currentUser = User.stub(["id": "1"])
