@@ -156,7 +156,13 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             }
 
             let xOffset = sectionInset.left + (calculatedItemWidth + minimumColumnSpacing) * CGFloat(currentColumIndex)
-            let yOffset = columnHeights[currentColumIndex]
+            let yOffset: CGFloat
+            if isFullWidth {
+                yOffset = columnHeights.maxElement() ?? 0
+             }
+             else {
+                yOffset = columnHeights[currentColumIndex]
+             }
 
             var itemHeight : CGFloat = 0.0
 
@@ -169,12 +175,14 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             itemAttributes.append(attributes)
 
             allItemAttributes.append(attributes)
+            let maxY = CGRectGetMaxY(attributes.frame)
             if isFullWidth && columnCount > 1 {
-                columnHeights[0] = CGRectGetMaxY(attributes.frame)
-                columnHeights[1] = CGRectGetMaxY(attributes.frame)
+                columnHeights.times { i: Int in
+                    columnHeights[i] = maxY
+                }
             }
             else {
-                columnHeights[currentColumIndex] = CGRectGetMaxY(attributes.frame)
+                columnHeights[currentColumIndex] = maxY
             }
         }
 
@@ -188,7 +196,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         }
 
         let contentWidth = self.collectionView!.bounds.size.width
-        return CGSize(width: contentWidth, height: CGFloat(columnHeights.first!))
+        return CGSize(width: contentWidth, height: CGFloat(columnHeights.maxElement() ?? 0))
     }
 
     override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
