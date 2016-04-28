@@ -62,7 +62,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             return collectionView!.delegate as? StreamCollectionViewLayoutDelegate
         }
     }
-    var columnHeights = [Double]()
+    var columnHeights = [CGFloat]()
     var sectionItemAttributes = [[UICollectionViewLayoutAttributes]]()
     var allItemAttributes = [UICollectionViewLayoutAttributes]()
     var unionRects = [CGRect]()
@@ -108,7 +108,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
 
         let itemCounts = allItemAttributes.count
         var index = 0
-        while(index < itemCounts){
+        while index < itemCounts {
             let rect1 = allItemAttributes[index].frame
             index = min(index + unionSize, itemCounts) - 1
             let rect2 = allItemAttributes[index].frame
@@ -165,16 +165,16 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             }
 
             attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-            attributes.frame = CGRectMake(xOffset, CGFloat(yOffset), calculatedItemWidth, itemHeight)
+            attributes.frame = CGRectMake(xOffset, yOffset, calculatedItemWidth, itemHeight)
             itemAttributes.append(attributes)
 
             allItemAttributes.append(attributes)
             if isFullWidth && columnCount > 1 {
-                columnHeights[0] = Double(CGRectGetMaxY(attributes.frame))
-                columnHeights[1] = Double(CGRectGetMaxY(attributes.frame))
+                columnHeights[0] = CGRectGetMaxY(attributes.frame)
+                columnHeights[1] = CGRectGetMaxY(attributes.frame)
             }
             else {
-                columnHeights[currentColumIndex] = Double(CGRectGetMaxY(attributes.frame))
+                columnHeights[currentColumIndex] = CGRectGetMaxY(attributes.frame)
             }
         }
 
