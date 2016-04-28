@@ -28,7 +28,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    @IBOutlet weak var avatarButton: AvatarButton!
+    @IBOutlet weak var avatarImage: FLAnimatedImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: ElloLabel!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
@@ -41,11 +41,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
-    var user: User? {
-        didSet {
-            avatarButton.setUser(user)
-        }
-    }
+    var user: User?
     var currentUser: User?
     var webContentReady: WebContentReady?
 
@@ -53,7 +49,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
         style()
         bioWebView.delegate = self
-        avatarButton.starIconHidden = true
     }
 
     func onWebContentReady(handler: WebContentReady?) {
@@ -62,18 +57,25 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
+        avatarImage.layer.cornerRadius = avatarImage.bounds.size.height / CGFloat(2)
         bioWebView.scrollView.scrollEnabled = false
         bioWebView.scrollView.scrollsToTop = false
     }
 
     override public func prepareForReuse() {
         super.prepareForReuse()
+        setAvatar(nil)
         bioWebView.stopLoading()
     }
 
-    func setAvatarImage(image: UIImage) {
-        avatarButton.pin_cancelImageDownload()
-        avatarButton.setImage(image, forState: .Normal)
+    func setAvatar(image: UIImage?) {
+        avatarImage.pin_cancelImageDownload()
+        avatarImage.image = image
+    }
+
+    func setAvatarURL(url: NSURL) {
+        setAvatar(nil)
+        avatarImage.pin_setImageFromURL(url) { result in }
     }
 
     private func style() {

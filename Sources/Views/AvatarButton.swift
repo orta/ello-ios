@@ -31,7 +31,6 @@ public class AvatarButton: UIButton {
         starIcon.image = star
         starIcon.frame.size = starSize
         starIcon.hidden = true
-        starIcon.autoresizingMask = [.FlexibleBottomMargin, .FlexibleLeftMargin]
         addSubview(starIcon)
         clipsToBounds = false
     }
