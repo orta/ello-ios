@@ -176,9 +176,9 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
 
             allItemAttributes.append(attributes)
             let maxY = CGRectGetMaxY(attributes.frame)
-            if isFullWidth && columnCount > 1 {
-                columnHeights.times { i: Int in
-                    columnHeights[i] = maxY
+            if isFullWidth {
+                for (index, _) in columnHeights.enumerate() {
+                    columnHeights[index] = maxY
                 }
             }
             else {
