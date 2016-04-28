@@ -121,10 +121,10 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func deleteCommentButtonTapped(indexPath: NSIndexPath) {
-        let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
+        let message = InterfaceString.Post.DeleteCommentConfirm
         let alertController = AlertViewController(message: message)
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
+        let yesAction = AlertAction(title: InterfaceString.Yes, style: .Dark) {
             action in
             if let comment = self.commentForIndexPath(indexPath) {
                 // comment deleted
@@ -140,7 +140,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                 )
             }
         }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+        let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
@@ -220,14 +220,14 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func repostButtonTapped(indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
             Tracker.sharedTracker.postReposted(post)
-            let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
+            let message = InterfaceString.Post.RepostConfirm
             let alertController = AlertViewController(message: message)
             alertController.autoDismiss = false
 
-            let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) { action in
+            let yesAction = AlertAction(title: InterfaceString.Yes, style: .Dark) { action in
                 self.createRepost(post, alertController: alertController)
             }
-            let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light) { action in
+            let noAction = AlertAction(title: InterfaceString.No, style: .Light) { action in
                 alertController.dismiss()
             }
 
@@ -258,16 +258,16 @@ public class PostbarController: NSObject, PostbarDelegate {
             success: { repost in
                 postNotification(PostChangedNotification, value: (repost, .Create))
                 alertController.contentView = nil
-                alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
+                alertController.message = InterfaceString.Post.RepostSuccess
                 delay(1) {
                     alertController.dismiss()
                 }
             }, failure: { (error, statusCode)  in
                 alertController.contentView = nil
-                alertController.message = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
+                alertController.message = InterfaceString.Post.RepostError
                 alertController.autoDismiss = true
                 alertController.dismissable = true
-                let okAction = AlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .Light, handler: .None)
+                let okAction = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
                 alertController.addAction(okAction)
             }
         )
@@ -279,7 +279,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let shareURL = NSURL(string: shareLink)
         {
             Tracker.sharedTracker.postShared(post)
-            let activityVC = UIActivityViewController(activityItems: [shareURL, shareLink], applicationActivities: [SafariActivity()])
+            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
@@ -337,7 +337,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let commentPaths = dataSource.commentIndexPathsForPost(post)
             for path in commentPaths {
                 if let item = dataSource.visibleStreamCellItem(at: path),
-                    comment = item.jsonable as? Comment,
+                    comment = item.jsonable as? ElloComment,
                     let atName = comment.author?.atName
                 where !names.contains(atName)
                 {
@@ -359,7 +359,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         return dataSource.postForIndexPath(indexPath)
     }
 
-    private func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
+    private func commentForIndexPath(indexPath: NSIndexPath) -> ElloComment? {
         return dataSource.commentForIndexPath(indexPath)
     }
 
@@ -370,9 +370,9 @@ public class PostbarController: NSObject, PostbarDelegate {
         var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Following, currentUser: currentUser)
 
         if let currentUser = currentUser {
-            let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
             if post.commentsCount > ElloAPI.PostComments(postId: "").parameters!["per_page"] as? Int {
-                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments))
+                items.append(StreamCellItem(jsonable: jsonables.last ?? newComment, type: .SeeMoreComments))
             }
             else {
                 items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 10.0)))
@@ -393,7 +393,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
         if let currentUser = currentUser {
-            let comment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let comment = ElloComment.newCommentForPost(post, currentUser: currentUser)
             let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment)
 
             let items = [createCommentItem]

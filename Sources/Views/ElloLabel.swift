@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import UIKit
+import ElloUIFonts
 
 public class ElloLabel: UILabel {
     required public init?(coder aDecoder: NSCoder) {

@@ -8,38 +8,31 @@
 
 public struct DrawerItem {
     public let name: String
-    public var link: String?
     public let type: DrawerItemType
+
+    public init(name: String, type: DrawerItemType) {
+        self.name = name
+        self.type = type
+    }
 }
 
 public enum DrawerItemType {
-    case External
+    case External(String)
     case Invite
     case Logout
-    case Plain
+    case Version
 }
 
 public class DrawerViewDataSource: NSObject {
     lazy var items: [DrawerItem] = {
-
-        var marketingVersion = ""
-        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            marketingVersion = version
-        }
-
-        var buildVersion = ""
-        if let bundleVersion = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
-            buildVersion = bundleVersion
-        }
-
         return [
-            DrawerItem(name: NSLocalizedString("Store", comment:"Store"), link: "http://ello.threadless.com/", type: .External),
-            DrawerItem(name: NSLocalizedString("Invite", comment:"Invite"), link: nil, type: .Invite),
-            DrawerItem(name: NSLocalizedString("Help", comment:"Help"), link: "https://ello.co/wtf/help/the-basics/", type: .External),
-            DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/resources/community-directory/", type: .External),
-            DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/about/what-is-ello/", type: .External),
-            DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, type: .Logout),
-            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Plain),
+            DrawerItem(name: InterfaceString.Drawer.Store, type: .External("http://ello.threadless.com/")),
+            DrawerItem(name: InterfaceString.Drawer.Invite, type: .Invite),
+            DrawerItem(name: InterfaceString.Drawer.Help, type: .External("https://ello.co/wtf/help/the-basics/")),
+            DrawerItem(name: InterfaceString.Drawer.Resources, type: .External("https://ello.co/wtf/resources/community-directory/")),
+            DrawerItem(name: InterfaceString.Drawer.About, type: .External("https://ello.co/wtf/about/what-is-ello/")),
+            DrawerItem(name: InterfaceString.Drawer.Logout, type: .Logout),
+            DrawerItem(name: InterfaceString.Drawer.Version, type: .Version),
         ]
     }()
 

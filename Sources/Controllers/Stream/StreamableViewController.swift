@@ -6,12 +6,13 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public protocol PostTappedDelegate : NSObjectProtocol {
+public protocol PostTappedDelegate: NSObjectProtocol {
     func postTapped(post: Post)
+    func postTapped(post: Post, scrollToComment: ElloComment?)
     func postTapped(postId postId: String)
 }
 
-public protocol UserTappedDelegate : NSObjectProtocol {
+public protocol UserTappedDelegate: NSObjectProtocol {
     func userTapped(user: User)
     func userParamTapped(param: String)
 }
@@ -19,15 +20,16 @@ public protocol UserTappedDelegate : NSObjectProtocol {
 public protocol CreatePostDelegate: NSObjectProtocol {
     func createPost(text text: String?, fromController: UIViewController)
     func createComment(post: Post, text: String?, fromController: UIViewController)
-    func editComment(comment: Comment, fromController: UIViewController)
+    func editComment(comment: ElloComment, fromController: UIViewController)
     func editPost(post: Post, fromController: UIViewController)
 }
 
+@objc
 public protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }
 
-public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
+public class StreamableViewController: BaseElloViewController, PostTappedDelegate {
     @IBOutlet weak var viewContainer: UIView!
     private var showing = false
     public let streamViewController = StreamViewController.instantiateFromStoryboard()
@@ -40,9 +42,9 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         streamViewController.createPostDelegate = self
 
         streamViewController.willMoveToParentViewController(self)
-        let streamViewContainer = viewForStream()
-        streamViewContainer.addSubview(streamViewController.view)
-        streamViewController.view.frame = streamViewContainer.bounds
+        let containerForStream = viewForStream()
+        containerForStream.addSubview(streamViewController.view)
+        streamViewController.view.frame = containerForStream.bounds
         streamViewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
@@ -56,10 +58,8 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let hidden = !navBarsVisible()
         showing = true
-        willPresentStreamable(!hidden)
-        UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+        willPresentStreamable(navBarsVisible())
     }
 
     public override func viewWillDisappear(animated: Bool) {
@@ -82,7 +82,8 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         )
     }
 
-    private func willPresentStreamable(navBarsVisible : Bool) {
+    private func willPresentStreamable(navBarsVisible: Bool) {
+        UIApplication.sharedApplication().setStatusBarHidden(!navBarsVisible, withAnimation: .Slide)
         UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)
@@ -132,7 +133,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         }
     }
 
-    func showNavBars(scrollToBottom : Bool) {
+    func showNavBars(scrollToBottom: Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
         }
@@ -146,7 +147,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     func scrollToBottom(controller: StreamViewController) {
         if let scrollView = streamViewController.collectionView {
-            let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+            let contentOffsetY: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
             if contentOffsetY > 0 {
                 scrollView.scrollEnabled = false
                 scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
@@ -166,26 +167,22 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 // MARK: PostTappedDelegate
 
     public func postTapped(post: Post) {
-        self.postTapped(postId: post.id)
+        self.postTapped(postId: post.id, scrollToComment: nil)
+    }
+
+    public func postTapped(post: Post, scrollToComment lastComment: ElloComment?) {
+        self.postTapped(postId: post.id, scrollToComment: lastComment)
     }
 
     public func postTapped(postId postId: String) {
+        self.postTapped(postId: postId, scrollToComment: nil)
+    }
+
+    private func postTapped(postId postId: String, scrollToComment lastComment: ElloComment?) {
         let vc = PostDetailViewController(postParam: postId)
+        vc.scrollToComment = lastComment
         vc.currentUser = currentUser
         navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-// MARK: Search
-public extension StreamableViewController {
-    func addSearchButton() {
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: Interface.Image.Search.normalImage, style: .Done, target: self, action: Selector("searchButtonTapped"))
-    }
-
-    func searchButtonTapped() {
-        let search = SearchViewController()
-        search.currentUser = currentUser
-        self.navigationController?.pushViewController(search, animated: true)
     }
 }
 
@@ -239,7 +236,7 @@ extension StreamableViewController: CreatePostDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    public func editComment(comment: Comment, fromController: UIViewController) {
+    public func editComment(comment: ElloComment, fromController: UIViewController) {
         if OmnibarViewController.canEditRegions(comment.content) {
             let vc = OmnibarViewController(editComment: comment)
             vc.currentUser = self.currentUser
@@ -249,9 +246,9 @@ extension StreamableViewController: CreatePostDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-            let message = NSLocalizedString("Looks like this comment was created on the web!\n\nThe videos and embedded content it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable comment error message")
+            let message = InterfaceString.Post.CannotEditComment
             let alertController = AlertViewController(message: message)
-            let action = AlertAction(title: NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.ThatIsOK, style: .Dark, handler: nil)
             alertController.addAction(action)
             self.presentViewController(alertController, animated: true, completion: nil)
         }
@@ -267,9 +264,9 @@ extension StreamableViewController: CreatePostDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-            let message = NSLocalizedString("Looks like this post was created on the web!\n\nThe videos and embedded content it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable post error message")
+            let message = InterfaceString.Post.CannotEditPost
             let alertController = AlertViewController(message: message)
-            let action = AlertAction(title: NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.ThatIsOK, style: .Dark, handler: nil)
             alertController.addAction(action)
             self.presentViewController(alertController, animated: true, completion: nil)
         }
@@ -277,8 +274,8 @@ extension StreamableViewController: CreatePostDelegate {
 }
 
 // MARK: StreamScrollDelegate
-extension StreamableViewController : StreamScrollDelegate {
-    public func streamViewDidScroll(scrollView : UIScrollView) {
+extension StreamableViewController: StreamScrollDelegate {
+    public func streamViewDidScroll(scrollView: UIScrollView) {
         scrollLogic.scrollViewDidScroll(scrollView)
     }
 
@@ -301,10 +298,10 @@ extension StreamableViewController: InviteResponder {
         case .NotDetermined:
             promptForAddressBookAccess()
         case .Denied:
-            let message = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.", comment: "Access to contacts denied by user")
+            let message = InterfaceString.Friends.AccessDenied
             displayAddressBookAlert(message)
         case .Restricted:
-            let message = NSLocalizedString("Access to your contacts has been denied by the system.", comment: "Access to contacts denied by system")
+            let message = InterfaceString.Friends.AccessRestricted
             displayAddressBookAlert(message)
         }
     }
@@ -312,17 +309,17 @@ extension StreamableViewController: InviteResponder {
     // MARK: - Private
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Import your contacts to find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.", comment: "Import your contacts permission prompt")
+        let message = InterfaceString.Friends.ImportPermissionPrompt
         let alertController = AlertViewController(message: message)
 
-        let importMessage = NSLocalizedString("Find your friends", comment: "Find your friends action")
+        let importMessage = InterfaceString.Friends.ImportAllow
         let action = AlertAction(title: importMessage, style: .Dark) { action in
             Tracker.sharedTracker.importContactsInitiated()
             self.proceedWithImport()
         }
         alertController.addAction(action)
 
-        let cancelMessage = NSLocalizedString("Not now", comment: "Not now action")
+        let cancelMessage = InterfaceString.Friends.ImportNotNow
         let cancelAction = AlertAction(title: cancelMessage, style: .Light) { _ in
             Tracker.sharedTracker.importContactsDenied()
         }
@@ -342,7 +339,12 @@ extension StreamableViewController: InviteResponder {
                     let vc = AddFriendsViewController(addressBook: addressBook)
                     vc.currentUser = self.currentUser
                     vc.userTappedDelegate = self
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if let navigationController = self.navigationController {
+                        navigationController.pushViewController(vc, animated: true)
+                    }
+                    else {
+                        self.presentViewController(vc, animated: true, completion: nil)
+                    }
                 case let .Failure(addressBookError):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(false)
                     self.displayAddressBookAlert(addressBookError.rawValue)
@@ -357,7 +359,7 @@ extension StreamableViewController: InviteResponder {
             message: "We were unable to access your address book\n\(message)"
         )
 
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: .None)
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: .None)
         alertController.addAction(action)
 
         logPresentingAlert("StreamableViewController")

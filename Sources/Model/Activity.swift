@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let ActivityVersion = 1
 
+@objc(Activity)
 public final class Activity: JSONAble {
 
     // active record
@@ -30,6 +31,7 @@ public final class Activity: JSONAble {
         case NoisePost = "noise_post" // main feed
 
         // Comments
+
         case FriendComment = "friend_comment"
 
         // Notifications

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
 
 public enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
@@ -40,7 +41,7 @@ public enum MappingType: String {
         case CategoriesType:
             return DynamicSettingCategory.fromJSON
         case CommentsType:
-            return Comment.fromJSON
+            return ElloComment.fromJSON
         case ErrorType:
             return ElloNetworkError.fromJSON
         case ErrorsType:
@@ -69,6 +70,7 @@ public enum MappingType: String {
 
 let UnknownJSONAbleVersion = 1
 
+@objc(UnknownJSONAble)
 public class UnknownJSONAble : JSONAble {
      override class public func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UnknownJSONAble(version: UnknownJSONAbleVersion)

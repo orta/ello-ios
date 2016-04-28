@@ -6,12 +6,15 @@
 //  Copyright (c) 2016 Ello. All rights reserved.
 //
 
+import Foundation
+
 public enum AuthState {
     public static var uuid: NSUUID = NSUUID()
 
     case Initial  // auth is in indeterminate state
 
-    case LoggedOut  // no auth or refresh token
+    case NoToken  // no auth or refresh token
+    case Anonymous  // anonymous token present
     case Authenticated  // aww yeah - has token AND refreshToken
 
     case UserCredsSent  // creds have been sent
@@ -20,17 +23,25 @@ public enum AuthState {
     case RefreshTokenSent  // request is in flight
     case ShouldTryRefreshToken  // network is offline
 
-    var nextStates: [AuthState] {
+    case AnonymousCredsSent
+    case ShouldTryAnonymousCreds
+
+    private var nextStates: [AuthState] {
         switch self {
-        case Initial: return [.LoggedOut, .Authenticated]
-        case LoggedOut: return [.UserCredsSent]
-        case Authenticated: return [.RefreshTokenSent]
+        case Initial: return [.NoToken, .Anonymous, .Authenticated]
+
+        case NoToken: return [.Authenticated, .UserCredsSent, .AnonymousCredsSent, .ShouldTryAnonymousCreds]
+        case Anonymous: return [.UserCredsSent, .NoToken]
+        case Authenticated: return [.RefreshTokenSent, .NoToken]
 
         case RefreshTokenSent: return [.Authenticated, .ShouldTryRefreshToken, .ShouldTryUserCreds]
         case ShouldTryRefreshToken: return [.RefreshTokenSent]
 
-        case UserCredsSent: return [.LoggedOut, .Authenticated, .ShouldTryUserCreds]
+        case UserCredsSent: return [.NoToken, .Authenticated, .ShouldTryUserCreds]
         case ShouldTryUserCreds: return [.UserCredsSent]
+
+        case AnonymousCredsSent: return [.NoToken, .Anonymous]
+        case ShouldTryAnonymousCreds: return [.AnonymousCredsSent]
         }
     }
 
@@ -41,21 +52,38 @@ public enum AuthState {
         }
     }
 
-    var isLoggedOut: Bool {
+    var isUndetermined: Bool {
         switch self {
-        case LoggedOut: return true
+        case Initial, NoToken: return true
         default: return false
         }
     }
 
-    var isAuthenticating: Bool {
+    var isTransitioning: Bool {
         switch self {
-        case UserCredsSent, ShouldTryUserCreds,
-             RefreshTokenSent, ShouldTryRefreshToken:
+        case Authenticated, Anonymous: return false
+        default: return true
+        }
+    }
+
+    func canTransitionTo(state: AuthState) -> Bool {
+        return nextStates.contains(state)
+    }
+
+    func supports(target: ElloAPI) -> Bool {
+        if !target.requiresAnyToken {
             return true
-        default:
+        }
+
+        if isTransitioning {
             return false
         }
+
+        if isAuthenticated {
+            return true
+        }
+
+        return target.supportsAnonymousToken && self == .Anonymous
     }
 
 }

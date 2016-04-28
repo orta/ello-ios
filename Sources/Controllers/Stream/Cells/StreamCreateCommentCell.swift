@@ -37,7 +37,7 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         }
     }
 
-    var replyAllVisibility: InteractionVisibility = .Disabled {
+    var replyAllVisibility: InteractionVisibility = .Hidden {
         didSet {
             replyAllButton.hidden = (replyAllVisibility != .Enabled)
             setNeedsLayout()
@@ -65,7 +65,7 @@ public class StreamCreateCommentCell: UICollectionViewCell {
 
         replyAllButton.setImage(.ReplyAll, imageStyle: .Normal, forState: .Normal)
         replyAllButton.setImage(.ReplyAll, imageStyle: .Selected, forState: .Highlighted)
-        replyAllButton.addTarget(self, action: Selector("replyAllTapped"), forControlEvents: .TouchUpInside)
+        replyAllButton.addTarget(self, action: #selector(StreamCreateCommentCell.replyAllTapped), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true

@@ -11,11 +11,12 @@ import SwiftyJSON
 
 let DynamicSettingCategoryVersion = 1
 
+@objc(DynamicSettingCategory)
 public final class DynamicSettingCategory: JSONAble {
     public let label: String
     public var settings: [DynamicSetting]
 
-    public init(label: String, settings: [DynamicSetting]) { 
+    public init(label: String, settings: [DynamicSetting]) {
         self.label = label
         self.settings = settings
         super.init(version: DynamicSettingCategoryVersion)
@@ -49,7 +50,7 @@ extension DynamicSettingCategory {
 
 extension DynamicSettingCategory {
     static var accountDeletionCategory: DynamicSettingCategory {
-        let label = NSLocalizedString("Account Deletion", comment: "account deletion button")
+        let label = InterfaceString.Settings.DeleteAccountTitle
         return DynamicSettingCategory(label: label, settings: [DynamicSetting.accountDeletionSetting])
     }
 }

@@ -14,14 +14,14 @@ import SwiftyUserDefaults
 
 class OnboardingSpec: QuickSpec {
     override func spec() {
-        let currentVersion: Int? = Defaults["ViewedOnboardingVersion"].int
+        let currentVersion: Int? = GroupDefaults["ViewedOnboardingVersion"].int
         afterEach {
-            Defaults["ViewedOnboardingVersion"] = currentVersion
+            GroupDefaults["ViewedOnboardingVersion"] = currentVersion
         }
 
         describe("onboarding version has never been set") {
             beforeEach {
-                Defaults["ViewedOnboardingVersion"] = nil
+                GroupDefaults["ViewedOnboardingVersion"] = nil
             }
             it("should show onboarding") {
                 expect(Onboarding.shared().hasSeenLatestVersion()).to(beFalse())
@@ -29,7 +29,7 @@ class OnboardingSpec: QuickSpec {
         }
         describe("onboarding version has been set to older version") {
             beforeEach {
-                Defaults["ViewedOnboardingVersion"] = 0
+                GroupDefaults["ViewedOnboardingVersion"] = 0
             }
             it("should show onboarding") {
                 expect(Onboarding.shared().hasSeenLatestVersion()).to(beFalse())

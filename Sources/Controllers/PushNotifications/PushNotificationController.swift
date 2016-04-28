@@ -17,7 +17,7 @@ public struct PushNotificationNotifications {
 }
 
 public class PushNotificationController {
-    public static let sharedController = PushNotificationController(defaults: Defaults, keychain: ElloKeychain())
+    public static let sharedController = PushNotificationController(defaults: GroupDefaults, keychain: ElloKeychain())
 
     private let defaults: NSUserDefaults
     private var keychain: KeychainType
@@ -40,7 +40,7 @@ public class PushNotificationController {
 
 public extension PushNotificationController {
     func requestPushAccessIfNeeded() -> AlertViewController? {
-        guard AuthToken().isAuthenticated else { return .None }
+        guard AuthToken().isPasswordBased else { return .None }
         guard !permissionDenied else { return .None }
 
         guard !needsPermission else { return alertViewController() }
@@ -110,15 +110,15 @@ public extension PushNotificationController {
 
 private extension PushNotificationController {
     func alertViewController() -> AlertViewController {
-        let alert = AlertViewController(message: NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can adjust this in your settings.\n", comment: "Turn on Push Notifications?"))
+        let alert = AlertViewController(message: InterfaceString.PushNotifications.PermissionPrompt)
         alert.dismissable = false
 
-        let allowAction = AlertAction(title: NSLocalizedString("Yes Please", comment: "Allow"), style: .Dark) { _ in
+        let allowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionYes, style: .Dark) { _ in
             self.registerForRemoteNotifications()
         }
         alert.addAction(allowAction)
 
-        let disallowAction = AlertAction(title: NSLocalizedString("No Thanks", comment: "Disallow"), style: .Light) { _ in
+        let disallowAction = AlertAction(title: InterfaceString.PushNotifications.PermissionNo, style: .Light) { _ in
             self.needsPermission = false
             self.permissionDenied = true
         }

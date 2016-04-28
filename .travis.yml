@@ -1,15 +1,19 @@
-osx_image: xcode7
+osx_image: xcode7.3
 language: objective-c
-xcode_sdk: iphonesimulator9.0
+xcode_sdk: iphonesimulator9.2
+
 git:
   depth: 1
+
 cache:
   - bundler
   - cocoapods
+
 before_install:
-- xcrun instruments -w "iPhone 6 (9.0) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
+- xcrun instruments -w "iPhone 6 (9.2) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
 
 install:
+- gem install bundler
 - bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
 - bundle exec pod keys set ClientSecret $ELLO_CLIENT_SECRET Ello
@@ -20,10 +24,11 @@ install:
 - bundle exec pod keys set HttpProtocol $ELLO_HTTP_PROTOCOL Ello
 - bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
 - bundle exec pod install
+
 before_script:
 - export LANG=en_US.UTF-8
 
-script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.0,name=iPhone 6" clean test | xcpretty -f `xcpretty-travis-formatter`'
+script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.2,name=iPhone 6s" clean test | xcpretty -f `xcpretty-travis-formatter`'
 
 notifications:
   email: false

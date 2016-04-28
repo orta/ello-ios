@@ -2,6 +2,10 @@
 //  CGRect.swift
 //
 
+import CoreGraphics
+import UIKit
+import Foundation
+
 public extension CGRect {
 
 // MARK: debug

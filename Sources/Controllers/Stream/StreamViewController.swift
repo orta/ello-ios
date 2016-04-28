@@ -362,9 +362,9 @@ public class StreamViewController: BaseElloViewController {
         }
 
         if isVisible {
-            let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+            let message = InterfaceString.GenericError
             let alertController = AlertViewController(message: message)
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
             alertController.addAction(action)
             logPresentingAlert("StreamViewController")
             presentViewController(alertController, animated: true) {
@@ -765,7 +765,7 @@ extension StreamViewController: WebLinkDelegate {
              .ExploreRecommended,
              .ExploreRecent,
              .ExploreTrending:
-            selectTab(.Discovery)
+            selectTab(.Discover)
         case .Email: break // this is handled in ElloWebViewHelper
         case .BetaPublicProfiles,
              .Enter,
@@ -847,10 +847,10 @@ extension StreamViewController: UICollectionViewDelegate {
             }
         }
         else if tappedCell is StreamSeeMoreCommentsCell {
-            if  let comment = dataSource.commentForIndexPath(indexPath),
-                let post = comment.loadedFromPost
+            if  let lastComment = dataSource.commentForIndexPath(indexPath),
+                let post = lastComment.loadedFromPost
             {
-                postTappedDelegate?.postTapped(post)
+                postTappedDelegate?.postTapped(post, scrollToComment: lastComment)
             }
         }
         else if tappedCell is StreamRepostHeaderCell {

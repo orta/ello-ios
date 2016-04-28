@@ -6,6 +6,8 @@
 //  Copyright (c) 2016 Ello. All rights reserved.
 //
 
+import Foundation
+
 public enum ErrorStatusCode: Int {
     case Status401_Unauthorized = 401
     case Status403 = 403

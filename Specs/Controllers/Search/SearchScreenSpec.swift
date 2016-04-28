@@ -9,6 +9,7 @@
 import Quick
 import Nimble
 import Ello
+import Nimble_Snapshots
 
 public class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
@@ -27,7 +28,63 @@ class SearchScreenSpec: QuickSpec {
             var subject: SearchScreen!
 
             beforeEach {
-                subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                subject = SearchScreen(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: 568)), isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+            }
+
+            context("searching for people") {
+                it("should set the search text to 'atsign' if the search field is empty") {
+                    subject.searchField.text = ""
+                    subject.onPeopleTapped()
+                    expect(subject.searchField.text) == "@"
+                }
+
+                it("should set the search text to 'atsign' if the search field is null") {
+                    subject.searchField.text = nil
+                    subject.onPeopleTapped()
+                    expect(subject.searchField.text) == "@"
+                }
+
+                it("should clear the search text if it was 'atsign' and you search for posts") {
+                    subject.onPeopleTapped()
+                    subject.searchField.text = "@"
+                    subject.onPostsTapped()
+                    expect(subject.searchField.text) == ""
+                }
+            }
+
+            context("hasBackButton") {
+                it("has a back button by default") {
+                    let prevItems = subject.navigationItem.leftBarButtonItems
+                    expect(subject.hasBackButton) == true
+                    expect(subject.navigationItem.leftBarButtonItem) == prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:true"))
+                }
+
+                it("can have a close button instead (left item changes)") {
+                    let prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = false
+                    expect(subject.hasBackButton) == false
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:false"))
+                }
+
+                it("can have an explicit back button (left item changes)") {
+                    var prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = false
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    prevItems = subject.navigationItem.leftBarButtonItems
+                    subject.hasBackButton = true
+                    expect(subject.hasBackButton) == true
+                    expect(subject.navigationItem.leftBarButtonItem) != prevItems![0]
+
+                    showView(subject)
+                    expect(subject).to(haveValidSnapshot(named: "hasBackButton:true"))
+                }
             }
 
             context("UITextFieldDelegate") {
@@ -67,8 +124,7 @@ class SearchScreenSpec: QuickSpec {
                     context("is search view") {
 
                         beforeEach {
-                            let isSearchView = true
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: isSearchView, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: CGRectZero, isSearchView: true, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("hides find friends text") {
@@ -81,8 +137,7 @@ class SearchScreenSpec: QuickSpec {
                     context("is NOT search view") {
 
                         beforeEach {
-                            let isSearchView = false
-                            subject = SearchScreen(frame: CGRectZero, isSearchView: isSearchView, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
+                            subject = SearchScreen(frame: CGRectZero, isSearchView: false, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
                         it("shows find friends text") {

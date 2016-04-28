@@ -15,12 +15,14 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.0</string>
+	<string>1.7.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>co.ello.Ello</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ello</string>
@@ -28,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3784</string>
+	<string>4051</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

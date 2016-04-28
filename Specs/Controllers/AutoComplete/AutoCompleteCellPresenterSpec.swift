@@ -12,17 +12,15 @@ import Nimble
 
 class AutoCompleteCellPresenterSpec: QuickSpec {
     override func spec() {
-        describe("configure") {
+        describe("AutoCompleteCellPresenter") {
             beforeEach {
                 supressRequestsTo("www.example.com")
             }
 
             context("username") {
                 it("configures a AutoCompleteCell") {
-                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start:"test".startIndex, end: "test".endIndex), text: "test")
-                    let result = AutoCompleteResult()
-                    result.name = "Billy"
-                    result.url = NSURL(string: "http://www.example.com/image")
+                    let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: ("test".startIndex..<"test".endIndex), text: "test")
+                    let result = AutoCompleteResult(name: "Billy", url: "http://www.example.com/avatar")
                     let item = AutoCompleteItem(result: result, type: AutoCompleteType.Username, match: match)
 
                     let cell: AutoCompleteCell = AutoCompleteCell.loadFromNib()
@@ -30,7 +28,7 @@ class AutoCompleteCellPresenterSpec: QuickSpec {
                     AutoCompleteCellPresenter.configure(cell, item: item)
 
                     expect(cell.name.text) == "@Billy"
-                    expect(cell.avatar.url) == NSURL(string: "http://www.example.com/image")!
+                    expect(cell.avatar.url) == NSURL(string: "http://www.example.com/avatar")!
                     expect(cell.selectionStyle) == UITableViewCellSelectionStyle.None
                     expect(cell.name.textColor) == UIColor.whiteColor()
                     expect(cell.name.font ) == UIFont.defaultFont()
@@ -38,26 +36,25 @@ class AutoCompleteCellPresenterSpec: QuickSpec {
                     expect(cell.line.backgroundColor) == UIColor.grey3()
                 }
             }
-        }
 
-        context("emoji") {
-            it("configures a AutoCompleteCell") {
-                let match = AutoCompleteMatch(type: AutoCompleteType.Username, range: Range<String.Index>(start:"test".startIndex, end: "test".endIndex), text: "test")
-                let result = AutoCompleteResult()
-                result.name = "thumbsup"
-                result.url = NSURL(string: "http://www.example.com/image")
-                let item = AutoCompleteItem(result: result, type: AutoCompleteType.Emoji, match: match)
+            context("emoji") {
+                it("configures a AutoCompleteCell") {
+                    let match = AutoCompleteMatch(type: AutoCompleteType.Emoji, range: ("test".startIndex..<"test".endIndex), text: "test")
+                    let result = AutoCompleteResult(name: "thumbsup", url: "http://www.example.com/emoji")
+                    let item = AutoCompleteItem(result: result, type: AutoCompleteType.Emoji, match: match)
 
-                let cell: AutoCompleteCell = AutoCompleteCell.loadFromNib()
+                    let cell: AutoCompleteCell = AutoCompleteCell.loadFromNib()
 
-                AutoCompleteCellPresenter.configure(cell, item: item)
+                    AutoCompleteCellPresenter.configure(cell, item: item)
 
-                expect(cell.name.text) == ":thumbsup:"
-                expect(cell.selectionStyle) == UITableViewCellSelectionStyle.None
-                expect(cell.name.textColor) == UIColor.whiteColor()
-                expect(cell.name.font ) == UIFont.defaultFont()
-                expect(cell.line.hidden) == false
-                expect(cell.line.backgroundColor) == UIColor.grey3()
+                    expect(cell.name.text) == ":thumbsup:"
+                    expect(cell.avatar.url) == NSURL(string: "http://www.example.com/emoji")!
+                    expect(cell.selectionStyle) == UITableViewCellSelectionStyle.None
+                    expect(cell.name.textColor) == UIColor.whiteColor()
+                    expect(cell.name.font ) == UIFont.defaultFont()
+                    expect(cell.line.hidden) == false
+                    expect(cell.line.backgroundColor) == UIColor.grey3()
+                }
             }
         }
     }

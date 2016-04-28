@@ -11,6 +11,7 @@ import WebKit
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
 
     private var hasNewContent = false
+    var fromTabBar = false
     private var newNotificationsObserver: NotificationObserver?
     public var categoryFilterType = NotificationFilterType.All
 
@@ -47,15 +48,15 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewDidLoad()
 
         screen.delegate = self
-        self.title = NSLocalizedString("Notifications", comment: "Notifications")
+        self.title = InterfaceString.Notifications.Title
         addSearchButton()
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
-        let noResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
+        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
+        let noResultsBody = InterfaceString.Notifications.NoResultsBody
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
     }
@@ -64,11 +65,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
 
-        if hasNewContent {
+        if hasNewContent && fromTabBar {
             hasNewContent = false
             ElloHUD.showLoadingHudInView(streamViewController.view)
             streamViewController.loadInitialPage()
         }
+        fromTabBar = false
     }
 
     override func setupStreamController() {
@@ -114,7 +116,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         streamViewController.loadInitialPage()
     }
 
-    public func commentTapped(comment: Comment) {
+    public func commentTapped(comment: ElloComment) {
         if let post = comment.loadedFromPost {
             postTapped(post)
         }
@@ -161,7 +163,13 @@ private extension NotificationsViewController {
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
             [unowned self] _ in
-            self.hasNewContent = true
+            if self.navigationController?.childViewControllers.count == 1 {
+                ElloHUD.showLoadingHudInView(self.streamViewController.view)
+                self.streamViewController.loadInitialPage()
+            }
+            else {
+                self.hasNewContent = true
+            }
         }
     }
 

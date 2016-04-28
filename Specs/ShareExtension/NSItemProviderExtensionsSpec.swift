@@ -1,0 +1,108 @@
+//
+//  NSItemProviderExtensionsSpec.swift
+//  Ello
+//
+//  Created by Sean on 2/10/16.
+//  Copyright © 2016 Ello. All rights reserved.
+//
+
+import Ello
+import Quick
+import Nimble
+
+class NSItemProviderExtensionsSpec: QuickSpec {
+    override func spec() {
+
+        describe("NSItemProviderExtensions") {
+
+            describe("isURL()") {
+
+                it("returns true when it is a url") {
+                    let item = NSItemProvider(item: NSURL(string: "https://ello.co"), typeIdentifier: String(kUTTypeURL))
+                    expect(item.isURL()) == true
+                }
+
+                it("returns false when it is not a url") {
+                    let item = NSItemProvider(item: "not a url", typeIdentifier: String(kUTTypeText))
+                    expect(item.isURL()) == false
+                }
+            }
+
+            describe("isImage()") {
+
+                it("returns true when it is an image") {
+                    let item = NSItemProvider(item: UIImage(), typeIdentifier: String(kUTTypeImage))
+                    expect(item.isImage()) == true
+                }
+
+                it("returns false when it is not an image") {
+                    let item = NSItemProvider(item: "not an image", typeIdentifier: String(kUTTypeText))
+                    expect(item.isImage()) == false
+                }
+            }
+
+            describe("isText()") {
+
+                it("returns true when it is text") {
+                    let item = NSItemProvider(item: "it is text!", typeIdentifier: String(kUTTypeText))
+                    expect(item.isText()) == true
+                }
+
+                it("returns true when it is not text") {
+                    let item = NSItemProvider(item: NSURL(string: "https://ello.co"), typeIdentifier: String(kUTTypeURL))
+                    expect(item.isText()) == false
+                }
+            }
+
+            describe("loadText(_:completion)") {
+
+                it("returns text") {
+                    let item = NSItemProvider(item: "it is text!", typeIdentifier: String(kUTTypeText))
+                    waitUntil(timeout: 30) { done in
+                        item.loadText(nil) { (item, error) in
+                            if let item = item as? String {
+                                expect(item) == "it is text!"
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            describe("loadURL(_:completion)") {
+
+                it("returns a url") {
+                    let item = NSItemProvider(item: NSURL(string: "https://ello.co"), typeIdentifier: String(kUTTypeURL))
+                    waitUntil(timeout: 30) { done in
+                        item.loadURL(nil) { (item, error) in
+                            if let item = item as? NSURL {
+                                expect(item) == NSURL(string: "https://ello.co")
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            describe("loadImage(_:completion)") {
+
+                it("returns an image") {
+                    let expectedImage = UIImage()
+                    let item = NSItemProvider(item: expectedImage, typeIdentifier: String(kUTTypeImage))
+                    waitUntil(timeout: 30) { done in
+                        item.loadImage(nil) { (item, error) in
+                            if let image = item as? UIImage {
+                                expect(image) == expectedImage
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            xdescribe("loadPreview(_:completion)") {
+                // no idea how to create an NSItemProvider to test against here
+            }
+        }
+    }
+}

@@ -18,7 +18,7 @@ public struct StreamCellItemParser {
         if let posts = filteredItems as? [Post] {
             return postCellItems(posts, streamKind: streamKind)
         }
-        if let comments = filteredItems as? [Comment] {
+        if let comments = filteredItems as? [ElloComment] {
             return commentCellItems(comments)
         }
         if let notifications = filteredItems as? [Notification] {
@@ -44,12 +44,11 @@ public struct StreamCellItemParser {
             cellItems.append(StreamCellItem(jsonable: post, type: .Header))
             cellItems += postToggleItems(post)
             if post.isRepost {
-                // add repost header with via/source
-                let repostHeaderHeight = CGFloat(30)
-                cellItems.append(StreamCellItem(jsonable: post, type: .RepostHeader(height: repostHeaderHeight)))
                 // add repost content
                 // this is weird, but the post summary is actually the repost summary on reposts
                 if streamKind.isGridView {
+                    let repostHeaderHeight = CGFloat(30)
+                    cellItems.append(StreamCellItem(jsonable: post, type: .RepostHeader(height: repostHeaderHeight)))
                     cellItems += regionItems(post, content: post.summary)
                 }
                 else if let repostContent = post.repostContent {
@@ -77,7 +76,7 @@ public struct StreamCellItemParser {
         return cellItems
     }
 
-    private func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
+    private func commentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
             cellItems.append(StreamCellItem(jsonable: comment, type: .CommentHeader))
@@ -96,13 +95,15 @@ public struct StreamCellItemParser {
     }
 
     private func regionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
-        var cellArray:[StreamCellItem] = []
+        var cellArray: [StreamCellItem] = []
         for region in content {
             let kind = RegionKind(rawValue: region.kind) ?? .Unknown
-            let type = kind.streamCellType(region)
-            if type != .Unknown {
-                let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type)
-                cellArray.append(item)
+            let types = kind.streamCellTypes(region)
+            for type in types {
+                if type != .Unknown {
+                    let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type)
+                    cellArray.append(item)
+                }
             }
         }
         return cellArray
@@ -128,7 +129,7 @@ public extension StreamCellItemParser {
     public func testingPostCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         return postCellItems(posts, streamKind: streamKind)
     }
-    public func testingCommentCellItems(comments: [Comment]) -> [StreamCellItem] {
+    public func testingCommentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
         return commentCellItems(comments)
     }
     public func testingPostToggleItems(post: Post) -> [StreamCellItem] {

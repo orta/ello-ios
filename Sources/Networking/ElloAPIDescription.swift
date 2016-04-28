@@ -37,8 +37,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "Loves(userId: \(userId))"
         case let .PostComments(postId):
             return "PostComments(postId: \(postId))"
-        case let .PostDetail(postParam):
-            return "PostDetail(postParam: \(postParam))"
+        case let .PostDetail(postParam, commentCount):
+            return "PostDetail(postParam: \(postParam), commentCount: \(commentCount))"
         case let .PostLovers(postId):
             return "PostLovers(postId: \(postId))"
         case let .PostReposters(postId):
@@ -89,6 +89,10 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "CreateLove"
         case .CreatePost:
             return "CreatePost"
+        case .CurrentUserProfile:
+            return "CurrentUserProfile"
+        case .CurrentUserStream:
+            return "CurrentUserStream"
         case .RePost:
             return "RePost"
         case .DeleteComment:
@@ -139,8 +143,6 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "PostLovers"
         case .PostReposters:
             return "PostReposters"
-        case .Profile:
-            return "Profile"
         case .ProfileUpdate:
             return "ProfileUpdate"
         case .ProfileDelete:

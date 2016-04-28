@@ -86,7 +86,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {
-        let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
+        let responder = targetForAction(#selector(EditProfileResponder.onEditProfile), withSender: self) as? EditProfileResponder
         responder?.onEditProfile()
     }
 
@@ -95,14 +95,14 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
+                noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle
+                noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody
             }
             else {
-                noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Following.NoResultsBody.localized
+                noResultsTitle = InterfaceString.Following.NoResultsTitle
+                noResultsBody = InterfaceString.Following.NoResultsBody
             }
-            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowing(userId: user.id), title: InterfaceString.Following.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowing(userId: user.id), title: InterfaceString.Following.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
@@ -111,14 +111,14 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
+                noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle
+                noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody
             }
             else {
-                noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Followers.NoResultsBody.localized
+                noResultsTitle = InterfaceString.Followers.NoResultsTitle
+                noResultsBody = InterfaceString.Followers.NoResultsBody
             }
-            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowers(userId: user.id), title: InterfaceString.Followers.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowers(userId: user.id), title: InterfaceString.Followers.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
@@ -127,19 +127,19 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
+                noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle
+                noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody
             }
             else {
-                noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Loves.NoResultsBody.localized
+                noResultsTitle = InterfaceString.Loves.NoResultsTitle
+                noResultsBody = InterfaceString.Loves.NoResultsBody
             }
-            simpleStreamDelegate?.showSimpleStream(.Loves(userId: user.id), title: InterfaceString.Loves.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.Loves(userId: user.id), title: InterfaceString.Loves.Title, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
     @IBAction func postsTapped(sender: UIButton) {
-        let responder = targetForAction("onPostsTapped", withSender: self) as? PostsTappedResponder
+        let responder = targetForAction(#selector(PostsTappedResponder.onPostsTapped), withSender: self) as? PostsTappedResponder
         responder?.onPostsTapped()
     }
 }

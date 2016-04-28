@@ -133,10 +133,10 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
                 proceed(self.onboardingData)
                 }, failure: { _ in
                     ElloHUD.hideLoadingHud()
-                    let message = NSLocalizedString("Something is wrong with those links.\n\nThey need to start with ‘http://’ or ‘https://’", comment: "Updating Links failed during onboarding message")
+                    let message = InterfaceString.Onboard.Profile.LinksFailed
                     let alertController = AlertViewController(message: message)
 
-                    let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                    let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
                     alertController.addAction(action)
 
                     logPresentingAlert("ProfileInfoViewController")
@@ -190,13 +190,13 @@ private extension ProfileInfoViewController {
     }
 
     func setupTextFields() {
-        let nameField = generateTextField(placeholder: NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text"),
+        let nameField = generateTextField(placeholder: InterfaceString.Onboard.Profile.Name,
             font: UIFont.defaultBoldFont(18),
             y: chooseAvatarImageView!.frame.maxY + 44)
         view.addSubview(nameField)
         self.nameField = nameField
 
-        let bioField = generateTextField(placeholder: NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text"),
+        let bioField = generateTextField(placeholder: InterfaceString.Onboard.Profile.Bio,
             font: UIFont.defaultFont(),
             y: nameField.frame.maxY + 26)
         bioField.autocapitalizationType = .Sentences
@@ -205,7 +205,7 @@ private extension ProfileInfoViewController {
         view.addSubview(bioField)
         self.bioField = bioField
 
-        let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
+        let linksField = generateTextField(placeholder: InterfaceString.Onboard.Profile.Links,
             font: UIFont.defaultFont(),
             y: bioField.frame.maxY + 26)
         linksField.spellCheckingType = .No

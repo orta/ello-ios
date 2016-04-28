@@ -13,20 +13,34 @@
 // asynchronously, they could come back in any order.  In this context "entry"
 // refers to the tuple of (index, Region) or (index, String/UIImage)
 
+import Foundation
+import UIKit
+
+public func ==(lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+    switch (lhs, rhs) {
+    case let (.Text(a), .Text(b)):
+        return a == b
+    case let (.ImageData(la, _, _),.ImageData(ra, _, _)):
+        return la == ra
+    default:
+        return false
+    }
+}
+
+
 public class PostEditingService: NSObject {
     // this can return either a Post or Comment
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
+    public typealias ImageData = (UIImage, NSData?, String?)
     public enum PostContentRegion {
         case Text(String)
         case ImageData(UIImage, NSData?, String?)
     }
 
-    typealias ImageData = (UIImage, NSData?, String?)
-
     var editPost: Post?
-    var editComment: Comment?
+    var editComment: ElloComment?
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
@@ -39,13 +53,13 @@ public class PostEditingService: NSObject {
         editPost = post
     }
 
-    convenience init(editComment comment: Comment) {
+    convenience init(editComment comment: ElloComment) {
         self.init()
         editComment = comment
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentRegion], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
+    func create(content rawContent: [PostContentRegion], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
         var textEntries = [(Int, String)]()
         var imageDataEntries = [(Int, ImageData)]()
 
@@ -71,15 +85,15 @@ public class PostEditingService: NSObject {
                     return (index, region as Regionable)
                 }
 
-                self.create(regions: self.sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
+                self.create(regions: self.sortedRegions(indexedRegions), success: success, failure: failure)
             }, failure: failure)
         }
         else {
-            create(regions: sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
+            create(regions: sortedRegions(indexedRegions), success: success, failure: failure)
         }
     }
 
-    func create(regions regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
+    func create(regions regions: [Regionable], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.addObject(region.toJSON())
@@ -106,7 +120,7 @@ public class PostEditingService: NSObject {
 
                 switch endpoint {
                 case .CreateComment:
-                    let comment = data as! Comment
+                    let comment = data as! ElloComment
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
                 case .CreatePost, .UpdatePost:
                     let post = data as! Post
@@ -121,15 +135,16 @@ public class PostEditingService: NSObject {
         )
     }
 
-    func replaceLocalImageRegions(var content: [Regionable], regions: [Regionable]) -> [Regionable] {
+    func replaceLocalImageRegions(content: [Regionable], regions: [Regionable]) -> [Regionable] {
+        var replacedContent = content
         for (index, regionable) in content.enumerate() {
             if let _ = regionable as? ImageRegion,
                 let replaceRegion = regions.safeValue(index) as? ImageRegion
             {
-                content[index] = replaceRegion
+                replacedContent[index] = replaceRegion
             }
         }
-        return content
+        return replacedContent
     }
 
     // Each image is given its own "uploader", which will fetch new credentials

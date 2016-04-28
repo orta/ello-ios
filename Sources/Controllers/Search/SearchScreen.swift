@@ -18,7 +18,8 @@ public protocol SearchScreenDelegate {
 
 @objc
 public protocol SearchScreenProtocol {
-    var delegate : SearchScreenDelegate? { get set }
+    var delegate: SearchScreenDelegate? { get set }
+    var hasBackButton: Bool { get set }
     func viewForStream() -> UIView
     func updateInsets(bottom bottom: CGFloat)
 }
@@ -28,6 +29,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillHideObserver: NotificationObserver?
     private var throttled: ThrottledBlock
     public private(set) var navigationBar: ElloNavigationBar!
+    public private(set) var navigationItem: UINavigationItem!
     public private(set) var searchField: UITextField!
     private var searchControlsContainer: UIView!
     private var postsToggleButton: OutlineElloButton?
@@ -37,7 +39,12 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var bottomInset: CGFloat
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
-    private var isSearchView = true
+    private var isSearchView: Bool
+    public var hasBackButton: Bool = true {
+        didSet {
+            setupNavigationBarItems()
+        }
+    }
 
     private var btnWidth: CGFloat {
         get {
@@ -53,7 +60,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
 // MARK: init
 
-    public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text")) {
+    public init(frame: CGRect, isSearchView: Bool, navBarTitle: String = InterfaceString.Search.Title, fieldPlaceholderText: String = InterfaceString.Search.Prompt) {
         throttled = debounce(0.8)
         bottomInset = 0
         self.navBarTitle = navBarTitle
@@ -95,14 +102,33 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
         navigationBar = ElloNavigationBar(frame: frame)
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
-
-        let navigationItem = UINavigationItem(title: navBarTitle)
-        let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
-        navigationItem.leftBarButtonItems = [leftItem]
-        navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [navigationItem]
-
         self.addSubview(navigationBar)
+
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(SearchScreen.activateSearchField))
+        navigationBar.addGestureRecognizer(gesture)
+
+        self.setupNavigationBarItems()
+    }
+
+    func activateSearchField() {
+        searchField.becomeFirstResponder()
+    }
+
+    private func setupNavigationBarItems() {
+        navigationItem = UINavigationItem(title: navBarTitle)
+
+        if hasBackButton {
+            let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: #selector(SearchScreen.backTapped))
+            navigationItem.leftBarButtonItems = [leftItem]
+            navigationItem.fixNavBarItemPadding()
+        }
+        else {
+            let leftItem = UIBarButtonItem.closeButton(target: self, action: #selector(SearchScreen.backTapped))
+            navigationItem.leftBarButtonItems = [leftItem]
+        }
+
+        navigationBar.items = [navigationItem]
     }
 
     private func setupSearchField() {
@@ -119,7 +145,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.returnKeyType = .Search
         searchField.keyboardType = .Default
         searchField.delegate = self
-        searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
+        searchField.addTarget(self, action: #selector(SearchScreen.searchFieldDidChange), forControlEvents: .EditingChanged)
         searchControlsContainer.addSubview(searchField)
 
         let lineFrame = searchField.frame.fromBottom().growUp(1)
@@ -132,14 +158,14 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private func setupToggleButtons() {
         searchControlsContainer.frame.size.height += 43
         self.postsToggleButton = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
-        postsToggleButton?.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
-        postsToggleButton?.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
+        postsToggleButton?.setTitle(InterfaceString.Search.Posts, forState: .Normal)
+        postsToggleButton?.addTarget(self, action: #selector(SearchScreen.onPostsTapped), forControlEvents: .TouchUpInside)
 
         postsToggleButton?.addToView(searchControlsContainer)
 
         self.peopleToggleButton = OutlineElloButton(frame: CGRect(x: postsToggleButton?.frame.maxX ?? 0, y: buttonY, width: btnWidth, height: 33))
-        peopleToggleButton?.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
-        peopleToggleButton?.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
+        peopleToggleButton?.setTitle(InterfaceString.Search.People, forState: .Normal)
+        peopleToggleButton?.addTarget(self, action: #selector(SearchScreen.onPeopleTapped), forControlEvents: .TouchUpInside)
 
         peopleToggleButton?.addToView(searchControlsContainer)
 
@@ -149,13 +175,23 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     public func onPostsTapped() {
         postsToggleButton?.selected = true
         peopleToggleButton?.selected = false
-        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        var searchFieldText = searchField.text ?? ""
+        if searchFieldText == "@" {
+            searchFieldText = ""
+        }
+        searchField.text = searchFieldText
+        delegate?.toggleChanged(searchFieldText, isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     public func onPeopleTapped() {
         peopleToggleButton?.selected = true
         postsToggleButton?.selected = false
-        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        var searchFieldText = searchField.text ?? ""
+        if searchFieldText == "" {
+            searchFieldText = "@"
+        }
+        searchField.text = searchFieldText
+        delegate?.toggleChanged(searchFieldText, isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     private func setupStreamView() {
@@ -185,8 +221,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             width: containerFrame.width - margins.left - margins.right,
             height: buttonHeight
             ))
-        button.setTitle(NSLocalizedString("Find your friends", comment: "Find your friends button title"), forState: .Normal)
-        button.addTarget(self, action: Selector("findFriendsTapped"), forControlEvents: .TouchUpInside)
+        button.setTitle(InterfaceString.Search.FindFriendsButton, forState: .Normal)
+        button.addTarget(self, action: #selector(SearchScreenDelegate.findFriendsTapped), forControlEvents: .TouchUpInside)
         button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
         let label = ElloLabel()
@@ -196,7 +232,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             height: containerFrame.height - margins.bottom - button.frame.height
         )
         label.numberOfLines = 2
-        label.setLabelText(NSLocalizedString("Ello is better with friends.\nFind or invite yours:", comment: "Ello is better with friends button title"))
+        label.setLabelText(InterfaceString.Search.FindFriendsPrompt)
         label.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
 
         self.addSubview(findFriendsContainer)
@@ -235,7 +271,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 // MARK: actions
 
     @objc
-    private func backTapped() {
+    func backTapped() {
         delegate?.searchCanceled()
     }
 

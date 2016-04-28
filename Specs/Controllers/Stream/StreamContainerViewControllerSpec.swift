@@ -61,26 +61,26 @@ class StreamContainerViewControllerSpec: QuickSpec {
 
             describe("recalling previously viewed stream") {
                 it("should have a default currentStreamIndex") {
-                    Defaults[CurrentStreamKey] = nil
+                    GroupDefaults[CurrentStreamKey] = nil
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     expect(controller.currentStreamIndex) == 0
                 }
 
                 it("should store the currentStreamIndex") {
-                    Defaults[CurrentStreamKey] = 1
+                    GroupDefaults[CurrentStreamKey] = 1
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     expect(controller.currentStreamIndex) == 1
                 }
 
                 it("should move the scroll view") {
-                    Defaults[CurrentStreamKey] = 1
+                    GroupDefaults[CurrentStreamKey] = 1
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     showController(controller)
                     expect(controller.scrollView.contentOffset) == CGPoint(x: UIScreen.mainScreen().bounds.size.width, y: 0)
                 }
 
                 it("should update the currentStreamIndex") {
-                    Defaults[CurrentStreamKey] = 0
+                    GroupDefaults[CurrentStreamKey] = 0
                     controller = StreamContainerViewController.instantiateFromStoryboard()
                     showController(controller)
                     controller.streamsSegmentedControl.selectedSegmentIndex = 1

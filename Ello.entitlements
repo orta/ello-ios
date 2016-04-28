@@ -10,5 +10,13 @@
 		<string>applinks:email.ello.co</string>
 		<string>applinks:ello-staging2.herokuapp.com</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.ello.Ello</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)co.ello.Ello</string>
+	</array>
 </dict>
 </plist>

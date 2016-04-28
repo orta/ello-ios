@@ -28,27 +28,13 @@ class ElloHUD: NSObject {
         let elloLogo = ElloLogoView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         elloLogo.animateLogo()
         hud.customView = elloLogo
-        hud.mode = MBProgressHUDMode.CustomView
+        hud.mode = .CustomView
         hud.removeFromSuperViewOnHide = true
         return hud
-    }
-
-    class func showLoadingHud() -> MBProgressHUD? {
-        if let win = UIApplication.sharedApplication().windows.last {
-            return ElloHUD.showLoadingHudInView(win)
-        }
-        else {
-            return nil
-        }
     }
 
     class func hideLoadingHudInView(view: UIView) {
         MBProgressHUD.hideHUDForView(view, animated: true)
     }
 
-    class func hideLoadingHud() {
-        if let win = UIApplication.sharedApplication().windows.last {
-            ElloHUD.hideLoadingHudInView(win)
-        }
-    }
 }

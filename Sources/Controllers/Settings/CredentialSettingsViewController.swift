@@ -67,7 +67,7 @@ public class CredentialSettingsViewController: UITableViewController {
         ElloTextFieldView.styleAsPassword(passwordView)
         passwordView.textFieldDidChange = self.passwordChanged
 
-        currentPasswordField.addTarget(self, action: Selector("currentPasswordChanged"), forControlEvents: .EditingChanged)
+        currentPasswordField.addTarget(self, action: #selector(CredentialSettingsViewController.currentPasswordChanged), forControlEvents: .EditingChanged)
 
         tableView.scrollsToTop = false
     }
@@ -91,7 +91,7 @@ public class CredentialSettingsViewController: UITableViewController {
                     let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
 
                     if !availability.isEmailAvailable {
-                        let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                        let msg = InterfaceString.Join.EmailInvalid
                         self.emailView.setErrorMessage(msg)
                     }
                     self.emailView.setState(state)
@@ -102,7 +102,7 @@ public class CredentialSettingsViewController: UITableViewController {
                 })
             } else {
                 self.emailView.setState(.Error)
-                let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                let msg = InterfaceString.Join.EmailInvalid
                 self.emailView.setErrorMessage(msg)
                 self.updateView()
             }
@@ -129,11 +129,11 @@ public class CredentialSettingsViewController: UITableViewController {
                     let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
 
                     if !availability.isUsernameAvailable {
-                        let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+                        let msg = InterfaceString.Join.UsernameUnavailable
                         self.usernameView.setErrorMessage(msg)
                         if !availability.usernameSuggestions.isEmpty {
                             let suggestions = availability.usernameSuggestions.joinWithSeparator(", ")
-                            let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
+                            let msg = String(format: InterfaceString.Join.UsernameSuggestionTemplate, suggestions)
                             self.usernameView.setMessage(msg)
                         }
                     }
@@ -156,7 +156,7 @@ public class CredentialSettingsViewController: UITableViewController {
             self.passwordView.setState(.OK)
         } else {
             self.passwordView.setState(.Error)
-            let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
+            let msg = InterfaceString.Join.PasswordInvalid
             self.passwordView.setErrorMessage(msg)
         }
 

@@ -14,7 +14,7 @@ class SafariActivity: UIActivity {
     }
 
     override func activityTitle() -> String {
-        return InterfaceString.OpenInSafari.localized
+        return InterfaceString.App.OpenInSafari
     }
 
     override func activityImage() -> UIImage? {

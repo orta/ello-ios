@@ -10,6 +10,7 @@ import Foundation
 
 let UnknownRegionVersion = 1
 
+@objc(UnknownRegion)
 public final class UnknownRegion: NSObject, Regionable, NSCoding {
     public let version = UnknownRegionVersion
     public var isRepost: Bool = false

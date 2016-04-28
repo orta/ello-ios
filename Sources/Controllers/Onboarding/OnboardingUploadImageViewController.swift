@@ -79,16 +79,16 @@ extension OnboardingUploadImageViewController {
     }
 
     public func userSetImage(image: UIImage) {
-        chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
+        chooseImageButton?.setTitle(InterfaceString.Onboard.PickAnotherImage, forState: .Normal)
         onboardingViewController?.canGoNext = true
         selectedImage = image
     }
 
     public func userUploadFailed() {
-        let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Cover image upload failed during onboarding message")
+        let message = InterfaceString.Onboard.UploadFailed
         let alertController = AlertViewController(message: message)
 
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
         alertController.addAction(action)
 
         logPresentingAlert("OnboardingUploadImageViewController")

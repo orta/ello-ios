@@ -23,7 +23,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var editPost: Post?
-    var editComment: Comment?
+    var editComment: ElloComment?
     var rawEditBody: [Regionable]?
     var defaultText: String?
     var canGoBack: Bool = true {
@@ -34,7 +34,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    typealias CommentSuccessListener = (comment: Comment) -> Void
+    typealias CommentSuccessListener = (comment: ElloComment) -> Void
     typealias PostSuccessListener = (post: Post) -> Void
     var commentSuccessListener: CommentSuccessListener?
     var postSuccessListener: PostSuccessListener?
@@ -53,7 +53,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         parentPost = post
     }
 
-    convenience public init(editComment comment: Comment) {
+    convenience public init(editComment comment: ElloComment) {
         self.init(nibName: nil, bundle: nil)
         editComment = comment
         PostService().loadComment(comment.postId, commentId: comment.id, success: { (comment, _) in
@@ -67,12 +67,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     convenience public init(editPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         editPost = post
-        PostService().loadPost(post.id, success: { (post, _) in
-            self.rawEditBody = post.body
-            if let body = post.body where self.isViewLoaded() {
-                self.prepareScreenForEditing(body)
-            }
-        })
+        PostService().loadPost(post.id,
+            needsComments: false,
+            success: { (post, _) in
+                self.rawEditBody = post.body
+                if let body = post.body where self.isViewLoaded() {
+                    self.prepareScreenForEditing(body)
+                }
+            })
     }
 
     convenience public init(parentPost post: Post, defaultText: String?) {
@@ -115,16 +117,16 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if editPost != nil {
-            screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
-            screen.submitTitle = NSLocalizedString("Edit Post", comment: "Edit Post")
+            screen.title = InterfaceString.Omnibar.EditPostTitle
+            screen.submitTitle = InterfaceString.Omnibar.EditPostButton
             screen.isEditing = true
             if let rawEditBody = rawEditBody {
                 prepareScreenForEditing(rawEditBody)
             }
         }
         else if editComment != nil {
-            screen.title = NSLocalizedString("Edit this comment", comment: "Edit this comment")
-            screen.submitTitle = NSLocalizedString("Edit Comment", comment: "Edit Comment")
+            screen.title = InterfaceString.Omnibar.EditCommentTitle
+            screen.submitTitle = InterfaceString.Omnibar.EditCommentButton
             screen.isEditing = true
             if let rawEditBody = rawEditBody {
                 prepareScreenForEditing(rawEditBody)
@@ -132,8 +134,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else {
             if parentPost != nil {
-                screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
-                screen.submitTitle = NSLocalizedString("Comment", comment: "Comment")
+                screen.title = InterfaceString.Omnibar.CreateCommentTitle
+                screen.submitTitle = InterfaceString.Omnibar.CreateCommentButton
+            }
+            else {
+                screen.title = ""
+                screen.submitTitle = InterfaceString.Omnibar.CreatePostButton
             }
 
             if let fileName = omnibarDataName(),
@@ -322,7 +328,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             case let .AttributedText(attributedText):
                 let textString = attributedText.string
                 if textString.characters.count > 5000 {
-                    contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
+                    contentCreationFailed(InterfaceString.Omnibar.TooLongError)
                     return []
                 }
 
@@ -349,7 +355,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             startPosting(authorId, content)
         }
         else {
-            contentCreationFailed(NSLocalizedString("You must be logged in", comment: "You must be logged in"))
+            contentCreationFailed(InterfaceString.App.LoggedOutError)
         }
     }
 
@@ -380,7 +386,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         screen.interactionEnabled = false
         service.create(
             content: content,
-            authorId: authorId,
             success: { postOrComment in
                 ElloHUD.hideLoadingHudInView(self.view)
                 self.screen.interactionEnabled = true
@@ -398,14 +403,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
                 if let vc = self.parentViewController as? ElloTabBarController
                 where didGoToPreviousTab {
-                    vc.selectedTab = .Post
+                    vc.selectedTab = .Omnibar
                 }
             }
         )
     }
 
     private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {
-        if let comment = postOrComment as? Comment {
+        if let comment = postOrComment as? ElloComment {
             self.emitCommentSuccess(comment)
         }
         else if let post = postOrComment as? Post {
@@ -413,7 +418,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    private func emitCommentSuccess(comment: Comment) {
+    private func emitCommentSuccess(comment: ElloComment) {
         postNotification(CommentChangedNotification, value: (comment, .Create))
         ContentChange.updateCommentCount(comment, delta: 1)
 
@@ -452,7 +457,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         self.screen.resetAfterSuccessfulPost()
 
         if didGoToPreviousTab {
-            NotificationBanner.displayAlert(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+            NotificationBanner.displayAlert(InterfaceString.Omnibar.CreatedPost)
         }
     }
 

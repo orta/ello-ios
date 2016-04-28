@@ -13,7 +13,7 @@ class ProfileHeaderCellPresenterSpec: QuickSpec {
                     let cell: ProfileHeaderCell = ProfileHeaderCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: user, type: .ProfileHeader)
 
-                    ProfileHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Profile(perPage: 10), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    ProfileHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .CurrentUserStream, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.postsButton.enabled) == false
                 }
@@ -25,7 +25,7 @@ class ProfileHeaderCellPresenterSpec: QuickSpec {
                     let cell: ProfileHeaderCell = ProfileHeaderCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: user, type: .ProfileHeader)
 
-                    ProfileHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Profile(perPage: 10), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    ProfileHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .CurrentUserStream, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.postsButton.enabled) == true
                 }

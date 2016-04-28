@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
+
 public enum NotificationFilterType: String {
     case All = "NotificationFilterTypeAll"
     case Comments = "NotificationFilterTypeComments"
@@ -46,6 +48,7 @@ public enum NotificationFilterType: String {
 
 let NotificationVersion = 1
 
+@objc(Notification)
 public final class Notification: JSONAble, Authorable {
 
     // required
@@ -57,7 +60,7 @@ public final class Notification: JSONAble, Authorable {
     // computed
     public var createdAt: NSDate { return activity.createdAt }
     public var groupId:String { return activity.id }
-    public var subject: AnyObject? { willSet { attributedTitleStore = nil } }
+    public var subject: JSONAble? { willSet { attributedTitleStore = nil } }
 
     // notification specific
     public var textRegion: TextRegion?
@@ -84,7 +87,7 @@ public final class Notification: JSONAble, Authorable {
             self.author = post.author
             self.postId = post.id
         }
-        else if let comment = activity.subject as? Comment {
+        else if let comment = activity.subject as? ElloComment {
             self.author = comment.author
             self.postId = comment.postId
         }
@@ -103,12 +106,13 @@ public final class Notification: JSONAble, Authorable {
         if let post = activity.subject as? Post {
             assignRegionsFromContent(post.summary)
         }
-        else if let comment = activity.subject as? Comment {
+        else if let comment = activity.subject as? ElloComment {
+            let parentSummary = comment.parentPost?.summary
             if let summary = comment.summary {
-                assignRegionsFromContent(summary)
+                assignRegionsFromContent(summary, parentSummary: parentSummary)
             }
             else {
-                assignRegionsFromContent(comment.content)
+                assignRegionsFromContent(comment.content, parentSummary: parentSummary)
             }
         }
         else if let post = (activity.subject as? Love)?.post {
@@ -142,23 +146,38 @@ public final class Notification: JSONAble, Authorable {
 
 // MARK: Private
 
-    private func assignRegionsFromContent(content : [Regionable]) {
+    private func assignRegionsFromContent(content: [Regionable], parentSummary: [Regionable]? = nil) {
         // assign textRegion and imageRegion from the post content - finds
         // the first of both kinds of regions
-        for region in content {
-            if self.textRegion != nil && self.imageRegion != nil {
-                break
-            }
-            else if let textRegion = region as? TextRegion {
-                if self.textRegion == nil {
-                    self.textRegion = textRegion
+        var textContent: [String] = []
+        var parentImage: ImageRegion?
+        var contentImage: ImageRegion?
+
+        if let parentSummary = parentSummary {
+            for region in parentSummary {
+                if let newTextRegion = region as? TextRegion {
+                    textContent.append(newTextRegion.content)
                 }
-            }
-            else if let imageRegion = region as? ImageRegion {
-                if self.imageRegion == nil {
-                    self.imageRegion = imageRegion
+                else if let newImageRegion = region as? ImageRegion
+                    where parentImage == nil
+                {
+                    parentImage = newImageRegion
                 }
             }
         }
+
+        for region in content {
+            if let newTextRegion = region as? TextRegion {
+                textContent.append(newTextRegion.content)
+            }
+            else if let newImageRegion = region as? ImageRegion
+                where contentImage == nil
+            {
+                contentImage = newImageRegion
+            }
+        }
+
+        imageRegion = contentImage ?? parentImage
+        textRegion = TextRegion(content: textContent.joinWithSeparator("<br/>"))
     }
 }

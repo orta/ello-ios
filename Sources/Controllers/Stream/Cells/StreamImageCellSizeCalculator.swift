@@ -54,7 +54,7 @@ public class StreamImageCellSizeCalculator: NSObject {
             if (item.type.data as? Regionable)?.isRepost == true {
                 maxWidth -= StreamTextCellPresenter.repostMargin
             }
-            else if item.jsonable is Comment {
+            else if item.jsonable is ElloComment {
                 maxWidth -= StreamTextCellPresenter.commentMargin
             }
 

@@ -15,11 +15,11 @@ public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
     var author: User? { get }
-    optional var isRepost: Bool { get }
 }
 
 let PostVersion = 1
 
+@objc(Post)
 public final class Post: JSONAble, Authorable {
 
     // active record
@@ -61,8 +61,8 @@ public final class Post: JSONAble, Authorable {
         return getLinkObject("reposted_source") as? Post
     }
     // nested resources
-    public var comments: [Comment]? {
-        if let nestedComments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
+    public var comments: [ElloComment]? {
+        if let nestedComments = getLinkArray(MappingType.CommentsType.rawValue) as? [ElloComment] {
             for comment in nestedComments {
                 comment.loadedFromPostId = self.id
             }

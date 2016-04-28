@@ -93,10 +93,10 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     }
 
     private func showRelationshipFailureAlert() {
-        let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Relationship status update failed during onboarding message")
+        let message = InterfaceString.Onboard.RelationshipFailed
         let alertController = AlertViewController(message: message)
 
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)
         alertController.addAction(action)
 
         logPresentingAlert("OnboardingUserListViewController")

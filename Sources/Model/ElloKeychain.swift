@@ -13,7 +13,7 @@ public protocol KeychainType {
     var authToken: String? { get set }
     var refreshAuthToken: String? { get set }
     var authTokenType: String? { get set }
-    var isAuthenticated: Bool? { get set }
+    var isPasswordBased: Bool? { get set }
     var username: String? { get set }
     var password: String? { get set }
 }
@@ -26,11 +26,17 @@ private let AuthTokenAuthenticated = "ElloAuthTokenAuthenticated"
 private let AuthUsername = "ElloAuthUsername"
 private let AuthPassword = "ElloAuthPassword"
 
-struct ElloKeychain: KeychainType {
+public struct ElloKeychain: KeychainType {
 
-    let keychain = Keychain(service: NSBundle.mainBundle().bundleIdentifier ?? "co.ello.ElloDev")
+    public init() {}
+    public var keychain: Keychain {
+        get {
+            let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "3D5U9ESH74"
+            return Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
+        }
+    }
 
-    var pushToken: NSData? {
+    public var pushToken: NSData? {
         get {
             if let pushToken = try? keychain.getData(PushToken) {
                 return pushToken
@@ -47,7 +53,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var authToken: String? {
+    public var authToken: String? {
         get {
             if let authToken = try? keychain.get(AuthTokenKey) {
                 return authToken
@@ -66,7 +72,7 @@ struct ElloKeychain: KeychainType {
         }
     }
 
-    var refreshAuthToken: String? {
+    public var refreshAuthToken: String? {
         get {
             if let refreshAuthToken = try? keychain.get(AuthTokenRefresh) {
                 return refreshAuthToken
@@ -76,31 +82,35 @@ struct ElloKeychain: KeychainType {
         set {
             do {
                 if let newValue = newValue {
-                    try keychain.set(newValue, key: AuthTokenRefresh)
+                    try keychain.updateIfNeeded(newValue, key: AuthTokenRefresh)
                 }
             }
-            catch { }
+            catch {
+                print("Unable to save refresh auth token")
+            }
         }
     }
 
 
-    var authTokenType: String? {
+    public var authTokenType: String? {
         get {
-            do { return try keychain.getString(AuthTokenType) }
+            do { return try keychain.get(AuthTokenType) }
             catch { return nil }
         }
         set {
             do {
                 if let newValue = newValue {
-                    try keychain.set(newValue, key: AuthTokenType)
+                    try keychain.updateIfNeeded(newValue, key: AuthTokenType)
                 }
             }
-            catch { }
+            catch {
+                print("Unable to save auth token type")
+            }
         }
     }
 
 
-    var isAuthenticated: Bool? {
+    public var isPasswordBased: Bool? {
         get {
             do {
                 let data = try keychain.getData(AuthTokenAuthenticated)
@@ -122,12 +132,12 @@ struct ElloKeychain: KeychainType {
                 }
             }
             catch {
-
+                print("Unable to save is password based")
             }
         }
     }
 
-    var username: String? {
+    public var username: String? {
         get {
             do { return try keychain.getString(AuthUsername) }
             catch { return nil }
@@ -135,14 +145,16 @@ struct ElloKeychain: KeychainType {
         set {
             do {
                 if let newValue = newValue {
-                    try keychain.set(newValue, key: AuthUsername)
+                    try keychain.updateIfNeeded(newValue, key: AuthUsername)
                 }
             }
-            catch { }
+            catch {
+                print("Unable to save username")
+            }
         }
     }
 
-    var password: String? {
+    public var password: String? {
         get {
             do { return try keychain.getString(AuthPassword) }
             catch { return nil }
@@ -150,10 +162,21 @@ struct ElloKeychain: KeychainType {
         set {
             do {
                 if let newValue = newValue {
-                    try keychain.set(newValue, key: AuthPassword)
+                    try keychain.updateIfNeeded(newValue, key: AuthPassword)
                 }
             }
-            catch { }
+            catch {
+                print("Unable to save password")
+            }
+        }
+    }
+}
+
+extension Keychain {
+
+    public func updateIfNeeded(value: String, key: String) throws {
+        if self[key] != value {
+            try self.set(value, key: key)
         }
     }
 }

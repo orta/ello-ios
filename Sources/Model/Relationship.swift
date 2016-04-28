@@ -10,33 +10,9 @@ import Crashlytics
 import Foundation
 import SwiftyJSON
 
-public enum RelationshipPriority: String {
-    case Following = "friend"
-    case Starred = "noise"
-    case Block = "block"
-    case Mute = "mute"
-    case Inactive = "inactive"
-    case None = "none"
-    case Null = "null"
-    case Me = "self"
-
-    static let all = [Following, Starred, Block, Mute, Inactive, None, Null, Me]
-
-    public init(stringValue: String) {
-        self = RelationshipPriority(rawValue: stringValue) ?? .None
-    }
-
-    var buttonName: String {
-        switch self {
-        case .Following: return "following"
-        case .Starred: return "starred"
-        default: return self.rawValue
-        }
-    }
-}
-
 let RelationshipVersion = 1
 
+@objc(Relationship)
 public final class Relationship: JSONAble {
 
     // active record

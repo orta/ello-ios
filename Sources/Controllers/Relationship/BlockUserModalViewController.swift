@@ -35,18 +35,18 @@ public class BlockUserModalViewController: BaseElloViewController {
 
     public var titleText: String {
         switch relationshipPriority {
-        case .Mute: return "Would you like to \runmute or block \(userAtName)?"
-        case .Block: return "Would you like to \rmute or unblock \(userAtName)?"
-        default: return "Would you like to \rmute or block \(userAtName)?"
+        case .Mute: return String(format: InterfaceString.Relationship.UnmuteAlertTemplate, userAtName)
+        case .Block: return String(format: InterfaceString.Relationship.BlockAlertTemplate, userAtName)
+        default: return String(format: InterfaceString.Relationship.MuteAlertTemplate, userAtName)
         }
     }
 
     public var muteText: String {
-        return "\(userAtName) will not be able to comment on your posts. If \(userAtName) mentions you, you will not be notified."
+        return String(format: InterfaceString.Relationship.MuteWarningTemplate, userAtName, userAtName)
     }
 
     public var blockText: String {
-        return "\(userAtName) will not be able to follow you or view your profile, posts or find you in search."
+        return String(format: InterfaceString.Relationship.BlockWarningTemplate, userAtName)
     }
 
     required public init(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
@@ -107,8 +107,8 @@ public class BlockUserModalViewController: BaseElloViewController {
     }
 
     private func setText() {
-        muteButton?.setTitle("Mute", forState: UIControlState.Normal)
-        blockButton?.setTitle("Block", forState: UIControlState.Normal)
+        muteButton?.setTitle(InterfaceString.Relationship.MuteButton, forState: UIControlState.Normal)
+        blockButton?.setTitle(InterfaceString.Relationship.BlockButton, forState: UIControlState.Normal)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         var attrString: NSMutableAttributedString

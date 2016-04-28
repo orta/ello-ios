@@ -24,6 +24,7 @@ public enum EmbedType: String {
     case Unknown = "unknown"
 }
 
+@objc(EmbedRegion)
 public final class EmbedRegion: JSONAble, Regionable {
     public var isRepost: Bool = false
     

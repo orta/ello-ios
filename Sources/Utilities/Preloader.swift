@@ -66,7 +66,7 @@ public struct Preloader {
             }
 
             // comment image regions
-            else if let comment = jsonable as? Comment {
+            else if let comment = jsonable as? ElloComment {
                 preloadImagesInRegions(comment.content, streamKind: streamKind)
             }
 

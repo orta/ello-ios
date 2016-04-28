@@ -16,12 +16,12 @@ public struct StreamCreateCommentCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? StreamCreateCommentCell,
-            comment = streamCellItem.jsonable as? Comment,
+            comment = streamCellItem.jsonable as? ElloComment,
             post = comment.loadedFromPost,
             user = comment.author
         {
             let ownPost = currentUser?.id == post.authorId
-            let replyAllVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
+            let replyAllVisibility: InteractionVisibility = ownPost ? .Enabled : .Hidden
 
             cell.indexPath = indexPath
             cell.avatarURL = user.avatarURL

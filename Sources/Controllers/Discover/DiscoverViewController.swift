@@ -21,7 +21,7 @@ public class DiscoverViewController: StreamableViewController {
 
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
-        title = NSLocalizedString("Discover", comment: "Discover")
+        title = InterfaceString.Discover.Title
         streamViewController.streamKind = .Discover(type: .Recommended, perPage: 10)
     }
 
@@ -60,7 +60,7 @@ public class DiscoverViewController: StreamableViewController {
     // MARK: - IBActions
 
     @IBAction func importMyContactsTapped(sender: UIButton) {
-        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
+        let responder = targetForAction(#selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
         responder?.onInviteFriends()
     }
 
@@ -75,8 +75,8 @@ public class DiscoverViewController: StreamableViewController {
     }
 
     private func setupInviteFriendsButton() {
-        chevron.image = Interface.Image.AngleBracket.whiteImage
-        inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
+        chevron.image = InterfaceImage.AngleBracket.whiteImage
+        inviteLabel.text = InterfaceString.Friends.FindAndInvite
         inviteLabel.font = UIFont.defaultFont()
         inviteLabel.textColor = .whiteColor()
     }

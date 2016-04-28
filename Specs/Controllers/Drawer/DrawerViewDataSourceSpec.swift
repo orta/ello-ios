@@ -1,14 +1,18 @@
-import Ello
+//
+//  DrawerViewDataSourceSpec.swift
+//  Ello
+//
+//  Created by Gordon Fontenot on 3/16/2015.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+@testable import Ello
 import Quick
 import Nimble
 
 
 class DrawerViewDataSourceSpec: QuickSpec {
     override func spec() {
-
-        func indexPathFromIndex(index: Int) -> NSIndexPath {
-            return NSIndexPath(forRow: index, inSection: 0)
-        }
 
         context("UITableViewDataSource") {
 
@@ -22,36 +26,29 @@ class DrawerViewDataSourceSpec: QuickSpec {
 
             describe("itemForIndexPath(:)") {
 
-                it("has the correct items") {
+                describe("has the correct items") {
+                    let expectations: [DrawerItem] = [
+                        DrawerItem(name: InterfaceString.Drawer.Store, type: .External("http://ello.threadless.com/")),
+                        DrawerItem(name: InterfaceString.Drawer.Invite, type: .Invite),
+                        DrawerItem(name: InterfaceString.Drawer.Help, type: .External("https://ello.co/wtf/help/the-basics/")),
+                        DrawerItem(name: InterfaceString.Drawer.Resources, type: .External("https://ello.co/wtf/resources/community-directory/")),
+                        DrawerItem(name: InterfaceString.Drawer.About, type: .External("https://ello.co/wtf/about/what-is-ello/")),
+                        DrawerItem(name: InterfaceString.Drawer.Logout, type: .Logout),
+                        DrawerItem(name: InterfaceString.Drawer.Version, type: .Version),
+                    ]
                     let dataSource = DrawerViewDataSource()
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(0))?.name) == "Store"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(0))?.link) == "http://ello.threadless.com/"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(0))?.type) == DrawerItemType.External
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(1))?.name) == "Invite"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(1))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(1))?.type) == DrawerItemType.Invite
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.name) == "Help"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.link) == "https://ello.co/wtf/help/the-basics/"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.type) == DrawerItemType.External
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.name) == "Resources"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.link) == "https://ello.co/wtf/resources/community-directory/"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.type) == DrawerItemType.External
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.name) == "About"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.link) == "https://ello.co/wtf/about/what-is-ello/"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.type) == DrawerItemType.External
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.name) == "Logout"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.type) == DrawerItemType.Logout
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.name.hasPrefix("Ello v")) == true
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.type) == DrawerItemType.Plain
+                    for (row, expectation) in expectations.enumerate() {
+                        it("should have the correct item at index \(row)") {
+                            let item = dataSource.itemForIndexPath(NSIndexPath(forRow: row, inSection: 0))
+                            if let item = item {
+                                expect(item.name) == expectation.name
+                                expect("\(item.type)") == "\(expectation.type)"
+                            }
+                            else {
+                                fail("no item at index \(row)")
+                            }
+                        }
+                    }
                 }
             }
         }

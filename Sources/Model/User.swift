@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let UserVersion: Int = 1
 
+@objc(User)
 public final class User: JSONAble {
 
     // active record
@@ -61,6 +62,12 @@ public final class User: JSONAble {
     }
     // profile
     public var profile: Profile?
+
+    public var shareLink: String? {
+        get {
+            return "\(ElloURI.baseURL)/\(username)"
+        }
+    }
 
     public init(id: String,
         href: String,
@@ -220,7 +227,7 @@ extension User {
     func hasProperty(key: String) -> Bool {
         if respondsToSelector(Selector(key.camelCase)) {
             return true
-        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+        } else if profile?.respondsToSelector(Selector(key.camelCase)) == true {
             return true
         }
         return false
@@ -228,10 +235,10 @@ extension User {
 
     func propertyForSettingsKey(key: String) -> Bool {
         var value: Bool? = false
-        if respondsToSelector(Selector(key.camelCase)) {
-            value = valueForKey(key.camelCase) as? Bool
-        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+        if profile?.respondsToSelector(Selector(key.camelCase)) == true {
             value = profile?.valueForKey(key.camelCase) as? Bool
+        } else if respondsToSelector(Selector(key.camelCase)) {
+            value = valueForKey(key.camelCase) as? Bool
         }
         return value ?? false
     }

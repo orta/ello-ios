@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> Void
-public typealias CommentSuccessCompletion = (comment: Comment, responseConfig: ResponseConfig) -> Void
+public typealias CommentSuccessCompletion = (comment: ElloComment, responseConfig: ResponseConfig) -> Void
 public typealias DeletePostSuccessCompletion = () -> Void
 
 public struct PostService {
@@ -18,11 +18,13 @@ public struct PostService {
 
     public func loadPost(
         postParam: String,
+        needsComments: Bool,
         success: PostSuccessCompletion,
         failure: ElloFailureCompletion? = nil)
     {
+        let commentCount = needsComments ? 10 : 0
         ElloProvider.shared.elloRequest(
-            ElloAPI.PostDetail(postParam: postParam),
+            ElloAPI.PostDetail(postParam: postParam, commentCount: commentCount),
             success: { (data, responseConfig) in
                 if let post = data as? Post {
                     Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))
@@ -47,7 +49,7 @@ public struct PostService {
         ElloProvider.shared.elloRequest(
             ElloAPI.CommentDetail(postId: postId, commentId: commentId),
             success: { (data, responseConfig) in
-                if let comment = data as? Comment {
+                if let comment = data as? ElloComment {
                     comment.loadedFromPostId = postId
                     success(comment: comment, responseConfig: responseConfig)
                 }

@@ -30,7 +30,7 @@ class StreamCellItemParserSpec: QuickSpec {
                 }
 
                 it("returns an empty array if an empty array of Comments is passed in") {
-                    let comments = [Comment]()
+                    let comments = [ElloComment]()
                     expect(subject.parse(comments, streamKind: .Following).count) == 0
                 }
 
@@ -42,7 +42,7 @@ class StreamCellItemParserSpec: QuickSpec {
                         },
                         failure: nil
                     )
-                    expect(loadedPosts.count) == 8
+                    expect(loadedPosts.count) == 4
                 }
 
                 it("returns an empty array if an empty array of Activities is passed in") {

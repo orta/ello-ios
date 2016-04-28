@@ -39,19 +39,19 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
     private func updateInterface() {
         switch state {
         case .AskNicely:
-            let title = NSLocalizedString("Delete Account?", comment: "delete account question")
+            let title = InterfaceString.Settings.DeleteAccountConfirm
             titleLabel.text = title
 
         case .AreYouSure:
-            let title = NSLocalizedString("Are You Sure?", comment: "are you sure question")
+            let title = InterfaceString.AreYouSure
             titleLabel.text = title
             infoLabel.hidden = false
 
         case .NoTurningBack:
-            let title = NSLocalizedString("Your account is in the process of being deleted.", comment: "Your account is in the process of being deleted.")
+            let title = InterfaceString.Settings.AccountIsBeingDeleted
             titleLabel.text = title
             titleLabel.font = UIFont(descriptor: titleLabel.font.fontDescriptor(), size: 18)
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("tick"), userInfo: .None, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(DeleteAccountConfirmationViewController.tick), userInfo: .None, repeats: true)
             infoLabel.hidden = true
             buttonView.hidden = true
             cancelView.hidden = false
@@ -60,10 +60,11 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
 
     @objc
     private func tick() {
-        let text = NSString(format: NSLocalizedString("You will be redirected in %d...", comment: "You will be redirected in ..."), counter) as String
+        let text = NSString(format: InterfaceString.Settings.RedirectedCountdownTemplate, counter) as String
         nextTick {
             self.cancelLabel.setLabelText(text, color: .whiteColor(), alignment: .Center)
-            if self.counter-- <= 0 {
+            self.counter -= 1
+            if self.counter <= 0 {
                 self.deleteAccount()
             }
         }

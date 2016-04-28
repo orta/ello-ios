@@ -86,19 +86,19 @@ class StreamServiceSpec: QuickSpec {
                 describe("-loadMoreCommentsForPost") {
 
                     it("calls success with an array of Comment objects") {
-                        var loadedComments:[Comment]?
+                        var loadedComments:[ElloComment]?
 
                         streamService.loadMoreCommentsForPost("111",
                             streamKind: nil,
                             success: { (comments, responseConfig) in
-                            loadedComments = comments as? [Comment]
+                            loadedComments = comments as? [ElloComment]
                         }, failure: { _ in },
                             noContent: { _ in })
 
                         expect(loadedComments!.count) == 1
 
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
-                        let comment:Comment = loadedComments![0] as Comment
+                        let comment:ElloComment = loadedComments![0] as ElloComment
 
                         expect(comment.createdAt) == expectedCreatedAt
 

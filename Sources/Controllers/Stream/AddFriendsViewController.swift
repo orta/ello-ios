@@ -35,15 +35,23 @@ public class AddFriendsViewController: StreamableViewController {
     override public func loadView() {
         searchScreen = SearchScreen(frame: UIScreen.mainScreen().bounds,
             isSearchView: false,
-            navBarTitle: NSLocalizedString("Find & invite your friends", comment: "Find Friends"),
-            fieldPlaceholderText: NSLocalizedString("Name or email", comment: "Find placeholder text"))
+            navBarTitle: InterfaceString.Friends.FindAndInvite,
+            fieldPlaceholderText: InterfaceString.Friends.SearchPrompt)
         self.view = searchScreen
         searchScreen.delegate = self
+        searchScreen.navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
+        ]
+    }
+
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        screen.hasBackButton = (navigationController != nil)
     }
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if isMovingToParentViewController() {
+        if isMovingToParentViewController() || presentingViewController != nil {
             showNavBars(false)
             updateInsets()
             ElloHUD.showLoadingHudInView(streamViewController.view)
@@ -143,7 +151,12 @@ public class AddFriendsViewController: StreamableViewController {
 extension AddFriendsViewController: SearchScreenDelegate {
 
     public func searchCanceled() {
-        navigationController?.popViewControllerAnimated(true)
+        if let navigationController = navigationController {
+            navigationController.popViewControllerAnimated(true)
+        }
+        else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 
     public func searchFieldCleared() {

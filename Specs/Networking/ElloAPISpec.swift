@@ -91,13 +91,13 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.NotificationsStream(category: nil).path) == "/api/v2/notifications"
                     }
                     it("PostDetail is valid") {
-                        expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/v2/posts/some-param"
+                        expect(ElloAPI.PostDetail(postParam: "some-param", commentCount: 10).path) == "/api/v2/posts/some-param"
                     }
                     it("PostComments is valid") {
                         expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/v2/posts/fake-id/comments"
                     }
                     it("Profile is valid") {
-                        expect(ElloAPI.Profile(perPage: 10).path) == "/api/v2/profile"
+                        expect(ElloAPI.CurrentUserStream.path) == "/api/v2/profile"
                     }
                     it("ProfileUpdate is valid") {
                         expect(ElloAPI.ProfileUpdate(body: [:]).path) == "/api/v2/profile"
@@ -168,10 +168,10 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NotificationsNewContent(createdAt: NSDate()),
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileDelete,
                         ElloAPI.ProfileToggles,
                         ElloAPI.ProfileUpdate(body: [:]),
@@ -237,10 +237,10 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NoiseStream,
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileDelete,
                         ElloAPI.ProfileToggles,
                         ElloAPI.ProfileUpdate(body: [:]),
@@ -320,10 +320,10 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.NotificationsNewContent(createdAt: NSDate()),
                         ElloAPI.NotificationsStream(category: ""),
                         ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
                         ElloAPI.PostLovers(postId: ""),
                         ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.CurrentUserStream,
                         ElloAPI.ProfileToggles,
                         ElloAPI.SearchForUsers(terms: ""),
                         ElloAPI.SearchForPosts(terms: ""),
@@ -417,7 +417,7 @@ class ElloAPISpec: QuickSpec {
                     expect(params["email"] as? String) == "me@me.me"
                 }
 
-                it("Join") {
+                describe("Join") {
                     context("without an invitation code") {
                         let params = ElloAPI.Join(email: "me@me.me", username: "sweetness", password: "password", invitationCode: nil).parameters!
                         expect(params["email"] as? String) == "me@me.me"
@@ -460,9 +460,20 @@ class ElloAPISpec: QuickSpec {
                     expect(params["per_page"] as? Int) == 10
                 }
 
+                describe("PostDetail") {
+                    it("commentCount 10") {
+                        let params = ElloAPI.PostDetail(postParam: "post-id", commentCount: 10).parameters!
+                        expect(params["comment_count"] as? Int) == 10
+                    }
+                    it("commentCount 0") {
+                        let params = ElloAPI.PostDetail(postParam: "post-id", commentCount: 0).parameters!
+                        expect(params["comment_count"] as? Int) == 0
+                    }
+                }
+
                 it("Profile") {
-                    let params = ElloAPI.Profile(perPage: 42).parameters!
-                    expect(params["post_count"] as? Int) == 42
+                    let params = ElloAPI.CurrentUserStream.parameters!
+                    expect(params["post_count"] as? Int) == 10
                 }
 
                 xit("PushSubscriptions, DeleteSubscriptions") {

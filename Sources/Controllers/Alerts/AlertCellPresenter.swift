@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+
 struct AlertCellPresenter {
 
     static func configureCell(alertCell: AlertCell, type: AlertType = .Normal) {

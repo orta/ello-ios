@@ -56,6 +56,10 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet var usernameButton: UIButton!
     @IBOutlet var relationshipControl: RelationshipControl!
     @IBOutlet var replyButton: UIButton!
+
+    @IBOutlet var repostedByLabel: ElloLabel!
+    @IBOutlet var repostIconView: UIImageView!
+
     var isGridLayout = false
     var showUsername = true {
         didSet {
@@ -113,6 +117,20 @@ public class StreamHeaderCell: UICollectionViewCell {
         relationshipControl.userAtName = user?.atName ?? ""
     }
 
+    func setRepostedBy(user: User?) {
+        if let atName = user?.atName
+        where !isGridLayout {
+            repostedByLabel.hidden = false
+            repostIconView.hidden = false
+            repostedByLabel.setLabelText("by \(atName)", color: UIColor.greyA())
+        }
+        else {
+            repostedByLabel.hidden = true
+            repostIconView.hidden = true
+        }
+        setNeedsLayout()
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
 
@@ -130,17 +148,17 @@ public class StreamHeaderCell: UICollectionViewCell {
         styleUsernameButton()
         styleTimestampLabel()
 
-        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("postTapped:"))
+        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(StreamHeaderCell.postTapped(_:)))
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
 
         replyButton.setTitle("", forState: .Normal)
         replyButton.setImages(.Reply)
+
+        repostIconView.image = InterfaceImage.Repost.selectedImage
     }
 
     override public func layoutSubviews() {
-        let timestampLabelSize = timestampLabel.frame.size
         super.layoutSubviews()
-        timestampLabel.frame.size = timestampLabelSize
         contentView.frame = bounds
         innerContentView.frame = bounds
         bottomContentView.frame = bounds
@@ -215,12 +233,8 @@ public class StreamHeaderCell: UICollectionViewCell {
                 )
         }
 
+        timestampLabel.sizeToFit()
         var timestampX = chevronButton.frame.x - timestampLabel.frame.width
-        timestampLabel.frame = CGRect(
-            x: timestampX,
-            y: innerContentView.frame.midY - timestampLabel.frame.height/2,
-            width: timestampLabel.frame.width,
-            height: timestampLabel.frame.height)
 
         relationshipControl.hidden = !followButtonVisible
         usernameButton.hidden = followButtonVisible
@@ -258,23 +272,56 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         timestampLabel.frame = CGRect(
             x: timestampX,
-            y: innerContentView.frame.midY - timestampLabel.frame.height / 2,
+            y: 0,
             width: timestampLabel.frame.width,
-            height: timestampLabel.frame.height
+            height: innerContentView.frame.height
             )
 
         let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
 
+        let hasRepostAuthor = !isGridLayout && !repostedByLabel.hidden
+        let usernameButtonHeight: CGFloat
+        let usernameButtonY: CGFloat
+        let repostByLabelY: CGFloat
+        if hasRepostAuthor {
+            usernameButtonHeight = 27
+            usernameButtonY = innerContentView.frame.height / 2 - usernameButtonHeight
+
+            if followButtonVisible {
+                let relationshipControlCorrection: CGFloat = 2
+                let repostLabelCorrection: CGFloat = 2
+                relationshipControl.frame.origin.y -= usernameButtonHeight / 2 - relationshipControlCorrection
+                repostByLabelY = relationshipControl.frame.maxY + repostLabelCorrection
+            }
+            else {
+                repostByLabelY = innerContentView.frame.height / 2
+            }
+        }
+        else {
+            usernameButtonHeight = innerContentView.frame.height
+            usernameButtonY = 0
+            repostByLabelY = 0
+        }
+
         usernameButton.frame = CGRect(
             x: usernameX,
-            y: 0,
+            y: usernameButtonY,
             width: usernameWidth,
-            height: innerContentView.frame.height
-            )
-
-        var topoffset = usernameButton.frame.height / 2
-
-        topoffset = topoffset < 0.0 ? 0.0 : topoffset
+            height: usernameButtonHeight
+        )
+        repostedByLabel.frame.size = CGSize(
+            width: innerContentView.frame.width - repostIconView.frame.minX,
+            height: usernameButtonHeight
+        )
+        let repostIconY = repostByLabelY + (repostedByLabel.frame.size.height - repostIconView.frame.height) / 2
+        repostIconView.frame.origin = CGPoint(
+            x: usernameX,
+            y: repostIconY
+        )
+        repostedByLabel.frame.origin = CGPoint(
+            x: repostIconView.frame.maxX + 6,
+            y: repostByLabelY
+        )
 
         goToPostView.frame = CGRect(
             x: usernameButton.frame.maxX,
@@ -291,7 +338,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func flexibleItem() -> UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
     }
 
     private func addObservers() {
@@ -307,10 +354,10 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
-        editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: #selector(StreamHeaderCell.flagButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: #selector(StreamHeaderCell.replyButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: #selector(StreamHeaderCell.deleteButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        editControl.addTarget(self, action: #selector(StreamHeaderCell.editButtonTapped(_:)), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameButton() {
@@ -390,14 +437,15 @@ extension StreamHeaderCell {
         openChevron(isOpen: false)
     }
 
-    private func rotateChevron(var angle: CGFloat) {
+    private func rotateChevron(angle: CGFloat) {
+        var normalized = angle
         if angle < CGFloat(-M_PI) {
-            angle = CGFloat(-M_PI)
+            normalized = CGFloat(-M_PI)
         }
         else if angle > CGFloat(M_PI) {
-            angle = CGFloat(M_PI)
+            normalized = CGFloat(M_PI)
         }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+        self.chevronButton.transform = CGAffineTransformMakeRotation(normalized)
     }
 
 }

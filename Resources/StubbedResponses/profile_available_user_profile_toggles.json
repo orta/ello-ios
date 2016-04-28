@@ -42,7 +42,7 @@
                     }
                 },
                 {
-                    "info": "Let contacts who have my email address find me on Ello.",
+                    "info": "Let friends who have my email address find me on Ello.",
                     "key": "discoverable",
                     "label": "Discoverability"
                 }

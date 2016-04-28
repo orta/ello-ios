@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import UIKit
+import Foundation
+
 enum ValidationState {
     case Loading
     case Error
@@ -14,9 +17,9 @@ enum ValidationState {
 
     var imageRepresentation: UIImage? {
         switch self {
-        case .Loading: return Interface.Image.ValidationLoading.normalImage
-        case .Error: return Interface.Image.ValidationError.normalImage
-        case .OK: return Interface.Image.ValidationOK.normalImage
+        case .Loading: return InterfaceImage.ValidationLoading.normalImage
+        case .Error: return InterfaceImage.ValidationError.normalImage
+        case .OK: return InterfaceImage.ValidationOK.normalImage
         case .None: return nil
         }
     }
@@ -72,9 +75,8 @@ public class ElloTextField: UITextField {
         return rect
     }
 
-    private func rectForBounds(var bounds: CGRect) -> CGRect {
-        bounds.size.width -= 15
-        return CGRectInset(bounds, 15, 10)
+    private func rectForBounds(bounds: CGRect) -> CGRect {
+        return bounds.shrinkLeft(15).inset(topBottom: 10, sides: 15)
     }
 
 }

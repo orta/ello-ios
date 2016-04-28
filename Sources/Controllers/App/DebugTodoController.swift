@@ -10,6 +10,7 @@
 
 import SwiftyUserDefaults
 import Crashlytics
+import ImagePickerSheetController
 
 class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -39,28 +40,59 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
                 appController.userLoggedOut()
             }
         }
-        addAction("Invalidate token") {
+        addAction("ImagePickerSheetController") {
+            let controller = ImagePickerSheetController(mediaType: .ImageAndVideo)
+            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.TakePhoto, handler: { _ in
+                print("=============== \(#file) line \(#line) ===============")
+            }))
+            controller.addAction(ImagePickerAction(title: InterfaceString.ImagePicker.PhotoLibrary, secondaryTitle: { NSString.localizedStringWithFormat(InterfaceString.ImagePicker.AddImagesTemplate, $0) as String}, handler: { _ in
+                print("=============== \(#file) line \(#line) ===============")
+            }, secondaryHandler: { _, numberOfPhotos in
+                print("=============== \(#file) line \(#line) ===============")
+            }))
+            controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .Cancel, handler: { _ in
+                print("Cancelled")
+            }))
+
+            self.presentViewController(controller, animated: true, completion: nil)
+        }
+        addAction("Invalidate refresh token (use user credentials)") {
             var token = AuthToken()
             token.token = "nil"
             token.refreshToken = "nil"
             appController.closeTodoController()
 
             let profileService = ProfileService()
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
-            profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
+            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
+            profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
             nextTick {
-                profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { _ in }, failure: { _ in })
+                profileService.loadCurrentUser(success: { _ in }, failure: { _ in })
+            }
+        }
+        addAction("Invalidate token completely (logout)") {
+            var token = AuthToken()
+            token.token = "nil"
+            token.refreshToken = "nil"
+            token.username = "ello@ello.co"
+            token.password = "this is definitely NOT my password"
+            appController.closeTodoController()
+
+            let profileService = ProfileService()
+            profileService.loadCurrentUser(success: { _ in print("success 1") }, failure: { _ in print("failure 1") })
+            profileService.loadCurrentUser(success: { _ in print("success 2") }, failure: { _ in print("failure 2") })
+            nextTick {
+                profileService.loadCurrentUser(success: { _ in print("success 3") }, failure: { _ in print("failure 3") })
             }
         }
         addAction("Reset Tab bar Tooltips") {
-            Defaults[ElloTab.Discovery.narrationDefaultKey] = nil
-            Defaults[ElloTab.Notifications.narrationDefaultKey] = nil
-            Defaults[ElloTab.Stream.narrationDefaultKey] = nil
-            Defaults[ElloTab.Profile.narrationDefaultKey] = nil
-            Defaults[ElloTab.Post.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Discover.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Notifications.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Stream.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Profile.narrationDefaultKey] = nil
+            GroupDefaults[ElloTab.Omnibar.narrationDefaultKey] = nil
         }
         addAction("Reset Intro") {
-            Defaults["IntroDisplayed"] = nil
+            GroupDefaults["IntroDisplayed"] = nil
         }
         addAction("Reset Onboarding") {
             Onboarding.shared().reset()

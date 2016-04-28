@@ -45,11 +45,11 @@ public class FollowAllCell: UICollectionViewCell {
         contentView.addSubview(followAllButton)
         followAllButton.frame = contentView.bounds.inset(all: 15)
         followAllButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
-        followAllButton.addTarget(self, action: Selector("followAllTapped"), forControlEvents: .TouchUpInside)
+        followAllButton.addTarget(self, action: #selector(FollowAllCell.followAllTapped), forControlEvents: .TouchUpInside)
     }
 
     func followAllTapped() {
-        let responder = targetForAction("onFollowAll", withSender: self) as? FollowAllButtonResponder
+        let responder = targetForAction(#selector(FollowAllButtonResponder.onFollowAll), withSender: self) as? FollowAllButtonResponder
         responder?.onFollowAll()
     }
 }

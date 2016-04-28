@@ -36,7 +36,7 @@ public class OnboardingSkipButton: WhiteElloButton {
     override func sharedSetup() {
         super.sharedSetup()
         self.setTitleColor(UIColor.greyA(), forState: .Normal)
-        self.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
+        self.setTitle(InterfaceString.Skip, forState: .Normal)
     }
 
 }
@@ -59,7 +59,7 @@ public class OnboardingNextButton: LightElloButton {
         addSubview(chevron)
         self.chevron = chevron
 
-        addTarget(self, action: Selector("updateImage"), forControlEvents: [.TouchDown, .TouchDragEnter, .TouchUpInside, .TouchCancel, .TouchDragExit])
+        addTarget(self, action: #selector(OnboardingNextButton.updateImage), forControlEvents: [.TouchDown, .TouchDragEnter, .TouchUpInside, .TouchCancel, .TouchDragExit])
     }
 
     override public func layoutSubviews() {
@@ -71,13 +71,13 @@ public class OnboardingNextButton: LightElloButton {
 
     func updateImage() {
         if !enabled {
-            chevron?.image = Interface.Image.AngleBracket.disabledImage
+            chevron?.image = InterfaceImage.AngleBracket.disabledImage
         }
         else if highlighted {
-            chevron?.image = Interface.Image.AngleBracket.selectedImage
+            chevron?.image = InterfaceImage.AngleBracket.selectedImage
         }
         else {
-            chevron?.image = Interface.Image.AngleBracket.normalImage
+            chevron?.image = InterfaceImage.AngleBracket.normalImage
         }
     }
 

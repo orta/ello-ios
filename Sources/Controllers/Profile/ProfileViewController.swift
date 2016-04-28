@@ -8,7 +8,7 @@
 
 import FLAnimatedImage
 
-public class ElloMentionButton: RoundedElloButton {
+public class ProfileButton: RoundedElloButton {
     override public func sharedSetup() {
         super.sharedSetup()
 
@@ -20,6 +20,20 @@ public class ElloMentionButton: RoundedElloButton {
     override func updateOutline() {
         super.updateOutline()
         backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor()
+    }
+}
+
+public class ElloMentionButton: RoundedElloButton {
+    override public func sharedSetup() {
+        super.sharedSetup()
+        setTitle(InterfaceString.Profile.Mention, forState: .Normal)
+    }
+}
+
+public class ElloEditProfileButton: RoundedElloButton {
+    override public func sharedSetup() {
+        super.sharedSetup()
+        setTitle(InterfaceString.Profile.EditProfile, forState: .Normal)
     }
 }
 
@@ -35,7 +49,6 @@ public class ProfileViewController: StreamableViewController {
     var responseConfig: ResponseConfig?
     var userParam: String!
     var coverImageHeightStart: CGFloat?
-    let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
@@ -82,7 +95,7 @@ public class ProfileViewController: StreamableViewController {
         // this user must have the profile property assigned (since it is currentUser)
         self.user = user
         self.userParam = user.id
-        self.initialStreamKind = .Profile(perPage: 10)
+        self.initialStreamKind = .CurrentUserStream
         super.init(nibName: "ProfileViewController", bundle: nil)
 
         streamViewController.streamKind = initialStreamKind
@@ -138,9 +151,10 @@ public class ProfileViewController: StreamableViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        var height = view.frame.width / ratio
-        height += ElloNavigationBar.Size.height
-        coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
+        let ratio: CGFloat = ProfileHeaderCellSizeCalculator.ratio
+        let height: CGFloat = view.frame.width / ratio
+        let maxHeight = height - streamViewController.collectionView.contentOffset.y
+        coverImageHeight.constant = max(maxHeight, height)
         coverImageHeightStart = height
 
         gradientLayer.frame.size = gradientView.frame.size
@@ -201,7 +215,7 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        updateInsets(navBar: navigationBar, streamController: streamViewController)
+        updateInsets(navBar: relationshipControlsView, streamController: streamViewController)
     }
 
     private func hideNavBar(animated animated: Bool) {
@@ -238,9 +252,9 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func showUserLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         alertController.addAction(action)
@@ -253,12 +267,12 @@ public class ProfileViewController: StreamableViewController {
         var noPostsHeaderText: String
         var noPostsBodyText: String
         if user?.id == currentUser?.id {
-            noPostsHeaderText = NSLocalizedString("Welcome to your Profile", comment: "")
-            noPostsBodyText = NSLocalizedString("Everything you post lives here!\n\nThis is the place to find everyone you’re following and everyone that’s following you. You’ll find your Loves here too!", comment: "")
+            noPostsHeaderText = InterfaceString.Profile.CurrentUserNoResultsTitle
+            noPostsBodyText = InterfaceString.Profile.CurrentUserNoResultsBody
         }
         else {
-            noPostsHeaderText = NSLocalizedString("Ello is more fun with friends!", comment: "")
-            noPostsBodyText = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
+            noPostsHeaderText = InterfaceString.Profile.NoResultsTitle
+            noPostsBodyText = InterfaceString.Profile.NoResultsBody
         }
 
         noPostsHeader.text = noPostsHeaderText
@@ -276,11 +290,11 @@ public class ProfileViewController: StreamableViewController {
         navigationController?.navigationBarHidden = true
         navigationBar.items = [elloNavigationItem]
         if !isRootViewController() {
-            let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: #selector(StreamableViewController.backTapped(_:)))
             self.elloNavigationItem.leftBarButtonItems = [item]
             self.elloNavigationItem.fixNavBarItemPadding()
         }
-        addMoreFollowingButton()
+        assignRightButtons()
     }
 
     private func setupGradient() {
@@ -301,16 +315,30 @@ public class ProfileViewController: StreamableViewController {
         gradientView.layer.addSublayer(gradientLayer)
     }
 
-    func addMoreFollowingButton() {
+    func assignRightButtons() {
         if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
+            elloNavigationItem.rightBarButtonItems = [
+                UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
+            ]
             return
         }
 
-        if let user = user, currentUser = currentUser where user.id == currentUser.id {
+        guard let user = user else {
+            elloNavigationItem.rightBarButtonItems = []
             return
         }
 
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: Interface.Image.Dots.normalImage, style: .Done, target: self, action: Selector("moreButtonTapped"))
+        if let currentUser = currentUser where user.id == currentUser.id {
+            elloNavigationItem.rightBarButtonItems = []
+            return
+        }
+
+        var rightBarButtonItems: [UIBarButtonItem] = []
+        if user.hasSharingEnabled {
+            rightBarButtonItems.append(UIBarButtonItem(image: .Share, target: self, action: #selector(ProfileViewController.sharePostTapped)))
+        }
+        rightBarButtonItems.append(UIBarButtonItem(image: .Dots, target: self, action: #selector(ProfileViewController.moreButtonTapped)))
+        elloNavigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
     @IBAction func mentionButtonTapped() {
@@ -338,6 +366,26 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
+    func sharePostTapped() {
+        if  let user = user,
+            let shareLink = user.shareLink,
+            let shareURL = NSURL(string: shareLink)
+        {
+            Tracker.sharedTracker.userShared(user)
+            let activityVC = UIActivityViewController(activityItems: [shareURL], applicationActivities: [SafariActivity()])
+            if UI_USER_INTERFACE_IDIOM() == .Phone {
+                activityVC.modalPresentationStyle = .FullScreen
+                logPresentingAlert(readableClassName() ?? "ProfileViewController")
+                presentViewController(activityVC, animated: true) { }
+            }
+            else {
+                activityVC.modalPresentationStyle = .Popover
+                logPresentingAlert(readableClassName() ?? "ProfileViewController")
+                presentViewController(activityVC, animated: true) { }
+            }
+        }
+    }
+
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
         if self.user == nil {
             Tracker.sharedTracker.profileViewed(user.atName ?? "(no name)")
@@ -357,7 +405,7 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.responseConfig = responseConfig
         // clear out this view
         streamViewController.clearForInitialLoad()
-        title = user.atName ?? InterfaceString.Profile.Title.localized
+        title = user.atName ?? InterfaceString.Profile.Title
         if let cachedImage = cachedImage(.CoverImage) {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0
@@ -368,7 +416,10 @@ public class ProfileViewController: StreamableViewController {
                 self.coverImage.alpha = 1.0
             }
         }
-        var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: .ProfileHeader)]
+        var items: [StreamCellItem] = [
+            StreamCellItem(jsonable: user, type: .ProfileHeader),
+            StreamCellItem(jsonable: user, type: .Spacer(height: 54)),
+        ]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
@@ -376,6 +427,7 @@ public class ProfileViewController: StreamableViewController {
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
 
+        assignRightButtons()
         Tracker.sharedTracker.profileLoaded(user.atName ?? "(no name)")
     }
 

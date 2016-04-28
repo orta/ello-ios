@@ -29,7 +29,7 @@ class TypedNotificationSpec: QuickSpec {
         describe("posting a notification") {
             beforeEach() {
                 self.didNotify = nil
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("receivedNotification:"), name: self.notification.name, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TypedNotificationSpec.receivedNotification(_:)), name: self.notification.name, object: nil)
             }
 
             afterEach() {

@@ -10,6 +10,7 @@ import Crashlytics
 
 let AmazonCredentialsVersion = 1
 
+@objc(AmazonCredentials)
 public class AmazonCredentials : JSONAble {
     public let accessKey : String
     public let endpoint : String

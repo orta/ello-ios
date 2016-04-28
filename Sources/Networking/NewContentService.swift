@@ -26,11 +26,11 @@ public extension NewContentService {
 
     public func startPolling() {
         checkForNewNotifications()
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
     public func restartPolling() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10), target: self, selector: #selector(NewContentService.checkForNewContent), userInfo: nil, repeats: false)
     }
 
     public func stopPolling() {
@@ -48,9 +48,9 @@ public extension NewContentService {
     public func updateCreatedAt(jsonables: [JSONAble], streamKind: StreamKind) {
         let old = NSDate(timeIntervalSince1970: 0)
         let new = newestDate(jsonables)
-        let storedDate = Defaults[streamKind.lastViewedCreatedAtKey].date ?? old
+        let storedDate = GroupDefaults[streamKind.lastViewedCreatedAtKey].date ?? old
         let mostRecent = new > storedDate ? new : storedDate
-        Defaults[streamKind.lastViewedCreatedAtKey] = mostRecent
+        GroupDefaults[streamKind.lastViewedCreatedAtKey] = mostRecent
     }
 }
 
@@ -75,7 +75,7 @@ private extension NewContentService {
     }
 
     func checkForNewNotifications(done: BasicBlock = {}) {
-        let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
+        let storedNotificationsDate = GroupDefaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.shared.elloRequest(
             ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
@@ -91,13 +91,13 @@ private extension NewContentService {
     }
 
     func checkForNewStreamContent(done: BasicBlock = {}) {
-        let storedFriendsDate = Defaults[StreamKind.Following.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
+        let storedFriendsDate = GroupDefaults[StreamKind.Following.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.shared.elloRequest(
             ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    Defaults[StreamKind.Following.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
+                    GroupDefaults[StreamKind.Following.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {

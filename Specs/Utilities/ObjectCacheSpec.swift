@@ -22,7 +22,8 @@ class ObjectCacheSpec: QuickSpec {
             it("sets NSUserDefaults as the default persistent layer") {
                 let cache = ObjectCache<NSString>(name: "test")
                 cache.append("hello")
-                expect(NSUserDefaults.standardUserDefaults().objectForKey("test") as? [String]) == ["hello"]
+                let defaults = NSUserDefaults(suiteName: "group.ello.Ello") ?? NSUserDefaults.standardUserDefaults()
+                expect(defaults.objectForKey("test") as? [String]) == ["hello"]
             }
         }
 
@@ -41,6 +42,7 @@ class ObjectCacheSpec: QuickSpec {
                 expect(layer.object?.first) == "something"
             }
         }
+
 
         describe("getAll") {
             it("returns the cache") {

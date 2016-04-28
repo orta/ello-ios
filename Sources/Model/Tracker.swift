@@ -10,6 +10,11 @@ import Analytics
 import Keys
 import Crashlytics
 
+func logPresentingAlert(name: String) {
+    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
+}
+
+
 public enum ContentType: String {
     case Post = "Post"
     case Comment = "Comment"
@@ -82,6 +87,14 @@ public extension Tracker {
     func sessionEnded() {
         log("Session Ended")
         agent.track("Session Ended")
+    }
+
+    static func trackRequest(headers headers: String, statusCode: Int, responseJSON: String) {
+        Tracker.responseHeaders = headers
+        Crashlytics.sharedInstance().setObjectValue(headers, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+        Crashlytics.sharedInstance().setObjectValue("\(statusCode)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+        Tracker.responseJSON = responseJSON
+        Crashlytics.sharedInstance().setObjectValue(Tracker.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
     }
 }
 
@@ -225,6 +238,19 @@ public extension Tracker {
     func ratePromptCouldNotConnectToAppStore() {
         log("rate prompt could not connect to app store")
         agent.track("rate prompt could not connect to app store")
+    }
+}
+
+// MARK: Share Extension
+public extension Tracker {
+    func shareSuccessful() {
+        log("successfully shared from the share extension")
+        agent.track("successfully shared from the share extension")
+    }
+
+    func shareFailed() {
+        log("failed to share from the share extension")
+        agent.track("failed to share from the share extension")
     }
 }
 
@@ -423,14 +449,14 @@ public extension Tracker {
         agent.track("\(type.rawValue) edited", properties: properties)
     }
 
-    func commentCreated(comment: Comment) {
+    func commentCreated(comment: ElloComment) {
         let type: ContentType = .Comment
         let properties = regionDetails(comment.content)
         log("\(type.rawValue) created")
         agent.track("\(type.rawValue) created", properties: properties)
     }
 
-    func commentEdited(comment: Comment) {
+    func commentEdited(comment: ElloComment) {
         let type: ContentType = .Comment
         let properties = regionDetails(comment.content)
         log("\(type.rawValue) edited")
@@ -475,6 +501,11 @@ public extension Tracker {
     func contentFlaggingFailed(type: ContentType, message: String, contentId: String) {
         log("\(type.rawValue) flagging failed, [content_id: \(contentId), message: \(message)]")
         agent.track("\(type.rawValue) flagging failed", properties: ["content_id": contentId, "message": message])
+    }
+
+    func userShared(user: User) {
+        log("User shared, [user_id: \(user.id)]")
+        agent.track("User shared", properties: ["user_id": user.id])
     }
 
     func postReposted(post: Post) {

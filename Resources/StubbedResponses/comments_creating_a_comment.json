@@ -13,8 +13,8 @@
                 "kind": "text"
             }
         ],
-        "created_at": "2015-05-28T15:35:24.339Z",
-        "id": "55",
+        "created_at": "2015-10-22T17:03:49.615Z",
+        "id": "92",
         "links": {
             "assets": [],
             "author": {
@@ -23,11 +23,11 @@
                 "type": "users"
             },
             "parent_post": {
-                "href": "/api/v2/posts/54",
-                "id": "54",
+                "href": "/api/v2/posts/91",
+                "id": "91",
                 "type": "posts"
             }
         },
-        "post_id": "54"
+        "post_id": "91"
     }
 }

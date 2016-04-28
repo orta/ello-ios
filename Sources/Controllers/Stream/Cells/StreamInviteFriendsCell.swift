@@ -10,7 +10,7 @@ import Foundation
 
 public class StreamInviteFriendsCell: UICollectionViewCell {
     static let reuseIdentifier = "StreamInviteFriendsCell"
-    
+
     @IBOutlet weak public var nameLabel: UILabel!
     @IBOutlet weak public var inviteButton: UIButton!
 
@@ -54,12 +54,12 @@ public class StreamInviteFriendsCell: UICollectionViewCell {
         if invited == true {
             inviteButton.backgroundColor = UIColor.greyE5()
             inviteButton.setTitleColor(UIColor.grey6(), forState: UIControlState.Normal)
-            inviteButton.setTitle(NSLocalizedString("Re-send", comment: "invite friends cell re-send"), forState: UIControlState.Normal)
+            inviteButton.setTitle(InterfaceString.Friends.Resend, forState: UIControlState.Normal)
         }
         else {
             inviteButton.backgroundColor = UIColor.greyA()
             inviteButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            inviteButton.setTitle(NSLocalizedString("Invite", comment: "invite friends cell invite"), forState: UIControlState.Normal)
+            inviteButton.setTitle(InterfaceString.Friends.Invite, forState: UIControlState.Normal)
         }
     }
 }

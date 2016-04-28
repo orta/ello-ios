@@ -72,8 +72,8 @@ private extension CoverImageSelectionViewController {
             width: view.frame.width,
             height: 0
             ))
-        let header = NSLocalizedString("Customize your profile.", comment: "Header Image Selection text")
-        let message = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
+        let header = InterfaceString.Onboard.CoverImage.Title
+        let message = InterfaceString.Onboard.CoverImage.Description
         onboardingHeader.header = header
         onboardingHeader.message = message
         onboardingHeader.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
@@ -110,8 +110,8 @@ private extension CoverImageSelectionViewController {
             height: 50
             ))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
-        chooseImageButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
-        chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
+        chooseImageButton.setTitle(InterfaceString.Onboard.ChooseHeader, forState: .Normal)
+        chooseImageButton.addTarget(self, action: #selector(OnboardingUploadImageViewController.chooseImageTapped), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton
     }

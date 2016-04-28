@@ -12,6 +12,7 @@ import SwiftyJSON
 
 let TextRegionVersion = 1
 
+@objc(TextRegion)
 public final class TextRegion: JSONAble, Regionable {
     public var isRepost: Bool = false
 
@@ -65,7 +66,7 @@ public final class TextRegion: JSONAble, Regionable {
     }
 }
 
-extension TextRegion: CustomDebugStringConvertible {
+extension TextRegion {
     override public var description: String {
         return "<\(self.dynamicType): \"\(content)\">"
     }

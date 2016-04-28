@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
+import UIKit
+
 public struct NotificationAttributedTitle {
 
     static private func attrs(addlAttrs : [String : AnyObject] = [:]) -> [String : AnyObject] {
@@ -42,7 +45,7 @@ public struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs)
     }
 
-    static private func style(text: String, _ comment: Comment) -> NSAttributedString {
+    static private func style(text: String, _ comment: ElloComment) -> NSAttributedString {
         let attrs = self.attrs([
             ElloAttributedText.Link: "comment",
             ElloAttributedText.Object: comment,
@@ -51,7 +54,7 @@ public struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs)
     }
 
-    static func attributedTitle(kind: Activity.Kind, author: User?, subject: AnyObject?) -> NSAttributedString {
+    static func attributedTitle(kind: Activity.Kind, author: User?, subject: JSONAble?) -> NSAttributedString {
         switch kind {
             case .RepostNotification:
                 if let post = subject as? Post {
@@ -83,7 +86,7 @@ public struct NotificationAttributedTitle {
                         .append(style(" mentioned you in a post."))
                 }
             case .CommentNotification:
-                if let comment = subject as? Comment {
+                if let comment = subject as? ElloComment {
                     return style(author)
                         .append(style(" commented on your "))
                         .append(style("post", comment))
@@ -94,7 +97,7 @@ public struct NotificationAttributedTitle {
                         .append(style(" commented on a post."))
                 }
             case .CommentMentionNotification:
-                if let comment = subject as? Comment {
+                if let comment = subject as? ElloComment {
                     return style(author)
                         .append(style(" mentioned you in a "))
                         .append(style("comment", comment))
@@ -105,7 +108,7 @@ public struct NotificationAttributedTitle {
                         .append(style(" mentioned you in a comment."))
                 }
             case .CommentOnOriginalPostNotification:
-                if let comment = subject as? Comment,
+                if let comment = subject as? ElloComment,
                     let repost = comment.loadedFromPost,
                     let repostAuthor = repost.author,
                     let source = repost.repostSource
@@ -124,7 +127,7 @@ public struct NotificationAttributedTitle {
                         .append(style(" commented on your post"))
                 }
             case .CommentOnRepostNotification:
-                if let comment = subject as? Comment {
+                if let comment = subject as? ElloComment {
                     return style(author)
                         .append(style(" commented on your "))
                         .append(style("repost", comment))

@@ -72,40 +72,57 @@ class ProfileViewControllerSpec: QuickSpec {
             }
 
             context("when displaying the currentUser") {
-                var user: User!
                 var currentUser: User!
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    user = User.stub(["id": "42"])
                     currentUser = User.stub(["id": "42"])
-                    subject = ProfileViewController(user: user)
+                    subject = ProfileViewController(user: currentUser)
                     subject.currentUser = currentUser
                     showController(subject)
                 }
 
                 it("does not have a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItem
-                    expect(moreButton).to(beNil())
+                    let rightButtons = subject.elloNavigationItem.rightBarButtonItems
+                    expect(rightButtons?.count ?? 0) == 0
                 }
             }
 
             context("when NOT displaying the currentUser") {
-                var user: User!
                 var currentUser: User!
                 var subject: ProfileViewController!
 
                 beforeEach {
-                    user = User.stub(["id": "42"])
                     currentUser = User.stub(["id": "not42"])
-                    subject = ProfileViewController(user: user)
+                    subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
                     showController(subject)
                 }
 
-                it("has a 'more following options' Button") {
-                    let moreButton = subject.elloNavigationItem.rightBarButtonItem
-                    expect(moreButton).toNot(beNil())
+                it("has 'share' and 'more following options' buttons") {
+                    expect(subject.elloNavigationItem.rightBarButtonItems?.count) == 2
+                }
+            }
+
+            context("when displaying a private user") {
+                var currentUser: User!
+                var subject: ProfileViewController!
+
+                beforeEach {
+                    ElloProvider.sharedProvider = ElloProvider.RecordedStubbingProvider([
+                        RecordedResponse(endpoint: .UserStream(userParam: "42"), response: .NetworkResponse(200,
+                            stubbedData("profile__no_sharing")
+                        )),
+                    ])
+
+                    currentUser = User.stub(["id": "not42"])
+                    subject = ProfileViewController(userParam: "42")
+                    subject.currentUser = currentUser
+                    showController(subject)
+                }
+
+                it("only has a 'more following options' button") {
+                    expect(subject.elloNavigationItem.rightBarButtonItems?.count) == 1
                 }
             }
 

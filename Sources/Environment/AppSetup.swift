@@ -15,9 +15,16 @@ public class AppSetup {
 
     public var isTesting = false
     private var _isSimulator: Bool?
-    public var isSimulator: Bool! {
+    public var isSimulator: Bool {
         get { return _isSimulator ?? (UIDevice.currentDevice().name == "iPhone Simulator") }
-        set { _isSimulator = newValue }
+        set {
+            if newValue == true {
+                _isSimulator = nil
+            }
+            else {
+                _isSimulator = false
+            }
+        }
     }
 
     public class var sharedState : AppSetup {

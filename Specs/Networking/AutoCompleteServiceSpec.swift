@@ -14,9 +14,7 @@ import Nimble
 
 class AutoCompleteServiceSpec: QuickSpec {
     override func spec() {
-
         describe("AutoCompleteService") {
-
             let subject = AutoCompleteService()
 
             describe("loadResults(#terms:type:success:failure)") {
@@ -29,8 +27,7 @@ class AutoCompleteServiceSpec: QuickSpec {
                             var successCalled = false
                             var failedCalled = false
                             var loadedResults: [AutoCompleteResult]?
-                            subject.loadResults("doesn't matter",
-                                type: .Username,
+                            subject.loadUsernameResults("doesn't matter",
                                 success: { (results, responseConfig) in
                                     successCalled = true
                                     loadedResults = results
@@ -60,8 +57,7 @@ class AutoCompleteServiceSpec: QuickSpec {
                         it("fails") {
                             var successCalled = false
                             var failedCalled = false
-                            subject.loadResults("doesn't matter",
-                                type: .Username,
+                            subject.loadUsernameResults("doesn't matter",
                                 success: { (results, responseConfig) in
                                     successCalled = true
                                 }, failure: { (_, _) in
@@ -78,53 +74,28 @@ class AutoCompleteServiceSpec: QuickSpec {
                 context("emoji search") {
 
                     context("success") {
+                        let expectations: [(String, [String])] = [
+                            ("met", ["metal", "metro"]),
+                            (":met", ["metal", "metro"]),
+                            ("meta", ["metal"]),
+                            (":meta", ["metal"]),
+                            ("etal", ["metal"]),
+                            (":etal", ["metal"]),
+                            ("metl", []),
+                            (":metl", []),
+                        ]
+                        for (test, expected) in expectations {
+                            it("should find \(expected.count) matches for \(test)") {
+                                let results = subject.loadEmojiResults(test)
+                                expect(results.count) == expected.count
+                                for (index, expectation) in expected.enumerate() {
+                                    if index >= results.count {
+                                        break
+                                    }
 
-                        it("succeeds") {
-                            var successCalled = false
-                            var failedCalled = false
-                            var loadedResults: [AutoCompleteResult]?
-                            subject.loadResults("doesn't matter",
-                                type: .Emoji,
-                                success: { (results, responseConfig) in
-                                    successCalled = true
-                                    loadedResults = results
-                                }, failure: { (_, _) in
-                                    failedCalled = true
+                                    expect(results[index].name) == expectation
                                 }
-                            )
-
-                            expect(successCalled) == true
-                            expect(failedCalled) == false
-                            expect(loadedResults!.count) == 3
-                            expect(loadedResults?[1].name) == "lanakane"
-                            expect(loadedResults?[1].url!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/55/ello-small-aaca0f5e.png"
-                        }
-                    }
-
-                    context("failure") {
-
-                        beforeEach {
-                            ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
-                        }
-
-                        afterEach {
-                            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-                        }
-
-                        it("fails") {
-                            var successCalled = false
-                            var failedCalled = false
-                            subject.loadResults("doesn't matter",
-                                type: .Emoji,
-                                success: { (results, responseConfig) in
-                                    successCalled = true
-                                }, failure: { (_, _) in
-                                    failedCalled = true
-                                }
-                            )
-
-                            expect(successCalled) == false
-                            expect(failedCalled) == true
+                            }
                         }
                     }
                 }

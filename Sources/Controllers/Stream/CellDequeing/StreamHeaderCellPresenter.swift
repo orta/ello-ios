@@ -36,7 +36,7 @@ public struct StreamHeaderCellPresenter {
             }
 
             if let currentUser = currentUser,
-                comment = streamCellItem.jsonable as? Comment
+                comment = streamCellItem.jsonable as? ElloComment
             {
                 if comment.authorId == currentUser.id {
                     cell.ownComment = true
@@ -47,6 +47,7 @@ public struct StreamHeaderCellPresenter {
             }
 
             var author = authorable.author
+            var repostedBy: User? = nil
             var followButtonVisible = false
             if streamCellItem.type == .Header {
                 cell.avatarHeight = streamKind.avatarHeight
@@ -55,6 +56,7 @@ public struct StreamHeaderCellPresenter {
                 cell.goToPostView.hidden = false
 
                 if let repostAuthor = (streamCellItem.jsonable as? Post)?.repostAuthor {
+                    repostedBy = author
                     author = repostAuthor
                 }
 
@@ -77,6 +79,7 @@ public struct StreamHeaderCellPresenter {
             }
 
             cell.setUser(author)
+            cell.setRepostedBy(repostedBy)
             cell.followButtonVisible = followButtonVisible
             cell.timeStamp = streamKind.isGridView ? "" : authorable.createdAt.timeAgoInWords()
             cell.layoutIfNeeded()

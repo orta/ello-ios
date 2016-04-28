@@ -41,7 +41,7 @@ public struct StreamTextCellPresenter {
                 cell.leadingConstraint.constant = 30.0
                 cell.showBorder()
             }
-            else if let _ = streamCellItem.jsonable as? Comment {
+            else if let _ = streamCellItem.jsonable as? ElloComment {
                 cell.leadingConstraint.constant = commentMargin
             }
             else {

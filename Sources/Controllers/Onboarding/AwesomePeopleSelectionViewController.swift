@@ -20,8 +20,8 @@ public class AwesomePeopleSelectionViewController: OnboardingUserListViewControl
     }
 
     override func usersLoaded(users: [User]) {
-        let header = NSLocalizedString("Follow some awesome people.", comment: "Awesome People Selection Header text")
-        let message = NSLocalizedString("Ello is full of interesting and creative people committed to building a positive community.", comment: "Awesome People Selection Description text")
+        let header = InterfaceString.Onboard.AwesomePeople.Title
+        let message = InterfaceString.Onboard.AwesomePeople.Description
         appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: users.count)
 

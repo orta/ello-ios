@@ -82,7 +82,7 @@ public enum SnapshotDevice {
     }
 }
 
-func validateAllSnapshots(subject: Snapshotable, named name: String? = nil, record: Bool = false, file: String = __FILE__, line: UInt = __LINE__) {
+func validateAllSnapshots(subject: Snapshotable, named name: String? = nil, record: Bool = false, file: String = #file, line: UInt = #line) {
     for device in SnapshotDevice.all {
         context(device.description) {
             describe("view") {

@@ -8,17 +8,15 @@
 
 import QuartzCore
 import FLAnimatedImage
+import CoreGraphics
 
-private let AngleToValue = (360.0 * M_PI) / 180.0
-
-public class ElloLogoView: FLAnimatedImageView {
+public class ElloLogoView: UIImageView {
     struct Size {
         static let natural = CGSize(width: 60, height: 60)
         static let big = CGSize(width: 166, height: 166)
     }
 
     private var wasAnimating = false
-    private var shouldReanimate = false
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,20 +28,13 @@ public class ElloLogoView: FLAnimatedImageView {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.image = Interface.Image.ElloLogo.normalImage
-    }
-
-    override public func willMoveToWindow(newWindow: UIWindow?) {
-        super.willMoveToWindow(newWindow)
-        if wasAnimating && newWindow == nil {
-            shouldReanimate = true
-        }
+        self.image = InterfaceImage.ElloLogo.normalImage
+        self.contentMode = .ScaleAspectFit
     }
 
     override public func didMoveToWindow() {
         super.didMoveToWindow()
-        if window != nil && shouldReanimate {
-            shouldReanimate = false
+        if window != nil && wasAnimating {
             animateLogo()
         }
     }
@@ -51,9 +42,11 @@ public class ElloLogoView: FLAnimatedImageView {
     func animateLogo() {
         wasAnimating = true
 
+        self.layer.removeAnimationForKey("logo-spin")
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotate.fromValue = 0.0
-        rotate.toValue = AngleToValue
+        let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
+        rotate.fromValue = angle
+        rotate.toValue = 2 * M_PI
         rotate.duration = 0.35
         rotate.repeatCount = 1_000_000
         self.layer.addAnimation(rotate, forKey: "logo-spin")
@@ -68,10 +61,10 @@ public class ElloLogoView: FLAnimatedImageView {
         if let layer = self.layer.presentationLayer() as? CALayer {
             let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
             endAnimation.fromValue = angle.floatValue
-            endAnimation.toValue = AngleToValue
+            endAnimation.toValue = 0
             endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             endAnimation.duration = 0.25
         }
-        self.layer.addAnimation(endAnimation, forKey: "logo-finish")
+        self.layer.addAnimation(endAnimation, forKey: "logo-spin")
     }
 }

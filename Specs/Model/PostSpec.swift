@@ -30,7 +30,7 @@ class PostSpec: QuickSpec {
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "tThn9GP4HXth_rigKefSiQ"
+                expect(post.token) == "l9XEKBzB_hB3xkbNb6LdfQ"
                 expect(post.contentWarning) == ""
                 expect(post.summary.count) == 2
                 expect(post.summary[0].kind) == "text"
@@ -51,8 +51,8 @@ class PostSpec: QuickSpec {
                 // links
                 expect(post.author).to(beAKindOf(User.self))
                 expect(post.comments!.count) == 2
-                expect(post.comments![0]).to(beAKindOf(Comment.self))
-                expect(post.comments![1]).to(beAKindOf(Comment.self))
+                expect(post.comments![0]).to(beAKindOf(ElloComment.self))
+                expect(post.comments![1]).to(beAKindOf(ElloComment.self))
                 expect(post.assets!.count) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
@@ -64,13 +64,13 @@ class PostSpec: QuickSpec {
             it("parses created reposts correctly") {
                 let parsedPost = stubbedJSONData("posts_creating_a_repost", "posts")
 
-                let createdAtString = "2015-05-20T17:20:30.988Z"
+                let createdAtString = "2015-12-14T17:01:48.122Z"
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "FfxEZGO3ucaiaT82cID4jQ"
+                expect(post.token) == "0U58x7Bb4ZZpmTDQhPsYBg"
                 expect(post.contentWarning) == ""
                 expect(post.summary.count) == 2
                 expect(post.summary[0].kind) == "text"
@@ -189,7 +189,7 @@ class PostSpec: QuickSpec {
                         "url" : NSURL(string: "http://www.example5.com")!
                     ])
 
-                    let comment: Comment = stub([
+                    let comment: ElloComment = stub([
                         "author": author
                     ])
 
@@ -258,7 +258,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.author!.id) == "555"
                     expect(unArchivedPost.assets!.count) == 1
                     expect(unArchivedPost.comments!.count) == 1
-                    expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
+                    expect(unArchivedPost.comments![0]).to(beAKindOf(ElloComment.self))
                     // computed
                     expect(post.collapsed) == true
                     expect(post.shareLink) == "https://ello.co/thenim/post/toke-en"

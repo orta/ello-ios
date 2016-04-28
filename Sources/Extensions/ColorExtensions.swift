@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int, av: Float) {
         assert(red >= 0 && red <= 255, "Invalid red component")

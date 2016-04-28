@@ -10,46 +10,52 @@ import Foundation
 import SwiftyUserDefaults
 
 public enum StreamKind {
+    case CurrentUserStream
     case Discover(type: DiscoverType, perPage: Int)
     case Following
     case Starred
     case Notifications(category: String?)
     case PostDetail(postParam: String)
-    case Profile(perPage: Int)
     case SimpleStream(endpoint: ElloAPI, title: String)
     case Unknown
     case UserStream(userParam: String)
 
     public var name: String {
         switch self {
-        case .Discover: return "Discover"
-        case .Following: return "Following"
-        case .Starred: return "Starred"
-        case .Notifications: return "Notifications"
-        case .PostDetail: return "Post Detail"
-        case .Profile: return "Profile"
+        case .Discover: return InterfaceString.Discover.Title
+        case .Following: return InterfaceString.FollowingStream.Title
+        case .Starred: return InterfaceString.StarredStream.Title
+        case .Notifications: return InterfaceString.Notifications.Title
+        case .PostDetail: return ""
+        case .CurrentUserStream: return InterfaceString.Profile.Title
         case let .SimpleStream(_, title): return title
-        case .Unknown: return "unknown"
-        case .UserStream: return "User Stream"
+        case .Unknown: return ""
+        case .UserStream: return ""
         }
     }
 
     public var cacheKey: String {
         switch self {
-        case let .SimpleStream(endpoint, _):
+        case .Discover: return "Discover"
+        case .Following: return "Following"
+        case .Starred: return "Starred"
+        case .Notifications: return "Notifications"
+        case .PostDetail: return "PostDetail"
+        case .CurrentUserStream: return "Profile"
+        case .Unknown: return "unknown"
+        case .UserStream: return "UserStream"
+        case let .SimpleStream(endpoint, title):
             switch endpoint {
             case .SearchForPosts:
                 return "SearchForPosts"
             default:
-                return self.name
+                return "SimpleStream.\(title)"
             }
-        default:
-            return self.name
         }
     }
 
     public var lastViewedCreatedAtKey: String {
-        return self.name + "_createdAt"
+        return self.cacheKey + "_createdAt"
     }
 
     public var columnCount: Int {
@@ -63,7 +69,7 @@ public enum StreamKind {
 
     public var tappingTextOpensDetail: Bool {
         switch self {
-            case .PostDetail, .Following, .Profile, .UserStream:
+            case .PostDetail, .Following, .CurrentUserStream, .UserStream:
                 return false
             default:
                 return true
@@ -76,8 +82,8 @@ public enum StreamKind {
         case .Following: return .FriendStream
         case .Starred: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
-        case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
-        case let .Profile(perPage): return .Profile(perPage: perPage)
+        case let .PostDetail(postParam): return .PostDetail(postParam: postParam, commentCount: 10)
+        case .CurrentUserStream: return .CurrentUserStream
         case let .SimpleStream(endpoint, _): return endpoint
         case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
         case let .UserStream(userParam): return .UserStream(userParam: userParam)
@@ -159,7 +165,7 @@ public enum StreamKind {
                     return accum
                 }
             }
-            else if let comments = jsonables as? [Comment] {
+            else if let comments = jsonables as? [ElloComment] {
                 return comments
             }
             else if let posts = jsonables as? [Post] {
@@ -198,22 +204,22 @@ public enum StreamKind {
     }
 
     public var gridViewPreferenceSet: Bool {
-        let prefSet = Defaults["\(self.cacheKey)GridViewPreferenceSet"].bool
+        let prefSet = GroupDefaults["\(self.cacheKey)GridViewPreferenceSet"].bool
         return prefSet != nil
     }
 
     public func setIsGridView(isGridView: Bool) {
-        Defaults["\(cacheKey)GridViewPreferenceSet"] = true
-        Defaults["\(cacheKey)IsGridView"] = isGridView
+        GroupDefaults["\(cacheKey)GridViewPreferenceSet"] = true
+        GroupDefaults["\(cacheKey)IsGridView"] = isGridView
     }
 
     public var isGridView: Bool {
-        return Defaults["\(cacheKey)IsGridView"].bool ?? false
+        return GroupDefaults["\(cacheKey)IsGridView"].bool ?? false
     }
 
     public func clientSidePostInsertIndexPath(currentUserId: String?) -> NSIndexPath? {
         switch self {
-        case .Following, .Profile:
+        case .Following, .CurrentUserStream:
             return NSIndexPath(forItem: 1, inSection: 0)
         case let .UserStream(userParam):
             if currentUserId == userParam {

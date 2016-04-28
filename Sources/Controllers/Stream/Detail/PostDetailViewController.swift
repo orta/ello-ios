@@ -10,6 +10,8 @@ public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
     var postParam: String!
+    var scrollToComment: ElloComment?
+
     var navigationBar: ElloNavigationBar!
     var localToken: String!
     var deeplinkPath: String?
@@ -67,6 +69,7 @@ public class PostDetailViewController: StreamableViewController {
 
         PostService().loadPost(
             postParam,
+            needsComments: true,
             success: { (post, responseConfig) in
                 if !self.streamViewController.isValidInitialPageLoadingToken(self.localToken) { return }
                 self.postLoaded(post, responseConfig: responseConfig)
@@ -88,9 +91,9 @@ public class PostDetailViewController: StreamableViewController {
     }
 
     private func showPostLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
+        let action = AlertAction(title: InterfaceString.OK, style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         alertController.addAction(action)
@@ -101,27 +104,28 @@ public class PostDetailViewController: StreamableViewController {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
         view.addSubview(navigationBar)
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
+        let item = UIBarButtonItem.backChevronWithTarget(self, action: #selector(StreamableViewController.backTapped(_:)))
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
-        assignRightButton()
+        assignRightButtons()
     }
 
-    private func assignRightButton() {
+    private func assignRightButtons() {
         if post == nil {
             elloNavigationItem.rightBarButtonItems = []
         }
         else {
             if isOwnPost() {
                 elloNavigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(image: .XBox, target: self, action: Selector("deletePost")),
-                    UIBarButtonItem(image: .Pencil, target: self, action: Selector("editPost")),
+                    UIBarButtonItem(image: .XBox, target: self, action: #selector(PostDetailViewController.deletePost)),
+                    UIBarButtonItem(image: .Pencil, target: self, action: #selector(PostDetailViewController.editPost(_:fromController:))),
                 ]
             }
             else {
                 elloNavigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(image: .Dots, target: self, action: Selector("flagPost"))
+                    UIBarButtonItem(image: .Search, target: self, action: #selector(BaseElloViewController.searchButtonTapped)),
+                    UIBarButtonItem(image: .Dots, target: self, action: #selector(PostDetailViewController.flagPost)),
                 ]
             }
         }
@@ -149,7 +153,7 @@ public class PostDetailViewController: StreamableViewController {
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
             items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
-            loversModel = UserAvatarCellModel(icon: .Heart, seeMoreTitle: NSLocalizedString("Loved by", comment: "Loved by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            loversModel = UserAvatarCellModel(icon: .Heart, seeMoreTitle: InterfaceString.Post.LovedByList, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             loversModel!.endpoint = .PostLovers(postId: post.id)
             items.append(StreamCellItem(jsonable: loversModel!, type: .UserAvatars))
         }
@@ -158,7 +162,7 @@ public class PostDetailViewController: StreamableViewController {
             if loversModel == nil {
                 items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
             }
-            repostersModel = UserAvatarCellModel(icon: .Repost, seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            repostersModel = UserAvatarCellModel(icon: .Repost, seeMoreTitle: InterfaceString.Post.RepostedByList, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             repostersModel!.endpoint = .PostReposters(postId: post.id)
             items.append(StreamCellItem(jsonable: repostersModel!, type: .UserAvatars))
         }
@@ -168,9 +172,11 @@ public class PostDetailViewController: StreamableViewController {
         }
 
         // add in the comment button if we have a current user
-        if let currentUser = currentUser {
-            items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
+        let commentingEnabled = post.author?.hasCommentingEnabled ?? true
+        if let currentUser = currentUser where commentingEnabled {
+            items.append(StreamCellItem(jsonable: ElloComment.newCommentForPost(post, currentUser: currentUser), type: .CreateComment))
         }
+
         if let comments = post.comments {
             items += parser.parse(comments, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
@@ -183,14 +189,41 @@ public class PostDetailViewController: StreamableViewController {
             if let lm = loversModel {
                 self.addAvatarsView(lm)
             }
+
             if let rm = repostersModel {
                 self.addAvatarsView(rm)
             }
+
+            if let scrollToComment = self.scrollToComment {
+                // nextTick didn't work, the collection view hadn't shown its
+                // cells or updated contentView.  so this.
+                delay(0.1) {
+                    self.scrollToComment(scrollToComment)
+                }
+            }
         }
 
-        assignRightButton()
+        assignRightButtons()
+
+        if isOwnPost() {
+            showNavBars(false)
+        }
 
         Tracker.sharedTracker.postLoaded(post.id)
+    }
+
+    private func scrollToComment(comment: ElloComment) {
+        let commentItem = streamViewController.dataSource.visibleCellItems.find { item in
+            return (item.jsonable as? ElloComment)?.id == comment.id
+        } ?? streamViewController.dataSource.visibleCellItems.last
+
+        if let commentItem = commentItem, indexPath = self.streamViewController.dataSource.indexPathForItem(commentItem) {
+            self.streamViewController.collectionView.scrollToItemAtIndexPath(
+                indexPath,
+                atScrollPosition: .Top,
+                animated: true
+            )
+        }
     }
 
     private func addAvatarsView(model: UserAvatarCellModel) {
@@ -252,10 +285,10 @@ public class PostDetailViewController: StreamableViewController {
             return
         }
 
-        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
+        let message = InterfaceString.Post.DeletePostConfirm
         let alertController = AlertViewController(message: message)
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) { _ in
+        let yesAction = AlertAction(title: InterfaceString.Yes, style: .Dark) { _ in
             if let userPostCount = currentUser.postsCount {
                 currentUser.postsCount = userPostCount - 1
                 postNotification(CurrentUserChangedNotification, value: currentUser)
@@ -270,7 +303,7 @@ public class PostDetailViewController: StreamableViewController {
                 }
             )
         }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+        let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
