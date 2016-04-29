@@ -67,7 +67,7 @@ public class StreamImageCell: StreamRegionableCell {
 
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addTarget(self, action: #selector(imageDoubleTapped))
+        doubleTapGesture.addTarget(self, action: #selector(imageDoubleTapped(_:)))
         imageButton.addGestureRecognizer(doubleTapGesture)
 
         let singleTapGesture = UITapGestureRecognizer()
@@ -177,7 +177,8 @@ public class StreamImageCell: StreamRegionableCell {
         streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
     }
 
-    @IBAction func imageDoubleTapped() {
-        streamImageCellDelegate?.imageDoubleTapped(self)
+    @IBAction func imageDoubleTapped(gesture: UIGestureRecognizer) {
+        let location = gesture.locationInView(nil)
+        streamImageCellDelegate?.imageDoubleTapped(self, location: location)
     }
 }

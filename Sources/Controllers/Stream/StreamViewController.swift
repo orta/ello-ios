@@ -22,7 +22,7 @@ public protocol SimpleStreamDelegate: class {
 
 public protocol StreamImageCellDelegate: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
-    func imageDoubleTapped(cell: UICollectionViewCell)
+    func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
 }
 
 @objc
@@ -35,7 +35,7 @@ public protocol StreamScrollDelegate: class {
 public protocol UserDelegate: class {
     func userTappedAvatar(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
-    func cellDoubleTapped(cell: UICollectionViewCell)
+    func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
     func userTappedParam(param: String)
 }
 
@@ -687,8 +687,8 @@ extension StreamViewController: StreamImageCellDelegate {
         }
     }
 
-    public func imageDoubleTapped(cell: UICollectionViewCell) {
-        cellDoubleTapped(cell)
+    public func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
+        cellDoubleTapped(cell, location: location)
     }
 }
 
@@ -710,7 +710,7 @@ extension StreamViewController: UserDelegate {
         }
     }
 
-    public func cellDoubleTapped(cell: UICollectionViewCell) {
+    public func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
         if let path = collectionView.indexPathForCell(cell),
             post = dataSource.postForIndexPath(path),
             footerPath = dataSource.footerIndexPathForPost(post),
@@ -721,6 +721,7 @@ extension StreamViewController: UserDelegate {
                 let imageView = UIImageView(image: InterfaceImage.GiantHeart.normalImage)
                 imageView.contentMode = .ScaleAspectFit
                 imageView.frame = window.bounds
+                imageView.center = location
                 imageView.alpha = 0
                 imageView.transform = CGAffineTransformMakeScale(0.5, 0.5)
                 let anim2: (Bool) -> Void = { _ in animate { imageView.alpha = 0 } }

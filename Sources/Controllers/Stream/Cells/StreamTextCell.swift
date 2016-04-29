@@ -28,7 +28,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.delegate = self
         doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addTarget(self, action: #selector(doubleTapped))
+        doubleTapGesture.addTarget(self, action: #selector(doubleTapped(_:)))
         webView.addGestureRecognizer(doubleTapGesture)
     }
 
@@ -36,8 +36,9 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
         return true
     }
 
-    @IBAction func doubleTapped() {
-        userDelegate?.cellDoubleTapped(self)
+    @IBAction func doubleTapped(gesture: UIGestureRecognizer) {
+        let location = gesture.locationInView(nil)
+        userDelegate?.cellDoubleTapped(self, location: location)
     }
 
     func onWebContentReady(handler: WebContentReady?) {
