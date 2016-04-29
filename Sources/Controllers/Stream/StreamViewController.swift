@@ -12,42 +12,42 @@ import Crashlytics
 import SwiftyUserDefaults
 
 // MARK: Delegate Implementations
-public protocol InviteDelegate: NSObjectProtocol {
+public protocol InviteDelegate: class {
     func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion)
 }
 
-public protocol SimpleStreamDelegate: NSObjectProtocol {
+public protocol SimpleStreamDelegate: class {
     func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
-public protocol StreamImageCellDelegate: NSObjectProtocol {
+public protocol StreamImageCellDelegate: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
     func imageDoubleTapped(cell: UICollectionViewCell)
 }
 
 @objc
-public protocol StreamScrollDelegate: NSObjectProtocol {
+public protocol StreamScrollDelegate: class {
     func streamViewDidScroll(scrollView: UIScrollView)
     optional func streamViewWillBeginDragging(scrollView: UIScrollView)
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
-public protocol UserDelegate: NSObjectProtocol {
+public protocol UserDelegate: class {
     func userTappedAvatar(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
     func cellDoubleTapped(cell: UICollectionViewCell)
     func userTappedParam(param: String)
 }
 
-public protocol WebLinkDelegate: NSObjectProtocol {
+public protocol WebLinkDelegate: class {
     func webLinkTapped(type: ElloURI, data: String)
 }
 
-public protocol ColumnToggleDelegate: NSObjectProtocol {
+public protocol ColumnToggleDelegate: class {
     func columnToggleTapped(isGridView: Bool)
 }
 
-public protocol DiscoverStreamPickerDelegate: NSObjectProtocol {
+public protocol DiscoverStreamPickerDelegate: class {
     func discoverPickerTapped(type: DiscoverType)
 }
 
