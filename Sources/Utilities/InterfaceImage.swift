@@ -24,6 +24,7 @@ public enum InterfaceImage: String {
     // Postbar Icons
     case Eye = "eye"
     case Heart = "hearts"
+    case GiantHeart = "hearts_giant"
     case Repost = "repost"
     case Share = "share"
     case XBox = "xbox"
@@ -99,6 +100,7 @@ public enum InterfaceImage: String {
     var normalImage: UIImage! {
         switch self {
         case .ElloLogo,
+            .GiantHeart,
             .AudioPlay,
             .VideoPlay,
             .BubbleTail,
