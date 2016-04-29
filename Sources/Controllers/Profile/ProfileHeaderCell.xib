@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
@@ -27,14 +27,14 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U6M-uB-CWv">
                         <rect key="frame" x="0.0" y="110" width="600" height="490"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarImage" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="463" y="-61" width="122" height="122"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
-                                    <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarButton - width"/>
+                                    <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarImage - height"/>
+                                    <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarImage - width"/>
                                 </constraints>
-                            </button>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
                                 <rect key="frame" x="15" y="22" width="109" height="18"/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
@@ -106,7 +106,7 @@
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="25" id="WyN-Ml-Ufz"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="6nJ-r0-lN7" secondAttribute="leading" id="Ysh-gS-ng4"/>
                             <constraint firstAttribute="bottom" secondItem="PtF-QI-fk2" secondAttribute="bottom" id="asL-h7-HRo" userLabel="bioWebView - bottom"/>
-                            <constraint firstItem="GKO-1x-QWx" firstAttribute="centerY" secondItem="U6M-uB-CWv" secondAttribute="top" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
+                            <constraint firstItem="GKO-1x-QWx" firstAttribute="centerY" secondItem="U6M-uB-CWv" secondAttribute="top" id="dw5-Cp-ekQ" userLabel="avatarImage - top"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="top" secondItem="rQa-MW-cCK" secondAttribute="top" id="fLE-9x-27E"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="FV1-FS-QMz" secondAttribute="top" id="gHh-Cw-fxe"/>
                             <constraint firstAttribute="trailing" secondItem="PtF-QI-fk2" secondAttribute="trailing" constant="15" id="hke-ib-z8g" userLabel="bioWebView - right"/>
@@ -128,7 +128,7 @@
             </constraints>
             <size key="customSize" width="320" height="460"/>
             <connections>
-                <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
+                <outlet property="avatarImage" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
                 <outlet property="bioWebView" destination="PtF-QI-fk2" id="WKn-ZP-Rnw"/>
                 <outlet property="followersButton" destination="FV1-FS-QMz" id="z6Y-Re-O1r"/>
                 <outlet property="followingButton" destination="gWi-lG-cJp" id="aqG-Wn-ZAX"/>

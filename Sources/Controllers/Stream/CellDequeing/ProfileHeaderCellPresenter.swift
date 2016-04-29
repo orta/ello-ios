@@ -41,18 +41,15 @@ public struct ProfileHeaderCellPresenter {
                 }
             }
 
-            let isCurrentUser: Bool
-            if let currentUser = currentUser {
-                isCurrentUser = user.id == currentUser.id
-            }
-            else {
-                isCurrentUser = false
-            }
+            let isCurrentUser = (user.id == currentUser?.id)
 
             if let cachedImage = TemporaryCache.load(.Avatar)
                 where isCurrentUser
             {
-                cell.setAvatarImage(cachedImage)
+                cell.setAvatar(cachedImage)
+            }
+            else if let url = user.avatar?.original?.url ?? user.avatar?.optimized?.url {
+                cell.setAvatarURL(url)
             }
 
             cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
