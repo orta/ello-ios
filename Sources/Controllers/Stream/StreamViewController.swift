@@ -713,8 +713,7 @@ extension StreamViewController: UserDelegate {
     public func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
         if let path = collectionView.indexPathForCell(cell),
             post = dataSource.postForIndexPath(path),
-            footerPath = dataSource.footerIndexPathForPost(post),
-            footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
+            footerPath = dataSource.footerIndexPathForPost(post)
         where !post.loved
         {
             if let window = cell.window {
@@ -729,6 +728,7 @@ extension StreamViewController: UserDelegate {
                 animate(duration: 0.4) { imageView.transform = CGAffineTransformMakeScale(1, 1) }
                 window.addSubview(imageView)
             }
+            let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
             postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
         }
     }

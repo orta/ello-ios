@@ -13,7 +13,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
     func editCommentButtonTapped(indexPath: NSIndexPath)
-    func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
+    func lovesButtonTapped(cell: StreamFooterCell?, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
     func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView)
     func flagCommentButtonTapped(indexPath: NSIndexPath)
@@ -160,16 +160,16 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath) {
+    public func lovesButtonTapped(cell: StreamFooterCell?, indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
             Tracker.sharedTracker.postLoved(post)
-            cell.lovesControl.userInteractionEnabled = false
+            cell?.lovesControl.userInteractionEnabled = false
             if post.loved { unlovePost(post, cell: cell) }
             else { lovePost(post, cell: cell) }
         }
     }
 
-    private func unlovePost(post: Post, cell: StreamFooterCell) {
+    private func unlovePost(post: Post, cell: StreamFooterCell?) {
         Tracker.sharedTracker.postUnloved(post)
         if let count = post.lovesCount {
             post.lovesCount = count - 1
@@ -184,16 +184,16 @@ public class PostbarController: NSObject, PostbarDelegate {
         service.unlovePost(
             postId: post.id,
             success: {
-                cell.lovesControl.userInteractionEnabled = true
+                cell?.lovesControl.userInteractionEnabled = true
             },
             failure: { error, statusCode in
-                cell.lovesControl.userInteractionEnabled = true
+                cell?.lovesControl.userInteractionEnabled = true
                 print("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             }
         )
     }
 
-    private func lovePost(post: Post, cell: StreamFooterCell) {
+    private func lovePost(post: Post, cell: StreamFooterCell?) {
         Tracker.sharedTracker.postLoved(post)
         if let count = post.lovesCount {
             post.lovesCount = count + 1
@@ -208,10 +208,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             postId: post.id,
             success: { (love, responseConfig) in
                 postNotification(LoveChangedNotification, value: (love, .Create))
-                cell.lovesControl.userInteractionEnabled = true
+                cell?.lovesControl.userInteractionEnabled = true
             },
             failure: { error, statusCode in
-                cell.lovesControl.userInteractionEnabled = true
+                cell?.lovesControl.userInteractionEnabled = true
                 print("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             }
         )
