@@ -67,12 +67,12 @@ public class StreamImageCell: StreamRegionableCell {
 
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addTarget(self, action: "imageDoubleTapped")
+        doubleTapGesture.addTarget(self, action: #selector(imageDoubleTapped))
         imageButton.addGestureRecognizer(doubleTapGesture)
 
         let singleTapGesture = UITapGestureRecognizer()
         singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.addTarget(self, action: "imageTapped")
+        singleTapGesture.addTarget(self, action: #selector(imageTapped))
         singleTapGesture.requireGestureRecognizerToFail(doubleTapGesture)
         imageButton.addGestureRecognizer(singleTapGesture)
     }
@@ -178,6 +178,6 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageDoubleTapped() {
-        print("=============== \(__FILE__) line \(__LINE__) ===============")
+        streamImageCellDelegate?.imageDoubleTapped(self)
     }
 }

@@ -25,16 +25,17 @@ public struct AnimationOptions {
     let duration: NSTimeInterval
     let delay: NSTimeInterval
     let options: UIViewAnimationOptions
+    let completion: ((Bool) -> Void)?
 }
 
-public func animate(duration duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = .TransitionNone, animated: Bool = true, animations: () -> Void) {
-    let options = AnimationOptions(duration: duration, delay: 0, options: options)
+public func animate(duration duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = .TransitionNone, animated: Bool = true, completion: ((Bool) -> Void)? = nil, animations: () -> Void) {
+    let options = AnimationOptions(duration: duration, delay: delay, options: options, completion: completion)
     animate(options, animated: animated, animations: animations)
 }
 
 public func animate(options: AnimationOptions, animated: Bool = true, animations: () -> Void) {
     if animated {
-        UIView.animateWithDuration(options.duration, delay: options.delay, options: options.options, animations: animations, completion: nil)
+        UIView.animateWithDuration(options.duration, delay: options.delay, options: options.options, animations: animations, completion: options.completion)
     }
     else {
         animations()

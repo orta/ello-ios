@@ -9,7 +9,7 @@
 import WebKit
 import Foundation
 
-public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
+public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecognizerDelegate {
     static let reuseIdentifier = "StreamTextCell"
 
     typealias WebContentReady = (webView : UIWebView) -> Void
@@ -26,23 +26,18 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
         webView.scrollView.scrollsToTop = false
 
         let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.delegate = self
         doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addTarget(self, action: "imageDoubleTapped")
+        doubleTapGesture.addTarget(self, action: #selector(doubleTapped))
         webView.addGestureRecognizer(doubleTapGesture)
-
-        let singleTapGesture = UITapGestureRecognizer()
-        singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.addTarget(self, action: "imageTapped")
-        singleTapGesture.requireGestureRecognizerToFail(doubleTapGesture)
-        webView.addGestureRecognizer(singleTapGesture)
     }
 
-    @IBAction func imageTapped() {
-        print("=============== \(__FILE__) line \(__LINE__) ===============")
+    public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer _: UIGestureRecognizer) -> Bool {
+        return true
     }
 
-    @IBAction func imageDoubleTapped() {
-        print("=============== \(__FILE__) line \(__LINE__) ===============")
+    @IBAction func doubleTapped() {
+        userDelegate?.cellDoubleTapped(self)
     }
 
     func onWebContentReady(handler: WebContentReady?) {

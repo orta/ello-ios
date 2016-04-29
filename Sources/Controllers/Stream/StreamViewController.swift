@@ -22,6 +22,7 @@ public protocol SimpleStreamDelegate: NSObjectProtocol {
 
 public protocol StreamImageCellDelegate: NSObjectProtocol {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
+    func imageDoubleTapped(cell: UICollectionViewCell)
 }
 
 @objc
@@ -34,6 +35,7 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
 public protocol UserDelegate: NSObjectProtocol {
     func userTappedAvatar(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
+    func cellDoubleTapped(cell: UICollectionViewCell)
     func userTappedParam(param: String)
 }
 
@@ -666,7 +668,6 @@ extension StreamViewController: StreamCollectionViewLayoutDelegate {
 
 // MARK: StreamViewController: StreamImageCellDelegate
 extension StreamViewController: StreamImageCellDelegate {
-
     public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
         let indexPath = collectionView.indexPathForCell(cell)
         let post = indexPath.flatMap(dataSource.postForIndexPath)
@@ -685,6 +686,10 @@ extension StreamViewController: StreamImageCellDelegate {
             }
         }
     }
+
+    public func imageDoubleTapped(cell: UICollectionViewCell) {
+        cellDoubleTapped(cell)
+    }
 }
 
 // MARK: StreamViewController: Commenting
@@ -702,6 +707,28 @@ extension StreamViewController: UserDelegate {
             if let indexPath = collectionView.indexPathForCell(cell) {
                 collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
             }
+        }
+    }
+
+    public func cellDoubleTapped(cell: UICollectionViewCell) {
+        if let path = collectionView.indexPathForCell(cell),
+            post = dataSource.postForIndexPath(path),
+            footerPath = dataSource.footerIndexPathForPost(post),
+            footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
+        where !post.loved
+        {
+            if let window = cell.window {
+                let imageView = UIImageView(image: InterfaceImage.GiantHeart.normalImage)
+                imageView.contentMode = .ScaleAspectFit
+                imageView.frame = window.bounds
+                imageView.alpha = 0
+                imageView.transform = CGAffineTransformMakeScale(0.5, 0.5)
+                let anim2: (Bool) -> Void = { _ in animate { imageView.alpha = 0 } }
+                animate(completion: anim2) { imageView.alpha = 0.5 }
+                animate(duration: 0.4) { imageView.transform = CGAffineTransformMakeScale(1, 1) }
+                window.addSubview(imageView)
+            }
+            postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
         }
     }
 
