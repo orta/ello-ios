@@ -10,6 +10,7 @@ private let DynamicSettingsCellHeight: CGFloat = 50
 
 private enum DynamicSettingsSection: Int {
     case DynamicSettings
+    case MutedBlocked
     case AccountDeletion
     case Unknown
 
@@ -74,6 +75,7 @@ class DynamicSettingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch DynamicSettingsSection(rawValue: section) ?? .Unknown {
         case .DynamicSettings: return dynamicCategories.count
+        case .MutedBlocked: return 1
         case .AccountDeletion: return 1
         case .Unknown: return 0
         }
@@ -87,6 +89,9 @@ class DynamicSettingsViewController: UITableViewController {
             let category = dynamicCategories[indexPath.row]
             cell.textLabel?.text = category.label
 
+        case .MutedBlocked:
+            cell.textLabel?.text = DynamicSettingCategory.mutedBlockedCategory.label
+
         case .AccountDeletion:
             cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
 
@@ -94,6 +99,20 @@ class DynamicSettingsViewController: UITableViewController {
         }
 
         return cell
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
+        case .DynamicSettings, .AccountDeletion:
+            performSegueWithIdentifier("DynamicSettingCategorySegue", sender: nil)
+        case .MutedBlocked:
+            if let currentUser = currentUser {
+                let controller = SimpleStreamViewController(endpoint: .UserStreamFollowers(userId: currentUser.id), title: "Muted/Blocked")
+                controller.currentUser = currentUser
+                navigationController?.pushViewController(controller, animated: true)
+            }
+        case .Unknown: break
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -105,6 +124,9 @@ class DynamicSettingsViewController: UITableViewController {
             case .DynamicSettings:
                 let index = tableView.indexPathForSelectedRow?.row ?? 0
                 controller.category = dynamicCategories[index]
+
+            case .MutedBlocked:
+                controller.category = DynamicSettingCategory.mutedBlockedCategory
 
             case .AccountDeletion:
                 controller.category = DynamicSettingCategory.accountDeletionCategory

@@ -24,8 +24,11 @@ public enum SettingsRow: Int {
 public class SettingsContainerViewController: BaseElloViewController {
     weak public var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
-    public var navBarsVisible: Bool = true
     private var settingsViewController: SettingsViewController?
+
+    func navBarsVisible() -> Bool {
+        return !(elloTabBarController?.tabBarHidden ?? UIApplication.sharedApplication().statusBarHidden)
+    }
 
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
@@ -58,14 +61,14 @@ public class SettingsContainerViewController: BaseElloViewController {
             let settings = segue.destinationViewController as! SettingsViewController
             settings.currentUser = currentUser
             settingsViewController = settings
-            if navBarsVisible {
+            if navBarsVisible() {
                 showNavBars()
             }
             else {
                 hideNavBars()
             }
             navigationBar.items = [settings.navigationItem]
-            settings.scrollLogic.isShowing = navBarsVisible
+            settings.scrollLogic.isShowing = navBarsVisible()
         }
     }
 
@@ -78,6 +81,12 @@ public class SettingsContainerViewController: BaseElloViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         let hidden = elloTabBarController?.tabBarHidden ?? UIApplication.sharedApplication().statusBarHidden
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+        if navBarsVisible() {
+            showNavBars()
+        }
+        else {
+            hideNavBars()
+        }
     }
 }
 
