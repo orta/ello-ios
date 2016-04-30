@@ -24,13 +24,18 @@ class DynamicSettingsViewController: UITableViewController {
     var hideLoadingHud: BasicBlock = ElloHUD.hideLoadingHud
 
     var height: CGFloat {
-        return DynamicSettingsCellHeight * CGFloat(dynamicCategories.count + 1)
+        var totalRows = 0
+        for section in 0..<tableView.numberOfSections {
+            totalRows += tableView.numberOfRowsInSection(section)
+        }
+        return DynamicSettingsCellHeight * CGFloat(totalRows)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.scrollsToTop = false
+        tableView.rowHeight = DynamicSettingsCellHeight
 
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
@@ -89,10 +94,6 @@ class DynamicSettingsViewController: UITableViewController {
         }
 
         return cell
-    }
-
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return DynamicSettingsCellHeight
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
