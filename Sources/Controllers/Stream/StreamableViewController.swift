@@ -189,6 +189,7 @@ public class StreamableViewController: BaseElloViewController, PostTappedDelegat
 // MARK: UserTappedDelegate
 extension StreamableViewController: UserTappedDelegate {
     public func userTapped(user: User) {
+        guard user.relationshipPriority != .Block else { return }
         userParamTapped(user.id)
     }
 
