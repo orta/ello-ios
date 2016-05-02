@@ -89,6 +89,10 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "CreateLove"
         case .CreatePost:
             return "CreatePost"
+        case .CurrentUserBlockedList:
+            return "CurrentUserBlockedList"
+        case .CurrentUserMutedList:
+            return "CurrentUserMutedList"
         case .CurrentUserProfile:
             return "CurrentUserProfile"
         case .CurrentUserStream:

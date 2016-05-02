@@ -30,4 +30,11 @@ public enum RelationshipPriority: String {
         default: return self.rawValue
         }
     }
+
+    var isMutedOrBlocked: Bool {
+        switch self {
+        case .Mute, .Block: return true
+        default: return false
+        }
+    }
 }

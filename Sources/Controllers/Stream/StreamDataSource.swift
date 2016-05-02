@@ -478,13 +478,16 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         collectionView.reloadItemsAtIndexPaths(reloadPaths)
 
-        switch user.relationshipPriority {
-        case .Block, .Mute:
+        if user.relationshipPriority.isMutedOrBlocked {
             var shouldDelete = true
 
             switch streamKind {
             case let .UserStream(userId):
                 shouldDelete = user.id != userId
+            case let .SimpleStream(endpoint, _):
+                if case .CurrentUserBlockedList = endpoint {
+                    shouldDelete = false
+                }
             default:
                 break
             }
@@ -492,8 +495,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             if shouldDelete {
                 modifyItems(user, change: .Delete, collectionView: collectionView)
             }
-        default:
-            break
         }
     }
 

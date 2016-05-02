@@ -10,7 +10,8 @@ private let DynamicSettingsCellHeight: CGFloat = 50
 
 private enum DynamicSettingsSection: Int {
     case DynamicSettings
-    case MutedBlocked
+    case Blocked
+    case Muted
     case AccountDeletion
     case Unknown
 
@@ -20,6 +21,8 @@ private enum DynamicSettingsSection: Int {
 }
 
 class DynamicSettingsViewController: UITableViewController {
+    var hasMuted = false
+    var hasBlocked = false
     var dynamicCategories: [DynamicSettingCategory] = []
     var currentUser: User?
     var hideLoadingHud: BasicBlock = ElloHUD.hideLoadingHud
@@ -38,6 +41,8 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.scrollsToTop = false
         tableView.rowHeight = DynamicSettingsCellHeight
 
+        hasMuted = (currentUser?.profile?.mutedCount ?? 0) > 0
+        hasBlocked = (currentUser?.profile?.blockedCount ?? 0) > 0
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in
@@ -54,8 +59,8 @@ class DynamicSettingsViewController: UITableViewController {
                         }
                         return categoryArr
                     }
-                    self.tableView.reloadData()
-                    (self.parentViewController as? SettingsViewController)?.tableView.reloadData()
+
+                    self.reloadTables()
                 }
                 self.hideLoadingHud()
             },
@@ -68,6 +73,18 @@ class DynamicSettingsViewController: UITableViewController {
         )
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        hasMuted = (currentUser?.profile?.mutedCount ?? 0) > 0
+        hasBlocked = (currentUser?.profile?.blockedCount ?? 0) > 0
+        reloadTables()
+    }
+
+    private func reloadTables() {
+        self.tableView.reloadData()
+        (self.parentViewController as? SettingsViewController)?.tableView.reloadData()
+    }
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return DynamicSettingsSection.count
     }
@@ -75,7 +92,8 @@ class DynamicSettingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch DynamicSettingsSection(rawValue: section) ?? .Unknown {
         case .DynamicSettings: return dynamicCategories.count
-        case .MutedBlocked: return 1
+        case .Blocked: return hasBlocked ? 1 : 0
+        case .Muted: return hasMuted ? 1 : 0
         case .AccountDeletion: return 1
         case .Unknown: return 0
         }
@@ -89,8 +107,11 @@ class DynamicSettingsViewController: UITableViewController {
             let category = dynamicCategories[indexPath.row]
             cell.textLabel?.text = category.label
 
-        case .MutedBlocked:
-            cell.textLabel?.text = DynamicSettingCategory.mutedBlockedCategory.label
+        case .Blocked:
+            cell.textLabel?.text = DynamicSettingCategory.blockedCategory.label
+
+        case .Muted:
+            cell.textLabel?.text = DynamicSettingCategory.mutedCategory.label
 
         case .AccountDeletion:
             cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
@@ -105,9 +126,15 @@ class DynamicSettingsViewController: UITableViewController {
         switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
         case .DynamicSettings, .AccountDeletion:
             performSegueWithIdentifier("DynamicSettingCategorySegue", sender: nil)
-        case .MutedBlocked:
+        case .Blocked:
             if let currentUser = currentUser {
-                let controller = SimpleStreamViewController(endpoint: .UserStreamFollowers(userId: currentUser.id), title: "Muted/Blocked")
+                let controller = SimpleStreamViewController(endpoint: .CurrentUserBlockedList, title: "Blocked")
+                controller.currentUser = currentUser
+                navigationController?.pushViewController(controller, animated: true)
+            }
+        case .Muted:
+            if let currentUser = currentUser {
+                let controller = SimpleStreamViewController(endpoint: .CurrentUserMutedList, title: "Muted")
                 controller.currentUser = currentUser
                 navigationController?.pushViewController(controller, animated: true)
             }
@@ -125,8 +152,11 @@ class DynamicSettingsViewController: UITableViewController {
                 let index = tableView.indexPathForSelectedRow?.row ?? 0
                 controller.category = dynamicCategories[index]
 
-            case .MutedBlocked:
-                controller.category = DynamicSettingCategory.mutedBlockedCategory
+            case .Blocked:
+                controller.category = DynamicSettingCategory.blockedCategory
+
+            case .Muted:
+                controller.category = DynamicSettingCategory.mutedCategory
 
             case .AccountDeletion:
                 controller.category = DynamicSettingCategory.accountDeletionCategory

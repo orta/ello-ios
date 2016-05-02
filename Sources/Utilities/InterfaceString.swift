@@ -110,7 +110,8 @@ public struct InterfaceString {
         static let Links = NSLocalizedString("Links", comment: "links setting")
         static let AvatarUploaded = NSLocalizedString("You’ve updated your Avatar.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Avatar updated copy")
         static let CoverImageUploaded = NSLocalizedString("You’ve updated your Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Cover Image updated copy")
-        static let MutedBlockedTitle = NSLocalizedString("Muted/Blocked", comment: "muted/blocked button")
+        static let BlockedTitle = NSLocalizedString("Blocked", comment: "blocked settings item")
+        static let MutedTitle = NSLocalizedString("Muted", comment: "muted settings item")
         static let DeleteAccountTitle = NSLocalizedString("Account Deletion", comment: "account deletion settings button")
         static let DeleteAccount = NSLocalizedString("Delete Account", comment: "account deletion label")
         static let DeleteAccountExplanation = NSLocalizedString("By deleting your account you remove your personal information from Ello. Your account cannot be restored.", comment: "By deleting your account you remove your personal information from Ello. Your account cannot be restored.")
@@ -175,6 +176,7 @@ public struct InterfaceString {
         static let Following = NSLocalizedString("Following", comment: "Following relationship")
         static let Starred = NSLocalizedString("Starred", comment: "Starred relationship")
         static let Muted = NSLocalizedString("Muted", comment: "Muted relationship")
+        static let Blocked = NSLocalizedString("Blocked", comment: "Blocked relationship")
 
         static let MuteButton = NSLocalizedString("Mute", comment: "Mute button title")
         static let BlockButton = NSLocalizedString("Block", comment: "Block button title")
