@@ -84,11 +84,10 @@ public final class Post: JSONAble, Authorable {
         }
     }
     public var collapsed: Bool { return self.contentWarning != "" }
-    private var commentCountNotification: NotificationObserver?
     public var isRepost: Bool {
         return (repostContent?.count ?? 0) > 0
     }
-    private var commentsCountChangedNotification:NotificationObserver?
+    private var commentsCountChangedNotification: NotificationObserver?
 
 // MARK: Initialization
 
