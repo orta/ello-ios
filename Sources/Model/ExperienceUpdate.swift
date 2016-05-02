@@ -11,6 +11,8 @@ public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(na
 public let PostCommentsCountChangedNotification = TypedNotification<(Post, Int)>(name: "postCommentsCountChangedNotification")
 public let LoveChangedNotification = TypedNotification<(Love, ContentChange)>(name: "loveChangedNotification")
 public let RelationshipChangedNotification = TypedNotification<User>(name: "relationshipChangedNotification")
+public let BlockedCountChangedNotification = TypedNotification<(String, Int)>(name: "BlockedCountChangedNotification")
+public let MutedCountChangedNotification = TypedNotification<(String, Int)>(name: "MutedCountChangedNotification")
 public let CurrentUserChangedNotification = TypedNotification<User>(name: "currentUserChangedNotification")
 public let SettingChangedNotification = TypedNotification<User>(name: "settingChangedNotification")
 

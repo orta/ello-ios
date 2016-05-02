@@ -20,9 +20,9 @@ public protocol RelationshipControllerDelegate: class {
 }
 
 public protocol RelationshipDelegate: class {
-    func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
+    func relationshipTapped(userId: String, prev prevRelationshipPriority: RelationshipPriority, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure)
-    func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
+    func updateRelationship(currentUserId: String, userId: String, prev prevRelationshipPriority: RelationshipPriority, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
 public class RelationshipController: NSObject {
@@ -38,7 +38,7 @@ public class RelationshipController: NSObject {
 
 // MARK: RelationshipController: RelationshipDelegate
 extension RelationshipController: RelationshipDelegate {
-    public func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
+    public func relationshipTapped(userId: String, prev prevRelationshipPriority: RelationshipPriority, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
         Tracker.sharedTracker.relationshipButtonTapped(relationshipPriority, userId: userId)
         if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationshipPriority) where !shouldSubmit {
             let relationship = Relationship(id: NSUUID().UUIDString, createdAt: NSDate(), ownerId: "", subjectId: userId)
@@ -47,7 +47,7 @@ extension RelationshipController: RelationshipDelegate {
         }
 
         if let currentUserId = currentUser?.id {
-            self.updateRelationship(currentUserId, userId: userId, relationshipPriority: relationshipPriority, complete: complete)
+            self.updateRelationship(currentUserId, userId: userId, prev: prevRelationshipPriority, relationshipPriority: relationshipPriority, complete: complete)
         }
     }
 
@@ -58,8 +58,10 @@ extension RelationshipController: RelationshipDelegate {
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
 
-    public func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
-        RelationshipService().updateRelationship(currentUserId: currentUserId, userId: userId, relationshipPriority: relationshipPriority,
+    public func updateRelationship(currentUserId: String, userId: String, prev prevPriority: RelationshipPriority, relationshipPriority newRelationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
+
+        var prevRelationshipPriority = prevPriority
+        RelationshipService().updateRelationship(currentUserId: currentUserId, userId: userId, relationshipPriority: newRelationshipPriority,
             success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship, isFinalValue: responseConfig.isFinalValue)
@@ -78,6 +80,24 @@ extension RelationshipController: RelationshipDelegate {
                     complete(status: .Success, relationship: nil, isFinalValue: responseConfig.isFinalValue)
 
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: nil)
+                }
+
+                if prevRelationshipPriority != newRelationshipPriority {
+                    var blockDelta = 0
+                    if prevRelationshipPriority == .Block { blockDelta -= 1 }
+                    if newRelationshipPriority == .Block { blockDelta += 1 }
+                    if blockDelta != 0 {
+                        postNotification(BlockedCountChangedNotification, value: (userId, blockDelta))
+                    }
+
+                    var mutedDelta = 0
+                    if prevRelationshipPriority == .Mute { mutedDelta -= 1 }
+                    if newRelationshipPriority == .Mute { mutedDelta += 1 }
+                    if mutedDelta != 0 {
+                        postNotification(MutedCountChangedNotification, value: (userId, mutedDelta))
+                    }
+
+                    prevRelationshipPriority = newRelationshipPriority
                 }
             },
             failure: {

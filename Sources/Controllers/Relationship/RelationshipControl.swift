@@ -144,7 +144,7 @@ public class RelationshipControl: UIView {
         nextTick {
             let prevRelationshipPriority = self.relationshipPriority
             self.relationshipPriority = newRelationshipPriority
-            relationshipDelegate.relationshipTapped(self.userId, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
+            relationshipDelegate.relationshipTapped(self.userId, prev: prevRelationshipPriority, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
                 self.userInteractionEnabled = isFinalValue
 
                 if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
