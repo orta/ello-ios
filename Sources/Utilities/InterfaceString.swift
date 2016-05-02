@@ -180,6 +180,10 @@ public struct InterfaceString {
 
         static let MuteButton = NSLocalizedString("Mute", comment: "Mute button title")
         static let BlockButton = NSLocalizedString("Block", comment: "Block button title")
+        static let BlockedNoResultsTitle = NSLocalizedString("You haven't blocked any users", comment: "Current user no blocked results title")
+        static let BlockedNoResultsBody = NSLocalizedString("", comment: "Current user no blocked results body.")
+        static let MutedNoResultsTitle = NSLocalizedString("You haven't muted any users", comment: "Current user no muted results title")
+        static let MutedNoResultsBody = NSLocalizedString("", comment: "Current user no muted results body.")
 
         static let UnmuteAlertTemplate = NSLocalizedString("Would you like to \nunmute or block %@?", comment: "alert prompt before unmuting or blocking")
         static let BlockAlertTemplate = NSLocalizedString("Would you like to \nmute or unblock %@?", comment: "alert prompt before muting or unblocking")
