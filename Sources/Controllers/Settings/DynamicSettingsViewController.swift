@@ -21,7 +21,6 @@ private enum DynamicSettingsSection: Int {
 }
 
 class DynamicSettingsViewController: UITableViewController {
-    var appearedAlready = false
     var hasBlocked: Bool { return (currentUser?.profile?.blockedCount ?? 0) > 0 }
     var hasMuted: Bool { return (currentUser?.profile?.mutedCount ?? 0) > 0 }
 
@@ -37,8 +36,25 @@ class DynamicSettingsViewController: UITableViewController {
         return DynamicSettingsCellHeight * CGFloat(totalRows)
     }
 
+    private var blockedCountChangedNotification: NotificationObserver?
+    private var mutedCountChangedNotification: NotificationObserver?
+
+    deinit {
+        blockedCountChangedNotification?.removeObserver()
+        mutedCountChangedNotification?.removeObserver()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        blockedCountChangedNotification = NotificationObserver(notification: BlockedCountChangedNotification) { [unowned self] (userId, delta) in
+            self.currentUser?.profile?.blockedCount += delta
+            self.reloadTables()
+        }
+        mutedCountChangedNotification = NotificationObserver(notification: MutedCountChangedNotification) { [unowned self] (userId, delta) in
+            self.currentUser?.profile?.mutedCount += delta
+            self.reloadTables()
+        }
 
         tableView.scrollsToTop = false
         tableView.rowHeight = DynamicSettingsCellHeight
@@ -71,21 +87,6 @@ class DynamicSettingsViewController: UITableViewController {
                 self.hideLoadingHud()
             }
         )
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // the first time this screen appears we don't want to call 'reloadTables'.  Only on subsequent
-        // loads
-        if appearedAlready {
-            reloadTables()
-        }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        appearedAlready = true
     }
 
     private func reloadTables() {
