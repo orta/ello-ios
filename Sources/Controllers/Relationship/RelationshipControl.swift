@@ -129,8 +129,9 @@ public class RelationshipControl: UIView {
             return
         }
 
-        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
-            self.relationshipPriority = relationshipPriority
+        let prevRelationshipPriority = self.relationshipPriority
+        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: prevRelationshipPriority) { newRelationshipPriority in
+            self.relationshipPriority = newRelationshipPriority
         }
     }
 
@@ -144,9 +145,7 @@ public class RelationshipControl: UIView {
             let prevRelationshipPriority = self.relationshipPriority
             self.relationshipPriority = newRelationshipPriority
             relationshipDelegate.relationshipTapped(self.userId, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
-                if isFinalValue {
-                    self.userInteractionEnabled = true
-                }
+                self.userInteractionEnabled = isFinalValue
 
                 if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                     self.relationshipPriority = newRelationshipPriority
