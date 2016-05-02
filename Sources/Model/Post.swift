@@ -119,7 +119,7 @@ public final class Post: JSONAble, Authorable {
         self.summary = summary
         super.init(version: PostVersion)
 
-        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { (post, delta) in
+        commentsCountChangedNotification = NotificationObserver(notification: PostCommentsCountChangedNotification) { [unowned self] (post, delta) in
             if post.id == self.id {
                 self.commentsCount = (self.commentsCount ?? 0) + delta
             }
