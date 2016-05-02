@@ -21,6 +21,7 @@ private enum DynamicSettingsSection: Int {
 }
 
 class DynamicSettingsViewController: UITableViewController {
+    var appearedAlready = false
     var hasBlocked: Bool { return (currentUser?.profile?.blockedCount ?? 0) > 0 }
     var hasMuted: Bool { return (currentUser?.profile?.mutedCount ?? 0) > 0 }
 
@@ -72,11 +73,19 @@ class DynamicSettingsViewController: UITableViewController {
         )
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        hasMuted = (currentUser?.profile?.mutedCount ?? 0) > 0
-        hasBlocked = (currentUser?.profile?.blockedCount ?? 0) > 0
-        reloadTables()
+
+        // the first time this screen appears we don't want to call 'reloadTables'.  Only on subsequent
+        // loads
+        if appearedAlready {
+            reloadTables()
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        appearedAlready = true
     }
 
     private func reloadTables() {
