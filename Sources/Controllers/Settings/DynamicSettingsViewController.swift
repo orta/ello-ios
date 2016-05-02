@@ -21,8 +21,9 @@ private enum DynamicSettingsSection: Int {
 }
 
 class DynamicSettingsViewController: UITableViewController {
-    var hasMuted = false
-    var hasBlocked = false
+    var hasBlocked: Bool { return (currentUser?.profile?.blockedCount ?? 0) > 0 }
+    var hasMuted: Bool { return (currentUser?.profile?.mutedCount ?? 0) > 0 }
+
     var dynamicCategories: [DynamicSettingCategory] = []
     var currentUser: User?
     var hideLoadingHud: BasicBlock = ElloHUD.hideLoadingHud
@@ -41,8 +42,6 @@ class DynamicSettingsViewController: UITableViewController {
         tableView.scrollsToTop = false
         tableView.rowHeight = DynamicSettingsCellHeight
 
-        hasMuted = (currentUser?.profile?.mutedCount ?? 0) > 0
-        hasBlocked = (currentUser?.profile?.blockedCount ?? 0) > 0
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in
