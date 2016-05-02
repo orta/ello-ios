@@ -120,6 +120,11 @@ public class BlockUserModalViewController: BaseElloViewController {
     }
 
     private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
+        guard let currentUserId = currentUser?.id else {
+            closeModal(nil)
+            return
+        }
+
         let prevRelationship = relationshipPriority
         if sender.selected == true {
             relationshipPriority = .Inactive
@@ -127,7 +132,7 @@ public class BlockUserModalViewController: BaseElloViewController {
             relationshipPriority = newRelationship
         }
 
-        relationshipDelegate?.updateRelationship(currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority) {
+        relationshipDelegate?.updateRelationship(currentUserId, userId: userId, relationshipPriority: relationshipPriority) {
             (status, relationship, isFinalValue) in
             switch status {
             case .Success:

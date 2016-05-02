@@ -46,7 +46,9 @@ extension RelationshipController: RelationshipDelegate {
             return
         }
 
-        self.updateRelationship(self.currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority, complete: complete)
+        if let currentUserId = currentUser?.id {
+            self.updateRelationship(currentUserId, userId: userId, relationshipPriority: relationshipPriority, complete: complete)
+        }
     }
 
     public func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
@@ -56,8 +58,7 @@ extension RelationshipController: RelationshipDelegate {
     }
 
     public func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
-
-        RelationshipService().updateRelationship(currentUserId: self.currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority,
+        RelationshipService().updateRelationship(currentUserId: currentUserId, userId: userId, relationshipPriority: relationshipPriority,
             success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship, isFinalValue: responseConfig.isFinalValue)
