@@ -53,6 +53,7 @@ extension RelationshipController: RelationshipDelegate {
 
     public func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
         let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationshipPriority: relationshipPriority, changeClosure: changeClosure)
+        vc.currentUser = currentUser
         vc.relationshipDelegate = self
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
