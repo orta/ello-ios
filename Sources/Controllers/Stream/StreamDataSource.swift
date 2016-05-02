@@ -485,7 +485,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case let .UserStream(userId):
                 shouldDelete = user.id != userId
             case let .SimpleStream(endpoint, _):
-                if case .CurrentUserBlockedList = endpoint {
+                if case .CurrentUserBlockedList = endpoint
+                where user.relationshipPriority == .Block
+                {
+                    shouldDelete = false
+                }
+                else if case .CurrentUserMutedList = endpoint
+                where user.relationshipPriority == .Mute
+                {
                     shouldDelete = false
                 }
             default:
