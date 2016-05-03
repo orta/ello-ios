@@ -545,7 +545,7 @@
         <!--Dynamic Settings View Controller-->
         <scene sceneID="63N-GQ-Lh9">
             <objects>
-                <tableViewController id="lfd-4D-Kdl" customClass="DynamicSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DynamicSettingsViewController" id="lfd-4D-Kdl" customClass="DynamicSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qyN-ih-Oly">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="193"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

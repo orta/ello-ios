@@ -118,6 +118,8 @@ extension Profile: Stubbable {
             email: (values["email"] as? String) ?? "email@example.com",
             confirmedAt: (values["confirmedAt"] as? NSDate) ?? NSDate(),
             isPublic: (values["isPublic"] as? Bool) ?? true,
+            mutedCount: (values["mutedCount"] as? Int) ?? 0,
+            blockedCount: (values["blockedCount"] as? Int) ?? 0,
             hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
             hasAdNotificationsEnabled: (values["hasAdNotificationsEnabled"] as? Bool) ?? true,
             allowsAnalytics: (values["allowsAnalytics"] as? Bool) ?? true,
