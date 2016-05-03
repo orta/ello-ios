@@ -204,8 +204,12 @@ public enum StreamKind {
     }
 
     public var gridViewPreferenceSet: Bool {
-        let prefSet = GroupDefaults["\(self.cacheKey)GridViewPreferenceSet"].bool
-        return prefSet != nil
+        switch self {
+        case .Notifications: return false
+        default:
+            let prefSet = GroupDefaults["\(self.cacheKey)GridViewPreferenceSet"].bool
+            return prefSet != nil
+        }
     }
 
     public func setIsGridView(isGridView: Bool) {
