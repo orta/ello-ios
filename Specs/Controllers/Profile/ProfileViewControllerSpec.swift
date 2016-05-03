@@ -15,10 +15,12 @@ import Nimble
 class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
         describe("ProfileViewController") {
+            let currentUser: User = stub([:])
 
             describe("initialization from storyboard") {
                 let user: User = stub(["id": "42"])
                 let subject = ProfileViewController(userParam: user.id)
+                subject.currentUser = currentUser
 
                 it("can be instantiated") {
                     expect(subject).notTo(beNil())
@@ -60,6 +62,7 @@ class ProfileViewControllerSpec: QuickSpec {
             describe("contentInset") {
                 let user: User = stub(["id": "42"])
                 let subject = ProfileViewController(userParam: user.id)
+                subject.currentUser = currentUser
 
                 beforeEach {
                     UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
@@ -79,6 +82,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     currentUser = User.stub(["id": "42"])
                     subject = ProfileViewController(user: currentUser)
                     subject.currentUser = currentUser
+                    subject.currentUser = currentUser
                     showController(subject)
                 }
 
@@ -95,6 +99,7 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
+                    subject.currentUser = currentUser
                     subject.currentUser = currentUser
                     showController(subject)
                 }
@@ -118,6 +123,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
                     subject.currentUser = currentUser
+                    subject.currentUser = currentUser
                     showController(subject)
                 }
 
@@ -133,6 +139,7 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     user = User.stub(["id": "42"])
                     subject = ProfileViewController(userParam: user.id)
+                    subject.currentUser = currentUser
                     showController(subject)
                 }
 
@@ -151,6 +158,7 @@ class ProfileViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = ProfileViewController(userParam: "42")
+                    subject.currentUser = currentUser
                     showController(subject)
                     user = subject.user!
                 }
@@ -197,6 +205,7 @@ class ProfileViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = ProfileViewController(userParam: "42")
+                    subject.currentUser = currentUser
                     showController(subject)
                     user = subject.user!
                     ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
@@ -239,12 +248,14 @@ class ProfileViewControllerSpec: QuickSpec {
 
             xcontext("snapshots") {
                 let subject = ProfileViewController(userParam: "42")
+                subject.currentUser = currentUser
                 validateAllSnapshots(subject)
             }
 
             xcontext("snapshots - currentUser") {
                 let user: User = stub([:])
                 let subject = ProfileViewController(user: user)
+                subject.currentUser = currentUser
                 beforeEach {
                     showController(subject)
                     subject.currentUser = user
