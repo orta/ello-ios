@@ -16,32 +16,30 @@ public protocol NotificationDelegate {
     func postTapped(post: Post)
 }
 
-public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
+public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     static let reuseIdentifier = "NotificationCell"
 
     struct Size {
+        static let ButtonHeight = CGFloat(30)
+        static let ButtonMargin = CGFloat(15)
         static let sideMargins = CGFloat(15)
-        static let avatarSide = CGFloat(30)
-        static let leftTextMargin = CGFloat(10)
+        static let avatarSize = CGFloat(30)
         static let imageWidth = CGFloat(87)
-        static let topBottomMargins = CGFloat(30)
-        static let innerTextMargin = CGFloat(10)
+        static let innerMargin = CGFloat(10)
         static let createdAtHeight = CGFloat(12)
 
-        // height of created at and title labels
-        static func topBottomFixedHeight() -> CGFloat {
-            let createdAtHeight = CGFloat(12)
-            let innerMargin = self.innerTextMargin
+        // height of created at and margin from title / notification text
+        static func createdAtFixedHeight() -> CGFloat {
             return createdAtHeight + innerMargin
         }
 
-        static func messageHtmlWidth(forCellWidth forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            let messageLeftMargin : CGFloat = 55
-            var messageRightMargin : CGFloat = 107
-            if !hasImage {
-                messageRightMargin = messageRightMargin - CGFloat(10) - self.imageWidth
+        static func messageHtmlWidth(forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+            let messageLeftMargin: CGFloat = sideMargins + avatarSize + innerMargin
+            var messageRightMargin: CGFloat = innerMargin
+            if hasImage {
+                messageRightMargin += innerMargin + imageWidth
             }
-            return forCellWidth - messageLeftMargin - messageRightMargin
+            return cellWidth - messageLeftMargin - messageRightMargin
         }
 
         static func imageHeight(imageRegion imageRegion: ImageRegion?) -> CGFloat {
@@ -55,25 +53,45 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    typealias WebContentReady = (webView : UIWebView) -> Void
+    typealias OnHeightMismatch = (CGFloat) -> Void
+    typealias WebContentReady = (webView: UIWebView) -> Void
 
     var webLinkDelegate: WebLinkDelegate?
     var userDelegate: UserDelegate?
     var delegate: NotificationDelegate?
     var webContentReady: WebContentReady?
+    var onHeightMismatch: OnHeightMismatch?
 
-    var avatarButton : AvatarButton!
-    var titleTextView : ElloTextView!
-    var createdAtLabel : UILabel!
-    var messageWebView : UIWebView!
-    var notificationImageView : FLAnimatedImageView!
-    var aspectRatio:CGFloat = 4.0/3.0
+    var avatarButton: AvatarButton!
+    var replyButton: ReplyButton!
+    var relationshipControl: RelationshipControl!
+    var titleTextView: ElloTextView!
+    var createdAtLabel: UILabel!
+    var messageWebView: UIWebView!
+    var notificationImageView: FLAnimatedImageView!
+    var aspectRatio: CGFloat = 4/3
+    var separator = UIView()
 
-    var messageHtml : String? {
-        willSet(newValue) {
-            messageWebView.alpha = 0.0
+    var canReplyToComment: Bool {
+        set {
+            replyButton.hidden = !newValue
+            setNeedsLayout()
+        }
+        get { return !replyButton.hidden }
+    }
+    var canBackFollow: Bool {
+        set {
+            relationshipControl.hidden = !newValue
+            setNeedsLayout()
+        }
+        get { return !relationshipControl.hidden }
+    }
+
+    var messageHtml: String? {
+        willSet {
             if newValue != messageHtml {
                 if let value = newValue {
+                    messageWebView.alpha = 0.0
                     messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 }
                 else {
@@ -83,23 +101,35 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    var imageURL : NSURL? {
-        willSet(newValue) {
-            self.notificationImageView.pin_setImageFromURL(newValue) { _ in
-                self.setNeedsLayout()
+    var imageURL: NSURL? {
+        didSet {
+            self.notificationImageView.pin_setImageFromURL(imageURL) { result in
+                let success = result.image != nil || result.animatedImage != nil
+                let isAnimated = result.animatedImage != nil
+                if success {
+                    let imageSize = isAnimated ? result.animatedImage.size : result.image.size
+                    self.aspectRatio = imageSize.width / imageSize.height
+                    let currentRatio = self.notificationImageView.frame.width / self.notificationImageView.frame.height
+                    if currentRatio != self.aspectRatio {
+                        let width = min(imageSize.width, self.frame.width)
+                        let actualHeight = width / self.aspectRatio
+                        self.onHeightMismatch?(actualHeight)
+                    }
+                }
             }
+            self.setNeedsLayout()
         }
     }
 
     var title: NSAttributedString? {
-        willSet(newValue) {
-            titleTextView.attributedText = newValue
+        didSet {
+            titleTextView.attributedText = title
         }
     }
 
     var createdAt: NSDate? {
-        willSet(newValue) {
-            if let date = newValue {
+        didSet {
+            if let date = createdAt {
                 createdAtLabel.text = date.timeAgoInWords()
             }
             else {
@@ -110,32 +140,46 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
     var user: User? {
         didSet {
-            avatarButton.setUser(user)
+            setUser(user)
         }
     }
+    var post: Post?
+    var comment: ElloComment?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
-        avatarButton.addTarget(self, action: #selector(NotificationCell.avatarTapped), forControlEvents: .TouchUpInside)
+        avatarButton.addTarget(self, action: #selector(avatarTapped), forControlEvents: .TouchUpInside)
         titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
         titleTextView.textViewDelegate = self
 
+        replyButton = ReplyButton()
+        replyButton.hidden = true
+        replyButton.addTarget(self, action: #selector(replyTapped), forControlEvents: .TouchUpInside)
+
+        relationshipControl = RelationshipControl()
+        relationshipControl.hidden = true
+        relationshipControl.showStarButton = false
+
         notificationImageView = FLAnimatedImageView()
+        notificationImageView.contentMode = .ScaleAspectFit
         messageWebView = UIWebView()
         messageWebView.opaque = false
         messageWebView.backgroundColor = .clearColor()
         messageWebView.scrollView.scrollEnabled = false
-        createdAtLabel = UILabel()
-
         messageWebView.delegate = self
 
+        createdAtLabel = UILabel()
         createdAtLabel.textColor = UIColor.greyA()
-        createdAtLabel.font = UIFont.defaultFont()
+        createdAtLabel.font = UIFont.defaultFont(12)
         createdAtLabel.text = ""
 
-        for view in [avatarButton, titleTextView, notificationImageView, messageWebView, createdAtLabel] {
+        separator.backgroundColor = .greyE5()
+
+        for view in [avatarButton, titleTextView, messageWebView,
+                     notificationImageView, createdAtLabel,
+                     replyButton, relationshipControl, separator] {
             self.contentView.addSubview(view)
         }
     }
@@ -148,13 +192,22 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         webContentReady = handler
     }
 
+    private func setUser(user: User?) {
+        avatarButton.setUser(user)
+
+        relationshipControl.userId = user?.id ?? ""
+        relationshipControl.userAtName = user?.atName ?? ""
+        relationshipControl.relationshipPriority = user?.relationshipPriority ?? RelationshipPriority.None
+    }
+
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let outerFrame = self.contentView.bounds.inset(all: Size.sideMargins)
+        let outerFrame = contentView.bounds.inset(all: Size.sideMargins)
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
+        separator.frame = contentView.bounds.fromBottom().growUp(1)
 
-        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSide, height: Size.avatarSide))
+        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSize, height: Size.avatarSize))
 
         if imageURL == nil {
             notificationImageView.frame = CGRectZero
@@ -166,26 +219,40 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
 
         titleTextView.frame = avatarButton.frame.fromRight()
-            .shiftRight(Size.innerTextMargin)
+            .shiftRight(Size.innerMargin)
             .withWidth(titleWidth)
 
         let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .max))
         titleTextView.frame.size.height = ceil(tvSize.height)
 
         let createdAtHeight = Size.createdAtHeight
-        createdAtLabel.frame = avatarButton.frame.fromRight()
-            .shiftRight(Size.innerTextMargin)
-            .atY(outerFrame.maxY - createdAtHeight)
+        var createdAtY = outerFrame.maxY - createdAtHeight
+        if !relationshipControl.hidden || !replyButton.hidden {
+            createdAtY -= Size.ButtonMargin + Size.ButtonHeight
+        }
+
+        createdAtLabel.frame = avatarButton.frame
+            .fromRight()
+            .shiftRight(Size.innerMargin)
+            .atY(createdAtY)
             .withSize(CGSize(width: titleWidth, height: createdAtHeight))
+
+        let replyButtonWidth = replyButton.intrinsicContentSize().width
+        replyButton.frame = createdAtLabel.frame
+            .fromBottom()
+            .shiftDown(Size.ButtonMargin)
+            .withSize(CGSize(width: replyButtonWidth + 20, height: Size.ButtonHeight))
+        let relationshipControlWidth = relationshipControl.intrinsicContentSize().width
+        relationshipControl.frame = replyButton.frame.withWidth(relationshipControlWidth)
 
         if messageHtml == nil {
             messageWebView.frame = CGRectZero
         }
         else {
-            let remainingHeight = outerFrame.height - Size.innerTextMargin - titleTextView.frame.height
+            let remainingHeight = outerFrame.height - Size.innerMargin - titleTextView.frame.height
             messageWebView.frame = titleTextView.frame.fromBottom()
                 .withWidth(titleWidth)
-                .shiftDown(Size.innerTextMargin)
+                .shiftDown(Size.innerMargin)
                 .withHeight(remainingHeight)
         }
     }
@@ -193,10 +260,15 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     override public func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
+        messageHtml = nil
         avatarButton.pin_cancelImageDownload()
         avatarButton.setImage(nil, forState: .Normal)
         notificationImageView.pin_cancelImageDownload()
         notificationImageView.image = nil
+        aspectRatio = 4/3
+        canReplyToComment = false
+        canBackFollow = false
+        imageURL = nil
     }
 
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -237,7 +309,15 @@ extension NotificationCell: ElloTextViewDelegate {
 
 extension NotificationCell {
 
-    @objc
+    public func replyTapped() {
+        if let post = post {
+            delegate?.postTapped(post)
+        }
+        else if let comment = comment {
+            delegate?.commentTapped(comment)
+        }
+    }
+
     public func avatarTapped() {
         userDelegate?.userTappedAvatar(self)
     }

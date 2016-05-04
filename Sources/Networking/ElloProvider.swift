@@ -268,9 +268,6 @@ public class ElloProvider {
 
 }
 
-// MARK: Generate error helper methods
-
-
 
 // MARK: elloRequest implementation
 extension ElloProvider {

@@ -257,6 +257,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! StreamInviteFriendsCell).inviteDelegate = inviteDelegate
                 (cell as! StreamInviteFriendsCell).inviteCache = inviteCache
             case .Notification:
+                (cell as! NotificationCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
                 (cell as! NotificationCell).userDelegate = userDelegate
                 (cell as! NotificationCell).delegate = notificationDelegate

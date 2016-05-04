@@ -261,6 +261,8 @@ public enum StreamKind {
 
     public var showStarButton: Bool {
         switch self {
+        case .Notifications:
+            return false
         case let .SimpleStream(endpoint, _):
             switch endpoint {
             case .AwesomePeopleStream, .CommunitiesStream, .FoundersStream:

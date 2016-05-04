@@ -173,7 +173,7 @@ class StreamKindSpec: QuickSpec {
                     (true, StreamKind.Discover(type: .Recommended, perPage: 1)),
                     (true, StreamKind.Following),
                     (true, StreamKind.Starred),
-                    (true, StreamKind.Notifications(category: "")),
+                    (false, StreamKind.Notifications(category: "")),
                     (true, StreamKind.PostDetail(postParam: "param")),
                     (true, StreamKind.CurrentUserStream),
                     (true, StreamKind.Unknown),
