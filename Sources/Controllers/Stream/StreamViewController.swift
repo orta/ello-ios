@@ -12,40 +12,42 @@ import Crashlytics
 import SwiftyUserDefaults
 
 // MARK: Delegate Implementations
-public protocol InviteDelegate: NSObjectProtocol {
+public protocol InviteDelegate: class {
     func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion)
 }
 
-public protocol SimpleStreamDelegate: NSObjectProtocol {
+public protocol SimpleStreamDelegate: class {
     func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
-public protocol StreamImageCellDelegate: NSObjectProtocol {
+public protocol StreamImageCellDelegate: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
+    func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
 }
 
 @objc
-public protocol StreamScrollDelegate: NSObjectProtocol {
+public protocol StreamScrollDelegate: class {
     func streamViewDidScroll(scrollView: UIScrollView)
     optional func streamViewWillBeginDragging(scrollView: UIScrollView)
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
-public protocol UserDelegate: NSObjectProtocol {
+public protocol UserDelegate: class {
     func userTappedAvatar(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
+    func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
     func userTappedParam(param: String)
 }
 
-public protocol WebLinkDelegate: NSObjectProtocol {
+public protocol WebLinkDelegate: class {
     func webLinkTapped(type: ElloURI, data: String)
 }
 
-public protocol ColumnToggleDelegate: NSObjectProtocol {
+public protocol ColumnToggleDelegate: class {
     func columnToggleTapped(isGridView: Bool)
 }
 
-public protocol DiscoverStreamPickerDelegate: NSObjectProtocol {
+public protocol DiscoverStreamPickerDelegate: class {
     func discoverPickerTapped(type: DiscoverType)
 }
 
@@ -666,7 +668,6 @@ extension StreamViewController: StreamCollectionViewLayoutDelegate {
 
 // MARK: StreamViewController: StreamImageCellDelegate
 extension StreamViewController: StreamImageCellDelegate {
-
     public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
         let indexPath = collectionView.indexPathForCell(cell)
         let post = indexPath.flatMap(dataSource.postForIndexPath)
@@ -685,6 +686,10 @@ extension StreamViewController: StreamImageCellDelegate {
             }
         }
     }
+
+    public func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
+        cellDoubleTapped(cell, location: location)
+    }
 }
 
 // MARK: StreamViewController: Commenting
@@ -702,6 +707,29 @@ extension StreamViewController: UserDelegate {
             if let indexPath = collectionView.indexPathForCell(cell) {
                 collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
             }
+        }
+    }
+
+    public func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
+        if let path = collectionView.indexPathForCell(cell),
+            post = dataSource.postForIndexPath(path),
+            footerPath = dataSource.footerIndexPathForPost(post)
+        where !post.loved
+        {
+            if let window = cell.window {
+                let imageView = UIImageView(image: InterfaceImage.GiantHeart.normalImage)
+                imageView.contentMode = .ScaleAspectFit
+                imageView.frame = window.bounds
+                imageView.center = location
+                imageView.alpha = 0
+                imageView.transform = CGAffineTransformMakeScale(0.5, 0.5)
+                let anim2: (Bool) -> Void = { _ in animate { imageView.alpha = 0 } }
+                animate(completion: anim2) { imageView.alpha = 0.5 }
+                animate(duration: 0.4) { imageView.transform = CGAffineTransformMakeScale(1, 1) }
+                window.addSubview(imageView)
+            }
+            let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
+            postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
         }
     }
 

@@ -9,9 +9,9 @@
 import WebKit
 import Foundation
 
-public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
+public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecognizerDelegate {
     static let reuseIdentifier = "StreamTextCell"
-    
+
     typealias WebContentReady = (webView : UIWebView) -> Void
 
     @IBOutlet weak var webView:UIWebView!
@@ -24,6 +24,21 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
         super.awakeFromNib()
         webView.scrollView.scrollEnabled = false
         webView.scrollView.scrollsToTop = false
+
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.delegate = self
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.addTarget(self, action: #selector(doubleTapped(_:)))
+        webView.addGestureRecognizer(doubleTapGesture)
+    }
+
+    public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer _: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+    @IBAction func doubleTapped(gesture: UIGestureRecognizer) {
+        let location = gesture.locationInView(nil)
+        userDelegate?.cellDoubleTapped(self, location: location)
     }
 
     func onWebContentReady(handler: WebContentReady?) {

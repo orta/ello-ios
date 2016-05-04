@@ -25,7 +25,7 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     @IBOutlet public weak var imageView: FLAnimatedImageView!
-    @IBOutlet public weak var imageButton: UIButton!
+    @IBOutlet public weak var imageButton: UIView!
     @IBOutlet public weak var circle: PulsingCircle!
     @IBOutlet public weak var failImage: UIImageView!
     @IBOutlet public weak var failBackgroundView: UIView!
@@ -64,6 +64,17 @@ public class StreamImageCell: StreamRegionableCell {
         if let playButton = largeImagePlayButton {
             playButton.image = InterfaceImage.VideoPlay.normalImage
         }
+
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.addTarget(self, action: #selector(imageDoubleTapped(_:)))
+        imageButton.addGestureRecognizer(doubleTapGesture)
+
+        let singleTapGesture = UITapGestureRecognizer()
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.addTarget(self, action: #selector(imageTapped))
+        singleTapGesture.requireGestureRecognizerToFail(doubleTapGesture)
+        imageButton.addGestureRecognizer(singleTapGesture)
     }
 
     public func setImageURL(url: NSURL) {
@@ -128,7 +139,7 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     private func imageLoadFailed() {
-        imageButton.enabled = false
+        imageButton.userInteractionEnabled = false
         failImage.hidden = false
         failBackgroundView.hidden = false
         circle.stopPulse()
@@ -146,7 +157,7 @@ public class StreamImageCell: StreamRegionableCell {
 
     override public func prepareForReuse() {
         super.prepareForReuse()
-        imageButton.enabled = true
+        imageButton.userInteractionEnabled = true
         onHeightMismatch = nil
         request?.cancel()
         imageView.image = nil
@@ -162,7 +173,12 @@ public class StreamImageCell: StreamRegionableCell {
         failBackgroundView.alpha = 0
     }
 
-    @IBAction func imageTapped(sender: UIButton) {
+    @IBAction func imageTapped() {
         streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
+    }
+
+    @IBAction func imageDoubleTapped(gesture: UIGestureRecognizer) {
+        let location = gesture.locationInView(nil)
+        streamImageCellDelegate?.imageDoubleTapped(self, location: location)
     }
 }
