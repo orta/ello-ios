@@ -19,6 +19,11 @@ public struct ElloManager {
                 validateCertificateChain: true,
                 validateHost: true
             )
+            policyDict["ello.ninja"] = .PinPublicKeys(
+                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
+                validateCertificateChain: true,
+                validateHost: true
+            )
         }
         return policyDict
     }
