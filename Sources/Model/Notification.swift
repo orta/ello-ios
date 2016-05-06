@@ -79,7 +79,8 @@ public final class Notification: JSONAble, Authorable {
     }
     public var canReplyToComment: Bool {
         switch activity.kind {
-        case .CommentNotification,
+        case .PostMentionNotification,
+            .CommentNotification,
             .CommentMentionNotification,
             .CommentOnOriginalPostNotification,
             .CommentOnRepostNotification:
