@@ -11,23 +11,87 @@ import Quick
 import Nimble
 
 
+
+
 class StreamNotificationCellSizeCalculatorSpec : QuickSpec {
+    class MockUIWebView: UIWebView {
+        var mockHeight: CGFloat = 50
+
+        override func loadHTMLString(html: String, baseURL: NSURL?) {
+            delegate?.webViewDidFinishLoad?(self)
+        }
+
+        override func stringByEvaluatingJavaScriptFromString(js: String) -> String? {
+            if js.contains("post-container") { return "\(frame.size.width)" }
+            if js.contains("window.contentHeight") { return "\(mockHeight)" }
+            return super.stringByEvaluatingJavaScriptFromString(js)
+        }
+    }
+
     override func spec() {
-        describe("sizing NotificationCells") {
-            xit("should return minimum size") {
-                // no title, no message, no image
+        fdescribe("StreamNotificationCellSizeCalculator") {
+            let user: User = stub([:])
+            let text: TextRegion = stub(["content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus. Phasellus iaculis pellentesque felis eu fringilla. Ut in sollicitudin nisi. Praesent in mauris tortor. Nam interdum, magna eu pellentesque scelerisque, dui ipsum adipiscing ante, vel ullamcorper nisl sapien id arcu. Nullam egestas diam eu felis mollis sit amet cursus enim vehicula. Quisque eu tellus id erat pellentesque consequat. Maecenas fermentum faucibus magna, eget dictum nisi congue sed. Quisque a justo a nisi eleifend facilisis sit amet at augue. Sed a sapien vitae augue hendrerit porta vel eu ligula. Proin enim urna, faucibus in vestibulum tincidunt, commodo sit amet orci. Vestibulum ac sem urna, quis mattis urna. Nam eget ullamcorper ligula. Nam volutpat, arcu vel auctor dignissim, tortor nisi sodales enim, et vestibulum nulla dui id ligula. Nam ullamcorper, augue ut interdum vulputate, eros mauris lobortis sapien, ac sodales dui eros ac elit."])
+            let image: ImageRegion = stub(["asset": Asset.stub(["attachment": Attachment.stub(["width": 2000, "height": 2000])])])
+            let postWithText: Post = stub(["summary": [text], "content": [text], "author": user])
+            let postWithImage: Post = stub(["summary": [image], "content": [image], "author": user])
+            let postWithTextAndImage: Post = stub(["summary": [text, image], "content": [text, image], "author": user])
+            var subject: StreamNotificationCellSizeCalculator!
+            beforeEach {
+                subject = StreamNotificationCellSizeCalculator(webView: MockUIWebView(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: 568))))
             }
-            xit("should return reasonable size") {
-                // title, no message, no image (same as minimum size)
+
+            it("should return minimum size") {
+                let activity: Activity = stub(["kind": "new_follower_post", "subject": user])
+                let notification: Notification = stub(["activity": activity])
+                let item = StreamCellItem(jsonable: notification, type: .Notification)
+                subject.processCells([item], withWidth: 320, completion: {
+                })
+                expect(item.calculatedWebHeight) == 0
+                expect(item.calculatedOneColumnCellHeight) == 69
+                expect(item.calculatedMultiColumnCellHeight) == 69
             }
-            xit("should return size that accounts for a message") {
-                // title and message
+            it("should return size that accounts for a message") {
+                let activity: Activity = stub(["kind": "repost_notification", "subject": postWithText])
+                let notification: Notification = stub(["activity": activity])
+                let item = StreamCellItem(jsonable: notification, type: .Notification)
+                subject.processCells([item], withWidth: 320, completion: {
+                })
+                expect(item.calculatedWebHeight) == 50
+                expect(item.calculatedOneColumnCellHeight) == 129
+                expect(item.calculatedMultiColumnCellHeight) == 129
             }
-            xit("should return size that accounts for an image") {
-                // title and image
+            it("should return size that accounts for an image") {
+                let activity: Activity = stub(["kind": "repost_notification", "subject": postWithImage])
+                let notification: Notification = stub(["activity": activity])
+                let item = StreamCellItem(jsonable: notification, type: .Notification)
+                subject.processCells([item], withWidth: 320, completion: {
+                })
+                expect(item.calculatedOneColumnCellHeight) == 146
+                expect(item.calculatedMultiColumnCellHeight) == 146
             }
-            xit("should return very large size") {
-                // very long title and very long message
+            it("should return size that accounts for an image with text") {
+                let activity: Activity = stub(["kind": "repost_notification", "subject": postWithTextAndImage])
+                let notification: Notification = stub(["activity": activity])
+                let item = StreamCellItem(jsonable: notification, type: .Notification)
+                subject.processCells([item], withWidth: 320, completion: {
+                })
+                expect(item.calculatedWebHeight) == 50
+                expect(item.calculatedOneColumnCellHeight) == 146
+                expect(item.calculatedMultiColumnCellHeight) == 146
+            }
+            xit("should return size that accounts for a follow button") {
+                // title and text and follow buton
+            }
+            it("should return size that accounts for a reply button") {
+                let activity: Activity = stub(["kind": "comment_notification", "subject": postWithText])
+                let notification: Notification = stub(["activity": activity])
+                let item = StreamCellItem(jsonable: notification, type: .Notification)
+                subject.processCells([item], withWidth: 320, completion: {
+                })
+                expect(item.calculatedWebHeight) == 50
+                expect(item.calculatedOneColumnCellHeight) == 174
+                expect(item.calculatedMultiColumnCellHeight) == 174
             }
         }
     }
