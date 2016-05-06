@@ -41,6 +41,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "PostDetail(postParam: \(postParam), commentCount: \(commentCount))"
         case let .PostLovers(postId):
             return "PostLovers(postId: \(postId))"
+        case let .PostReplyAll(postId):
+            return "PostReplyAll(postId: \(postId))"
         case let .PostReposters(postId):
             return "PostReposters(postId: \(postId))"
         case let .PushSubscriptions(tokenData):
@@ -143,6 +145,8 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "PostDetail"
         case .PostLovers:
             return "PostLovers"
+        case .PostReplyAll:
+            return "PostReplyAll"
         case .PostReposters:
             return "PostReposters"
         case .ProfileUpdate:

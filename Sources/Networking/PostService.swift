@@ -9,6 +9,7 @@
 import Foundation
 
 public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> Void
+public typealias UsernamesSuccessCompletion = (usernames: [String]) -> Void
 public typealias CommentSuccessCompletion = (comment: ElloComment, responseConfig: ResponseConfig) -> Void
 public typealias DeletePostSuccessCompletion = () -> Void
 
@@ -63,6 +64,38 @@ public struct PostService {
         )
     }
 
+    public func loadReplyAll(
+        postId: String,
+        success: UsernamesSuccessCompletion,
+        failure: ElloEmptyCompletion)
+    {
+        // ElloProvider.shared.elloRequest(ElloAPI.PostReplyAll(postId: postId),
+        //     success: { (usernames, _) in
+        //         if let usernames = usernames as? [Username] {
+        //             success(usernames.map { $0.username })
+        //         }
+        //     }, failure: { _ in failure() }
+        // )
+        ElloProvider.sharedProvider.request(.PostReplyAll(postId: postId)) { (result) in
+            switch result {
+            case let .Success(moyaResponse):
+                let data = moyaResponse.data
+                let statusCode = moyaResponse.statusCode
+                switch statusCode {
+                case 200...299, 300...399:
+                    let (mappedJSON, _): (AnyObject?, NSError?) = Mapper.mapJSON(data)
+                    if let usernames = mappedJSON as? [String] {
+                        success(usernames: usernames)
+                    }
+                default:
+                    failure()
+                }
+            default:
+                failure()
+            }
+        }
+    }
+
     public func deletePost(
         postId: String,
         success: ElloEmptyCompletion?,
@@ -70,7 +103,6 @@ public struct PostService {
     {
         ElloProvider.shared.elloRequest(ElloAPI.DeletePost(postId: postId),
             success: { (_, _) in
-                NSURLCache.sharedURLCache().removeAllCachedResponses()
                 success?()
             }, failure: failure
         )

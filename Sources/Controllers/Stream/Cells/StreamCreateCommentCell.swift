@@ -10,7 +10,7 @@ import FLAnimatedImage
 
 public class StreamCreateCommentCell: UICollectionViewCell {
     static let reuseIdentifier = "StreamCreateCommentCell"
-    
+
     public struct Size {
         public static let Margins = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
         public static let AvatarButtonMargin: CGFloat = 6
@@ -65,7 +65,7 @@ public class StreamCreateCommentCell: UICollectionViewCell {
 
         replyAllButton.setImage(.ReplyAll, imageStyle: .Normal, forState: .Normal)
         replyAllButton.setImage(.ReplyAll, imageStyle: .Selected, forState: .Highlighted)
-        replyAllButton.addTarget(self, action: #selector(StreamCreateCommentCell.replyAllTapped), forControlEvents: .TouchUpInside)
+        replyAllButton.addTarget(self, action: #selector(replyAllTapped), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true
