@@ -56,9 +56,6 @@ class ElloAPISpec: QuickSpec {
                     it("CommunitiesStream is valid") {
                         expect(ElloAPI.CommunitiesStream.path) == "/api/v2/interest_categories/members"
                     }
-                    xit("FoundersStream is valid") {
-                        expect(ElloAPI.FoundersStream.path) == "/api/v2/not-implemented-yet!"
-                    }
                     it("CreatePost is valid") {
                         expect(ElloAPI.CreatePost(body: [:]).path) == "/api/v2/posts"
                     }
@@ -151,7 +148,6 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.FindFriends(contacts: [:]),
                         ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
                         ElloAPI.FlagPost(postId: "", kind: ""),
-                        ElloAPI.FoundersStream,
                         ElloAPI.FriendNewContent(createdAt: NSDate()),
                         ElloAPI.FriendStream,
                         ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
@@ -189,7 +185,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Accept-Language"]) == ""
+                            expect(endpoint.headers(nil, policy: nil)["Accept-Language"]) == ""
                         }
                     }
                 }
@@ -203,7 +199,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["If-Modified-Since"]) == date.toHTTPDateString()
+                            expect(endpoint.headers(nil, policy: nil)["If-Modified-Since"]) == date.toHTTPDateString()
                         }
                     }
                 }
@@ -226,7 +222,6 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.FindFriends(contacts: ["" : [""]]),
                         ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
                         ElloAPI.FlagPost(postId: "", kind: ""),
-                        ElloAPI.FoundersStream,
                         ElloAPI.FriendStream,
                         ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.FriendStream
@@ -257,7 +252,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Authorization"]) == AuthToken().tokenWithBearer ?? ""
+                            expect(endpoint.headers(nil, policy: nil)["Authorization"]) == AuthToken().tokenWithBearer ?? ""
                         }
                     }
                 }
@@ -296,7 +291,7 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) returns .JSON and Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.JSON
-                            expect(endpoint.headers["Content-Type"]) == "application/json"
+                            expect(endpoint.headers(nil, policy: nil)["Content-Type"]) == "application/json"
                         }
                     }
                 }
@@ -308,7 +303,6 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.CommunitiesStream,
                         ElloAPI.Discover(type: .Trending, perPage: 0),
                         ElloAPI.EmojiAutoComplete(terms: ""),
-                        ElloAPI.FoundersStream,
                         ElloAPI.FriendStream,
                         ElloAPI.FriendNewContent(createdAt: NSDate()),
                         ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
@@ -335,7 +329,7 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) returns .URL and IS NOT Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.URL
-                            expect(endpoint.headers["Content-Type"] ?? "") != "application/json"
+                            expect(endpoint.headers(nil, policy: nil)["Content-Type"] ?? "") != "application/json"
                         }
                     }
                 }

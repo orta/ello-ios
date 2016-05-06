@@ -267,7 +267,7 @@ public enum StreamKind {
             return false
         case let .SimpleStream(endpoint, _):
             switch endpoint {
-            case .AwesomePeopleStream, .CommunitiesStream, .FoundersStream:
+            case .AwesomePeopleStream, .CommunitiesStream:
                 return false
             default:
                 break
