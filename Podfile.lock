@@ -37,7 +37,7 @@ PODS:
     - Alamofire (~> 3.0)
     - Result (~> 1.0)
   - Nimble (4.0.1)
-  - Nimble-Snapshots (4.0.1):
+  - Nimble-Snapshots (4.1.0):
     - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
@@ -135,7 +135,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 6.0.0)
   - Nimble (~> 4.0)
-  - Nimble-Snapshots (~> 4.0)
+  - Nimble-Snapshots (from `git@github.com:ashfurrow/Nimble-Snapshots`)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (from `https://github.com/pinterest/PINRemoteImage.git`, commit `af312667f0ce830264198366f481f1b222675a31`)
   - Quick (~> 0.9)
@@ -158,6 +158,8 @@ EXTERNAL SOURCES:
     :path: Pods/CocoaPodsKeys
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
+  Nimble-Snapshots:
+    :git: git@github.com:ashfurrow/Nimble-Snapshots
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
@@ -182,6 +184,9 @@ CHECKOUT OPTIONS:
   KINWebBrowser:
     :commit: bcf29fd0beb6afb1c28a236306ad0fa1b8677bf3
     :git: https://github.com/ello/KINWebBrowser
+  Nimble-Snapshots:
+    :commit: a9ec9a60b9e4ab08b5b0c9fe83ed7febdda368da
+    :git: git@github.com:ashfurrow/Nimble-Snapshots
   PINRemoteImage:
     :commit: af312667f0ce830264198366f481f1b222675a31
     :git: https://github.com/pinterest/PINRemoteImage.git
@@ -215,7 +220,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   Moya: fcd80ed553234960a4d28529c184850a8fb43b80
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
-  Nimble-Snapshots: 2d15a585b816f7d14947ed6e172218f9d0980ea8
+  Nimble-Snapshots: 2da4d2ec829b458d6886c06812c52493fce284c9
   OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 77a7f7bfacd2b4040786a0e31192a81003fdd41f
@@ -230,6 +235,6 @@ SPEC CHECKSUMS:
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: 6ed710c38acb1a75c06dd588f95bb86e8c29a942
+PODFILE CHECKSUM: 022067b6f797fec128ad67fd010b2b3dbd1157d5
 
 COCOAPODS: 1.0.0.beta.8
