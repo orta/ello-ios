@@ -13,14 +13,14 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     public typealias StreamTextCellSizeCalculated = () -> Void
 
-    let webView:UIWebView
-    var originalWidth:CGFloat
-    public var cellItems:[StreamCellItem] = []
-    public var completion:StreamTextCellSizeCalculated = {}
+    let webView: UIWebView
+    var originalWidth: CGFloat
+    public var cellItems: [StreamCellItem] = []
+    public var completion: StreamTextCellSizeCalculated = {}
 
     var srcRegex: NSRegularExpression?
 
-    public init(webView:UIWebView) {
+    public init(webView: UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
         super.init()
@@ -36,7 +36,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
+    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion: StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.originalWidth = width
