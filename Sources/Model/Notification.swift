@@ -74,6 +74,25 @@ public final class Notification: JSONAble, Authorable {
         return attributedTitleStore!
     }
 
+    public var hasImage: Bool {
+        return self.imageRegion != nil
+    }
+    public var canReplyToComment: Bool {
+        switch activity.kind {
+        case .PostMentionNotification,
+            .CommentNotification,
+            .CommentMentionNotification,
+            .CommentOnOriginalPostNotification,
+            .CommentOnRepostNotification:
+            return true
+        default:
+            return false
+        }
+    }
+    public var canBackFollow: Bool {
+        return false // activity.kind == .NewFollowerPost
+    }
+
     public var isValidKind: Bool {
         return activity.kind != .Unknown
     }
@@ -136,12 +155,6 @@ public final class Notification: JSONAble, Authorable {
         coder.encodeObject(activity, forKey: "activity")
         coder.encodeObject(author, forKey: "author")
         super.encodeWithCoder(coder.coder)
-    }
-
-// MARK: Public
-
-    func hasImage() -> Bool {
-        return self.imageRegion != nil
     }
 
 // MARK: Private

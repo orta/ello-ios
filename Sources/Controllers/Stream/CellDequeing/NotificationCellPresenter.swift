@@ -26,16 +26,21 @@ public struct NotificationCellPresenter {
                     }
                 }
             }
+            cell.onHeightMismatch = { _ in
+                StreamNotificationCellSizeCalculator.assignTotalHeight(streamCellItem.calculatedWebHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
+                postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
+            }
 
             cell.title = notification.attributedTitle
             cell.createdAt = notification.createdAt
             cell.user = notification.author
-            cell.imageURL = nil
-            cell.messageHtml = nil
+            cell.canReplyToComment = notification.canReplyToComment
+            cell.canBackFollow = notification.canBackFollow
+            cell.post = notification.activity.subject as? Post
+            cell.comment = notification.activity.subject as? ElloComment
 
             if let textRegion = notification.textRegion {
-                let content = textRegion.content
-                cell.messageHtml = content
+                cell.messageHtml = textRegion.content
             }
 
             if let imageRegion = notification.imageRegion {
@@ -50,8 +55,8 @@ public struct NotificationCellPresenter {
                 else {
                     imageURL = imageRegion.url
                 }
-                cell.imageURL = imageURL
                 cell.aspectRatio = aspectRatio
+                cell.imageURL = imageURL
             }
         }
     }

@@ -13,19 +13,14 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     public typealias StreamTextCellSizeCalculated = () -> Void
 
-    let webView:UIWebView
-    var originalWidth:CGFloat
-    public var cellItems:[StreamCellItem] = []
-    public var completion:StreamTextCellSizeCalculated = {}
+    let webView: UIWebView
+    var originalWidth: CGFloat
+    public var cellItems: [StreamCellItem] = []
+    public var completion: StreamTextCellSizeCalculated = {}
 
     var srcRegex: NSRegularExpression?
 
-//    let srcRegex: NSRegularExpression  = NSRegularExpression(
-//        pattern: "src=[\"']([^\"']*)[\"']",
-//        options: NSRegularExpressionOptions.CaseInsensitive,
-//        error: nil)!
-
-    public init(webView:UIWebView) {
+    public init(webView: UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
         super.init()
@@ -41,7 +36,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
+    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion: StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.originalWidth = width
@@ -58,7 +53,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
                 let strippedContent = self.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)
                 var f = self.webView.frame
-                f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
+                f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage)
                 self.webView.frame = f
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
@@ -88,32 +83,33 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         loadNext()
     }
 
-    class func assignTotalHeight(webContentHeight: CGFloat, cellItem: StreamCellItem, cellWidth: CGFloat) {
+    class func assignTotalHeight(webContentHeight: CGFloat?, cellItem: StreamCellItem, cellWidth: CGFloat) {
         let notification = cellItem.jsonable as! Notification
-        let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
-        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage())
+
         textViewForSizing.attributedText = notification.attributedTitle
-        let tvSize = textViewForSizing.sizeThatFits(CGSize(width: titleWidth, height: .max))
-        let titleHeight = ceil(tvSize.height)
+        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage)
+        let titleSize = textViewForSizing.sizeThatFits(CGSize(width: titleWidth, height: .max))
+        var totalTextHeight = ceil(titleSize.height)
+        totalTextHeight += NotificationCell.Size.createdAtFixedHeight()
 
-        var totalTextHeight = NotificationCell.Size.topBottomFixedHeight()
-        totalTextHeight += titleHeight
-
-        if webContentHeight > 0 {
-            totalTextHeight += webContentHeight + NotificationCell.Size.innerTextMargin
+        if let webContentHeight = webContentHeight where webContentHeight > 0 {
+            totalTextHeight += webContentHeight + NotificationCell.Size.innerMargin
         }
 
-        var height : CGFloat
-        if totalTextHeight > imageHeight {
-            height = totalTextHeight
+        if notification.canReplyToComment {
+            totalTextHeight += NotificationCell.Size.ButtonHeight + NotificationCell.Size.ButtonMargin
         }
-        else {
-            height = imageHeight
+        else if notification.canBackFollow {
+            totalTextHeight += NotificationCell.Size.ButtonHeight + NotificationCell.Size.ButtonMargin
         }
 
-        let margins = NotificationCell.Size.topBottomMargins
-        height += margins
-        cellItem.calculatedWebHeight = webContentHeight
+        let totalImageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
+        var height = max(totalTextHeight, totalImageHeight)
+
+        height += 2 * NotificationCell.Size.sideMargins
+        if let webContentHeight = webContentHeight {
+            cellItem.calculatedWebHeight = webContentHeight
+        }
         cellItem.calculatedOneColumnCellHeight = height
         cellItem.calculatedMultiColumnCellHeight = height
     }
