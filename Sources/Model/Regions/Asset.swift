@@ -28,7 +28,19 @@ public final class Asset: JSONAble {
     public var original: Attachment?
     // optional avatar
     public var largeOrBest: Attachment? {
-        return large ?? optimized ?? xxhdpi ?? xhdpi ?? hdpi ?? regular
+        // we originally had this expressed via
+        // return large ?? optimized ?? xxhdpi ?? xhdpi ?? hdpi ?? regular
+        //
+        // unfortunately that took 12.4 seconds to compile
+        // this (much more verbose) code compiles very quickly
+        if let large = large { return large }
+        if let optimized = optimized { return optimized }
+        if let xxhdpi = xxhdpi { return xxhdpi }
+        if let xhdpi = large { return xhdpi }
+        if let hdpi = hdpi { return hdpi }
+        if let regular = regular { return regular }
+        return nil
+
     }
     public var large: Attachment?
     public var regular: Attachment?
