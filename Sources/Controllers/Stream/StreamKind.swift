@@ -100,6 +100,8 @@ public enum StreamKind {
         }
     }
 
+    // TODO: Leaving this in until the next version (1.9.0), remove once the api has been
+    // updated to respect X-Allow-NSFW header
     public func filter(jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
         switch self {
         case let .SimpleStream(endpoint, _):

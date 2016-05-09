@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ello. All rights reserved.
 //
 
-import Foundation
-
 public struct NSFWPolicy {
     public let alwaysViewNSFW: [String]
     public let loggedInViewsNSFW: [String]
@@ -32,7 +30,7 @@ public struct NSFWPolicy {
         case let .InfiniteScroll(_, elloApi):
             includeNSFW(elloApi(), currentUser: currentUser)
         case let .UserStream(userParam):
-            if currentUser?.id == userParam && self.currentUserViewsOwnNSFW {
+            if isMe(userParam, currentUser: currentUser) {
                 return true
             }
         case let .Loves(userId):

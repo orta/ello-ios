@@ -19,7 +19,7 @@ public struct NSFWService {
               success: NSFWSuccessCompletion,
               failure: ElloErrorCompletion)
     {
-        Alamofire.request(.GET, "https://ello-fg-stage1.herokuapp.com/ios-nsfw-policy.json")
+        Alamofire.request(.GET, "\(ElloURI.baseURL)/ios-nsfw-policy.json")
             .responseJSON { response in
                 if let JSON = response.result.value,
                     alwaysViewNSFW = JSON["alwaysViewNSFW"] as? [String],
