@@ -28,7 +28,7 @@ public struct ProfileService {
                     ElloProvider.unCastableJSONAble(failure)
                 }
             },
-            failure: failure        )
+            failure: failure )
     }
 
     public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {

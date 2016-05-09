@@ -182,7 +182,6 @@ class StreamKindSpec: QuickSpec {
                     (true, StreamKind.SimpleStream(endpoint: ElloAPI.UserStreamFollowers(userId: "12345"), title: "")),
                     (false, StreamKind.SimpleStream(endpoint: ElloAPI.AwesomePeopleStream, title: "")),
                     (false, StreamKind.SimpleStream(endpoint: ElloAPI.CommunitiesStream, title: "")),
-                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.FoundersStream, title: "")),
                 ]
                 for (shouldStar, streamKind) in tests {
                     it("is \(shouldStar) for \(streamKind)") {
@@ -209,7 +208,6 @@ class StreamKindSpec: QuickSpec {
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.UserStream(userParam: "54321"), title: "")),
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.AwesomePeopleStream, title: "")),
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.CommunitiesStream, title: "")),
-                    (nil, StreamKind.SimpleStream(endpoint: ElloAPI.FoundersStream, title: "")),
                 ]
                 for (indexPath, streamKind) in tests {
                     it("is \(indexPath) for \(streamKind)") {
@@ -242,7 +240,6 @@ class StreamKindSpec: QuickSpec {
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.UserStream(userParam: "54321"), title: "")),
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.AwesomePeopleStream, title: "")),
                     (nil, StreamKind.SimpleStream(endpoint: ElloAPI.CommunitiesStream, title: "")),
-                    (nil, StreamKind.SimpleStream(endpoint: ElloAPI.FoundersStream, title: "")),
                 ]
                 for (indexPath, streamKind) in tests {
                     it("is \(indexPath) for \(streamKind)") {
