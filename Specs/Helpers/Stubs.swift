@@ -98,6 +98,17 @@ extension User: Stubbable {
     }
 }
 
+extension Username: Stubbable {
+    class func stub(values: [String: AnyObject]) -> Username {
+
+        let username = Username(
+            username: (values["username"] as? String) ?? "archer"
+        )
+
+        return username
+    }
+}
+
 extension Love: Stubbable {
     class func stub(values: [String: AnyObject]) -> Love {
 

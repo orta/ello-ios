@@ -63,5 +63,11 @@ class ArraySpec: QuickSpec {
                 expect(subject.all { $0 < 0 }) == false
             }
         }
+        describe("unique() -> []") {
+            it("should remove duplicates and preserve order") {
+                let subject = [1,2,3,3,2,4,1,5]
+                expect(subject.unique()) == [1,2,3,4,5]
+            }
+        }
     }
 }

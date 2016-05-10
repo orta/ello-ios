@@ -49,7 +49,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
+    public func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl) {
         guard !dataSource.streamKind.isGridView else {
             cell.cancelCommentLoading()
             if let indexPath = collectionView.indexPathForCell(cell) {
@@ -329,27 +329,14 @@ public class PostbarController: NSObject, PostbarDelegate {
             presentingController = presentingController,
             post = comment.loadedFromPost
         {
-            var names = [String]()
-            if let content = post.content {
-                names += Mentionables.findAll(content)
-            }
-
-            let commentPaths = dataSource.commentIndexPathsForPost(post)
-            for path in commentPaths {
-                if let item = dataSource.visibleStreamCellItem(at: path),
-                    comment = item.jsonable as? ElloComment,
-                    let atName = comment.author?.atName
-                where !names.contains(atName)
-                {
-                    names.append(atName)
+            PostService().loadReplyAll(post.id, success: { usernames in
+                let usernamesText = usernames.reduce("") { memo, username in
+                    return memo + "@\(username) "
                 }
-            }
-
-            if let currentUsername = currentUser?.atName {
-                names = names.filter { $0 != currentUsername }
-            }
-            let str = names.joinWithSeparator(" ")
-            presentingController.createPostDelegate?.createComment(post, text: "\(str) ", fromController: presentingController)
+                presentingController.createPostDelegate?.createComment(post, text: usernamesText, fromController: presentingController)
+            }, failure: {
+                presentingController.createCommentTapped(post)
+            })
         }
     }
 

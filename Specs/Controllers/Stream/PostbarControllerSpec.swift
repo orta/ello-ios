@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -13,6 +14,25 @@ import Moya
 
 
 class PostbarControllerSpec: QuickSpec {
+    class ReplyAllCreatePostDelegate: CreatePostDelegate {
+        var post: Post?
+        var comment: ElloComment?
+        var text: String?
+
+        func createPost(text text: String?, fromController: UIViewController) {
+            self.text = text
+        }
+        func createComment(post: Post, text: String?, fromController: UIViewController) {
+            self.post = post
+            self.text = text
+        }
+        func editComment(comment: ElloComment, fromController: UIViewController) {
+            self.comment = comment
+        }
+        func editPost(post: Post, fromController: UIViewController) {
+            self.post = post
+        }
+    }
 
     override func spec() {
         var subject: PostbarController!
@@ -20,8 +40,8 @@ class PostbarControllerSpec: QuickSpec {
             "id": "user500",
             "lovesCount": 5,
             ])
-        let controller = StreamViewController.instantiateFromStoryboard()
-        let streamKind: StreamKind = .Following
+        var controller: StreamViewController!
+        let streamKind: StreamKind = .PostDetail(postParam: "post")
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
@@ -29,6 +49,7 @@ class PostbarControllerSpec: QuickSpec {
         let imageSizeCalculator = StreamImageCellSizeCalculator()
 
         beforeEach {
+            controller = StreamViewController.instantiateFromStoryboard()
             controller.dataSource =
                 StreamDataSource(streamKind: streamKind,
                     textSizeCalculator: textSizeCalculator,
@@ -37,15 +58,43 @@ class PostbarControllerSpec: QuickSpec {
                     imageSizeCalculator: imageSizeCalculator
             )
             controller.collectionView.dataSource = controller.dataSource
+            controller.streamKind = streamKind
 
             showController(controller)
-            controller.streamKind = streamKind
 
             subject = PostbarController(collectionView: controller.collectionView, dataSource: controller.dataSource, presentingController: controller)
             subject.currentUser = currentUser
         }
 
         describe("PostbarController") {
+            describe("replyToAllButtonTapped(_:)") {
+                var delegate: ReplyAllCreatePostDelegate!
+                var indexPath: NSIndexPath!
+
+                beforeEach {
+                    let post: Post = stub([
+                        "id": "post1",
+                        "authorId" : "user1",
+                    ])
+                    let parser = StreamCellItemParser()
+                    var postCellItems = parser.parse([post], streamKind: streamKind)
+                    let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .CreateComment)]
+                    indexPath = NSIndexPath(forItem: postCellItems.count - 1, inSection: 0)
+                    delegate = ReplyAllCreatePostDelegate()
+                    controller.createPostDelegate = delegate
+                    controller.dataSource.appendUnsizedCellItems(postCellItems, withWidth: 320.0) { cellCount in
+                        controller.collectionView.dataSource = controller.dataSource
+                        controller.collectionView.reloadData()
+                    }
+                }
+                context("tapping replyToAll") {
+                    it("opens an OmnibarViewController with usernames set") {
+                        subject.replyToAllButtonTapped(indexPath)
+                        expect(delegate.text) == "@user1 @user2 "
+                    }
+                }
+            }
 
             describe("loveButtonTapped(_:)") {
 

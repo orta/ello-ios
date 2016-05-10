@@ -48,7 +48,7 @@ def common_pods
 end
 
 def spec_pods
-  pod 'FBSnapshotTestCase' # , '~> 2.1.0'
+  pod 'FBSnapshotTestCase'
   pod 'Quick', '~> 0.9'
   pod 'Nimble', '~> 4.0'
   pod 'Nimble-Snapshots', git: 'git@github.com:ashfurrow/Nimble-Snapshots'
