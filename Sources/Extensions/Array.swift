@@ -38,3 +38,15 @@ extension Array {
         return true
     }
 }
+
+extension Array where Element: Equatable {
+    func unique() -> [Element] {
+        return self.reduce([Element]()) { elements, el in
+            if elements.contains(el) {
+                return elements
+            }
+            return elements + [el]
+        }
+    }
+
+}
