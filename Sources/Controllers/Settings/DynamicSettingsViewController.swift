@@ -21,8 +21,18 @@ private enum DynamicSettingsSection: Int {
 }
 
 class DynamicSettingsViewController: UITableViewController {
-    var hasBlocked: Bool { return (currentUser?.profile?.blockedCount ?? 0) > 0 }
-    var hasMuted: Bool { return (currentUser?.profile?.mutedCount ?? 0) > 0 }
+    var hasBlocked: Bool {
+        if let blockedCount = currentUser?.profile?.blockedCount {
+            return blockedCount > 0
+        }
+        return false
+    }
+    var hasMuted: Bool {
+        if let mutedCount = currentUser?.profile?.mutedCount {
+            return mutedCount > 0
+        }
+        return false
+    }
 
     var dynamicCategories: [DynamicSettingCategory] = []
     var currentUser: User?
