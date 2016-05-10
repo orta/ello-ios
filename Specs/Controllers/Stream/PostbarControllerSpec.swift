@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -15,7 +16,7 @@ import Moya
 class PostbarControllerSpec: QuickSpec {
     class ReplyAllCreatePostDelegate: CreatePostDelegate {
         var post: Post?
-        var comment: Comment?
+        var comment: ElloComment?
         var text: String?
 
         func createPost(text text: String?, fromController: UIViewController) {
@@ -86,7 +87,7 @@ class PostbarControllerSpec: QuickSpec {
                 context("tapping replyToAll") {
                     it("opens an OmnibarViewController with usernames set") {
                         let indexPath = NSIndexPath(forItem: 2, inSection: 0)
-                        controller.replyToAllButtonTapped(indexPath)
+                        subject.replyToAllButtonTapped(indexPath)
                         expect(delegate.text) == "@user1 @user2 "
                     }
                 }
