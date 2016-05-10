@@ -117,8 +117,6 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "FlagPost"
         case .FlagComment:
             return "FlagComment"
-        case .FoundersStream:
-            return "FoundersStream"
         case .FriendNewContent:
             return "FriendNewContent"
         case .FriendStream:

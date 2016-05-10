@@ -21,6 +21,8 @@ public typealias ElloEmptyCompletion = () -> Void
 
 public class ElloProvider {
     public static var shared: ElloProvider = ElloProvider()
+    public static var currentUser: User?
+    public static var nsfwPolicy: NSFWPolicy?
     public var authState: AuthState = .Initial {
         willSet {
             if newValue != authState && !authState.canTransitionTo(newValue) && !AppSetup.sharedState.isTesting {
@@ -35,7 +37,7 @@ public class ElloProvider {
         let method = target.method
         let parameters = target.parameters
         let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters, parameterEncoding: target.encoding)
-        return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
+        return endpoint.endpointByAddingHTTPHeaderFields(target.headers(currentUser, policy: nsfwPolicy))
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {

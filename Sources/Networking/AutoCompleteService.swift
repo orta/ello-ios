@@ -62,7 +62,17 @@ public struct AutoCompleteService {
 
         if let emojis = json["emojis"].object as? [[String: String]]
         {
-            self.emojis = emojis.map { (name: $0["name"] ?? "", url: $0["image_url"] ?? "") }
+            self.emojis = emojis.map {
+                var name = ""
+                var imageUrl = ""
+                if let emojiName = $0["name"] {
+                    name = emojiName
+                }
+                if let emojiUrl = $0["image_url"] {
+                    imageUrl = emojiUrl
+                }
+                return (name: name, url: imageUrl)
+            }
         }
 
         Alamofire.request(.GET, "\(ElloURI.baseURL)/emojis.json")
@@ -70,10 +80,19 @@ public struct AutoCompleteService {
                 if let JSON = response.result.value,
                     emojis = JSON["emojis"] as? [[String: String]]
                 {
-                    self.emojis = emojis.map { (name: $0["name"] ?? "", url: $0["image_url"] ?? "") }
+                    self.emojis = emojis.map {
+                        var name = ""
+                        var imageUrl = ""
+                        if let emojiName = $0["name"] {
+                            name = emojiName
+                        }
+                        if let emojiUrl = $0["image_url"] {
+                            imageUrl = emojiUrl
+                        }
+                        return (name: name, url: imageUrl)
+                    }
                 }
             }
     }
 
 }
-
