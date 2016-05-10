@@ -82,7 +82,6 @@ class ProfileViewControllerSpec: QuickSpec {
                     currentUser = User.stub(["id": "42"])
                     subject = ProfileViewController(user: currentUser)
                     subject.currentUser = currentUser
-                    subject.currentUser = currentUser
                     showController(subject)
                 }
 
@@ -99,7 +98,6 @@ class ProfileViewControllerSpec: QuickSpec {
                 beforeEach {
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
-                    subject.currentUser = currentUser
                     subject.currentUser = currentUser
                     showController(subject)
                 }
@@ -122,7 +120,6 @@ class ProfileViewControllerSpec: QuickSpec {
 
                     currentUser = User.stub(["id": "not42"])
                     subject = ProfileViewController(userParam: "42")
-                    subject.currentUser = currentUser
                     subject.currentUser = currentUser
                     showController(subject)
                 }
