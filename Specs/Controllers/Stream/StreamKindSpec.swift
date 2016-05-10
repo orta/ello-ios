@@ -117,6 +117,18 @@ class StreamKindSpec: QuickSpec {
             }
 
             describe("tappingTextOpensDetail") {
+                var followingIsGrid = false
+                var starredIsGrid = false
+                beforeEach {
+                    followingIsGrid = StreamKind.Following.isGridView
+                    starredIsGrid = StreamKind.Starred.isGridView
+                    StreamKind.Following.setIsGridView(false)
+                    StreamKind.Starred.setIsGridView(true)
+                }
+                afterEach {
+                    StreamKind.Following.setIsGridView(followingIsGrid)
+                    StreamKind.Starred.setIsGridView(starredIsGrid)
+                }
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).tappingTextOpensDetail) == true
