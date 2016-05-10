@@ -36,8 +36,10 @@ extension User: Stubbable {
     class func stub(values: [String: AnyObject]) -> User {
 
         let relationshipPriority: RelationshipPriority
-        if let priorityName = values["relationshipPriority"] as? String {
-            relationshipPriority = RelationshipPriority(stringValue: priorityName) ?? RelationshipPriority.None
+        if let priorityName = values["relationshipPriority"] as? String,
+            priority = RelationshipPriority(stringValue: priorityName)
+        {
+            relationshipPriority = priority
         }
         else {
             relationshipPriority = RelationshipPriority.None
@@ -59,8 +61,18 @@ extension User: Stubbable {
         )
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = (values["identifiableBy"] as? String) ?? "stub-user-identifiable-by"
-        user.postsCount = (values["postsCount"] as? Int) ?? 0
-        user.lovesCount = (values["lovesCount"] as? Int) ?? 0
+        if let count = values["postsCount"] as? Int {
+            user.postsCount = count
+        }
+        else {
+            user.postsCount = 0
+        }
+        if let count = values["lovesCount"] as? Int {
+            user.lovesCount = count
+        }
+        else {
+            user.lovesCount = 0
+        }
         user.followersCount = (values["followersCount"] as? String) ?? "stub-user-followers-count"
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String) ?? "stub-user-formatted-short-bio"
