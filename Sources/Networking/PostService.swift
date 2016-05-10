@@ -69,31 +69,20 @@ public struct PostService {
         success: UsernamesSuccessCompletion,
         failure: ElloEmptyCompletion)
     {
-        // ElloProvider.shared.elloRequest(ElloAPI.PostReplyAll(postId: postId),
-        //     success: { (usernames, _) in
-        //         if let usernames = usernames as? [Username] {
-        //             success(usernames.map { $0.username })
-        //         }
-        //     }, failure: { _ in failure() }
-        // )
-        ElloProvider.sharedProvider.request(.PostReplyAll(postId: postId)) { (result) in
-            switch result {
-            case let .Success(moyaResponse):
-                let data = moyaResponse.data
-                let statusCode = moyaResponse.statusCode
-                switch statusCode {
-                case 200...299, 300...399:
-                    let (mappedJSON, _): (AnyObject?, NSError?) = Mapper.mapJSON(data)
-                    if let usernames = mappedJSON as? [String] {
-                        success(usernames: usernames)
-                    }
-                default:
+        ElloProvider.shared.elloRequest(
+            ElloAPI.PostReplyAll(postId: postId),
+            success: { (usernames, _) in
+                if let usernames = usernames as? [Username] {
+                    let strings = usernames
+                        .map { $0.username }
+                    let uniq = strings.unique()
+                    success(usernames: uniq)
+                }
+                else {
                     failure()
                 }
-            default:
-                failure()
-            }
-        }
+            }, failure: { _ in failure() }
+        )
     }
 
     public func deletePost(

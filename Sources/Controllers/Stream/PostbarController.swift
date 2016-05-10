@@ -330,10 +330,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             post = comment.loadedFromPost
         {
             PostService().loadReplyAll(post.id, success: { usernames in
-                let usernames = usernames.reduce("") { memo, username in
+                let usernamesText = usernames.reduce("") { memo, username in
                     return memo + "@\(username) "
                 }
-                presentingController.createPostDelegate?.createComment(post, text: usernames, fromController: presentingController)
+                presentingController.createPostDelegate?.createComment(post, text: usernamesText, fromController: presentingController)
             }, failure: {
                 presentingController.createCommentTapped(post)
             })
