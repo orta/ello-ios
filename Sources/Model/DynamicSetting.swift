@@ -86,6 +86,16 @@ extension DynamicSetting {
 }
 
 public extension DynamicSetting {
+    static var blockedSetting: DynamicSetting {
+        let label = InterfaceString.Settings.BlockedTitle
+        let info = InterfaceString.Settings.BlockedTitle
+        return DynamicSetting(label: label, key: "delete_account", dependentOn: [], conflictsWith: [], info: info, linkLabel: .None, linkURL: .None)
+    }
+    static var mutedSetting: DynamicSetting {
+        let label = InterfaceString.Settings.MutedTitle
+        let info = InterfaceString.Settings.MutedTitle
+        return DynamicSetting(label: label, key: "delete_account", dependentOn: [], conflictsWith: [], info: info, linkLabel: .None, linkURL: .None)
+    }
     static var accountDeletionSetting: DynamicSetting {
         let label = InterfaceString.Settings.DeleteAccount
         let info = InterfaceString.Settings.DeleteAccountExplanation

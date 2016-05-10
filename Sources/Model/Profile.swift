@@ -22,6 +22,8 @@ public final class Profile: JSONAble {
     public let email: String
     public let confirmedAt: NSDate
     public let isPublic: Bool
+    public var mutedCount: Int
+    public var blockedCount: Int
     public let hasSharingEnabled: Bool
     public let hasAdNotificationsEnabled: Bool
     public let allowsAnalytics: Bool
@@ -50,6 +52,8 @@ public final class Profile: JSONAble {
         email: String,
         confirmedAt: NSDate,
         isPublic: Bool,
+        mutedCount: Int,
+        blockedCount: Int,
         hasSharingEnabled: Bool,
         hasAdNotificationsEnabled: Bool,
         allowsAnalytics: Bool,
@@ -76,6 +80,8 @@ public final class Profile: JSONAble {
         self.email = email
         self.confirmedAt = confirmedAt
         self.isPublic = isPublic
+        self.mutedCount = mutedCount
+        self.blockedCount = blockedCount
         self.hasSharingEnabled = hasSharingEnabled
         self.hasAdNotificationsEnabled = hasAdNotificationsEnabled
         self.allowsAnalytics = allowsAnalytics
@@ -110,6 +116,8 @@ public final class Profile: JSONAble {
         self.email = decoder.decodeKey("email")
         self.confirmedAt = decoder.decodeKey("confirmedAt")
         self.isPublic = decoder.decodeKey("isPublic")
+        self.mutedCount = decoder.decodeKey("mutedCount")
+        self.blockedCount = decoder.decodeKey("blockedCount")
         self.hasSharingEnabled = decoder.decodeKey("hasSharingEnabled")
         self.hasAdNotificationsEnabled = decoder.decodeKey("hasAdNotificationsEnabled")
         self.allowsAnalytics = decoder.decodeKey("allowsAnalytics")
@@ -142,6 +150,8 @@ public final class Profile: JSONAble {
         coder.encodeObject(email, forKey: "email")
         coder.encodeObject(confirmedAt, forKey: "confirmedAt")
         coder.encodeObject(isPublic, forKey: "isPublic")
+        coder.encodeObject(mutedCount, forKey: "mutedCount")
+        coder.encodeObject(blockedCount, forKey: "blockedCount")
         coder.encodeObject(hasSharingEnabled, forKey: "hasSharingEnabled")
         coder.encodeObject(hasAdNotificationsEnabled, forKey: "hasAdNotificationsEnabled")
         coder.encodeObject(allowsAnalytics, forKey: "allowsAnalytics")
@@ -177,6 +187,8 @@ public final class Profile: JSONAble {
             email: json["email"].stringValue,
             confirmedAt: (json["confirmed_at"].stringValue.toNSDate() ?? NSDate()),
             isPublic: json["is_public"].boolValue,
+            mutedCount: json["muted_count"].intValue,
+            blockedCount: json["blocked_count"].intValue,
             hasSharingEnabled: json["has_sharing_enabled"].boolValue,
             hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].boolValue,
             allowsAnalytics: json["allows_analytics"].boolValue,

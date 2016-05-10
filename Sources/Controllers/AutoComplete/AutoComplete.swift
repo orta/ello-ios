@@ -96,8 +96,9 @@ private extension AutoComplete {
     }
 
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {
-        var startIndex = 0
-        for i in (0 ... index).reverse() {
+        guard index > 0 else { return str.startIndex }
+        var indexOffset = 0
+        for i in (1 ... index).reverse() {
             let cursorIndex = str.startIndex.advancedBy(i)
             let letter = str[cursorIndex]
             var prevLetter: Character?
@@ -106,14 +107,14 @@ private extension AutoComplete {
             }
             switch letter {
             case " ", "\n", "\r", "\t":
-                if i != index { startIndex = i + 1 }
+                if i != index { indexOffset = i + 1 }
                 else {
-                    startIndex = i - 1
+                    indexOffset = i - 1
                 }
             case ":":
                 if let _ = prevLetter {
                     if prevLetter == " " || prevLetter == ":" || prevLetter == nil {
-                        if i != index { startIndex = i }
+                        if i != index { indexOffset = i }
                     }
                     else {
                         break
@@ -121,8 +122,8 @@ private extension AutoComplete {
                 }
             default: break
             }
-            if startIndex != 0 { break }
+            if indexOffset != 0 { break }
         }
-        return str.startIndex.advancedBy(startIndex)
+        return str.startIndex.advancedBy(indexOffset)
     }
 }

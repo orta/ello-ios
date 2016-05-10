@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Eqr-kF-k9D">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Eqr-kF-k9D">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -133,7 +133,7 @@
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfC-cy-c0C">
                                                     <rect key="frame" x="15" y="15" width="200" height="195"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bEB-3t-p7d">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bEB-3t-p7d" customClass="FLAnimatedImageView">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="195"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="200" id="bjs-yx-LRR"/>
@@ -545,7 +545,7 @@
         <!--Dynamic Settings View Controller-->
         <scene sceneID="63N-GQ-Lh9">
             <objects>
-                <tableViewController id="lfd-4D-Kdl" customClass="DynamicSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DynamicSettingsViewController" id="lfd-4D-Kdl" customClass="DynamicSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qyN-ih-Oly">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="193"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -566,9 +566,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="ohM-iJ-4Uy" kind="show" identifier="DynamicSettingCategorySegue" id="jhZ-Ki-2XQ"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -576,6 +573,9 @@
                             <outlet property="delegate" destination="lfd-4D-Kdl" id="Vi2-yx-0NK"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="ohM-iJ-4Uy" kind="show" identifier="DynamicSettingCategorySegue" id="sBL-iM-lu1"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQY-Xx-tMH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

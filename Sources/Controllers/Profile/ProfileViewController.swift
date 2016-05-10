@@ -359,9 +359,9 @@ public class ProfileViewController: StreamableViewController {
         if let user = user {
             let userId = user.id
             let userAtName = user.atName
-            let relationshipPriority = user.relationshipPriority
-            streamViewController.relationshipController?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
-                user.relationshipPriority = relationshipPriority
+            let prevRelationshipPriority = user.relationshipPriority
+            streamViewController.relationshipController?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: prevRelationshipPriority) { newRelationshipPriority in
+                user.relationshipPriority = newRelationshipPriority
             }
         }
     }
@@ -523,7 +523,6 @@ extension ProfileViewController: EditProfileResponder {
     public func onEditProfile() {
         if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
             settings.currentUser = currentUser
-            settings.navBarsVisible = scrollLogic.isShowing
             navigationController?.pushViewController(settings, animated: true)
         }
     }

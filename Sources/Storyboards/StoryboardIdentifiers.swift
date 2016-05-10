@@ -23,4 +23,6 @@ public enum StoryboardIdentifier : String {
     case ElloTabBar = "ElloTabBarController"
     case App = "AppViewController"
     case Join = "JoinViewController"
+    case Settings = "SettingsViewController"
+    case DynamicSettings = "DynamicSettingsViewController"
 }

@@ -20,6 +20,24 @@ class AutoCompleteSpec: QuickSpec {
 
             describe("check(_:location)") {
 
+                context("empty") {
+                    it("returns nil") {
+                        let str = ""
+                        let result = subject.check(str, location: 0)
+
+                        expect(result).to(beNil())
+                    }
+                }
+
+                context("single space") {
+                    it("returns nil") {
+                        let str = " "
+                        let result = subject.check(str, location: 0)
+
+                        expect(result).to(beNil())
+                    }
+                }
+
                 context("username") {
                     it("returns the correct character range and string") {
                         let str = "@sean"

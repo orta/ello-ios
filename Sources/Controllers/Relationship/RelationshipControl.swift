@@ -98,7 +98,7 @@ public class RelationshipControl: UIView {
 
     @IBAction func starButtonTapped(sender: UIButton) {
         switch relationshipPriority {
-        case .Mute:
+        case .Mute, .Block:
             launchUnmuteModal()
         case .Starred:
             handleUnstar()
@@ -109,7 +109,7 @@ public class RelationshipControl: UIView {
 
     @IBAction func followingButtonTapped(sender: UIButton) {
         switch relationshipPriority {
-        case .Mute:
+        case .Mute, .Block:
             launchUnmuteModal()
         case .Following:
             handleUnfollow()
@@ -121,7 +121,7 @@ public class RelationshipControl: UIView {
     }
 
     private func launchUnmuteModal() {
-        guard relationshipPriority == .Mute else {
+        guard relationshipPriority.isMutedOrBlocked else {
             return
         }
 
@@ -129,8 +129,9 @@ public class RelationshipControl: UIView {
             return
         }
 
-        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
-            self.relationshipPriority = relationshipPriority
+        let prevRelationshipPriority = self.relationshipPriority
+        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: prevRelationshipPriority) { newRelationshipPriority in
+            self.relationshipPriority = newRelationshipPriority
         }
     }
 
@@ -143,10 +144,8 @@ public class RelationshipControl: UIView {
         nextTick {
             let prevRelationshipPriority = self.relationshipPriority
             self.relationshipPriority = newRelationshipPriority
-            relationshipDelegate.relationshipTapped(self.userId, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
-                if isFinalValue {
-                    self.userInteractionEnabled = true
-                }
+            relationshipDelegate.relationshipTapped(self.userId, prev: prevRelationshipPriority, relationshipPriority: newRelationshipPriority) { (status, relationship, isFinalValue) in
+                self.userInteractionEnabled = isFinalValue
 
                 if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                     self.relationshipPriority = newRelationshipPriority
@@ -191,12 +190,13 @@ public class RelationshipControl: UIView {
         case .Following: config = .Following
         case .Starred: config = .Starred
         case .Mute: config = .Muted
+        case .Block: config = .Blocked
         default: config = .None
         }
 
         followingButton.config = config
         starButton.config = config
-        starButton.hidden = (relationshipPriority == .Mute) || !showStarButton
+        starButton.hidden = relationshipPriority.isMutedOrBlocked || !showStarButton
 
         setNeedsLayout()
         invalidateIntrinsicContentSize()
@@ -207,7 +207,7 @@ public class RelationshipControl: UIView {
 
         let starButtonWidth: CGFloat
 
-        if relationshipPriority != .Mute && showStarButton {
+        if !relationshipPriority.isMutedOrBlocked && showStarButton {
             starButton.frame = CGRect(x: frame.width - style.starButtonWidth, y: 0, width: style.starButtonWidth, height: ViewHeight)
             starButtonWidth = style.starButtonWidth + style.starButtonMargin
         }
@@ -223,6 +223,7 @@ public class RelationshipControl: UIView {
         case Starred
         case Following
         case Muted
+        case Blocked
         case None
 
         var title: String {
@@ -231,6 +232,7 @@ public class RelationshipControl: UIView {
             case .Following: return InterfaceString.Relationship.Following
             case .Starred: return InterfaceString.Relationship.Starred
             case .Muted: return InterfaceString.Relationship.Muted
+            case .Blocked: return InterfaceString.Relationship.Blocked
             }
         }
 
@@ -254,14 +256,14 @@ public class RelationshipControl: UIView {
 
         var borderColor: UIColor {
             switch self {
-            case .Muted: return .redColor()
+            case .Muted, .Blocked: return .redColor()
             default: return .blackColor()
             }
         }
 
         var normalBackgroundColor: UIColor {
             switch self {
-            case .Muted: return .redColor()
+            case .Muted, .Blocked: return .redColor()
             case .None: return UIColor.clearColor()
             default: return .blackColor()
             }
@@ -276,7 +278,7 @@ public class RelationshipControl: UIView {
 
         var selectedBackgroundColor: UIColor {
             switch self {
-            case .Muted: return UIColor.redFFCCCC()
+            case .Muted, .Blocked: return UIColor.redFFCCCC()
             case .None: return .blackColor()
             default: return .grey4D()
             }
@@ -284,7 +286,7 @@ public class RelationshipControl: UIView {
 
         var image: UIImage? {
             switch self {
-            case .Muted: return nil
+            case .Muted, .Blocked: return nil
             case .Starred, .Following: return InterfaceImage.CheckSmall.whiteImage
             default: return InterfaceImage.PlusSmall.selectedImage
             }
@@ -292,7 +294,7 @@ public class RelationshipControl: UIView {
 
         var highlightedImage: UIImage? {
             switch self {
-            case .Muted, .Starred, .Following: return self.image
+            case .Muted, .Blocked, .Starred, .Following: return self.image
             default: return InterfaceImage.PlusSmall.whiteImage
             }
         }

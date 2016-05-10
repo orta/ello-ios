@@ -49,6 +49,14 @@ extension DynamicSettingCategory {
 }
 
 extension DynamicSettingCategory {
+    static var blockedCategory: DynamicSettingCategory {
+        let label = InterfaceString.Settings.BlockedTitle
+        return DynamicSettingCategory(label: label, settings: [DynamicSetting.blockedSetting])
+    }
+    static var mutedCategory: DynamicSettingCategory {
+        let label = InterfaceString.Settings.MutedTitle
+        return DynamicSettingCategory(label: label, settings: [DynamicSetting.mutedSetting])
+    }
     static var accountDeletionCategory: DynamicSettingCategory {
         let label = InterfaceString.Settings.DeleteAccountTitle
         return DynamicSettingCategory(label: label, settings: [DynamicSetting.accountDeletionSetting])
