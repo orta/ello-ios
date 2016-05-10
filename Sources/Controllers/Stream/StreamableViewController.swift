@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public protocol PostTappedDelegate: NSObjectProtocol {
+public protocol PostTappedDelegate: class {
     func postTapped(post: Post)
     func postTapped(post: Post, scrollToComment: ElloComment?)
     func postTapped(postId postId: String)
 }
 
-public protocol UserTappedDelegate: NSObjectProtocol {
+public protocol UserTappedDelegate: class {
     func userTapped(user: User)
     func userParamTapped(param: String)
 }
 
-public protocol CreatePostDelegate: NSObjectProtocol {
+public protocol CreatePostDelegate: class {
     func createPost(text text: String?, fromController: UIViewController)
     func createComment(post: Post, text: String?, fromController: UIViewController)
     func editComment(comment: ElloComment, fromController: UIViewController)
