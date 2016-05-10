@@ -41,7 +41,7 @@ class PostbarControllerSpec: QuickSpec {
             "lovesCount": 5,
             ])
         var controller: StreamViewController!
-        let streamKind: StreamKind = .Following
+        let streamKind: StreamKind = .PostDetail(postParam: "post")
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
@@ -69,6 +69,7 @@ class PostbarControllerSpec: QuickSpec {
         describe("PostbarController") {
             describe("replyToAllButtonTapped(_:)") {
                 var delegate: ReplyAllCreatePostDelegate!
+                var indexPath: NSIndexPath!
 
                 beforeEach {
                     let post: Post = stub([
@@ -76,7 +77,10 @@ class PostbarControllerSpec: QuickSpec {
                         "authorId" : "user1",
                     ])
                     let parser = StreamCellItemParser()
-                    let postCellItems = parser.parse([post], streamKind: streamKind)
+                    var postCellItems = parser.parse([post], streamKind: streamKind)
+                    let newComment = ElloComment.newCommentForPost(post, currentUser: currentUser)
+                    postCellItems += [StreamCellItem(jsonable: newComment, type: .CreateComment)]
+                    indexPath = NSIndexPath(forItem: postCellItems.count - 1, inSection: 0)
                     delegate = ReplyAllCreatePostDelegate()
                     controller.createPostDelegate = delegate
                     controller.dataSource.appendUnsizedCellItems(postCellItems, withWidth: 320.0) { cellCount in
@@ -86,7 +90,6 @@ class PostbarControllerSpec: QuickSpec {
                 }
                 context("tapping replyToAll") {
                     it("opens an OmnibarViewController with usernames set") {
-                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
                         subject.replyToAllButtonTapped(indexPath)
                         expect(delegate.text) == "@user1 @user2 "
                     }
