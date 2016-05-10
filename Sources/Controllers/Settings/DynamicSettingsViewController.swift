@@ -147,7 +147,7 @@ class DynamicSettingsViewController: UITableViewController {
             performSegueWithIdentifier("DynamicSettingCategorySegue", sender: nil)
         case .Blocked:
             if let currentUser = currentUser {
-                let controller = SimpleStreamViewController(endpoint: .CurrentUserBlockedList, title: "Blocked")
+                let controller = SimpleStreamViewController(endpoint: .CurrentUserBlockedList, title: InterfaceString.Settings.BlockedTitle)
                 let noResultsTitle = InterfaceString.Relationship.BlockedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.BlockedNoResultsBody
                 controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
@@ -156,7 +156,7 @@ class DynamicSettingsViewController: UITableViewController {
             }
         case .Muted:
             if let currentUser = currentUser {
-                let controller = SimpleStreamViewController(endpoint: .CurrentUserMutedList, title: "Muted")
+                let controller = SimpleStreamViewController(endpoint: .CurrentUserMutedList, title: InterfaceString.Settings.MutedTitle)
                 let noResultsTitle = InterfaceString.Relationship.MutedNoResultsTitle
                 let noResultsBody = InterfaceString.Relationship.MutedNoResultsBody
                 controller.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
