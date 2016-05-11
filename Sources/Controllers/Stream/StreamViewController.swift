@@ -716,15 +716,21 @@ extension StreamViewController: UserDelegate {
             footerPath = dataSource.footerIndexPathForPost(post)
         {
             if let window = cell.window {
+                let fullDuration: NSTimeInterval = 0.4
+                let halfDuration: NSTimeInterval = fullDuration / 2
+
                 let imageView = UIImageView(image: InterfaceImage.GiantHeart.normalImage)
                 imageView.contentMode = .ScaleAspectFit
                 imageView.frame = window.bounds
                 imageView.center = location
                 imageView.alpha = 0
                 imageView.transform = CGAffineTransformMakeScale(0.5, 0.5)
-                let anim2: (Bool) -> Void = { _ in animate { imageView.alpha = 0 } }
-                animate(completion: anim2) { imageView.alpha = 0.5 }
-                animate(duration: 0.4) { imageView.transform = CGAffineTransformMakeScale(1, 1) }
+                let grow: () -> Void = { imageView.transform = CGAffineTransformMakeScale(1, 1) }
+                let remove: (Bool) -> Void = { _ in imageView.removeFromSuperview() }
+                let fadeIn: () -> Void = { imageView.alpha = 0.5 }
+                let fadeOut: (Bool) -> Void = { _ in animate(duration: halfDuration, completion: remove) { imageView.alpha = 0 } }
+                animate(duration: halfDuration, completion: fadeOut, animations: fadeIn)
+                animate(duration: fullDuration, completion: remove, animations: grow)
                 window.addSubview(imageView)
             }
 
