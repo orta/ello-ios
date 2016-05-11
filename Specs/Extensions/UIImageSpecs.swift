@@ -20,10 +20,10 @@ class UIImageSpecs: QuickSpec {
             let isGif = NSData(base64EncodedString: "R0lGODdhCg==", options: NSDataBase64DecodingOptions())!
             let notGif = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
             it("is a gif") {
-                expect(UIImage(isGif)) == true
+                expect(UIImage.isGif(isGif)) == true
             }
             it("is not a gif") {
-                expect(UIImage(notGif)) == false
+                expect(UIImage.isGif(notGif)) == false
             }
         }
 
