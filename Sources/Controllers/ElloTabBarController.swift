@@ -58,7 +58,12 @@ public class ElloTabBarController: UIViewController, HasAppController {
     private var notificationsDot: UIView?
     var newNotificationsAvailable: Bool {
         set { notificationsDot?.hidden = !newValue }
-        get { return !(notificationsDot?.hidden ?? true) }
+        get {
+            if let hidden = notificationsDot?.hidden {
+                return !hidden
+            }
+            return false
+        }
     }
     public private(set) var streamsDot: UIView?
 
@@ -312,8 +317,11 @@ private extension ElloTabBarController {
     }
 
     func shouldReloadNotificationsStream() -> Bool {
-        let noChildControllers = ((selectedViewController as? UINavigationController)?.childViewControllers.count ?? 0) == 1
-        return selectedTab == .Notifications && newNotificationsAvailable && noChildControllers
+        if let navigationController = selectedViewController as? UINavigationController
+        where navigationController.childViewControllers.count == 1 {
+            return selectedTab == .Notifications && newNotificationsAvailable
+        }
+        return false
     }
 
     func updateTabBarItems() {
