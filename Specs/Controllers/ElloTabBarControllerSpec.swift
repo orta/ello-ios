@@ -217,7 +217,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                     expect(responded) == false
                 }
 
-                it("should not notify after two taps") {
+                it("should notify after two taps") {
                     subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
                     subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
                     expect(responded) == true
