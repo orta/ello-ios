@@ -40,7 +40,7 @@ class ElloAPISpec: QuickSpec {
         describe("ElloAPI") {
             describe("paths") {
 
-                context("are valid") {
+                fcontext("are valid") {
                     it("AmazonCredentials is valid") {
                         expect(ElloAPI.AmazonCredentials.path) ==  "/api/v2/assets/credentials"
                     }
@@ -59,8 +59,14 @@ class ElloAPISpec: QuickSpec {
                     it("CreatePost is valid") {
                         expect(ElloAPI.CreatePost(body: [:]).path) == "/api/v2/posts"
                     }
-                    it("Discover is valid") {
-                        expect(ElloAPI.Discover(type: DiscoverType.Recommended, perPage: 5).path) == "/api/v2/discover/users/recommended"
+                    it("Discover.Recommended is valid") {
+                        expect(ElloAPI.Discover(type: DiscoverType.Recommended, perPage: 5).path) == "/api/v2/discover/posts/recommended"
+                    }
+                    it("Discover.Trending is valid") {
+                        expect(ElloAPI.Discover(type: DiscoverType.Trending, perPage: 5).path) == "/api/v2/discover/users/recommended"
+                    }
+                    it("Discover.Recent is valid") {
+                        expect(ElloAPI.Discover(type: DiscoverType.Recent, perPage: 5).path) == "/api/v2/discover/posts/recommended"
                     }
                     it("FlagComment is valid") {
                         expect(ElloAPI.FlagComment(postId: "555", commentId: "666", kind: "some-string").path) == "/api/v2/posts/555/comments/666/flag/some-string"
