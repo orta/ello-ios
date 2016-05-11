@@ -163,13 +163,7 @@ private extension NotificationsViewController {
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
             [unowned self] _ in
-            if self.navigationController?.childViewControllers.count == 1 {
-                ElloHUD.showLoadingHudInView(self.streamViewController.view)
-                self.streamViewController.loadInitialPage()
-            }
-            else {
-                self.hasNewContent = true
-            }
+            self.hasNewContent = true
         }
     }
 
