@@ -70,7 +70,7 @@ public class NotificationsViewController: StreamableViewController, Notification
     }
 
     func reload() {
-        let spinner = ElloHUD.showLoadingHudInView(streamViewController.view, debug: true).customView as? ElloLogoView
+        let spinner = ElloHUD.showLoadingHudInView(streamViewController.view).customView as? ElloLogoView
         streamViewController.loadInitialPage()
         hasNewContent = false
     }
