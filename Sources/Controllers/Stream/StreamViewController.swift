@@ -714,7 +714,6 @@ extension StreamViewController: UserDelegate {
         if let path = collectionView.indexPathForCell(cell),
             post = dataSource.postForIndexPath(path),
             footerPath = dataSource.footerIndexPathForPost(post)
-        where !post.loved
         {
             if let window = cell.window {
                 let imageView = UIImageView(image: InterfaceImage.GiantHeart.normalImage)
@@ -728,8 +727,11 @@ extension StreamViewController: UserDelegate {
                 animate(duration: 0.4) { imageView.transform = CGAffineTransformMakeScale(1, 1) }
                 window.addSubview(imageView)
             }
-            let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
-            postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
+
+            if !post.loved {
+                let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
+                postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
+            }
         }
     }
 
