@@ -13,7 +13,7 @@ public struct ExtensionItemPreview {
     public let imagePath: NSURL?
     public let text: String?
 
-    public init(image: UIImage?, imagePath: NSURL?, text: String?) {
+    public init(image: UIImage? = nil, imagePath: NSURL? = nil, text: String? = nil) {
         self.image = image
         self.imagePath = imagePath
         self.text = text

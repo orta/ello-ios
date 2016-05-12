@@ -23,15 +23,15 @@ class ExtensionItemPreviewSpec: QuickSpec {
                 let urlC = NSURL(string: "https://status.ello.co")
 
                 let tests: [(Bool, ExtensionItemPreview, ExtensionItemPreview)] = [
-                    (true, ExtensionItemPreview(image: nil, imagePath: nil, text: nil), ExtensionItemPreview(image: nil, imagePath: nil, text: nil)),
-                    (true, ExtensionItemPreview(image: imageA, imagePath: nil, text: nil), ExtensionItemPreview(image: imageA, imagePath: nil, text: nil)),
-                    (true, ExtensionItemPreview(image: nil, imagePath: urlA, text: nil), ExtensionItemPreview(image: nil, imagePath: urlB, text: nil)),
-                    (true, ExtensionItemPreview(image: nil, imagePath: nil, text: "text"), ExtensionItemPreview(image: nil, imagePath: nil, text: "text")),
-                    (true, ExtensionItemPreview(image: imageA, imagePath: nil, text: "text"), ExtensionItemPreview(image: imageA, imagePath: nil, text: "text")),
+                    (true, ExtensionItemPreview(), ExtensionItemPreview()),
+                    (true, ExtensionItemPreview(image: imageA), ExtensionItemPreview(image: imageA)),
+                    (true, ExtensionItemPreview(imagePath: urlA), ExtensionItemPreview(imagePath: urlB)),
+                    (true, ExtensionItemPreview(text: "text"), ExtensionItemPreview(text: "text")),
+                    (true, ExtensionItemPreview(image: imageA, text: "text"), ExtensionItemPreview(image: imageA, text: "text")),
                     (true, ExtensionItemPreview(image: imageB, imagePath: urlA, text: "text"), ExtensionItemPreview(image: imageB, imagePath: urlB, text: "text")),
-                    (false, ExtensionItemPreview(image: nil, imagePath: urlA, text: nil), ExtensionItemPreview(image: nil, imagePath: urlC, text: nil)),
-                    (false, ExtensionItemPreview(image: imageA, imagePath: nil, text: "text"), ExtensionItemPreview(image: imageB, imagePath: nil, text: "text")),
-                    (false, ExtensionItemPreview(image: imageB, imagePath: urlA, text: "text"), ExtensionItemPreview(image: imageB, imagePath: urlB, text: "different text"))
+                    (false, ExtensionItemPreview(imagePath: urlA), ExtensionItemPreview(imagePath: urlC)),
+                    (false, ExtensionItemPreview(image: imageA, text: "text"), ExtensionItemPreview(image: imageB, text: "text")),
+                    (false, ExtensionItemPreview(image: imageB, imagePath: urlA, text: "text"), ExtensionItemPreview(image: imageB, imagePath: urlB, text: "different text")),
                 ]
 
                 for (equal, a, b) in tests {

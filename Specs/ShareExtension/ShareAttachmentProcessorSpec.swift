@@ -47,8 +47,8 @@ class ShareAttachmentProcessorSpec: QuickSpec {
                         NSItemProvider(item: fileURL, typeIdentifier: String(kUTTypeImage))
                     ]
 
-                    let urlPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "https://ello.co")
-                    let textPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "hello")
+                    let urlPreview = ExtensionItemPreview(text: "https://ello.co")
+                    let textPreview = ExtensionItemPreview(text: "hello")
 
                     waitUntil(timeout: 30) { done in
                         ShareAttachmentProcessor.preview(extensionItem) { previews in
@@ -70,7 +70,7 @@ class ShareAttachmentProcessorSpec: QuickSpec {
                         NSItemProvider(item: "https://ello.co", typeIdentifier: String(kUTTypeText))
                     ]
 
-                    let urlPreview = ExtensionItemPreview(image: nil, imagePath: nil, text: "https://ello.co")
+                    let urlPreview = ExtensionItemPreview(text: "https://ello.co")
 
                     waitUntil(timeout: 30) { done in
                         ShareAttachmentProcessor.preview(extensionItem) { previews in

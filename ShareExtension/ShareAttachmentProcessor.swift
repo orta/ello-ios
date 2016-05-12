@@ -93,7 +93,7 @@ private extension ShareAttachmentProcessor {
         attachment.loadText(nil) { (item, error) in
             var preview: ExtensionItemPreview?
             if let item = item as? String {
-                preview = ExtensionItemPreview(image: nil, imagePath: nil, text: item)
+                preview = ExtensionItemPreview(text: item)
             }
             callback(preview)
         }
@@ -106,7 +106,7 @@ private extension ShareAttachmentProcessor {
             if let item = item as? NSURL {
                 link = item.absoluteString
             }
-            let item = ExtensionItemPreview(image: nil, imagePath: nil, text: link)
+            let item = ExtensionItemPreview(text: link)
             callback(item)
         }
     }
@@ -124,7 +124,7 @@ private extension ShareAttachmentProcessor {
                     let image = UIImage(data: data) {
 
                     image.copyWithCorrectOrientationAndSize() { image in
-                        let item = ExtensionItemPreview(image: image, imagePath: nil, text: nil)
+                        let item = ExtensionItemPreview(image: image)
                         callback(item)
                     }
                 }
