@@ -113,25 +113,41 @@ private extension ShareAttachmentProcessor {
 
     static func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         attachment.loadImage(nil) {
-            (imageURL, error) in
-
-            if let imageURL = imageURL as? NSURL{
+            (imageItem, error) in
+            if let imageURL = imageItem as? NSURL {
                 var data: NSData? = NSData(contentsOfURL: imageURL)
                 if data == nil {
                     data = NSData(contentsOfFile: imageURL.absoluteString)
                 }
-                if let data = data,
-                    let image = UIImage(data: data) {
-
-                    image.copyWithCorrectOrientationAndSize() { image in
-                        let item = ExtensionItemPreview(image: image)
-                        callback(item)
-                    }
+                if let imageData = data {
+                    processData(imageData, callback)
                 }
+            }
+            else if let imageData = imageItem as? NSData {
+                processData(imageData, callback)
+            }
+            else if let image = imageItem as? UIImage {
+                processImage(image, callback)
             }
             else {
                 callback(nil)
             }
+        }
+    }
+
+    static func processData(data: NSData, _ callback: ExtensionItemProcessor) {
+        if let image = UIImage(data: data) {
+            processImage(image, callback)
+        }
+        else {
+            callback(nil)
+        }
+    }
+
+    static func processImage(image: UIImage, _ callback: ExtensionItemProcessor) {
+        image.copyWithCorrectOrientationAndSize() { image in
+            let item = ExtensionItemPreview(image: image)
+            callback(item)
         }
     }
 }
