@@ -18,7 +18,7 @@ public struct StreamLoadedNotifications {
 public class StreamService: NSObject {
 
     public func loadStream(
-        endpoint:ElloAPI,
+        endpoint: ElloAPI,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
         failure: ElloFailureCompletion? = nil,
@@ -31,17 +31,15 @@ public class StreamService: NSObject {
                     if let streamKind = streamKind {
                         Preloader().preloadImages(jsonables,  streamKind: streamKind)
                         NewContentService().updateCreatedAt(jsonables, streamKind: streamKind)
-                        postNotification(StreamLoadedNotifications.streamLoaded, value: streamKind)
                     }
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
-                else {
-                    if let noContent = noContent {
-                        noContent()
-                    }
-                    else if let failure = failure {
-                        ElloProvider.unCastableJSONAble(failure)
-                    }
+                else if let noContent = noContent {
+                    noContent()
+                }
+
+                if let streamKind = streamKind {
+                    postNotification(StreamLoadedNotifications.streamLoaded, value: streamKind)
                 }
             },
             failure: { (error, statusCode) in

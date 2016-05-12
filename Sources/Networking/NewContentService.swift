@@ -10,9 +10,10 @@ import Foundation
 import SwiftyUserDefaults
 
 public struct NewContentNotifications {
-    public static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
-    public static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
-    public static let reloadStreamContent = TypedNotification<UIViewController>(name: "ReloadStreamContentNotification")
+    public static let newNotifications = TypedNotification<Void?>(name: "NewNotificationsNotification")
+    public static let newStreamContent = TypedNotification<Void?>(name: "NewStreamContentNotification")
+    public static let reloadStreamContent = TypedNotification<Void?>(name: "ReloadStreamContentNotification")
+    public static let reloadNotifications = TypedNotification<Void?>(name: "ReloadNotificationsNotification")
 }
 
 public class NewContentService {
@@ -81,7 +82,7 @@ private extension NewContentService {
             ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
             success: { (_, responseConfig) in
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newNotifications, value: self)
+                    postNotification(NewContentNotifications.newNotifications, value: nil)
                 }
 
                 done()
@@ -101,7 +102,7 @@ private extension NewContentService {
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newStreamContent, value: self)
+                    postNotification(NewContentNotifications.newStreamContent, value: nil)
                 }
 
                 done()

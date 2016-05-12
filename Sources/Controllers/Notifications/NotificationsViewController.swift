@@ -12,7 +12,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     private var hasNewContent = false
     var fromTabBar = false
-    private var newNotificationsObserver: NotificationObserver?
+    private var reloadNotificationsObserver: NotificationObserver?
     public var categoryFilterType = NotificationFilterType.All
 
     override public var tabBarItem: UITabBarItem? {
@@ -41,7 +41,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     deinit {
         navigationNotificationObserver?.removeObserver()
-        newNotificationsObserver?.removeObserver()
+        reloadNotificationsObserver?.removeObserver()
     }
 
     override public func viewDidLoad() {
@@ -53,12 +53,8 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
-        let noResultsBody = InterfaceString.Notifications.NoResultsBody
-        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-        streamViewController.loadInitialPage()
+
+        reload()
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -66,17 +62,27 @@ public class NotificationsViewController: StreamableViewController, Notification
         navigationController?.navigationBarHidden = true
 
         if hasNewContent && fromTabBar {
-            hasNewContent = false
-            ElloHUD.showLoadingHudInView(streamViewController.view)
-            streamViewController.loadInitialPage()
+            reload()
         }
         fromTabBar = false
+
+        PushNotificationController.sharedController.updateBadgeCount(0)
+    }
+
+    func reload() {
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
+        hasNewContent = false
     }
 
     override func setupStreamController() {
         super.setupStreamController()
 
+        streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         streamViewController.notificationDelegate = self
+        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
+        let noResultsBody = InterfaceString.Notifications.NoResultsBody
+        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
     }
 
     override public func showNavBars(scrollToBottom: Bool) {
@@ -110,10 +116,9 @@ public class NotificationsViewController: StreamableViewController, Notification
     public func activatedCategory(filterType: NotificationFilterType) {
         screen.selectFilterButton(filterType)
         streamViewController.streamKind = .Notifications(category: filterType.category)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.hideNoResults()
         streamViewController.removeAllCellItems()
-        streamViewController.loadInitialPage()
+        reload()
     }
 
     public func commentTapped(comment: ElloComment) {
@@ -148,8 +153,7 @@ public class NotificationsViewController: StreamableViewController, Notification
             navigationController?.popToRootViewControllerAnimated(true)
         }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.loadInitialPage()
+        reload()
     }
 
 }
@@ -161,9 +165,14 @@ private extension NotificationsViewController {
             self.respondToNotification(components)
         }
 
-        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+        reloadNotificationsObserver = NotificationObserver(notification: NewContentNotifications.reloadNotifications) {
             [unowned self] _ in
-            self.hasNewContent = true
+            if self.navigationController?.childViewControllers.count == 1 {
+                self.reload()
+            }
+            else {
+                self.hasNewContent = true
+            }
         }
     }
 

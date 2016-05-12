@@ -7,6 +7,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import SwiftyUserDefaults
 import Quick
@@ -49,7 +50,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         describe("initialization") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
             }
 
@@ -65,7 +66,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         describe("-viewDidLoad") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
                 _ = subject.view
             }
@@ -89,7 +90,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         context("selecting tab bar items") {
 
-            beforeEach() {
+            beforeEach {
                 subject = ElloTabBarController.instantiateFromStoryboard()
                 let children = subject.childViewControllers
                 for child in children {
@@ -181,12 +182,53 @@ class ElloTabBarControllerSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("tapping notification item") {
+                let responder: NotificationObserver!
+                var responded = false
+                var notificationsItem: UITabBarItem!
+
+                beforeEach {
+                    responder = NotificationObserver(notification: NewContentNotifications.reloadNotifications) { _ in
+                        responded = true
+                    }
+                    subject = ElloTabBarController.instantiateFromStoryboard()
+                    let children = subject.childViewControllers
+                    for child in children {
+                        child.removeFromParentViewController()
+                    }
+                    subject.addChildViewController(child1)
+                    subject.addChildViewController(child2)
+                    subject.addChildViewController(child3)
+                    subject.addChildViewController(child4)
+                    subject.addChildViewController(child5)
+                    subject.selectedTab = .Discover
+
+                    notificationsItem = subject.tabBar.items[ElloTab.Notifications.rawValue]
+                }
+
+                afterEach {
+                    responder.removeObserver()
+                    responded = false
+                }
+
+                it("should not notify after one tap") {
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    expect(responded) == false
+                }
+
+                it("should notify after two taps") {
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
+                    expect(responded) == true
+                }
+            }
         }
 
         context("showing the narration") {
             var prevTabValues: [ElloTab: Bool?]!
 
-            beforeEach() {
+            beforeEach {
                 prevTabValues = [
                     ElloTab.Discover: GroupDefaults[ElloTab.Discover.narrationDefaultKey].bool,
                     ElloTab.Notifications: GroupDefaults[ElloTab.Notifications.narrationDefaultKey].bool,

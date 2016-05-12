@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -43,6 +44,14 @@ class NotificationsViewControllerSpec: QuickSpec {
                     let navigationController = UINavigationController(rootViewController: subject)
                     subject.respondToNotification(["flibbity", "jibbet"])
                     expect(navigationController.childViewControllers.count) == 1
+                }
+            }
+
+            context("when receiving a reload notification") {
+                it("should always reload") {
+                    subject.hasNewContent = true
+                    postNotification(NewContentNotifications.reloadNotifications, value: nil)
+                    expect(subject.hasNewContent) == false
                 }
             }
         }

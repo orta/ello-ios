@@ -55,7 +55,16 @@ public class ElloTabBarController: UIViewController, HasAppController {
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
 
-    var notificationsDot: UIView?
+    private var notificationsDot: UIView?
+    var newNotificationsAvailable: Bool {
+        set { notificationsDot?.hidden = !newValue }
+        get {
+            if let hidden = notificationsDot?.hidden {
+                return !hidden
+            }
+            return false
+        }
+    }
     public private(set) var streamsDot: UIView?
 
     private var _tabBarHidden = false
@@ -182,7 +191,7 @@ public extension ElloTabBarController {
             [unowned self] streamKind in
             switch streamKind {
             case .Notifications(category: nil):
-                self.notificationsDot?.hidden = true
+                self.newNotificationsAvailable = false
             case .Following:
                 self.streamsDot?.hidden = true
             default: break
@@ -201,7 +210,7 @@ public extension ElloTabBarController {
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
             [unowned self] _ in
-            self.notificationsDot?.hidden = false
+            self.newNotificationsAvailable = true
         }
 
         newStreamContentObserver = NotificationObserver(notification: NewContentNotifications.newStreamContent) {
@@ -250,14 +259,17 @@ extension ElloTabBarController: UITabBarDelegate {
                 {
                     navigationViewController.popToRootViewControllerAnimated(true)
                 }
-                else if let scrollView = findScrollView(selectedViewController.view) {
-                    scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                else {
+                    if let scrollView = findScrollView(selectedViewController.view) {
+                        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                    }
 
                     if shouldReloadFriendStream() {
-                        postNotification(NewContentNotifications.reloadStreamContent, value: self)
+                        postNotification(NewContentNotifications.reloadStreamContent, value: nil)
                     }
                     else if shouldReloadNotificationsStream() {
-                        postNotification(NewContentNotifications.newNotifications, value: NewContentService())
+                        postNotification(NewContentNotifications.reloadNotifications, value: nil)
+                        self.newNotificationsAvailable = false
                     }
                 }
             }
@@ -305,7 +317,11 @@ private extension ElloTabBarController {
     }
 
     func shouldReloadNotificationsStream() -> Bool {
-        return selectedTab.rawValue == 1 && streamsDot?.hidden == false
+        if let navigationController = selectedViewController as? UINavigationController
+        where navigationController.childViewControllers.count == 1 {
+            return selectedTab == .Notifications && newNotificationsAvailable
+        }
+        return false
     }
 
     func updateTabBarItems() {
