@@ -38,7 +38,7 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cba-zi-ctG" userLabel="imageButton">
                         <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                         <connections>
-                            <action selector="imageTapped:" destination="miB-hg-eZF" eventType="touchUpInside" id="tqD-w4-7IU"/>
+                            <action selector="imageTapped" destination="miB-hg-eZF" eventType="touchUpInside" id="tqD-w4-7IU"/>
                         </connections>
                     </button>
                 </subviews>
