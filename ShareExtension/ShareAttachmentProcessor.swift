@@ -74,8 +74,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor)
-    {
+    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
         }
@@ -91,8 +90,7 @@ private extension ShareAttachmentProcessor {
     }
 
     static func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
-        attachment.loadText(nil) {
-            (item, error) in
+        attachment.loadText(nil) { (item, error) in
             var preview: ExtensionItemPreview?
             if let item = item as? String {
                 preview = ExtensionItemPreview(image: nil, imagePath: nil, text: item)
