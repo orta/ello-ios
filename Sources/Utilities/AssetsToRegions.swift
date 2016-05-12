@@ -34,9 +34,7 @@ public struct AssetsToRegions {
                 return
             }
 
-            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-            imageData.getBytes(buffer, length: imageData.length)
-            if isGif(buffer, length: imageData.length) {
+            if UIImage.isGif(imageData) {
                 newStack.append((image, imageData, "image/gif"))
                 done()
             }
@@ -46,7 +44,6 @@ public struct AssetsToRegions {
                     done()
                 }
             }
-            buffer.dealloc(imageData.length)
         }
         let options = PHImageRequestOptions()
         options.deliveryMode = .HighQualityFormat
@@ -69,20 +66,6 @@ public struct AssetsToRegions {
             imageAndData()
         }
 
-    }
-
-    private static func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
-        if length >= 4 {
-            let isG = Int(buffer[0]) == 71
-            let isI = Int(buffer[1]) == 73
-            let isF = Int(buffer[2]) == 70
-            let is8 = Int(buffer[3]) == 56
-
-            return isG && isI && isF && is8
-        }
-        else {
-            return false
-        }
     }
 
 }

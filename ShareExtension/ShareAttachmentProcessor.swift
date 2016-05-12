@@ -74,8 +74,7 @@ private extension ShareAttachmentProcessor {
         }
     }
 
-    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor)
-    {
+    static func processAttachment( attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         if attachment.isText() {
             self.processText(attachment, callback: callback)
         }
@@ -91,11 +90,10 @@ private extension ShareAttachmentProcessor {
     }
 
     static func processText(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
-        attachment.loadText(nil) {
-            (item, error) in
+        attachment.loadText(nil) { (item, error) in
             var preview: ExtensionItemPreview?
             if let item = item as? String {
-                preview = ExtensionItemPreview(image: nil, imagePath: nil, text: item)
+                preview = ExtensionItemPreview(text: item)
             }
             callback(preview)
         }
@@ -108,32 +106,56 @@ private extension ShareAttachmentProcessor {
             if let item = item as? NSURL {
                 link = item.absoluteString
             }
-            let item = ExtensionItemPreview(image: nil, imagePath: nil, text: link)
+            let item = ExtensionItemPreview(text: link)
             callback(item)
         }
     }
 
     static func processImage(attachment: NSItemProvider, callback: ExtensionItemProcessor) {
         attachment.loadImage(nil) {
-            (imageURL, error) in
-
-            if let imageURL = imageURL as? NSURL{
+            (imageItem, error) in
+            if let imageURL = imageItem as? NSURL {
                 var data: NSData? = NSData(contentsOfURL: imageURL)
                 if data == nil {
                     data = NSData(contentsOfFile: imageURL.absoluteString)
                 }
-                if let data = data,
-                    let image = UIImage(data: data) {
-
-                    image.copyWithCorrectOrientationAndSize() { image in
-                        let item = ExtensionItemPreview(image: image, imagePath: nil, text: nil)
-                        callback(item)
-                    }
+                if let imageData = data {
+                    processData(imageData, callback)
                 }
+            }
+            else if let imageData = imageItem as? NSData {
+                processData(imageData, callback)
+            }
+            else if let image = imageItem as? UIImage {
+                processImage(image, callback)
             }
             else {
                 callback(nil)
             }
+        }
+    }
+
+    static func processData(data: NSData, _ callback: ExtensionItemProcessor) {
+        if let image = UIImage(data: data) {
+            if UIImage.isGif(data) {
+                image.copyWithCorrectOrientationAndSize() { image in
+                    let item = ExtensionItemPreview(image: image, gifData: data)
+                    callback(item)
+                }
+            }
+            else {
+                processImage(image, callback)
+            }
+        }
+        else {
+            callback(nil)
+        }
+    }
+
+    static func processImage(image: UIImage, _ callback: ExtensionItemProcessor) {
+        image.copyWithCorrectOrientationAndSize() { image in
+            let item = ExtensionItemPreview(image: image)
+            callback(item)
         }
     }
 }

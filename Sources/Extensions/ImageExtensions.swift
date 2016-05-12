@@ -11,6 +11,28 @@ import CoreGraphics
 
 public extension UIImage {
 
+    class func isGif(imageData: NSData) -> Bool {
+        let length = imageData.length
+        let buffer = UnsafeMutablePointer<UInt8>.alloc(length)
+        imageData.getBytes(buffer, length: imageData.length)
+
+        defer {
+            buffer.dealloc(imageData.length)
+        }
+
+        if length >= 4 {
+            let isG = Int(buffer[0]) == 71
+            let isI = Int(buffer[1]) == 73
+            let isF = Int(buffer[2]) == 70
+            let is8 = Int(buffer[3]) == 56
+
+            return isG && isI && isF && is8
+        }
+        else {
+            return false
+        }
+    }
+
     class func imageWithColor(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
         let rect = CGRect(origin: CGPointZero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
