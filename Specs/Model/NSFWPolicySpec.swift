@@ -42,67 +42,70 @@ class NSFWPolicySpec: QuickSpec {
             currentUserViewsOwnNSFW: currentUserViewsOwnNSFW
         )
 
-        describe("NSFWPolicy") {
+        fdescribe("NSFWPolicy") {
             describe("includeNSFW(_:)") {
                 context("current user DOES view nsfw") {
                     let currentUserId = "123"
-                    let currentUser: User = stub(["id" : currentUserId, "username": "TestName", "viewsAdultContent": true, "profile": Profile.stub(["email": "some@guy.com"])])
-                    let expectations: [(ElloAPI, Bool)] = [
-                    (.AmazonCredentials, false),
-                    (.AnonymousCredentials, false),
-                    (.Auth(email: "", password: ""), false),
-                    (.Availability(content: ["":""]), false),
-                    (.AwesomePeopleStream, false),
-                    (.CommentDetail(postId: "", commentId: ""), false),
-                    (.CommunitiesStream, false),
-                    (.CreateComment(parentPostId: "", body: ["": ""]), false),
-                    (.CreateLove(postId: ""), false),
-                    (.CreatePost(body: ["": ""]), false),
-                    (.CurrentUserProfile, true),
-                    (.CurrentUserStream, true),
-                    (.DeleteComment(postId: "", commentId: ""), false),
-                    (.DeleteLove(postId: ""), false),
-                    (.DeletePost(postId: ""), false),
-                    (.DeleteSubscriptions(token: NSData()), false),
-                    (.Discover(type: .Recommended, perPage: 0), false),
-                    (.Discover(type: .Trending, perPage: 0), false),
-                    (.Discover(type: .Recent, perPage: 0), false),
-                    (.EmojiAutoComplete(terms: ""), false),
-                    (.FindFriends(contacts: ["": [""]]), false),
-                    (.FlagComment(postId: "", commentId: "", kind: ""), false),
-                    (.FlagPost(postId: "", kind: ""), false),
-                    (.FriendStream, true),
-                    (.FriendNewContent(createdAt: NSDate()), true),
-                    (.InfiniteScroll(queryItems: [""], elloApi: { return ElloAPI.AwesomePeopleStream }), false),
-                    (.InviteFriends(contact: ""), false),
-                    (.Join(email: "", username: "", password: "", invitationCode: ""), false),
-                    (.Loves(userId: ""), false),
-                    (.Loves(userId: currentUserId), true),
-                    (.NoiseStream, true),
-                    (.NoiseNewContent(createdAt: NSDate()), true),
-                    (.NotificationsNewContent(createdAt: NSDate()), true),
-                    (.NotificationsStream(category: ""), true),
-                    (.PostComments(postId: ""), false),
-                    (.PostDetail(postParam: "", commentCount: 0), true),
-                    (.PostLovers(postId: ""), false),
-                    (.PostReposters(postId: ""), false),
-                    (.ProfileDelete, false),
-                    (.ProfileToggles, false),
-                    (.ProfileUpdate(body: ["": ""]), false),
-                    (.PushSubscriptions(token: NSData()), false),
-                    (.ReAuth(token: ""), false),
-                    (.RePost(postId: ""), false),
-                    (.Relationship(userId: "", relationship: ""), false),
-                    (.RelationshipBatch(userIds: [""], relationship: ""), false),
-                    (.SearchForUsers(terms: ""), false),
-                    (.SearchForPosts(terms: ""), false),
-                    (.UpdatePost(postId: "", body: ["": ""]), false),
-                    (.UpdateComment(postId: "", commentId: "", body: ["": ""]), false),
-                    (.UserStream(userParam: ""), true),
-                    (.UserStream(userParam: currentUserId), true),
-                    (.UserStreamFollowers(userId: ""), true),
-                    (.UserStreamFollowing(userId: ""), true),
-                    (.UserNameAutoComplete(terms: ""), true)
+                    let currentUsername = "bob"
+                    let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": true, "profile": Profile.stub(["email": "some@guy.com"])])
+                    let expectations = [
+                        (.AmazonCredentials, false),
+                        (.AnonymousCredentials, false),
+                        (.Auth(email: "", password: ""), false),
+                        (.Availability(content: ["":""]), false),
+                        (.AwesomePeopleStream, false),
+                        (.CommentDetail(postId: "", commentId: ""), false),
+                        (.CommunitiesStream, false),
+                        (.CreateComment(parentPostId: "", body: ["": ""]), false),
+                        (.CreateLove(postId: ""), false),
+                        (.CreatePost(body: ["": ""]), false),
+                        (.CurrentUserProfile, true),
+                        (.CurrentUserStream, true),
+                        (.DeleteComment(postId: "", commentId: ""), false),
+                        (.DeleteLove(postId: ""), false),
+                        (.DeletePost(postId: ""), false),
+                        (.DeleteSubscriptions(token: NSData()), false),
+                        (.Discover(type: .Recommended, perPage: 0), false),
+                        (.Discover(type: .Trending, perPage: 0), false),
+                        (.Discover(type: .Recent, perPage: 0), false),
+                        (.EmojiAutoComplete(terms: ""), false),
+                        (.FindFriends(contacts: ["": [""]]), false),
+                        (.FlagComment(postId: "", commentId: "", kind: ""), false),
+                        (.FlagPost(postId: "", kind: ""), false),
+                        (.FriendStream, true),
+                        (.FriendNewContent(createdAt: NSDate()), true),
+                        (.InfiniteScroll(queryItems: [""], elloApi: { return ElloAPI.AwesomePeopleStream }), false),
+                        (.InviteFriends(contact: ""), false),
+                        (.Join(email: "", username: "", password: "", invitationCode: ""), false),
+                        (.Loves(userId: ""), false),
+                        (.Loves(userId: currentUserId), true),
+                        (.Loves(userId: "~\(currentUsername)"), true),
+                        (.NoiseStream, true),
+                        (.NoiseNewContent(createdAt: NSDate()), true),
+                        (.NotificationsNewContent(createdAt: NSDate()), true),
+                        (.NotificationsStream(category: ""), true),
+                        (.PostComments(postId: ""), false),
+                        (.PostDetail(postParam: "", commentCount: 0), true),
+                        (.PostLovers(postId: ""), false),
+                        (.PostReposters(postId: ""), false),
+                        (.ProfileDelete, false),
+                        (.ProfileToggles, false),
+                        (.ProfileUpdate(body: ["": ""]), false),
+                        (.PushSubscriptions(token: NSData()), false),
+                        (.ReAuth(token: ""), false),
+                        (.RePost(postId: ""), false),
+                        (.Relationship(userId: "", relationship: ""), false),
+                        (.RelationshipBatch(userIds: [""], relationship: ""), false),
+                        (.SearchForUsers(terms: ""), false),
+                        (.SearchForPosts(terms: ""), false),
+                        (.UpdatePost(postId: "", body: ["": ""]), false),
+                        (.UpdateComment(postId: "", commentId: "", body: ["": ""]), false),
+                        (.UserStream(userParam: ""), true),
+                        (.UserStream(userParam: currentUserId), true),
+                        (.UserStream(userParam: "~\(currentUsername)"), true),
+                        (.UserStreamFollowers(userId: ""), true),
+                        (.UserStreamFollowing(userId: ""), true),
+                        (.UserNameAutoComplete(terms: ""), true)
                     ]
                     for (endpoint, showsNSFW) in expectations {
                         it("\(endpoint) is \(showsNSFW)") {
@@ -113,9 +116,9 @@ class NSFWPolicySpec: QuickSpec {
 
                 context("current user DOES NOT view nsfw") {
                     let currentUserId = "123"
-                    let currentUser: User = stub(["id" : currentUserId, "username": "TestName", "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
-
-                    let expectations: [(ElloAPI, Bool)] = [
+                    let currentUsername = "bob"
+                    let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
+                    let expectations = [
                         (.AmazonCredentials, false),
                         (.AnonymousCredentials, false),
                         (.Auth(email: "", password: ""), false),
@@ -146,6 +149,7 @@ class NSFWPolicySpec: QuickSpec {
                         (.Join(email: "", username: "", password: "", invitationCode: ""), false),
                         (.Loves(userId: ""), false),
                         (.Loves(userId: currentUserId), true),
+                        (.Loves(userId: "~\(currentUsername)"), true),
                         (.NoiseStream, false),
                         (.NoiseNewContent(createdAt: NSDate()), false),
                         (.NotificationsNewContent(createdAt: NSDate()), true),
@@ -168,6 +172,7 @@ class NSFWPolicySpec: QuickSpec {
                         (.UpdateComment(postId: "", commentId: "", body: ["": ""]), false),
                         (.UserStream(userParam: ""), false),
                         (.UserStream(userParam: currentUserId), true),
+                        (.UserStream(userParam: "~\(currentUsername)"), true),
                         (.UserStreamFollowers(userId: ""), true),
                         (.UserStreamFollowers(userId: currentUserId), true),
                         (.UserStreamFollowing(userId: ""), true),
@@ -190,9 +195,10 @@ class NSFWPolicySpec: QuickSpec {
                     )
 
                     let currentUserId = "123"
-                    let currentUser: User = stub(["id" : currentUserId, "username": "TestName", "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
+                    let currentUsername = "bob"
+                    let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
 
-                    let expectations: [(ElloAPI, Bool)] = [
+                    let expectations = [
                         (.AmazonCredentials, false),
                         (.AnonymousCredentials, false),
                         (.Auth(email: "", password: ""), false),
@@ -223,6 +229,7 @@ class NSFWPolicySpec: QuickSpec {
                         (.Join(email: "", username: "", password: "", invitationCode: ""), false),
                         (.Loves(userId: ""), false),
                         (.Loves(userId: currentUserId), false),
+                        (.Loves(userId: "~\(currentUsername)"), false),
                         (.NoiseStream, false),
                         (.NoiseNewContent(createdAt: NSDate()), false),
                         (.NotificationsNewContent(createdAt: NSDate()), true),
@@ -245,6 +252,7 @@ class NSFWPolicySpec: QuickSpec {
                         (.UpdateComment(postId: "", commentId: "", body: ["": ""]), false),
                         (.UserStream(userParam: ""), false),
                         (.UserStream(userParam: currentUserId), false),
+                        (.UserStream(userParam: "~\(currentUsername)"), false),
                         (.UserStreamFollowers(userId: ""), true),
                         (.UserStreamFollowers(userId: currentUserId), true),
                         (.UserStreamFollowing(userId: ""), true),
