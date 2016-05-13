@@ -149,6 +149,9 @@ public enum StreamKind {
                     return accum
                 }
             }
+            else if let posts = jsonables as? [Post] {
+                return posts.filter{ !$0.isAdultContent }
+            }
             else {
                 return []
             }
