@@ -10,7 +10,7 @@ import WebKit
 
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
 
-    private var hasNewContent = false
+    var hasNewContent = false
     var fromTabBar = false
     private var reloadNotificationsObserver: NotificationObserver?
     public var categoryFilterType = NotificationFilterType.All
