@@ -184,7 +184,7 @@ class ElloTabBarControllerSpec: QuickSpec {
             }
 
             describe("tapping notification item") {
-                let responder: NotificationObserver!
+                var responder: NotificationObserver!
                 var responded = false
                 var notificationsItem: UITabBarItem!
 
@@ -204,7 +204,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                     subject.addChildViewController(child5)
                     subject.selectedTab = .Discover
 
-                    notificationsItem = subject.tabBar.items[ElloTab.Notifications.rawValue]
+                    notificationsItem = subject.tabBar.items![ElloTab.Notifications.rawValue]
                 }
 
                 afterEach {
@@ -218,6 +218,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 }
 
                 it("should notify after two taps") {
+                    subject.newNotificationsAvailable = true
                     subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
                     subject.tabBar(subject.tabBar, didSelectItem: notificationsItem)
                     expect(responded) == true

@@ -49,6 +49,8 @@ class NotificationsViewControllerSpec: QuickSpec {
 
             context("when receiving a reload notification") {
                 it("should always reload") {
+                    let navigationController = UINavigationController(rootViewController: subject)
+                    showController(navigationController)
                     subject.hasNewContent = true
                     postNotification(NewContentNotifications.reloadNotifications, value: nil)
                     expect(subject.hasNewContent) == false
