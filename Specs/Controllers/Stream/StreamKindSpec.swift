@@ -305,7 +305,8 @@ class StreamKindSpec: QuickSpec {
 
                         if(indexPath == nil) {
                             expect(streamKind.clientSidePostInsertIndexPath("12345")).to(beNil())
-                        } else {
+                        }
+                        else {
                             expect(streamKind.clientSidePostInsertIndexPath("12345")) == indexPath
                         }
                     }
@@ -336,7 +337,8 @@ class StreamKindSpec: QuickSpec {
 
                         if(indexPath == nil) {
                             expect(streamKind.clientSideLoveInsertIndexPath).to(beNil())
-                        } else {
+                        }
+                        else {
                             expect(streamKind.clientSideLoveInsertIndexPath) == indexPath
                         }
                     }
