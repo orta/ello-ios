@@ -43,7 +43,7 @@ class ElloAPISpec: QuickSpec {
                 context("are valid") {
                     it("AmazonCredentials is valid") {
                         expect(ElloAPI.AmazonCredentials.path) ==  "/api/v2/assets/credentials"
-                            }
+                    }
                     it("Auth is valid") {
                         expect(ElloAPI.Auth(email: "", password: "").path) == "/api/oauth/token"
                     }
