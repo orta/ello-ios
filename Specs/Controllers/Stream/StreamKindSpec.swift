@@ -146,7 +146,7 @@ class StreamKindSpec: QuickSpec {
             describe("endpoint") {
 
                 it("is correct for all cases") {
-                    expect(StreamKind.Discover(type: .Recommended, perPage: 1).endpoint.path) == "/api/\(ElloAPI.apiVersion)/discover/users/\(DiscoverType.Recommended.rawValue)"
+                    expect(StreamKind.Discover(type: .Recommended, perPage: 1).endpoint.path) == "/api/\(ElloAPI.apiVersion)/discover/posts/\(DiscoverType.Recommended.rawValue)"
                     expect(StreamKind.Following.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/friend"
                     expect(StreamKind.Starred.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/noise"
                     expect(StreamKind.Notifications(category: "").endpoint.path) == "/api/\(ElloAPI.apiVersion)/notifications"
@@ -175,8 +175,87 @@ class StreamKindSpec: QuickSpec {
                 }
             }
 
-            xdescribe("filter(_:viewsAdultContent:)") {
+            describe("filter(_:viewsAdultContent:)") {
                 // important but time consuming to implement this one, little by little!
+                context("Discover") {
+
+                    var postJsonables: [JSONAble] = []
+                    var userJsonables: [JSONAble] = []
+
+                    // trending is users, everything else are posts
+                    beforeEach {
+                        let post1 = Post.stub(["id": "post1", "isAdultContent" : true])
+                        let post2 = Post.stub(["id": "post2"])
+                        let post3 = Post.stub(["id": "post3"])
+
+                        let user1 = User.stub(["mostRecentPost": post1])
+                        let user2 = User.stub(["mostRecentPost": post2])
+                        let user3 = User.stub(["mostRecentPost": post3])
+
+                        postJsonables = [post1, post2, post3]
+                        userJsonables = [user1, user2, user3]
+                    }
+
+                    context("User does NOT view NSFW content") {
+                        it("filters out nsfw for Discover.Recommended") {
+                            let kind = StreamKind.Discover(type: .Recommended, perPage: 5)
+                            let filtered = kind.filter(postJsonables, viewsAdultContent: false) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+
+                        it("filters out nsfw for Discover.Trending") {
+                            let kind = StreamKind.Discover(type: .Trending, perPage: 5)
+                            let filtered = kind.filter(userJsonables, viewsAdultContent: false) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+
+                        it("filters out nsfw for Discover.Recent") {
+                            let kind = StreamKind.Discover(type: .Recent, perPage: 5)
+
+                            let filtered = kind.filter(postJsonables, viewsAdultContent: false) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+                    }
+
+                    context("User does view NSFW content") {
+                        it("still filters out nsfw for Discover.Recommended") {
+                            let kind = StreamKind.Discover(type: .Recommended, perPage: 5)
+                            let filtered = kind.filter(postJsonables, viewsAdultContent: true) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+
+                        it("still filters out nsfw for Discover.Trending") {
+                            let kind = StreamKind.Discover(type: .Trending, perPage: 5)
+                            let filtered = kind.filter(userJsonables, viewsAdultContent: true) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+
+                        it("still filters out nsfw for Discover.Recent") {
+                            let kind = StreamKind.Discover(type: .Recent, perPage: 5)
+
+                            let filtered = kind.filter(postJsonables, viewsAdultContent: true) as! [Post]
+
+                            expect(filtered.count) == 2
+                            expect(filtered[0].id) == "post2"
+                            expect(filtered[1].id) == "post3"
+                        }
+                    }
+                }
             }
 
             describe("showStarButton") {
@@ -226,8 +305,7 @@ class StreamKindSpec: QuickSpec {
 
                         if(indexPath == nil) {
                             expect(streamKind.clientSidePostInsertIndexPath("12345")).to(beNil())
-                        }
-                        else {
+                        } else {
                             expect(streamKind.clientSidePostInsertIndexPath("12345")) == indexPath
                         }
                     }
@@ -258,8 +336,7 @@ class StreamKindSpec: QuickSpec {
 
                         if(indexPath == nil) {
                             expect(streamKind.clientSideLoveInsertIndexPath).to(beNil())
-                        }
-                        else {
+                        } else {
                             expect(streamKind.clientSideLoveInsertIndexPath) == indexPath
                         }
                     }

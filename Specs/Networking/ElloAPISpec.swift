@@ -40,10 +40,10 @@ class ElloAPISpec: QuickSpec {
         describe("ElloAPI") {
             describe("paths") {
 
-                fcontext("are valid") {
+                context("are valid") {
                     it("AmazonCredentials is valid") {
                         expect(ElloAPI.AmazonCredentials.path) ==  "/api/v2/assets/credentials"
-                    }
+                            }
                     it("Auth is valid") {
                         expect(ElloAPI.Auth(email: "", password: "").path) == "/api/oauth/token"
                     }
@@ -63,10 +63,10 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.Discover(type: DiscoverType.Recommended, perPage: 5).path) == "/api/v2/discover/posts/recommended"
                     }
                     it("Discover.Trending is valid") {
-                        expect(ElloAPI.Discover(type: DiscoverType.Trending, perPage: 5).path) == "/api/v2/discover/users/recommended"
+                        expect(ElloAPI.Discover(type: DiscoverType.Trending, perPage: 5).path) == "/api/v2/discover/users/trending"
                     }
                     it("Discover.Recent is valid") {
-                        expect(ElloAPI.Discover(type: DiscoverType.Recent, perPage: 5).path) == "/api/v2/discover/posts/recommended"
+                        expect(ElloAPI.Discover(type: DiscoverType.Recent, perPage: 5).path) == "/api/v2/discover/posts/recent"
                     }
                     it("FlagComment is valid") {
                         expect(ElloAPI.FlagComment(postId: "555", commentId: "666", kind: "some-string").path) == "/api/v2/posts/555/comments/666/flag/some-string"
@@ -132,62 +132,130 @@ class ElloAPISpec: QuickSpec {
                 }
             }
 
+            describe("mappingType") {
+
+                let currentUserId = "123"
+
+                let expectations: [(ElloAPI, MappingType)] = [
+                    (.AmazonCredentials, .AmazonCredentialsType),
+                    (.AnonymousCredentials, .ErrorType),
+                    (.Auth(email: "", password: ""), .ErrorType),
+                    (.Availability(content: ["":""]), .AvailabilityType),
+                    (.AwesomePeopleStream, .UsersType),
+                    (.CommentDetail(postId: "", commentId: ""), .CommentsType),
+                    (.CommunitiesStream, .UsersType),
+                    (.CreateComment(parentPostId: "", body: ["": ""]), .CommentsType),
+                    (.CreateLove(postId: ""), .LovesType),
+                    (.CreatePost(body: ["": ""]), .PostsType),
+                    (.CurrentUserProfile, .UsersType),
+                    (.CurrentUserStream, .UsersType),
+                    (.DeleteComment(postId: "", commentId: ""), .ErrorType),
+                    (.DeleteLove(postId: ""), .NoContentType),
+                    (.DeletePost(postId: ""), .ErrorType),
+                    (.DeleteSubscriptions(token: NSData()), .NoContentType),
+                    (.Discover(type: .Recommended, perPage: 0), .PostsType),
+                    (.Discover(type: .Trending, perPage: 0), .UsersType),
+                    (.Discover(type: .Recent, perPage: 0), .PostsType),
+                    (.EmojiAutoComplete(terms: ""), .AutoCompleteResultType),
+                    (.FindFriends(contacts: ["": [""]]), .UsersType),
+                    (.FlagComment(postId: "", commentId: "", kind: ""), .NoContentType),
+                    (.FlagPost(postId: "", kind: ""), .NoContentType),
+                    (.FriendStream, .ActivitiesType),
+                    (.FriendNewContent(createdAt: NSDate()), .ErrorType),
+                    (.InfiniteScroll(queryItems: [""], elloApi: { return ElloAPI.AwesomePeopleStream }), .UsersType),
+                    (.InviteFriends(contact: ""), .NoContentType),
+                    (.Join(email: "", username: "", password: "", invitationCode: ""), .UsersType),
+                    (.Loves(userId: ""), .LovesType),
+                    (.Loves(userId: currentUserId), .LovesType),
+                    (.NoiseStream, .ActivitiesType),
+                    (.NoiseNewContent(createdAt: NSDate()), .ErrorType),
+                    (.NotificationsNewContent(createdAt: NSDate()), .ErrorType),
+                    (.NotificationsStream(category: ""), .ActivitiesType),
+                    (.PostComments(postId: ""), .CommentsType),
+                    (.PostDetail(postParam: "", commentCount: 0), .PostsType),
+                    (.PostLovers(postId: ""), .UsersType),
+                    (.PostReposters(postId: ""), .UsersType),
+                    (.ProfileDelete, .NoContentType),
+                    (.ProfileToggles, .CategoriesType),
+                    (.ProfileUpdate(body: ["": ""]), .UsersType),
+                    (.PushSubscriptions(token: NSData()), .NoContentType),
+                    (.ReAuth(token: ""), .ErrorType),
+                    (.RePost(postId: ""), .PostsType),
+                    (.Relationship(userId: "", relationship: ""), .RelationshipsType),
+                    (.RelationshipBatch(userIds: [""], relationship: ""), .NoContentType),
+                    (.SearchForUsers(terms: ""), .UsersType),
+                    (.SearchForPosts(terms: ""), .PostsType),
+                    (.UpdatePost(postId: "", body: ["": ""]), .PostsType),
+                    (.UpdateComment(postId: "", commentId: "", body: ["": ""]), .CommentsType),
+                    (.UserStream(userParam: ""), .UsersType),
+                    (.UserStream(userParam: currentUserId), .UsersType),
+                    (.UserStreamFollowers(userId: ""), .UsersType),
+                    (.UserStreamFollowing(userId: ""), .UsersType),
+                    (.UserNameAutoComplete(terms: ""), .AutoCompleteResultType)
+                ]
+                for (endpoint, mappingType) in expectations {
+                    it("\(endpoint.description) has the correct mappingType \(mappingType)") {
+                        expect(endpoint.mappingType) == mappingType
+                    }
+                }
+            }
+
             describe("headers") {
 
                 context("Accept-Language endpoints") {
-                    let endpoints = [
-                        ElloAPI.AmazonCredentials,
-                        ElloAPI.AnonymousCredentials,
-                        ElloAPI.Auth(email: "", password: ""),
-                        ElloAPI.Availability(content: [:]),
-                        ElloAPI.AwesomePeopleStream,
-                        ElloAPI.CommunitiesStream,
-                        ElloAPI.CreateComment(parentPostId: "", body: [:]),
-                        ElloAPI.CreateLove(postId: ""),
-                        ElloAPI.CreatePost(body: [:]),
-                        ElloAPI.DeleteComment(postId: "", commentId: ""),
-                        ElloAPI.DeleteLove(postId: ""),
-                        ElloAPI.DeletePost(postId: ""),
-                        ElloAPI.DeleteSubscriptions(token: NSData()),
-                        ElloAPI.Discover(type: .Trending, perPage: 0),
-                        ElloAPI.EmojiAutoComplete(terms: ""),
-                        ElloAPI.FindFriends(contacts: [:]),
-                        ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
-                        ElloAPI.FlagPost(postId: "", kind: ""),
-                        ElloAPI.FriendNewContent(createdAt: NSDate()),
-                        ElloAPI.FriendStream,
-                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                    let endpoints: [ElloAPI] = [
+                        .AmazonCredentials,
+                        .AnonymousCredentials,
+                        .Auth(email: "", password: ""),
+                        .Availability(content: [:]),
+                        .AwesomePeopleStream,
+                        .CommunitiesStream,
+                        .CreateComment(parentPostId: "", body: [:]),
+                        .CreateLove(postId: ""),
+                        .CreatePost(body: [:]),
+                        .DeleteComment(postId: "", commentId: ""),
+                        .DeleteLove(postId: ""),
+                        .DeletePost(postId: ""),
+                        .DeleteSubscriptions(token: NSData()),
+                        .Discover(type: .Trending, perPage: 0),
+                        .EmojiAutoComplete(terms: ""),
+                        .FindFriends(contacts: [:]),
+                        .FlagComment(postId: "", commentId: "", kind: ""),
+                        .FlagPost(postId: "", kind: ""),
+                        .FriendNewContent(createdAt: NSDate()),
+                        .FriendStream,
+                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.Auth(email: "", password: "")
                         }),
-                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.FriendStream
                         }),
-                        ElloAPI.InviteFriends(contact: ""),
-                        ElloAPI.Join(email: "", username: "", password: "", invitationCode: ""),
-                        ElloAPI.Loves(userId: ""),
-                        ElloAPI.NoiseNewContent(createdAt: NSDate()),
-                        ElloAPI.NoiseStream,
-                        ElloAPI.NotificationsNewContent(createdAt: NSDate()),
-                        ElloAPI.NotificationsStream(category: ""),
-                        ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
-                        ElloAPI.PostLovers(postId: ""),
-                        ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.CurrentUserStream,
-                        ElloAPI.ProfileDelete,
-                        ElloAPI.ProfileToggles,
-                        ElloAPI.ProfileUpdate(body: [:]),
-                        ElloAPI.PushSubscriptions(token: NSData()),
-                        ElloAPI.ReAuth(token: ""),
-                        ElloAPI.Relationship(userId: "", relationship: ""),
-                        ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
-                        ElloAPI.RePost(postId: ""),
-                        ElloAPI.SearchForPosts(terms: ""),
-                        ElloAPI.SearchForUsers(terms: ""),
-                        ElloAPI.UserNameAutoComplete(terms: ""),
-                        ElloAPI.UserStream(userParam: ""),
-                        ElloAPI.UserStreamFollowers(userId: ""),
-                        ElloAPI.UserStreamFollowing(userId: ""),
+                        .InviteFriends(contact: ""),
+                        .Join(email: "", username: "", password: "", invitationCode: ""),
+                        .Loves(userId: ""),
+                        .NoiseNewContent(createdAt: NSDate()),
+                        .NoiseStream,
+                        .NotificationsNewContent(createdAt: NSDate()),
+                        .NotificationsStream(category: ""),
+                        .PostComments(postId: ""),
+                        .PostDetail(postParam: "", commentCount: 10),
+                        .PostLovers(postId: ""),
+                        .PostReposters(postId: ""),
+                        .CurrentUserStream,
+                        .ProfileDelete,
+                        .ProfileToggles,
+                        .ProfileUpdate(body: [:]),
+                        .PushSubscriptions(token: NSData()),
+                        .ReAuth(token: ""),
+                        .Relationship(userId: "", relationship: ""),
+                        .RelationshipBatch(userIds: [""], relationship: ""),
+                        .RePost(postId: ""),
+                        .SearchForPosts(terms: ""),
+                        .SearchForUsers(terms: ""),
+                        .UserNameAutoComplete(terms: ""),
+                        .UserStream(userParam: ""),
+                        .UserStreamFollowers(userId: ""),
+                        .UserStreamFollowing(userId: ""),
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
@@ -198,10 +266,10 @@ class ElloAPISpec: QuickSpec {
 
                 context("If-Modified-Since endpoints") {
                     let date = NSDate()
-                    let endpoints = [
-                        ElloAPI.FriendNewContent(createdAt: date),
-                        ElloAPI.NoiseNewContent(createdAt: date),
-                        ElloAPI.NotificationsNewContent(createdAt: date)
+                    let endpoints: [ElloAPI] = [
+                        .FriendNewContent(createdAt: date),
+                        .NoiseNewContent(createdAt: date),
+                        .NotificationsNewContent(createdAt: date)
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
@@ -211,50 +279,50 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 context("normal authorization required") {
-                    let endpoints = [
-                        ElloAPI.AmazonCredentials,
-                        ElloAPI.Availability(content: [:]),
-                        ElloAPI.AwesomePeopleStream,
-                        ElloAPI.CommunitiesStream,
-                        ElloAPI.CreateComment(parentPostId: "", body: [:]),
-                        ElloAPI.CreateLove(postId: ""),
-                        ElloAPI.CreatePost(body: [:]),
-                        ElloAPI.DeleteComment(postId: "", commentId: ""),
-                        ElloAPI.DeleteLove(postId: ""),
-                        ElloAPI.DeletePost(postId: ""),
-                        ElloAPI.DeleteSubscriptions(token: NSData()),
-                        ElloAPI.Discover(type: .Trending, perPage: 0),
-                        ElloAPI.EmojiAutoComplete(terms: ""),
-                        ElloAPI.FindFriends(contacts: ["" : [""]]),
-                        ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
-                        ElloAPI.FlagPost(postId: "", kind: ""),
-                        ElloAPI.FriendStream,
-                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                    let endpoints: [ElloAPI] = [
+                        .AmazonCredentials,
+                        .Availability(content: [:]),
+                        .AwesomePeopleStream,
+                        .CommunitiesStream,
+                        .CreateComment(parentPostId: "", body: [:]),
+                        .CreateLove(postId: ""),
+                        .CreatePost(body: [:]),
+                        .DeleteComment(postId: "", commentId: ""),
+                        .DeleteLove(postId: ""),
+                        .DeletePost(postId: ""),
+                        .DeleteSubscriptions(token: NSData()),
+                        .Discover(type: .Trending, perPage: 0),
+                        .EmojiAutoComplete(terms: ""),
+                        .FindFriends(contacts: ["" : [""]]),
+                        .FlagComment(postId: "", commentId: "", kind: ""),
+                        .FlagPost(postId: "", kind: ""),
+                        .FriendStream,
+                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.FriendStream
                         }),
-                        ElloAPI.InviteFriends(contact: ""),
-                        ElloAPI.Join(email: "", username: "", password: "", invitationCode: ""),
-                        ElloAPI.Loves(userId: ""),
-                        ElloAPI.NoiseStream,
-                        ElloAPI.NotificationsStream(category: ""),
-                        ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
-                        ElloAPI.PostLovers(postId: ""),
-                        ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.CurrentUserStream,
-                        ElloAPI.ProfileDelete,
-                        ElloAPI.ProfileToggles,
-                        ElloAPI.ProfileUpdate(body: [:]),
-                        ElloAPI.RePost(postId: ""),
-                        ElloAPI.PushSubscriptions(token: NSData()),
-                        ElloAPI.Relationship(userId: "", relationship: ""),
-                        ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
-                        ElloAPI.SearchForUsers(terms: ""),
-                        ElloAPI.SearchForPosts(terms: ""),
-                        ElloAPI.UserStream(userParam: ""),
-                        ElloAPI.UserStreamFollowers(userId: ""),
-                        ElloAPI.UserStreamFollowing(userId: ""),
-                        ElloAPI.UserNameAutoComplete(terms: "")
+                        .InviteFriends(contact: ""),
+                        .Join(email: "", username: "", password: "", invitationCode: ""),
+                        .Loves(userId: ""),
+                        .NoiseStream,
+                        .NotificationsStream(category: ""),
+                        .PostComments(postId: ""),
+                        .PostDetail(postParam: "", commentCount: 10),
+                        .PostLovers(postId: ""),
+                        .PostReposters(postId: ""),
+                        .CurrentUserStream,
+                        .ProfileDelete,
+                        .ProfileToggles,
+                        .ProfileUpdate(body: [:]),
+                        .RePost(postId: ""),
+                        .PushSubscriptions(token: NSData()),
+                        .Relationship(userId: "", relationship: ""),
+                        .RelationshipBatch(userIds: [""], relationship: ""),
+                        .SearchForUsers(terms: ""),
+                        .SearchForPosts(terms: ""),
+                        .UserStream(userParam: ""),
+                        .UserStreamFollowers(userId: ""),
+                        .UserStreamFollowing(userId: ""),
+                        .UserNameAutoComplete(terms: "")
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
@@ -267,32 +335,32 @@ class ElloAPISpec: QuickSpec {
             describe("encoding") {
 
                 context("Moya.ParameterEncoding.JSON endpoints") {
-                    let endpoints = [
-                        ElloAPI.AnonymousCredentials,
-                        ElloAPI.Auth(email: "", password: ""),
-                        ElloAPI.Availability(content: [:]),
-                        ElloAPI.CreateComment(parentPostId: "", body: [:]),
-                        ElloAPI.CreateLove(postId: ""),
-                        ElloAPI.CreatePost(body: [:]),
-                        ElloAPI.DeleteComment(postId: "", commentId: ""),
-                        ElloAPI.DeleteLove(postId: ""),
-                        ElloAPI.DeletePost(postId: ""),
-                        ElloAPI.DeleteSubscriptions(token: NSData()),
-                        ElloAPI.FindFriends(contacts: [:]),
-                        ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
-                        ElloAPI.FlagPost(postId: "", kind: ""),
-                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                    let endpoints: [ElloAPI] = [
+                        .AnonymousCredentials,
+                        .Auth(email: "", password: ""),
+                        .Availability(content: [:]),
+                        .CreateComment(parentPostId: "", body: [:]),
+                        .CreateLove(postId: ""),
+                        .CreatePost(body: [:]),
+                        .DeleteComment(postId: "", commentId: ""),
+                        .DeleteLove(postId: ""),
+                        .DeletePost(postId: ""),
+                        .DeleteSubscriptions(token: NSData()),
+                        .FindFriends(contacts: [:]),
+                        .FlagComment(postId: "", commentId: "", kind: ""),
+                        .FlagPost(postId: "", kind: ""),
+                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.Auth(email: "", password: "")
                         }),
-                        ElloAPI.InviteFriends(contact: ""),
-                        ElloAPI.Join(email: "", username: "", password: "", invitationCode: ""),
-                        ElloAPI.ProfileUpdate(body: [:]),
-                        ElloAPI.ProfileDelete,
-                        ElloAPI.PushSubscriptions(token: NSData()),
-                        ElloAPI.ReAuth(token: ""),
-                        ElloAPI.Relationship(userId: "", relationship: ""),
-                        ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
-                        ElloAPI.RePost(postId: ""),
+                        .InviteFriends(contact: ""),
+                        .Join(email: "", username: "", password: "", invitationCode: ""),
+                        .ProfileUpdate(body: [:]),
+                        .ProfileDelete,
+                        .PushSubscriptions(token: NSData()),
+                        .ReAuth(token: ""),
+                        .Relationship(userId: "", relationship: ""),
+                        .RelationshipBatch(userIds: [""], relationship: ""),
+                        .RePost(postId: ""),
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) returns .JSON and Content-Type: application/json") {
@@ -303,34 +371,34 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 context("Moya.ParameterEncoding.URL endpoints") {
-                    let endpoints = [
-                        ElloAPI.AmazonCredentials,
-                        ElloAPI.AwesomePeopleStream,
-                        ElloAPI.CommunitiesStream,
-                        ElloAPI.Discover(type: .Trending, perPage: 0),
-                        ElloAPI.EmojiAutoComplete(terms: ""),
-                        ElloAPI.FriendStream,
-                        ElloAPI.FriendNewContent(createdAt: NSDate()),
-                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                    let endpoints: [ElloAPI] = [
+                        .AmazonCredentials,
+                        .AwesomePeopleStream,
+                        .CommunitiesStream,
+                        .Discover(type: .Trending, perPage: 0),
+                        .EmojiAutoComplete(terms: ""),
+                        .FriendStream,
+                        .FriendNewContent(createdAt: NSDate()),
+                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
                             return ElloAPI.FriendStream
                         }),
-                        ElloAPI.Loves(userId: ""),
-                        ElloAPI.NoiseStream,
-                        ElloAPI.NoiseNewContent(createdAt: NSDate()),
-                        ElloAPI.NotificationsNewContent(createdAt: NSDate()),
-                        ElloAPI.NotificationsStream(category: ""),
-                        ElloAPI.PostComments(postId: ""),
-                        ElloAPI.PostDetail(postParam: "", commentCount: 10),
-                        ElloAPI.PostLovers(postId: ""),
-                        ElloAPI.PostReposters(postId: ""),
-                        ElloAPI.CurrentUserStream,
-                        ElloAPI.ProfileToggles,
-                        ElloAPI.SearchForUsers(terms: ""),
-                        ElloAPI.SearchForPosts(terms: ""),
-                        ElloAPI.UserStream(userParam: ""),
-                        ElloAPI.UserStreamFollowers(userId: ""),
-                        ElloAPI.UserStreamFollowing(userId: ""),
-                        ElloAPI.UserNameAutoComplete(terms: "")
+                        .Loves(userId: ""),
+                        .NoiseStream,
+                        .NoiseNewContent(createdAt: NSDate()),
+                        .NotificationsNewContent(createdAt: NSDate()),
+                        .NotificationsStream(category: ""),
+                        .PostComments(postId: ""),
+                        .PostDetail(postParam: "", commentCount: 10),
+                        .PostLovers(postId: ""),
+                        .PostReposters(postId: ""),
+                        .CurrentUserStream,
+                        .ProfileToggles,
+                        .SearchForUsers(terms: ""),
+                        .SearchForPosts(terms: ""),
+                        .UserStream(userParam: ""),
+                        .UserStreamFollowers(userId: ""),
+                        .UserStreamFollowing(userId: ""),
+                        .UserNameAutoComplete(terms: "")
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) returns .URL and IS NOT Content-Type: application/json") {

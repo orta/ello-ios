@@ -36,8 +36,7 @@ extension User: Stubbable {
     class func stub(values: [String: AnyObject]) -> User {
         let relationshipPriority: RelationshipPriority
         if let priorityName = values["relationshipPriority"] as? String,
-            priority = RelationshipPriority(rawValue: priorityName)
-        {
+            priority = RelationshipPriority(rawValue: priorityName) {
             relationshipPriority = priority
         }
         else {
