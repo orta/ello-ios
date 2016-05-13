@@ -42,13 +42,13 @@ class NSFWPolicySpec: QuickSpec {
             currentUserViewsOwnNSFW: currentUserViewsOwnNSFW
         )
 
-        fdescribe("NSFWPolicy") {
+        describe("NSFWPolicy") {
             describe("includeNSFW(_:)") {
                 context("current user DOES view nsfw") {
                     let currentUserId = "123"
                     let currentUsername = "bob"
                     let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": true, "profile": Profile.stub(["email": "some@guy.com"])])
-                    let expectations = [
+                    let expectations: [(ElloAPI, Bool)] = [
                         (.AmazonCredentials, false),
                         (.AnonymousCredentials, false),
                         (.Auth(email: "", password: ""), false),
@@ -118,7 +118,7 @@ class NSFWPolicySpec: QuickSpec {
                     let currentUserId = "123"
                     let currentUsername = "bob"
                     let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
-                    let expectations = [
+                    let expectations: [(ElloAPI, Bool)] = [
                         (.AmazonCredentials, false),
                         (.AnonymousCredentials, false),
                         (.Auth(email: "", password: ""), false),
@@ -198,7 +198,7 @@ class NSFWPolicySpec: QuickSpec {
                     let currentUsername = "bob"
                     let currentUser: User = stub(["id" : currentUserId, "username": currentUsername, "viewsAdultContent": false, "profile": Profile.stub(["email": "some@guy.com"])])
 
-                    let expectations = [
+                    let expectations: [(ElloAPI, Bool)] = [
                         (.AmazonCredentials, false),
                         (.AnonymousCredentials, false),
                         (.Auth(email: "", password: ""), false),
