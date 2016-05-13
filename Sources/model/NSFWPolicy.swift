@@ -14,8 +14,7 @@ public struct NSFWPolicy {
     public init(
         alwaysViewNSFW: [String],
         loggedInViewsNSFW: [String],
-        currentUserViewsOwnNSFW: Bool)
-    {
+        currentUserViewsOwnNSFW: Bool) {
         self.alwaysViewNSFW = alwaysViewNSFW
         self.loggedInViewsNSFW = loggedInViewsNSFW
         self.currentUserViewsOwnNSFW = currentUserViewsOwnNSFW
@@ -23,8 +22,7 @@ public struct NSFWPolicy {
 
     public func includeNSFW(
         endpoint: ElloAPI,
-        currentUser: User?) -> Bool
-    {
+        currentUser: User?) -> Bool {
 
         switch endpoint {
         case let .InfiniteScroll(_, elloApi):
@@ -42,8 +40,7 @@ public struct NSFWPolicy {
 
         if self.alwaysViewNSFW.contains(endpoint.description) {
             return true
-        }
-        else if self.loggedInViewsNSFW.contains(endpoint.description) {
+        } else if self.loggedInViewsNSFW.contains(endpoint.description) {
             if let currentUser = currentUser {
                 return currentUser.viewsAdultContent
             }
@@ -52,7 +49,17 @@ public struct NSFWPolicy {
         return false
     }
 
-    private func isMe(userId: String, currentUser: User?) -> Bool {
-        return currentUser?.id == userId && self.currentUserViewsOwnNSFW
+    private func isMe(userParam: String, currentUser: User?) -> Bool {
+        var matchFound = false
+        if let currentUser = currentUser where
+            "~\(currentUser.username)" == userParam {
+            matchFound = true
+        }
+
+        if currentUser?.id == userParam {
+            matchFound = true
+        }
+
+        return matchFound && self.currentUserViewsOwnNSFW
     }
 }
