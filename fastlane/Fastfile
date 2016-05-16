@@ -72,7 +72,7 @@ platform :ios do
     sh "bundle install"
 
     # setup the production configuration
-    sh "bundle exec rake generate:prod_keys"
+    sh "bundle exec rake generate:staging_keys"
     
     cert( 
       output_path: ENV["CERTS_OUTPUT_PATH"]
