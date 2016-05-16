@@ -48,7 +48,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="570" height="44"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
-                                        <action selector="importMyContactsTapped:" destination="-1" eventType="touchUpInside" id="aPs-Kx-p5l"/>
+                                        <action selector="importMyContactsTapped" destination="-1" eventType="touchUpInside" id="aPs-Kx-p5l"/>
                                     </connections>
                                 </button>
                             </subviews>

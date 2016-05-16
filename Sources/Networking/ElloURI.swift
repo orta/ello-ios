@@ -95,7 +95,6 @@ public enum ElloURI: String {
              .FaceMaker,
              .ForgotMyPassword,
              .FreedomOfSpeech,
-             .Invitations,
              .Manifesto,
              .NativeRedirect,
              .PasswordResetError,

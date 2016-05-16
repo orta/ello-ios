@@ -463,6 +463,8 @@ extension AppViewController {
              .ExploreRecent,
              .ExploreTrending:
             showDiscoverScreen(vc)
+        case .Invitations:
+            showInvitationScreen(vc)
         case .Enter, .Exit, .Root, .Explore:
             break
         case .Friends,
@@ -541,6 +543,16 @@ extension AppViewController {
         alertController.addAction(viewBrowser)
 
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    private func showInvitationScreen(vc: ElloTabBarController) {
+        showDiscoverScreen(vc)
+
+        if let navigationController = vc.selectedViewController as? UINavigationController,
+            discoverViewController = navigationController.childViewControllers.safeValue(0) as? DiscoverViewController
+        {
+            discoverViewController.importMyContactsTapped()
+        }
     }
 
     private func showDiscoverScreen(vc: ElloTabBarController) {
