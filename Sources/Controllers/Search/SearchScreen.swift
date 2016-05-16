@@ -143,6 +143,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.spellCheckingType = .No
         searchField.enablesReturnKeyAutomatically = true
         searchField.returnKeyType = .Search
+        searchField.keyboardAppearance = .Dark
         searchField.keyboardType = .Default
         searchField.delegate = self
         searchField.addTarget(self, action: #selector(SearchScreen.searchFieldDidChange), forControlEvents: .EditingChanged)

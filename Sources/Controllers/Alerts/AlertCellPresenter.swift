@@ -44,6 +44,7 @@ struct AlertCellPresenter {
         cell.input.hidden = false
         cell.input.placeholder = action.title
 
+        cell.input.keyboardAppearance = .Dark
         cell.input.keyboardType = .Default
         cell.input.autocapitalizationType = .Sentences
         cell.input.autocorrectionType = .Default
@@ -58,6 +59,7 @@ struct AlertCellPresenter {
     static func configureForURLAction(cell: AlertCell, type: AlertType, action: AlertAction, textAlignment: NSTextAlignment) {
         configureForInputAction(cell, type: type, action: action)
 
+        cell.input.keyboardAppearance = .Dark
         cell.input.keyboardType = .URL
         cell.input.autocapitalizationType = .None
         cell.input.autocorrectionType = .No

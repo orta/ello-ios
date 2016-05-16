@@ -144,9 +144,9 @@ public extension ElloTextFieldView {
         textField.autocapitalizationType = .None
         textField.autocorrectionType = .No
         textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
         textField.enablesReturnKeyAutomatically = true
         textField.returnKeyType = .Next
+        textField.keyboardAppearance = .Dark
         textField.keyboardType = .ASCIICapable
     }
 
@@ -159,9 +159,9 @@ public extension ElloTextFieldView {
         textField.autocapitalizationType = .None
         textField.autocorrectionType = .No
         textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
         textField.enablesReturnKeyAutomatically = true
         textField.returnKeyType = .Next
+        textField.keyboardAppearance = .Dark
         textField.keyboardType = .EmailAddress
     }
 
@@ -173,9 +173,9 @@ public extension ElloTextFieldView {
         textField.autocapitalizationType = .None
         textField.autocorrectionType = .No
         textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
         textField.enablesReturnKeyAutomatically = true
         textField.returnKeyType = .Go
+        textField.keyboardAppearance = .Dark
         textField.keyboardType = .Default
         textField.secureTextEntry = true
     }
