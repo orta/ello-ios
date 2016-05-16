@@ -12,8 +12,7 @@ import CoreGraphics
 
 public class ElloLogoView: UIImageView {
     struct Size {
-        static let natural = CGSize(width: 60, height: 60)
-        static let big = CGSize(width: 166, height: 166)
+        static let Natural = CGSize(width: 60, height: 60)
     }
 
     private var wasAnimating = false
