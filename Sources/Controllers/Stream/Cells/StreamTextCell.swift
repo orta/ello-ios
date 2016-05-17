@@ -18,6 +18,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     var userDelegate: UserDelegate?
+    var streamEditingDelegate: StreamEditingDelegate?
     var webContentReady: WebContentReady?
 
     override public func awakeFromNib() {
@@ -38,7 +39,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
 
     @IBAction func doubleTapped(gesture: UIGestureRecognizer) {
         let location = gesture.locationInView(nil)
-        userDelegate?.cellDoubleTapped(self, location: location)
+        streamEditingDelegate?.cellDoubleTapped(self, location: location)
     }
 
     func onWebContentReady(handler: WebContentReady?) {

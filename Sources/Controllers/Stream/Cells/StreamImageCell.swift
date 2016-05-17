@@ -38,6 +38,7 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet public weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
+    weak var streamEditingDelegate: StreamEditingDelegate?
     public var isGif = false
     public typealias OnHeightMismatch = (CGFloat) -> Void
     public var onHeightMismatch: OnHeightMismatch?
@@ -178,6 +179,6 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBAction func imageDoubleTapped(gesture: UIGestureRecognizer) {
         let location = gesture.locationInView(nil)
-        streamImageCellDelegate?.imageDoubleTapped(self, location: location)
+        streamEditingDelegate?.cellDoubleTapped(self, location: location)
     }
 }
