@@ -18,7 +18,8 @@ public class StreamFooterCell: UICollectionViewCell {
     @IBOutlet weak public var innerContentView: UIView!
 
     public var commentsOpened = false
-    weak var delegate: PostbarDelegate?
+    public weak var delegate: PostbarDelegate?
+    public weak var streamEditingDelegate: StreamEditingDelegate?
 
     public let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
     public var viewsControl: ImageLabelControl {
@@ -123,6 +124,10 @@ public class StreamFooterCell: UICollectionViewCell {
         toolBar.clipsToBounds = true
         toolBar.layer.borderColor = UIColor.whiteColor().CGColor
 
+        let longPressGesture = UILongPressGestureRecognizer()
+        longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
+        contentView.addGestureRecognizer(longPressGesture)
+
         addButtonHandlers()
     }
 
@@ -167,6 +172,15 @@ public class StreamFooterCell: UICollectionViewCell {
         viewsControl.addTarget(self, action: #selector(StreamFooterCell.viewsButtonTapped), forControlEvents: .TouchUpInside)
     }
 
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        let newBounds = CGRect(x: 0, y: 0, width: bounds.width, height: 44)
+        contentView.frame = newBounds
+        innerContentView.frame = newBounds
+        containerView.frame = newBounds
+        toolBar.frame = newBounds
+    }
+
 // MARK: - IBActions
 
     @IBAction func viewsButtonTapped() {
@@ -200,12 +214,9 @@ public class StreamFooterCell: UICollectionViewCell {
     @IBAction func replyButtonTapped() {
     }
 
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        let newBounds = CGRect(x: 0, y: 0, width: bounds.width, height: 44)
-        contentView.frame = newBounds
-        innerContentView.frame = newBounds
-        containerView.frame = newBounds
-        toolBar.frame = newBounds
+    @IBAction func longPressed(gesture: UIGestureRecognizer) {
+        if gesture.state == .Began {
+            streamEditingDelegate?.cellLongPressed(self)
+        }
     }
 }

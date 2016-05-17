@@ -246,12 +246,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! DiscoverStreamPickerCell).discoverStreamPickerDelegate = discoverStreamPickerDelegate
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
+                (cell as! StreamFooterCell).streamEditingDelegate = editingDelegate
             case .CreateComment:
                 (cell as! StreamCreateCommentCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
                 (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
+                (cell as! StreamHeaderCell).streamEditingDelegate = editingDelegate
             case .Image:
                 (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
                 (cell as! StreamImageCell).streamEditingDelegate = editingDelegate
