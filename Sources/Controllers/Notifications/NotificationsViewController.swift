@@ -79,9 +79,6 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         streamViewController.notificationDelegate = self
-        let noResultsTitle = InterfaceString.Notifications.NoResultsTitle
-        let noResultsBody = InterfaceString.Notifications.NoResultsBody
-        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
     }
 
     override public func showNavBars(scrollToBottom: Bool) {
