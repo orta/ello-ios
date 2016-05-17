@@ -243,3 +243,17 @@ extension User {
         return value ?? false
     }
 }
+
+extension User {
+    func isOwnPost(post: Post) -> Bool {
+        return id == post.authorId
+    }
+
+    func isOwnComment(comment: ElloComment) -> Bool {
+        return id == comment.authorId
+    }
+
+    func isOwnParentPost(comment: ElloComment) -> Bool {
+        return id == comment.loadedFromPost?.authorId
+    }
+}

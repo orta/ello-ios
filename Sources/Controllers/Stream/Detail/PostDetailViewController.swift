@@ -253,7 +253,7 @@ public class PostDetailViewController: StreamableViewController {
         guard let post = post, currentUser = currentUser else {
             return false
         }
-        return currentUser.id == post.authorId
+        return currentUser.isOwnPost(post)
     }
 
     public func flagPost() {
