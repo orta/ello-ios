@@ -35,14 +35,14 @@ class StreamCellItemParserSpec: QuickSpec {
                 }
 
                 it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
-                    var loadedPosts = [StreamCellItem]()
+                    var cellItems = [StreamCellItem]()
                     StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
                         success: { (jsonables, responseConfig) in
-                            loadedPosts = subject.parse(jsonables, streamKind: .Following)
+                            cellItems = subject.parse(jsonables, streamKind: .Following)
                         },
                         failure: nil
                     )
-                    expect(loadedPosts.count) == 4
+                    expect(cellItems.count) == 8
                 }
 
                 it("returns an empty array if an empty array of Activities is passed in") {

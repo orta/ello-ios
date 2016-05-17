@@ -109,80 +109,49 @@ public enum StreamKind {
             case .Loves:
                 if let loves = jsonables as? [Love] {
                     return loves.reduce([]) { accum, love in
-                        if let post = love.post where !post.isAdultContent {
+                        if let post = love.post {
                             return accum + [post]
                         }
                         return accum
                     }
-                }
-                else {
+                } else {
                     return []
                 }
             default:
-                if let posts = jsonables as? [Post] {
-                    return posts.reduce([]) { accum, post in
-                        if !post.isAdultContent {
-                            return accum + [post]
-                        }
-                        return accum
-                    }
-
-                }
-                else if let users = jsonables as? [User] {
-                    return users.reduce([]) { accum, user in
-                        if !user.postsAdultContent {
-                            return accum + [user]
-                        }
-                        return accum
-                    }
-                }
-                else {
-                    return jsonables
-                }
+                return jsonables
             }
         case .Discover:
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
-                    if let post = user.mostRecentPost where !post.isAdultContent {
+                    if let post = user.mostRecentPost {
                         return accum + [post]
                     }
                     return accum
                 }
-            }
-            else if let posts = jsonables as? [Post] {
-                return posts.filter{ !$0.isAdultContent }
-            }
-            else {
+            } else if let posts = jsonables as? [Post]  {
+                return posts
+            } else {
                 return []
             }
         case .Notifications:
             if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
                 return notifications.filter { return $0.isValidKind }
-            }
-            else {
+            } else {
                 return []
             }
         default:
             if let activities = jsonables as? [Activity] {
                 return activities.reduce([]) { accum, activity in
-                    if let post = activity.subject as? Post where !post.isAdultContent || viewsAdultContent {
+                    if let post = activity.subject as? Post {
                         return accum + [post]
                     }
                     return accum
                 }
-            }
-            else if let comments = jsonables as? [ElloComment] {
+            } else if let comments = jsonables as? [ElloComment] {
                 return comments
-            }
-            else if let posts = jsonables as? [Post] {
-                return posts.reduce([]) { accum, post in
-                    if !post.isAdultContent || viewsAdultContent {
-                        return accum + [post]
-                    }
-                    return accum
-                }
-
+            } else if let posts = jsonables as? [Post] {
+                return posts
             }
         }
         return []
@@ -297,4 +266,3 @@ public enum StreamKind {
         }
     }
 }
-
