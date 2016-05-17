@@ -26,6 +26,7 @@ public protocol StreamImageCellDelegate: class {
 
 public protocol StreamEditingDelegate: class {
     func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
+    func cellLongPressed(cell: UICollectionViewCell)
 }
 
 @objc
@@ -699,6 +700,23 @@ extension StreamViewController: StreamEditingDelegate {
                 let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
                 postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
             }
+        }
+    }
+
+    public func cellLongPressed(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell),
+            post = dataSource.postForIndexPath(indexPath),
+            currentUser = currentUser
+        where currentUser.isOwnPost(post)
+        {
+            createPostDelegate?.editPost(post, fromController: self)
+        }
+        else if let indexPath = collectionView.indexPathForCell(cell),
+            comment = dataSource.commentForIndexPath(indexPath),
+            currentUser = currentUser
+            where currentUser.isOwnComment(comment)
+        {
+            createPostDelegate?.editComment(comment, fromController: self)
         }
     }
 }
