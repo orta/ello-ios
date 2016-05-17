@@ -140,7 +140,7 @@ public enum ElloURI: String {
 
     // this is taken directly from app/models/user.rb
     static let usernameRegex = "([\\w\\-]+)"
-    static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-stag(?:ing|e)\\d?\\.herokuapp\\.com)"
+    static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-stag(?:ing|e)\\d?\\.herokuapp\\.com|ello-fg-stage\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
     public static func match(url: String) -> (type: ElloURI, data: String) {
