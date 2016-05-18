@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rix-fp-2SI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rix-fp-2SI">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasGroteskRegular.otf">
@@ -22,25 +22,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLV-3Z-xbe">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLV-3Z-xbe">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="uOJ-2N-oiq" customClass="ElloLogoView" customModule="Ello" customModuleProvider="target">
-                                        <rect key="frame" x="217" y="149" width="166" height="166"/>
-                                        <animations/>
+                                        <rect key="frame" x="270" y="270" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="166" id="3St-6m-arg"/>
-                                            <constraint firstAttribute="height" constant="166" id="zZM-CB-peE"/>
+                                            <constraint firstAttribute="width" constant="60" id="3St-6m-arg"/>
+                                            <constraint firstAttribute="height" constant="60" id="zZM-CB-peE"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="uOJ-2N-oiq" firstAttribute="leading" secondItem="bLV-3Z-xbe" secondAttribute="leading" constant="217" placeholder="YES" id="O0P-3I-t0f"/>
-                                    <constraint firstAttribute="trailing" secondItem="uOJ-2N-oiq" secondAttribute="trailing" constant="217" placeholder="YES" id="WpK-Fu-pG7"/>
-                                    <constraint firstAttribute="bottom" secondItem="uOJ-2N-oiq" secondAttribute="bottom" constant="500" placeholder="YES" id="aTz-Ds-6mr"/>
-                                    <constraint firstItem="uOJ-2N-oiq" firstAttribute="top" secondItem="bLV-3Z-xbe" secondAttribute="top" constant="149" id="gpy-Th-dmx"/>
+                                    <constraint firstItem="uOJ-2N-oiq" firstAttribute="centerY" secondItem="bLV-3Z-xbe" secondAttribute="centerY" id="Use-E1-Lyw"/>
                                     <constraint firstAttribute="centerX" secondItem="uOJ-2N-oiq" secondAttribute="centerX" id="o1B-si-bvZ"/>
                                 </constraints>
                                 <connections>
@@ -49,21 +44,18 @@
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="109-bY-vQa" userLabel="statusBarBackground">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="ORD-ni-eLn"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be inspired." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5v7-fv-xfg" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="107" y="444" width="93" height="12"/>
-                                <animations/>
+                                <rect key="frame" x="107" y="442" width="79" height="14"/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-jK-cus" userLabel="signInButton" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="107" y="534" width="386" height="49"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="XXd-DL-hyY"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="386" id="bj9-6w-ZQk"/>
@@ -78,7 +70,6 @@
                             </button>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ej4-tA-LS5" userLabel="joinButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="107" y="476" width="386" height="49"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="fVh-7e-laF"/>
@@ -93,7 +84,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="bLV-3Z-xbe" secondAttribute="trailing" id="EqM-F0-65h"/>
@@ -117,7 +107,6 @@
                     </view>
                     <connections>
                         <outlet property="joinButton" destination="Ej4-tA-LS5" id="khE-cP-eJZ"/>
-                        <outlet property="logoTopConstraint" destination="gpy-Th-dmx" id="uoN-sP-loW"/>
                         <outlet property="logoView" destination="uOJ-2N-oiq" id="bYG-hj-BVV"/>
                         <outlet property="scrollView" destination="bLV-3Z-xbe" id="7uO-NK-vwQ"/>
                         <outlet property="signInButton" destination="t6E-jK-cus" id="hXi-hR-Pgr"/>

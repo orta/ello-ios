@@ -245,7 +245,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         alertController.dismissable = false
 
         let spinnerContainer = UIView(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
-        let spinner = ElloLogoView(frame: CGRect(origin: CGPointZero, size: ElloLogoView.Size.natural))
+        let spinner = ElloLogoView(frame: CGRect(origin: CGPointZero, size: ElloLogoView.Size.Natural))
         spinner.center = spinnerContainer.bounds.center
         spinnerContainer.addSubview(spinner)
         alertController.contentView = spinnerContainer
