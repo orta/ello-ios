@@ -249,6 +249,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         linksTextFieldView.textField.spellCheckingType = .No
         linksTextFieldView.textField.autocapitalizationType = .None
         linksTextFieldView.textField.autocorrectionType = .No
+        linksTextFieldView.textField.keyboardAppearance = .Dark
         linksTextFieldView.textField.keyboardType = .ASCIICapable
         if let user = currentUser, let links = user.externalLinksList {
             var urls = [String]()

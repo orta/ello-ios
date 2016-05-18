@@ -134,18 +134,20 @@ public class ElloTextFieldView: UIView {
 
 
 public extension ElloTextFieldView {
+    private class func styleCommonField(textField: UITextField) {
+        textField.text = ""
+        textField.autocapitalizationType = .None
+        textField.autocorrectionType = .No
+        textField.spellCheckingType = .No
+        textField.enablesReturnKeyAutomatically = true
+        textField.keyboardAppearance = .Dark
+    }
 
     class func styleAsUsername(usernameView: ElloTextFieldView) {
         usernameView.label.setLabelText(InterfaceString.Join.Username)
         styleAsUsernameField(usernameView.textField)
     }
     class func styleAsUsernameField(textField: UITextField) {
-        textField.text = ""
-        textField.autocapitalizationType = .None
-        textField.autocorrectionType = .No
-        textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
-        textField.enablesReturnKeyAutomatically = true
         textField.returnKeyType = .Next
         textField.keyboardType = .ASCIICapable
     }
@@ -155,12 +157,7 @@ public extension ElloTextFieldView {
         styleAsEmailField(emailView.textField)
     }
     class func styleAsEmailField(textField: UITextField) {
-        textField.text = ""
-        textField.autocapitalizationType = .None
-        textField.autocorrectionType = .No
-        textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
-        textField.enablesReturnKeyAutomatically = true
+        styleCommonField(textField)
         textField.returnKeyType = .Next
         textField.keyboardType = .EmailAddress
     }
@@ -170,11 +167,7 @@ public extension ElloTextFieldView {
         styleAsPasswordField(passwordView.textField)
     }
     class func styleAsPasswordField(textField: UITextField) {
-        textField.autocapitalizationType = .None
-        textField.autocorrectionType = .No
-        textField.spellCheckingType = .No
-        textField.keyboardAppearance = .Dark
-        textField.enablesReturnKeyAutomatically = true
+        styleCommonField(textField)
         textField.returnKeyType = .Go
         textField.keyboardType = .Default
         textField.secureTextEntry = true

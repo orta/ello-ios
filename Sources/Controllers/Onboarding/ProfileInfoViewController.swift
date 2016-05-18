@@ -199,6 +199,7 @@ private extension ProfileInfoViewController {
         let bioField = generateTextField(placeholder: InterfaceString.Onboard.Profile.Bio,
             font: UIFont.defaultFont(),
             y: nameField.frame.maxY + 26)
+        bioField.keyboardAppearance = .Dark
         bioField.autocapitalizationType = .Sentences
         bioField.autocorrectionType = .Default
         bioField.spellCheckingType = .Default
@@ -211,6 +212,7 @@ private extension ProfileInfoViewController {
         linksField.spellCheckingType = .No
         linksField.autocapitalizationType = .None
         linksField.autocorrectionType = .No
+        linksField.keyboardAppearance = .Dark
         linksField.keyboardType = .ASCIICapable
         linksField.returnKeyType = .Go
         view.addSubview(linksField)
@@ -285,9 +287,9 @@ extension ProfileInfoViewController {
         field.autocapitalizationType = .None
         field.autocorrectionType = .No
         field.spellCheckingType = .No
-        field.keyboardAppearance = .Dark
         field.enablesReturnKeyAutomatically = false
         field.returnKeyType = .Next
+        field.keyboardAppearance = .Dark
         field.keyboardType = .Default
 
         let height = CGFloat(1)
