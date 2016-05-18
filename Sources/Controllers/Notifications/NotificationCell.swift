@@ -22,22 +22,23 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     struct Size {
         static let ButtonHeight = CGFloat(30)
         static let ButtonMargin = CGFloat(15)
-        static let sideMargins = CGFloat(15)
-        static let avatarSize = CGFloat(30)
-        static let imageWidth = CGFloat(87)
-        static let innerMargin = CGFloat(10)
-        static let createdAtHeight = CGFloat(12)
+        static let WebHeightCorrection = CGFloat(15)
+        static let SideMargins = CGFloat(15)
+        static let AvatarSize = CGFloat(30)
+        static let ImageWidth = CGFloat(87)
+        static let InnerMargin = CGFloat(10)
+        static let CreatedAtHeight = CGFloat(10)
 
         // height of created at and margin from title / notification text
         static func createdAtFixedHeight() -> CGFloat {
-            return createdAtHeight + innerMargin
+            return CreatedAtHeight + InnerMargin
         }
 
         static func messageHtmlWidth(forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            let messageLeftMargin: CGFloat = sideMargins + avatarSize + innerMargin
-            var messageRightMargin: CGFloat = innerMargin
+            let messageLeftMargin: CGFloat = SideMargins + AvatarSize + InnerMargin
+            var messageRightMargin: CGFloat = InnerMargin
             if hasImage {
-                messageRightMargin += innerMargin + imageWidth
+                messageRightMargin += InnerMargin + ImageWidth
             }
             return cellWidth - messageLeftMargin - messageRightMargin
         }
@@ -45,7 +46,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         static func imageHeight(imageRegion imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
                 let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                return self.imageWidth / aspectRatio
+                return ImageWidth / aspectRatio
             }
             else {
                 return 0
@@ -203,45 +204,47 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let outerFrame = contentView.bounds.inset(all: Size.sideMargins)
+        let outerFrame = contentView.bounds.inset(all: Size.SideMargins)
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
         separator.frame = contentView.bounds.fromBottom().growUp(1)
 
-        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSize, height: Size.avatarSize))
+        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.AvatarSize, height: Size.AvatarSize))
 
         if imageURL == nil {
             notificationImageView.frame = CGRectZero
         }
         else {
             notificationImageView.frame = outerFrame.fromRight()
-                .growLeft(Size.imageWidth)
-                .withHeight(Size.imageWidth / aspectRatio)
+                .growLeft(Size.ImageWidth)
+                .withHeight(Size.ImageWidth / aspectRatio)
         }
 
         titleTextView.frame = avatarButton.frame.fromRight()
-            .shiftRight(Size.innerMargin)
+            .shiftRight(Size.InnerMargin)
             .withWidth(titleWidth)
 
         let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .max))
         titleTextView.frame.size.height = ceil(tvSize.height)
 
-        let createdAtHeight = Size.createdAtHeight
-        var createdAtY = outerFrame.maxY - createdAtHeight
+        var createdAtY = outerFrame.maxY - Size.CreatedAtHeight
         if !relationshipControl.hidden || !replyButton.hidden {
             createdAtY -= Size.ButtonMargin + Size.ButtonHeight
         }
 
-        createdAtLabel.frame = avatarButton.frame
-            .fromRight()
-            .shiftRight(Size.innerMargin)
-            .atY(createdAtY)
-            .withSize(CGSize(width: titleWidth, height: createdAtHeight))
+        createdAtLabel.frame = CGRect(
+            x: avatarButton.frame.maxX + Size.InnerMargin,
+            y: createdAtY,
+            width: titleWidth,
+            height: 12
+            )
 
         let replyButtonWidth = replyButton.intrinsicContentSize().width
-        replyButton.frame = createdAtLabel.frame
-            .fromBottom()
-            .shiftDown(Size.ButtonMargin)
-            .withSize(CGSize(width: replyButtonWidth + 20, height: Size.ButtonHeight))
+        replyButton.frame = CGRect(
+            x: createdAtLabel.frame.x,
+            y: outerFrame.maxY - Size.ButtonHeight,
+            width: replyButtonWidth,
+            height: Size.ButtonHeight
+            )
         let relationshipControlWidth = relationshipControl.intrinsicContentSize().width
         relationshipControl.frame = replyButton.frame.withWidth(relationshipControlWidth)
 
@@ -249,10 +252,10 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             messageWebView.frame = CGRectZero
         }
         else {
-            let remainingHeight = outerFrame.height - Size.innerMargin - titleTextView.frame.height
+            let remainingHeight = outerFrame.height - Size.InnerMargin - titleTextView.frame.height
             messageWebView.frame = titleTextView.frame.fromBottom()
                 .withWidth(titleWidth)
-                .shiftDown(Size.innerMargin)
+                .shiftDown(Size.InnerMargin)
                 .withHeight(remainingHeight)
         }
     }

@@ -93,7 +93,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         totalTextHeight += NotificationCell.Size.createdAtFixedHeight()
 
         if let webContentHeight = webContentHeight where webContentHeight > 0 {
-            totalTextHeight += webContentHeight + NotificationCell.Size.innerMargin
+            totalTextHeight += webContentHeight - NotificationCell.Size.WebHeightCorrection + NotificationCell.Size.InnerMargin
         }
 
         if notification.canReplyToComment {
@@ -106,7 +106,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         let totalImageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
         var height = max(totalTextHeight, totalImageHeight)
 
-        height += 2 * NotificationCell.Size.sideMargins
+        height += 2 * NotificationCell.Size.SideMargins
         if let webContentHeight = webContentHeight {
             cellItem.calculatedWebHeight = webContentHeight
         }
