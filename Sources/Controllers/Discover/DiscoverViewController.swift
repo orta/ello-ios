@@ -59,7 +59,7 @@ public class DiscoverViewController: StreamableViewController {
 
     // MARK: - IBActions
 
-    @IBAction func importMyContactsTapped(sender: UIButton) {
+    @IBAction func importMyContactsTapped() {
         let responder = targetForAction(#selector(InviteResponder.onInviteFriends), withSender: self) as? InviteResponder
         responder?.onInviteFriends()
     }
