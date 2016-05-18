@@ -27,13 +27,11 @@ private let AuthUsername = "ElloAuthUsername"
 private let AuthPassword = "ElloAuthPassword"
 
 public struct ElloKeychain: KeychainType {
+    public var keychain: Keychain
 
-    public init() {}
-    public var keychain: Keychain {
-        get {
-            let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "3D5U9ESH74"
-            return Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
-        }
+    public init() {
+        let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "3D5U9ESH74"
+        keychain = Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
     }
 
     public var pushToken: NSData? {
