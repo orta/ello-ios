@@ -57,7 +57,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet var relationshipControl: RelationshipControl!
     @IBOutlet var replyButton: UIButton!
 
-    @IBOutlet var repostedByLabel: ElloLabel!
+    @IBOutlet var repostedByButton: UIButton!
     @IBOutlet var repostIconView: UIImageView!
 
     var isGridLayout = false
@@ -120,12 +120,13 @@ public class StreamHeaderCell: UICollectionViewCell {
     func setRepostedBy(user: User?) {
         if let atName = user?.atName
         where !isGridLayout {
-            repostedByLabel.hidden = false
+            repostedByButton.hidden = false
             repostIconView.hidden = false
-            repostedByLabel.setLabelText("by \(atName)", color: UIColor.greyA())
+            repostedByButton.setTitle("by \(atName)", forState: .Normal)
+            repostedByButton.sizeToFit()
         }
         else {
-            repostedByLabel.hidden = true
+            repostedByButton.hidden = true
             repostIconView.hidden = true
         }
         setNeedsLayout()
@@ -164,6 +165,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         bottomContentView.frame = bounds
         scrollView.frame = bounds
         bottomToolBar.frame = bounds
+        goToPostView.frame = bounds
         chevronButton.setImages(.AngleBracket)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         positionTopContent()
@@ -207,10 +209,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         let buttonWidth: CGFloat = 30
         let buttonMargin: CGFloat = 5
         let minimumUsernameWidth: CGFloat = 44
+        let minimumRepostedWidth: CGFloat = 44
 
         avatarButton.frame = CGRect(
             x: leftSidePadding,
-            y: innerContentView.frame.midY - avatarHeight/2,
+            y: contentView.frame.midY - avatarHeight/2,
             width: avatarHeight,
             height: avatarHeight
             )
@@ -218,7 +221,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         if chevronHidden {
             chevronButton.frame = CGRect(
-                x: innerContentView.frame.width - rightSidePadding,
+                x: contentView.frame.width - rightSidePadding,
                 y: 0,
                 width: 0,
                 height: frame.height
@@ -226,7 +229,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         }
         else {
             chevronButton.frame = CGRect(
-                x: innerContentView.frame.width - buttonWidth - buttonMargin,
+                x: contentView.frame.width - buttonWidth - buttonMargin,
                 y: 0,
                 width: buttonWidth,
                 height: frame.height
@@ -241,11 +244,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         if followButtonVisible {
             let relationshipControlSize = relationshipControl.intrinsicContentSize()
             relationshipControl.frame.size = relationshipControlSize
-            relationshipControl.frame.origin.y = (innerContentView.frame.height - relationshipControlSize.height) / 2
+            relationshipControl.frame.origin.y = (contentView.frame.height - relationshipControlSize.height) / 2
 
             if showUsername {
                 let relationshipControlPadding: CGFloat = 7
-                relationshipControl.frame.origin.x = innerContentView.frame.width - relationshipControlPadding - relationshipControlSize.width
+                relationshipControl.frame.origin.x = contentView.frame.width - relationshipControlPadding - relationshipControlSize.width
             }
             else {
                 let relationshipControlPadding: CGFloat = 15
@@ -267,25 +270,27 @@ public class StreamHeaderCell: UICollectionViewCell {
             }
         }
         else {
-            maxUsernameWidth = innerContentView.frame.width - usernameX - rightSidePadding
+            maxUsernameWidth = contentView.frame.width - usernameX - rightSidePadding
         }
+        let maxRepostedWidth = maxUsernameWidth - 26
 
         timestampLabel.frame = CGRect(
             x: timestampX,
             y: 0,
             width: timestampLabel.frame.width,
-            height: innerContentView.frame.height
+            height: contentView.frame.height
             )
 
         let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
+        let repostedWidth = max(minimumRepostedWidth, min(repostedByButton.frame.width, maxRepostedWidth))
 
-        let hasRepostAuthor = !isGridLayout && !repostedByLabel.hidden
+        let hasRepostAuthor = !isGridLayout && !repostedByButton.hidden
         let usernameButtonHeight: CGFloat
         let usernameButtonY: CGFloat
         let repostByLabelY: CGFloat
         if hasRepostAuthor {
             usernameButtonHeight = 27
-            usernameButtonY = innerContentView.frame.height / 2 - usernameButtonHeight
+            usernameButtonY = contentView.frame.height / 2 - usernameButtonHeight
 
             if followButtonVisible {
                 let relationshipControlCorrection: CGFloat = 2
@@ -294,11 +299,11 @@ public class StreamHeaderCell: UICollectionViewCell {
                 repostByLabelY = relationshipControl.frame.maxY + repostLabelCorrection
             }
             else {
-                repostByLabelY = innerContentView.frame.height / 2
+                repostByLabelY = contentView.frame.height / 2
             }
         }
         else {
-            usernameButtonHeight = innerContentView.frame.height
+            usernameButtonHeight = contentView.frame.height
             usernameButtonY = 0
             repostByLabelY = 0
         }
@@ -309,26 +314,19 @@ public class StreamHeaderCell: UICollectionViewCell {
             width: usernameWidth,
             height: usernameButtonHeight
         )
-        repostedByLabel.frame.size = CGSize(
-            width: innerContentView.frame.width - repostIconView.frame.minX,
+        repostedByButton.frame.size = CGSize(
+            width: repostedWidth,
             height: usernameButtonHeight
         )
-        let repostIconY = repostByLabelY + (repostedByLabel.frame.size.height - repostIconView.frame.height) / 2
+        let repostIconY = repostByLabelY + (repostedByButton.frame.size.height - repostIconView.frame.height) / 2
         repostIconView.frame.origin = CGPoint(
             x: usernameX,
             y: repostIconY
         )
-        repostedByLabel.frame.origin = CGPoint(
+        repostedByButton.frame.origin = CGPoint(
             x: repostIconView.frame.maxX + 6,
             y: repostByLabelY
         )
-
-        goToPostView.frame = CGRect(
-            x: usernameButton.frame.maxX,
-            y: 0,
-            width: innerContentView.bounds.width - usernameButton.frame.maxX,
-            height: innerContentView.frame.height
-            )
     }
 
     private func fixedItem(width: CGFloat) -> UIBarButtonItem {
