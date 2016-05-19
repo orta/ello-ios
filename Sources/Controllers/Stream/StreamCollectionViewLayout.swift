@@ -10,13 +10,17 @@
 @objc
 public protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
 
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView (collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
 
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat
+    func collectionView (collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        heightForItemAtIndexPath indexPath: NSIndexPath,
+        numberOfColumns: NSInteger) -> CGFloat
 
-    optional func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+    optional func collectionView (collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         groupForItemAtIndexPath indexPath: NSIndexPath) -> String
 
     optional func colletionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
