@@ -395,6 +395,10 @@ public class StreamHeaderCell: UICollectionViewCell {
         userDelegate?.userTappedAuthor(self)
     }
 
+    @IBAction func reposterTapped(sender: UIButton) {
+        userDelegate?.userTappedReposter(self)
+    }
+
     @IBAction func flagButtonTapped(sender: StreamFooterButton) {
         postbarDelegate?.flagCommentButtonTapped(self.indexPath)
     }
