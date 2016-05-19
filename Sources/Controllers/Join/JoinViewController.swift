@@ -116,7 +116,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         keyboardWillHideObserver?.removeObserver()
     }
 
-    private func showMessageLabel(messageText:String) {
+    private func showMessageLabel(messageText: String) {
         messageLabel.setLabelText(messageText, color: .blackColor())
 
         animate {
@@ -136,7 +136,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         }
     }
 
-    private func showErrorLabel(errorText:String) {
+    private func showErrorLabel(errorText: String) {
         errorLabel.setLabelText(errorText)
 
         animate {

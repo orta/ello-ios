@@ -9,8 +9,8 @@
 import Foundation
 
 extension NSAttributedString {
-    func append(str : NSAttributedString) -> NSAttributedString {
-        let retval : NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
+    func append(str: NSAttributedString) -> NSAttributedString {
+        let retval: NSMutableAttributedString = NSMutableAttributedString(attributedString: self)
         retval.appendAttributedString(str)
         return NSAttributedString(attributedString: retval)
     }

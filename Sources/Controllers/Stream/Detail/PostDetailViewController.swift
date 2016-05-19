@@ -46,7 +46,7 @@ public class PostDetailViewController: StreamableViewController {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true)
         updateInsets()
@@ -86,8 +86,7 @@ public class PostDetailViewController: StreamableViewController {
                    self.showPostLoadFailure()
                 }
                 self.streamViewController.doneLoading()
-            }
-        )
+            })
     }
 
     private func showPostLoadFailure() {
@@ -300,8 +299,7 @@ public class PostDetailViewController: StreamableViewController {
                 failure: { (error, statusCode)  in
                     // TODO: add error handling
                     print("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
-                }
-            )
+                })
         }
         let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
 

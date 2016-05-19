@@ -36,7 +36,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion: StreamTextCellSizeCalculated) {
+    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.originalWidth = width
@@ -75,7 +75,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    private func assignCellHeight(webContentHeight : CGFloat) {
+    private func assignCellHeight(webContentHeight: CGFloat) {
         if let cellItem = self.cellItems.safeValue(0) {
             self.cellItems.removeAtIndex(0)
             StreamNotificationCellSizeCalculator.assignTotalHeight(webContentHeight, cellItem: cellItem, cellWidth: originalWidth)

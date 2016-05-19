@@ -36,7 +36,7 @@ public class JSONAble: NSObject, NSCoding {
         coder.encodeObject(version, forKey: "version")
     }
 
-    public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return JSONAble(version: JSONAbleVersion)
     }
 

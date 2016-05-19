@@ -8,10 +8,10 @@
 
 @objc
 public protocol NotificationsScreenDelegate {
-    func activatedCategory(filter : String)
+    func activatedCategory(filter: String)
 }
 
-public class NotificationsScreen : UIView {
+public class NotificationsScreen: UIView {
 
     private let filterAllButton = NotificationsScreen.filterButton(title: "All")
     private let filterCommentsButton = NotificationsScreen.filterButton(image: .Comments)
@@ -43,7 +43,7 @@ public class NotificationsScreen : UIView {
     }
 
 
-    weak var delegate : NotificationsScreenDelegate?
+    weak var delegate: NotificationsScreenDelegate?
     let filterBar = NotificationsFilterBar()
     let streamContainer = UIView()
 
@@ -84,32 +84,32 @@ public class NotificationsScreen : UIView {
             .withHeight(self.frame.height)
     }
 
-    func allButtonTapped(sender : NotificationFilterButton) {
+    func allButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.All.rawValue)
     }
 
-    func commentsButtonTapped(sender : NotificationFilterButton) {
+    func commentsButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.Comments.rawValue)
     }
 
-    func mentionButtonTapped(sender : NotificationFilterButton) {
+    func mentionButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.Mention.rawValue)
     }
 
-    func heartButtonTapped(sender : NotificationFilterButton) {
+    func heartButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.Heart.rawValue)
     }
 
-    func repostButtonTapped(sender : NotificationFilterButton) {
+    func repostButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.Repost.rawValue)
     }
 
-    func inviteButtonTapped(sender : NotificationFilterButton) {
+    func inviteButtonTapped(sender: NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedCategory(NotificationFilterType.Relationship.rawValue)
     }

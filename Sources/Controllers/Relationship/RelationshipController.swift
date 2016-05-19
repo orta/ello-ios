@@ -105,7 +105,6 @@ extension RelationshipController: RelationshipDelegate {
                 complete(status: .Failure, relationship: nil, isFinalValue: true)
 
                 self.delegate?.relationshipChanged(userId, status: .Failure, relationship: nil)
-            }
-        )
+            })
     }
 }

@@ -44,8 +44,7 @@ public class StreamService: NSObject {
             },
             failure: { (error, statusCode) in
                 failure?(error: error, statusCode: statusCode)
-            }
-        )
+            })
     }
 
     public func loadUser(
@@ -72,7 +71,7 @@ public class StreamService: NSObject {
     }
 
     public func loadMoreCommentsForPost(
-        postId:String,
+        postId: String,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
         failure: ElloFailureCompletion,
@@ -81,7 +80,7 @@ public class StreamService: NSObject {
         ElloProvider.shared.elloRequest(
             .PostComments(postId: postId),
             success: { (data, responseConfig) in
-                if let comments:[ElloComment] = data as? [ElloComment] {
+                if let comments: [ElloComment] = data as? [ElloComment] {
 
                     for comment in comments {
                         comment.loadedFromPostId = postId

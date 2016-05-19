@@ -11,8 +11,8 @@ import Foundation
 public struct StreamEmbedCellPresenter {
 
     public static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)

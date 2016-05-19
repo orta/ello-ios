@@ -124,8 +124,7 @@ public class StreamImageCell: StreamRegionableCell {
                             self.imageView.alpha = 1.0
                         }, completion: { _ in
                             self.circle.stopPulse()
-                        }
-                    )
+                        })
                 }
                 else {
                     self.imageView.alpha = 1.0

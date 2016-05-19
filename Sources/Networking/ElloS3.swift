@@ -18,18 +18,18 @@ import Foundation
 
 
 public class ElloS3 {
-    let filename : String
-    let data : NSData
-    let contentType : String
-    let credentials : AmazonCredentials
+    let filename: String
+    let data: NSData
+    let contentType: String
+    let credentials: AmazonCredentials
 
-    typealias SuccessHandler = (response : NSData) -> Void
-    typealias FailureHandler = (error : NSError) -> Void
-    typealias ProgressHandler = (progress : Float) -> Void
+    typealias SuccessHandler = (response: NSData) -> Void
+    typealias FailureHandler = (error: NSError) -> Void
+    typealias ProgressHandler = (progress: Float) -> Void
 
-    private var successHandler : SuccessHandler?
-    private var failureHandler : FailureHandler?
-    private var progressHandler : ProgressHandler?
+    private var successHandler: SuccessHandler?
+    private var failureHandler: FailureHandler?
+    private var progressHandler: ProgressHandler?
 
     public init(credentials: AmazonCredentials, filename: String, data: NSData, contentType: String) {
         self.filename = filename
@@ -38,17 +38,17 @@ public class ElloS3 {
         self.credentials = credentials
     }
 
-    func onSuccess(handler : SuccessHandler) -> Self {
+    func onSuccess(handler: SuccessHandler) -> Self {
         self.successHandler = handler
         return self
     }
 
-    func onFailure(handler : FailureHandler) -> Self {
+    func onFailure(handler: FailureHandler) -> Self {
         self.failureHandler = handler
         return self
     }
 
-    func onProgress(handler : ProgressHandler) -> Self {
+    func onProgress(handler: ProgressHandler) -> Self {
         self.progressHandler = handler
         return self
     }
@@ -72,7 +72,7 @@ public class ElloS3 {
         let request = builder.buildRequest()
 
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { (data : NSData?, response : NSURLResponse?, error : NSError?) in
+        let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
             nextTick {
                 let httpResponse = response as? NSHTTPURLResponse
                 if let error = error {

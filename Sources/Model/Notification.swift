@@ -59,7 +59,7 @@ public final class Notification: JSONAble, Authorable {
     public var postId: String?
     // computed
     public var createdAt: NSDate { return activity.createdAt }
-    public var groupId:String { return activity.id }
+    public var groupId: String { return activity.id }
     public var subject: JSONAble? { willSet { attributedTitleStore = nil } }
 
     // notification specific

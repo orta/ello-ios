@@ -66,7 +66,7 @@ public class ElloNetworkError: JSONAble {
         super.init(coder: aDecoder)
     }
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         let title = json["title"].stringValue
         var codeType = CodeType.unknown

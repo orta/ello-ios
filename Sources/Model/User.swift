@@ -177,7 +177,7 @@ public final class User: JSONAble {
         return other
     }
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.UserFromJSON.rawValue)
         // create user

@@ -10,7 +10,7 @@ import Foundation
 
 public struct StreamTextCellHTML {
 
-    static var indexFile:String?
+    static var indexFile: String?
 
     public static func indexFileAsString() -> String {
         if let indexFile = StreamTextCellHTML.indexFile {
@@ -19,7 +19,7 @@ public struct StreamTextCellHTML {
         else {
             let indexHTML = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "www")!
 
-            var error:NSError?
+            var error: NSError?
             let indexAsText: NSString?
             do {
                 indexAsText = try NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding)
@@ -39,7 +39,7 @@ public struct StreamTextCellHTML {
         }
     }
 
-    public static func postHTML(string:String) -> String {
+    public static func postHTML(string: String) -> String {
         let htmlString = StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{base-url}}", withString: ElloURI.baseURL)
         return htmlString.stringByReplacingOccurrencesOfString("{{post-content}}", withString: string)
     }

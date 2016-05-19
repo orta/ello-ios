@@ -360,7 +360,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func startPosting(authorId: String, _ content: [PostEditingService.PostContentRegion]) {
-        let service : PostEditingService
+        let service: PostEditingService
         let didGoToPreviousTab: Bool
 
         if let parentPost = parentPost {
@@ -405,8 +405,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 where didGoToPreviousTab {
                     vc.selectedTab = .Omnibar
                 }
-            }
-        )
+            })
     }
 
     private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {

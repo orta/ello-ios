@@ -15,7 +15,7 @@ public final class UnknownRegion: NSObject, Regionable, NSCoding {
     public let version = UnknownRegionVersion
     public var isRepost: Bool = false
 
-    public var kind:String { return RegionKind.Unknown.rawValue }
+    public var kind: String { return RegionKind.Unknown.rawValue }
 
     public func coding() -> NSCoding {
         return self

@@ -16,11 +16,11 @@
 import Foundation
 import UIKit
 
-public func ==(lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+public func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
     switch (lhs, rhs) {
     case let (.Text(a), .Text(b)):
         return a == b
-    case let (.ImageData(la, _, _),.ImageData(ra, _, _)):
+    case let (.ImageData(la, _, _), .ImageData(ra, _, _)):
         return la == ra
     default:
         return false
