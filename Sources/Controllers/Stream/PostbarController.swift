@@ -345,7 +345,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         return dataSource.commentForIndexPath(indexPath)
     }
 
-    private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
+    private func commentLoadSuccess(post: Post, comments jsonables: [JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
 
@@ -384,7 +384,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    private func commentLoadFailure(error:NSError, statusCode:Int?) {
+    private func commentLoadFailure(error: NSError, statusCode: Int?) {
     }
 
 }

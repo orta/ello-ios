@@ -43,7 +43,7 @@ public class StreamContainerViewController: StreamableViewController {
     @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
 
     public var streamsSegmentedControl: UISegmentedControl!
-    public var streamControllerViews:[UIView] = []
+    public var streamControllerViews: [UIView] = []
 
     private var childStreamControllers: [StreamViewController] {
         return self.childViewControllers.filter { $0 is StreamViewController } as! [StreamViewController]
@@ -157,8 +157,8 @@ public class StreamContainerViewController: StreamableViewController {
     private func setupChildViewControllers() {
         scrollView.scrollEnabled = false
         scrollView.scrollsToTop = false
-        let width:CGFloat = scrollView.frame.size.width
-        let height:CGFloat = scrollView.frame.size.height
+        let width: CGFloat = scrollView.frame.size.width
+        let height: CGFloat = scrollView.frame.size.height
 
         for (index, kind) in streamValues.enumerate() {
             let vc = StreamViewController.instantiateFromStoryboard()

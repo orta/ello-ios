@@ -14,8 +14,8 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
 
     typealias WebContentReady = (webView: UIWebView) -> Void
 
-    @IBOutlet weak var webView:UIWebView!
-    @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
+    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     var userDelegate: UserDelegate?
     var webContentReady: WebContentReady?

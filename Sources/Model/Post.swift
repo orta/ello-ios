@@ -71,7 +71,7 @@ public final class Post: JSONAble, Authorable {
         return nil
     }
     // links post with comments
-    public var groupId:String { return id }
+    public var groupId: String { return id }
     // computed properties
     public var shareLink: String? {
         get {
@@ -200,7 +200,7 @@ public final class Post: JSONAble, Authorable {
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.PostFromJSON.rawValue)
         let repostContent = RegionParser.regions("repost_content", json: json)
