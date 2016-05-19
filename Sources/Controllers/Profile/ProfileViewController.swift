@@ -247,8 +247,7 @@ public class ProfileViewController: StreamableViewController {
                     self.showUserLoadFailure()
                 }
                 self.streamViewController.doneLoading()
-            }
-        )
+            })
     }
 
     private func showUserLoadFailure() {

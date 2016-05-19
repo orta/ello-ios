@@ -87,8 +87,7 @@ private extension NewContentService {
 
                 done()
             },
-            failure: { _ in done() }
-        )
+            failure: { _ in done() })
     }
 
     func checkForNewStreamContent(done: BasicBlock = {}) {
@@ -107,7 +106,6 @@ private extension NewContentService {
 
                 done()
             },
-            failure: { _ in done() }
-        )
+            failure: { _ in done() })
     }
 }

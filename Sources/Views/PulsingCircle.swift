@@ -83,8 +83,7 @@ public class PulsingCircle: UIView {
                             if self.isPulsing {
                                 self.keepPulsing()
                             }
-                        }
-                    )
+                        })
                 }
         })
     }

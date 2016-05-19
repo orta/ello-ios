@@ -302,8 +302,7 @@ public class StreamViewController: BaseElloViewController {
                 }, noContent: {
                     print("nothing new")
                     self.doneLoading()
-                }
-            )
+                })
         }
     }
 
@@ -568,8 +567,7 @@ extension StreamViewController: InviteDelegate {
                 failure: { _ in
                     ElloHUD.hideLoadingHudInView(self.view)
                     didUpdate()
-                }
-            )
+                })
         }
     }
 }
@@ -585,8 +583,7 @@ extension StreamViewController: ColumnToggleDelegate {
             self.collectionView.alpha = 0
             }, completion: { _ in
                 self.toggleGrid(isGridView)
-            }
-        )
+            })
     }
 
     private func toggleGrid(isGridView: Bool) {
@@ -983,8 +980,7 @@ extension StreamViewController: UIScrollViewDelegate {
                     noContent: {
                         self.allOlderPagesLoaded = true
                         self.scrollLoaded()
-                    }
-                )
+                    })
             }
         }
     }

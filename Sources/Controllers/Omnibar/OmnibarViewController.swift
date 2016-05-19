@@ -405,8 +405,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 where didGoToPreviousTab {
                     vc.selectedTab = .Omnibar
                 }
-            }
-        )
+            })
     }
 
     private func emitSuccess(postOrComment: AnyObject, didGoToPreviousTab: Bool) {

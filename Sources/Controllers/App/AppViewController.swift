@@ -144,8 +144,7 @@ public class AppViewController: BaseElloViewController {
                     },
                     failure: { error in
                         self.failedToLoadCurrentUser(failureCompletion, error: error)
-                    }
-                )
+                    })
             },
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failureCompletion, error: error)

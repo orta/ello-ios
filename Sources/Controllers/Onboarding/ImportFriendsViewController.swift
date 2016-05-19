@@ -58,8 +58,7 @@ public class ImportFriendsViewController: OnboardingUserListViewController {
                 let contacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map { ($0, .None) }
                 self.setContacts(contacts)
                 self.streamViewController.doneLoading()
-            }
-        )
+            })
     }
 
     public func setContacts(contacts: [(LocalPerson, User?)]) {

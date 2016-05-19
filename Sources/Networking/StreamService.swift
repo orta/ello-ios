@@ -44,8 +44,7 @@ public class StreamService: NSObject {
             },
             failure: { (error, statusCode) in
                 failure?(error: error, statusCode: statusCode)
-            }
-        )
+            })
     }
 
     public func loadUser(
