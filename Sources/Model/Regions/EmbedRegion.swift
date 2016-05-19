@@ -89,7 +89,7 @@ public final class EmbedRegion: JSONAble, Regionable {
 
     // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.EmbedRegionFromJSON.rawValue)
         // create region
@@ -109,14 +109,14 @@ public final class EmbedRegion: JSONAble, Regionable {
 
 // MARK: Regionable
 
-    public var kind:String { return RegionKind.Embed.rawValue }
+    public var kind: String { return RegionKind.Embed.rawValue }
     
     public func coding() -> NSCoding {
         return self
     }
 
     public func toJSON() -> [String: AnyObject] {
-        if let url : String = self.url.absoluteString {
+        if let url: String = self.url.absoluteString {
             return [
                 "kind": self.kind,
                 "data": [

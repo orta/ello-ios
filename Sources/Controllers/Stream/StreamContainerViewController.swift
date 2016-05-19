@@ -29,7 +29,7 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    enum Notifications : String {
+    enum Notifications: String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
     }
 
@@ -43,7 +43,7 @@ public class StreamContainerViewController: StreamableViewController {
     @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
 
     public var streamsSegmentedControl: UISegmentedControl!
-    public var streamControllerViews:[UIView] = []
+    public var streamControllerViews: [UIView] = []
 
     private var childStreamControllers: [StreamViewController] {
         return self.childViewControllers.filter { $0 is StreamViewController } as! [StreamViewController]
@@ -112,7 +112,7 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()
@@ -157,8 +157,8 @@ public class StreamContainerViewController: StreamableViewController {
     private func setupChildViewControllers() {
         scrollView.scrollEnabled = false
         scrollView.scrollsToTop = false
-        let width:CGFloat = scrollView.frame.size.width
-        let height:CGFloat = scrollView.frame.size.height
+        let width: CGFloat = scrollView.frame.size.width
+        let height: CGFloat = scrollView.frame.size.height
 
         for (index, kind) in streamValues.enumerate() {
             let vc = StreamViewController.instantiateFromStoryboard()

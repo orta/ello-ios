@@ -56,7 +56,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             return searchControlsContainer.frame.size.height - 43
         }
     }
-    weak public var delegate : SearchScreenDelegate?
+    weak public var delegate: SearchScreenDelegate?
 
 // MARK: init
 

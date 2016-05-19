@@ -11,12 +11,12 @@ import Crashlytics
 let AmazonCredentialsVersion = 1
 
 @objc(AmazonCredentials)
-public class AmazonCredentials : JSONAble {
-    public let accessKey : String
-    public let endpoint : String
-    public let policy : String
-    public let prefix : String
-    public let signature : String
+public class AmazonCredentials: JSONAble {
+    public let accessKey: String
+    public let endpoint: String
+    public let policy: String
+    public let prefix: String
+    public let signature: String
 
     public init(accessKey: String, endpoint: String, policy: String, prefix: String, signature: String) {
         self.accessKey = accessKey

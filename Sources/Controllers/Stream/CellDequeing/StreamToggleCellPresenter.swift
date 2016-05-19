@@ -11,8 +11,8 @@ import Foundation
 public struct StreamToggleCellPresenter {
 
     static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)

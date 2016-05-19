@@ -37,8 +37,7 @@ public struct PostService {
             },
             failure: { (error, statusCode) in
                 failure?(error: error, statusCode: statusCode)
-            }
-        )
+            })
     }
 
     public func loadComment(
@@ -60,8 +59,7 @@ public struct PostService {
             },
             failure: { (error, statusCode) in
                 failure?(error: error, statusCode: statusCode)
-            }
-        )
+            })
     }
 
     public func loadReplyAll(
@@ -81,8 +79,7 @@ public struct PostService {
                 else {
                     failure()
                 }
-            }, failure: { _ in failure() }
-        )
+            }, failure: { _ in failure() })
     }
 
     public func deletePost(

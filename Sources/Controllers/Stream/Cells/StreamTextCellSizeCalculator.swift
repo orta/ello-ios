@@ -16,18 +16,18 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     public var cellItems: [StreamCellItem] = []
     public var completion: StreamTextCellSizeCalculated = {}
 
-    public static let srcRegex:NSRegularExpression  = try! NSRegularExpression(
+    public static let srcRegex: NSRegularExpression  = try! NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
         options: NSRegularExpressionOptions.CaseInsensitive)
 
-    public init(webView:UIWebView) {
+    public init(webView: UIWebView) {
         self.webView = webView
         self.maxWidth = 0
         super.init()
         self.webView.delegate = self
     }
 
-    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
+    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.maxWidth = width
@@ -83,7 +83,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         // finds image tags, replaces them with data:image/png (inlines image data)
         let range = NSMakeRange(0, html.characters.count)
 
-        let strippedHtml :String = srcRegex.stringByReplacingMatchesInString(html,
+        let strippedHtml: String = srcRegex.stringByReplacingMatchesInString(html,
             options: NSMatchingOptions(),
             range:range,
             withTemplate: "src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==")

@@ -68,7 +68,7 @@ public final class Profile: JSONAble {
         subscribeToWeeklyEllo: Bool,
         subscribeToOnboardingDrip: Bool,
         notifyOfCommentsViaPush: Bool,
-        notifyOfLovesViaPush : Bool,
+        notifyOfLovesViaPush: Bool,
         notifyOfMentionsViaPush: Bool,
         notifyOfRepostsViaPush: Bool,
         notifyOfNewFollowersViaPush: Bool,
@@ -177,7 +177,7 @@ public final class Profile: JSONAble {
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ProfileFromJSON.rawValue)
         // create profile

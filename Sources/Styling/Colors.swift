@@ -9,19 +9,19 @@
 import UIKit
 
 private struct ElloColors {
-    static let grey231F20       : UIColor = UIColor(hex: 0x231F20)
-    static let grey3            : UIColor = UIColor(hex: 0x333333)
-    static let grey4D           : UIColor = UIColor(hex: 0x4D4D4D)
-    static let grey5            : UIColor = UIColor(hex: 0x555555)
-    static let grey6            : UIColor = UIColor(hex: 0x666666)
-    static let greyA            : UIColor = UIColor(hex: 0xAAAAAA)
-    static let greyC            : UIColor = UIColor(hex: 0xCCCCCC)
-    static let greyE5           : UIColor = UIColor(hex: 0xE5E5E5)
-    static let greyF1           : UIColor = UIColor(hex: 0xF1F1F1)
-    static let greyF2           : UIColor = UIColor(hex: 0xF2F2F2)
-    static let yellowFFFFCC     : UIColor = UIColor(hex: 0xFFFFCC)
-    static let redFFCCCC        : UIColor = UIColor(hex: 0xFFCCCC)
-    static let modalBackground  : UIColor = UIColor(white: 0x000000, alpha: 0.7)
+    static let grey231F20: UIColor = UIColor(hex: 0x231F20)
+    static let grey3: UIColor = UIColor(hex: 0x333333)
+    static let grey4D: UIColor = UIColor(hex: 0x4D4D4D)
+    static let grey5: UIColor = UIColor(hex: 0x555555)
+    static let grey6: UIColor = UIColor(hex: 0x666666)
+    static let greyA: UIColor = UIColor(hex: 0xAAAAAA)
+    static let greyC: UIColor = UIColor(hex: 0xCCCCCC)
+    static let greyE5: UIColor = UIColor(hex: 0xE5E5E5)
+    static let greyF1: UIColor = UIColor(hex: 0xF1F1F1)
+    static let greyF2: UIColor = UIColor(hex: 0xF2F2F2)
+    static let yellowFFFFCC: UIColor = UIColor(hex: 0xFFFFCC)
+    static let redFFCCCC: UIColor = UIColor(hex: 0xFFCCCC)
+    static let modalBackground: UIColor = UIColor(white: 0x000000, alpha: 0.7)
 }
 
 public extension UIColor {

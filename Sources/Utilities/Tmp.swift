@@ -68,14 +68,14 @@ public struct Tmp {
     }
 
     public static func read(fileName: String) -> String? {
-        if let data : NSData = read(fileName) {
+        if let data: NSData = read(fileName) {
             return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
         }
         return nil
     }
 
     public static func read(fileName: String) -> UIImage? {
-        if let data : NSData = read(fileName) {
+        if let data: NSData = read(fileName) {
             return UIImage(data: data)
         }
         return nil

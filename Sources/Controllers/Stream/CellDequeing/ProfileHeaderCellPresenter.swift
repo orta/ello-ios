@@ -19,7 +19,7 @@ public struct ProfileHeaderCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? ProfileHeaderCell {
-            let ratio:CGFloat = 16.0/9.0
+            let ratio: CGFloat = 16.0/9.0
             let user = streamCellItem.jsonable as! User
             cell.user = user
             cell.currentUser = currentUser

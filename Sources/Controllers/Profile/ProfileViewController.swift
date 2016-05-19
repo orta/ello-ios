@@ -160,7 +160,7 @@ public class ProfileViewController: StreamableViewController {
         gradientLayer.frame.size = gradientView.frame.size
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()
@@ -247,8 +247,7 @@ public class ProfileViewController: StreamableViewController {
                     self.showUserLoadFailure()
                 }
                 self.streamViewController.doneLoading()
-            }
-        )
+            })
     }
 
     private func showUserLoadFailure() {
@@ -531,7 +530,7 @@ extension ProfileViewController: EditProfileResponder {
 // MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController {
 
-    override public func streamViewDidScroll(scrollView : UIScrollView) {
+    override public func streamViewDidScroll(scrollView: UIScrollView) {
         if let start = coverImageHeightStart {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }

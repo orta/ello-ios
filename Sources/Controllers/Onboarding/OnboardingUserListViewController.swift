@@ -219,8 +219,7 @@ extension OnboardingUserListViewController {
             failure: { (error, statusCode) in
                 self.streamViewController.doneLoading()
                 self.onboardingViewController?.canGoNext = true
-            }
-        )
+            })
     }
 
     func usersLoaded(users: [User]) {

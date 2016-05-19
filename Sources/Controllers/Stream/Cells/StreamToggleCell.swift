@@ -12,5 +12,5 @@ public class StreamToggleCell: UICollectionViewCell {
     let closedMessage = InterfaceString.NSFW.Show
     let openedMessage = InterfaceString.NSFW.Hide
 
-    weak var label:ElloToggleLabel!
+    weak var label: ElloToggleLabel!
 }

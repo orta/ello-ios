@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PostbarDelegate : NSObjectProtocol {
+public protocol PostbarDelegate: NSObjectProtocol {
     func viewsButtonTapped(indexPath: NSIndexPath)
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
@@ -111,8 +111,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                             let nextIndexPath = NSIndexPath(forItem: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
                             self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                         }
-                    }
-                )
+                    })
             }
         }
         else {
@@ -136,8 +135,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                     failure: { (error, statusCode)  in
                         // TODO: add error handling
                         print("failed to delete comment, error: \(error.elloErrorMessage ?? error.localizedDescription)")
-                    }
-                )
+                    })
             }
         }
         let noAction = AlertAction(title: InterfaceString.No, style: .Light, handler: .None)
@@ -189,8 +187,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             failure: { error, statusCode in
                 cell?.lovesControl.userInteractionEnabled = true
                 print("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
-            }
-        )
+            })
     }
 
     private func lovePost(post: Post, cell: StreamFooterCell?) {
@@ -213,8 +210,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             failure: { error, statusCode in
                 cell?.lovesControl.userInteractionEnabled = true
                 print("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
-            }
-        )
+            })
     }
 
     public func repostButtonTapped(indexPath: NSIndexPath) {
@@ -269,8 +265,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                 alertController.dismissable = true
                 let okAction = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
                 alertController.addAction(okAction)
-            }
-        )
+            })
     }
 
     public func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView) {
@@ -350,7 +345,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         return dataSource.commentForIndexPath(indexPath)
     }
 
-    private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
+    private func commentLoadSuccess(post: Post, comments jsonables: [JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
 
@@ -389,7 +384,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    private func commentLoadFailure(error:NSError, statusCode:Int?) {
+    private func commentLoadFailure(error: NSError, statusCode: Int?) {
     }
 
 }

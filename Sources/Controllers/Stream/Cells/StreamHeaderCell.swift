@@ -78,7 +78,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         didSet { setNeedsDisplay() }
     }
 
-    var timeStamp:String {
+    var timeStamp: String {
         get { return self.timestampLabel.text ?? "" }
         set {
             timestampLabel.text = newValue
@@ -331,7 +331,7 @@ public class StreamHeaderCell: UICollectionViewCell {
             )
     }
 
-    private func fixedItem(width:CGFloat) -> UIBarButtonItem {
+    private func fixedItem(width: CGFloat) -> UIBarButtonItem {
         let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         item.width = width
         return item

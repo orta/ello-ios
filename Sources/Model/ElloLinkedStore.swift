@@ -29,7 +29,7 @@ public struct ElloLinkedStore {
         writeConnection = database.newConnection()
     }
 
-    public func parseLinked(linked:[String:[[String:AnyObject]]], completion: ElloEmptyCompletion) {
+    public func parseLinked(linked: [String:[[String:AnyObject]]], completion: ElloEmptyCompletion) {
         if AppSetup.sharedState.isTesting {
             parseLinkedSync(linked)
             completion()

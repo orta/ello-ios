@@ -12,14 +12,14 @@ import UIKit
 
 public class ContentFlagger {
 
-    var contentFlagged:Bool?
+    var contentFlagged: Bool?
 
     weak public var presentingController: UIViewController?
     let flaggableId: String
     let contentType: ContentType
     var commentPostId: String?
 
-    public init(presentingController: UIViewController?, flaggableId: String, contentType: ContentType, commentPostId:String?) {
+    public init(presentingController: UIViewController?, flaggableId: String, contentType: ContentType, commentPostId: String?) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
         self.contentType = contentType
@@ -58,7 +58,7 @@ public class ContentFlagger {
         let option = AlertOption(rawValue: action.title)
         if let option = option {
 
-            let endPoint:ElloAPI
+            let endPoint: ElloAPI
             switch contentType {
             case .Post:
                 endPoint = ElloAPI.FlagPost(postId: flaggableId, kind: option.kind)

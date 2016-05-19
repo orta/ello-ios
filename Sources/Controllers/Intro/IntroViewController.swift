@@ -7,9 +7,9 @@ import Foundation
 
 public class IntroViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    var pageViewController : UIPageViewController?
+    var pageViewController: UIPageViewController?
     var viewControllers: [IntroPageController] = []
-    var pageControl:UIPageControl = UIPageControl()
+    var pageControl: UIPageControl = UIPageControl()
 
     override public func viewDidLoad()
     {
@@ -97,7 +97,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         view.addSubview(bar)
     }
 
-    func didTouchSkipIntro(sender:UIButton!) {
+    func didTouchSkipIntro(sender: UIButton!) {
         self.dismissViewControllerAnimated(false, completion:nil)
     }
 
@@ -131,7 +131,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         return viewControllerAtIndex(index)
     }
 
-    func viewControllerAtIndex(index : Int) -> UIViewController? {
+    func viewControllerAtIndex(index: Int) -> UIViewController? {
 
         if index >= viewControllers.count {
             return nil

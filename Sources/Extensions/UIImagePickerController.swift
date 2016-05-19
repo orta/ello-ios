@@ -83,8 +83,7 @@ extension UIImagePickerController {
                     handler: { _ in
                         Tracker.sharedTracker.imageAddedFromCamera()
                         callback(.Controller(.elloCameraPickerController))
-                    }
-                )
+                    })
             )
         }
         controller.addAction(
@@ -96,8 +95,7 @@ extension UIImagePickerController {
                     callback(.Controller(.elloPhotoLibraryPickerController))
                 }, secondaryHandler: { _, numberOfPhotos in
                     callback(.Images(controller.selectedImageAssets))
-                }
-            )
+                })
         )
         controller.addAction(ImagePickerAction(title: InterfaceString.Cancel, style: .Cancel, handler: { _ in
             Tracker.sharedTracker.addImageCanceled()

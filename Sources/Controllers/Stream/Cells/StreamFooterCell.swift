@@ -126,29 +126,29 @@ public class StreamFooterCell: UICollectionViewCell {
         addButtonHandlers()
     }
 
-    public var views:String? {
+    public var views: String? {
         get { return viewsControl.title }
         set { viewsControl.title = newValue }
     }
 
-    public var comments:String? {
+    public var comments: String? {
         get { return commentsControl.title }
         set { commentsControl.title = newValue }
     }
 
-    public var loves:String? {
+    public var loves: String? {
         get { return lovesControl.title }
         set { lovesControl.title = newValue }
     }
 
-    public var reposts:String? {
+    public var reposts: String? {
         get { return repostControl.title }
         set { repostControl.title = newValue }
     }
 
 // MARK: - Private
 
-    private func fixedItem(width:CGFloat) -> UIBarButtonItem {
+    private func fixedItem(width: CGFloat) -> UIBarButtonItem {
         let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         item.width = width
         return item

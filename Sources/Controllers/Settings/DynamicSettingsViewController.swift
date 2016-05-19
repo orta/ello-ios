@@ -95,8 +95,7 @@ class DynamicSettingsViewController: UITableViewController {
             },
             noContent: {
                 self.hideLoadingHud()
-            }
-        )
+            })
     }
 
     private func reloadTables() {

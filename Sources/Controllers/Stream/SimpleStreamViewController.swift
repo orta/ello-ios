@@ -45,7 +45,7 @@ public class SimpleStreamViewController: StreamableViewController {
         super.didSetCurrentUser()
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true)
         updateInsets()

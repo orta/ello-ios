@@ -8,7 +8,7 @@
 
 public class StreamFooterButton: UIButton {
 
-    var attributedText:NSMutableAttributedString = NSMutableAttributedString(string: "")
+    var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "")
 
     func setButtonTitleWithPadding(title: String?, titlePadding: CGFloat = 4.0, contentPadding: CGFloat = 5.0) {
 

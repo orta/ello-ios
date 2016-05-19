@@ -11,7 +11,7 @@ import QuartzCore
 public class PulsingCircle: UIView {
 
     private lazy var pulser: UIView = {
-        var size : CGFloat = 60
+        var size: CGFloat = 60
         var view = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
         view.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         view.autoresizingMask = [.FlexibleTopMargin, .FlexibleBottomMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
@@ -83,8 +83,7 @@ public class PulsingCircle: UIView {
                             if self.isPulsing {
                                 self.keepPulsing()
                             }
-                        }
-                    )
+                        })
                 }
         })
     }

@@ -17,7 +17,7 @@ public typealias CellConfigClosure = (
 ) -> Void
 
 // MARK: Equatable
-public func ==(lhs: StreamCellType, rhs: StreamCellType) -> Bool {
+public func == (lhs: StreamCellType, rhs: StreamCellType) -> Bool {
     return lhs.identifier == rhs.identifier
 }
 
