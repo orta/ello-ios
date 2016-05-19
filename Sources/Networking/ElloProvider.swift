@@ -310,7 +310,7 @@ extension ElloProvider {
         postNotification(AuthenticationNotifications.invalidToken, value: true)
     }
 
-    private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion) {
+    private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
         var newResponseConfig: ResponseConfig?
         var mappedObjects: AnyObject?
         let completion: ElloEmptyCompletion = {
@@ -344,7 +344,7 @@ extension ElloProvider {
         }
     }
 
-    private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion) {
+    private func handleNetworkSuccess(data: NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success: ElloSuccessCompletion, failure: ElloFailureCompletion) {
         let (mappedJSON, error): (AnyObject?, NSError?) = Mapper.mapJSON(data)
         let responseConfig = parseResponse(response)
         if mappedJSON != nil && error == nil {
@@ -364,7 +364,7 @@ extension ElloProvider {
         }
     }
 
-    private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
+    private func isEmptySuccess(data: NSData, statusCode: Int?) -> Bool {
         // accepted || no content
         if statusCode == 202 || statusCode == 204 {
             return true

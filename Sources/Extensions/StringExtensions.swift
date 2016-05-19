@@ -11,10 +11,10 @@ import Keys
 
 
 // static variables, to store HTML entities
-private var entityReverseLookup : [Character : String]!
-private var entityLookup : [String : String]!
-private var entitiesEncodedPredicate : dispatch_once_t = 0
-private var entitiesDecodedPredicate : dispatch_once_t = 0
+private var entityReverseLookup: [Character : String]!
+private var entityLookup: [String : String]!
+private var entitiesEncodedPredicate: dispatch_once_t = 0
+private var entitiesDecodedPredicate: dispatch_once_t = 0
 
 public extension String {
 
@@ -36,7 +36,7 @@ public extension String {
     }
 
     func entitiesEncoded() -> String {
-        let scalarLookup : [(String, String)] = [
+        let scalarLookup: [(String, String)] = [
             ("&", "&amp;"),
             ("\"", "&quot;"),
             ("'", "&#039;"),
@@ -312,14 +312,14 @@ public extension String {
         var entitiesDecoded = ""
 
         while !scanner.atEnd {
-            var scanned : NSString?
+            var scanned: NSString?
 
             if scanner.scanUpToString("&", intoString:&scanned) {
                 entitiesDecoded += scanned! as String
             }
 
             if scanner.scanString("&", intoString: nil) {
-                var afterAmpersandPtr : NSString?
+                var afterAmpersandPtr: NSString?
                 if scanner.scanUpToString(";", intoString: &afterAmpersandPtr) {
                     let afterAmpersand = afterAmpersandPtr!
 

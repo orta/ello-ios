@@ -97,7 +97,7 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
                     }
 
                 },
-                failure: { (_,_) in
+                failure: { (_, _) in
                     self.tableView.reloadData()
                 })
         }

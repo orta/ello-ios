@@ -25,8 +25,8 @@ public enum InteractionVisibility {
 public struct StreamFooterCellPresenter {
 
     public static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)
@@ -80,7 +80,7 @@ public struct StreamFooterCellPresenter {
 
     private static func configureCommentControl(
         cell: StreamFooterCell,
-        streamCellItem:StreamCellItem,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind )
     {
         if streamKind.isDetail {

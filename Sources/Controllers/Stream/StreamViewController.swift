@@ -66,7 +66,7 @@ public class StreamViewController: BaseElloViewController {
     private let defaultNoResultsTopConstant: CGFloat = 113
     var canLoadNext = false
 
-    var streamables:[Streamable]?
+    var streamables: [Streamable]?
 
     var currentJSONables = [JSONAble]()
 
@@ -642,17 +642,20 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 // MARK: StreamViewController: StreamCollectionViewLayoutDelegate
 extension StreamViewController: StreamCollectionViewLayoutDelegate {
 
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+    public func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
             return CGSizeMake(UIWindow.windowWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns: 1))
     }
 
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+    public func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         groupForItemAtIndexPath indexPath: NSIndexPath) -> String {
             return dataSource.groupForIndexPath(indexPath)
     }
 
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+    public func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
             return dataSource.heightForIndexPath(indexPath, numberOfColumns: numberOfColumns)
     }

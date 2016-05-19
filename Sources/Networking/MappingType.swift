@@ -74,7 +74,7 @@ public enum MappingType: String {
 let UnknownJSONAbleVersion = 1
 
 @objc(UnknownJSONAble)
-public class UnknownJSONAble : JSONAble {
+public class UnknownJSONAble: JSONAble {
      override class public func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UnknownJSONAble(version: UnknownJSONAbleVersion)
     }

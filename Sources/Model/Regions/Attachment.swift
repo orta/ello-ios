@@ -61,7 +61,7 @@ public final class Attachment: JSONAble {
 
 // MARK: JSONAble
 
-    override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override class public func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AttachmentFromJSON.rawValue)
         var url = json["url"].stringValue

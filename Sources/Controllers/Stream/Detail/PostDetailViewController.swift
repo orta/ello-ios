@@ -46,7 +46,7 @@ public class PostDetailViewController: StreamableViewController {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true)
         updateInsets()

@@ -45,8 +45,8 @@ public struct APIKeys {
     }
 
     public init() {
-        let key : String = ElloKeys().clientKey()
-        let secret : String = ElloKeys().clientSecret()
+        let key: String = ElloKeys().clientKey()
+        let secret: String = ElloKeys().clientSecret()
         self.init(key: key, secret: secret)
     }
 }

@@ -93,7 +93,7 @@ public class ElloTabBarController: UIViewController, HasAppController {
         }
     }
 
-    var currentUser : User?
+    var currentUser: User?
     var profileResponseConfig: ResponseConfig?
 
     var narrationView = NarrationView()

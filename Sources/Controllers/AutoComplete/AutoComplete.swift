@@ -23,7 +23,7 @@ public struct AutoCompleteMatch: CustomStringConvertible, Equatable {
     }
 }
 
-public func ==(lhs: AutoCompleteMatch, rhs: AutoCompleteMatch) -> Bool {
+public func == (lhs: AutoCompleteMatch, rhs: AutoCompleteMatch) -> Bool {
     return lhs.type == rhs.type && lhs.range == rhs.range && lhs.text == rhs.text
 }
 
