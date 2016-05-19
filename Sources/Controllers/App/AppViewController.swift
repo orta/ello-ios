@@ -23,7 +23,6 @@ protocol HasAppController {
 public class AppViewController: BaseElloViewController {
     @IBOutlet weak public var scrollView: UIScrollView!
     weak public var logoView: ElloLogoView!
-    @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
     @IBOutlet weak public var socialRevolution: UILabel!
     @IBOutlet weak public var signInButton: LightElloButton!
     @IBOutlet weak public var joinButton: ElloButton!
@@ -48,14 +47,6 @@ public class AppViewController: BaseElloViewController {
 
     deinit {
         removeNotificationObservers()
-    }
-
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        if view.frame.height - logoView.frame.maxY < 250 {
-            let top = view.frame.height - 250 - logoView.frame.height
-            logoTopConstraint.constant = top
-        }
     }
 
     override public func viewDidLayoutSubviews() {
