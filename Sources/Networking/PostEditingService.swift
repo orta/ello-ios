@@ -16,7 +16,7 @@
 import Foundation
 import UIKit
 
-public func ==(lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
+public func == (lhs: PostEditingService.PostContentRegion, rhs: PostEditingService.PostContentRegion) -> Bool {
     switch (lhs, rhs) {
     case let (.Text(a), .Text(b)):
         return a == b
