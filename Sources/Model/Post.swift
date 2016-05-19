@@ -12,7 +12,7 @@ import YapDatabase
 
 @objc
 public protocol Authorable {
-    var createdAt : NSDate { get }
+    var createdAt: NSDate { get }
     var groupId: String { get }
     var author: User? { get }
 }

@@ -14,8 +14,8 @@ public struct FollowAllCounts {
 public struct FollowAllCellPresenter {
 
     static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)

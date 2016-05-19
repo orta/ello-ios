@@ -32,14 +32,14 @@ public struct StreamCellItemParser {
 
 // MARK: - Private
 
-    private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
+    private func notificationCellItems(notifications: [Notification]) -> [StreamCellItem] {
         return notifications.map { notification in
             return StreamCellItem(jsonable: notification, type: .Notification)
         }
     }
 
     private func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
-        var cellItems:[StreamCellItem] = []
+        var cellItems: [StreamCellItem] = []
         for post in posts {
             cellItems.append(StreamCellItem(jsonable: post, type: .Header))
             cellItems += postToggleItems(post)
@@ -77,7 +77,7 @@ public struct StreamCellItemParser {
     }
 
     private func commentCellItems(comments: [ElloComment]) -> [StreamCellItem] {
-        var cellItems:[StreamCellItem] = []
+        var cellItems: [StreamCellItem] = []
         for comment in comments {
             cellItems.append(StreamCellItem(jsonable: comment, type: .CommentHeader))
             cellItems += regionItems(comment, content: comment.content)
@@ -123,7 +123,7 @@ public struct StreamCellItemParser {
 
 // MARK: For Testing
 public extension StreamCellItemParser {
-    public func testingNotificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
+    public func testingNotificationCellItems(notifications: [Notification]) -> [StreamCellItem] {
         return notificationCellItems(notifications)
     }
     public func testingPostCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {

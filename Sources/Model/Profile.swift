@@ -68,7 +68,7 @@ public final class Profile: JSONAble {
         subscribeToWeeklyEllo: Bool,
         subscribeToOnboardingDrip: Bool,
         notifyOfCommentsViaPush: Bool,
-        notifyOfLovesViaPush : Bool,
+        notifyOfLovesViaPush: Bool,
         notifyOfMentionsViaPush: Bool,
         notifyOfRepostsViaPush: Bool,
         notifyOfNewFollowersViaPush: Bool,

@@ -49,7 +49,7 @@ public final class UserAvatarCellModel: JSONAble {
         super.encodeWithCoder(coder.coder)
     }
 
-    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UserAvatarCellModel(
             icon: InterfaceImage(rawValue: (data["icon"] as? String) ?? "hearts")!,
             seeMoreTitle: (data["seeMoreTitle"] as? String) ?? "",

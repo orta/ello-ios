@@ -9,10 +9,10 @@
 import Foundation
 
 public class MultipartRequestBuilder {
-    public let boundaryConstant : String
-    private var body : NSMutableData
-    private var requestIsBuilt : Bool = false
-    private var request : NSMutableURLRequest
+    public let boundaryConstant: String
+    private var body: NSMutableData
+    private var requestIsBuilt: Bool = false
+    private var request: NSMutableURLRequest
 
     public init(url: NSURL, capacity: Int = 0) {
         let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
@@ -26,7 +26,7 @@ public class MultipartRequestBuilder {
         body = NSMutableData(capacity: capacity)!
     }
 
-    public func addParam(name : String, value : String) {
+    public func addParam(name: String, value: String) {
         if requestIsBuilt {
             fatalError("Cannot add parameters after request has been built")
         }
@@ -38,7 +38,7 @@ public class MultipartRequestBuilder {
         body.appendData("\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
     }
 
-    func addFile(name : String, filename : String, data : NSData, contentType: String) {
+    func addFile(name: String, filename: String, data: NSData, contentType: String) {
         if requestIsBuilt {
             fatalError("Cannot add parameters after request has been built")
         }

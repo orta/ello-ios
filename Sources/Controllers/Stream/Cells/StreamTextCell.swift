@@ -12,7 +12,7 @@ import Foundation
 public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureRecognizerDelegate {
     static let reuseIdentifier = "StreamTextCell"
 
-    typealias WebContentReady = (webView : UIWebView) -> Void
+    typealias WebContentReady = (webView: UIWebView) -> Void
 
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!

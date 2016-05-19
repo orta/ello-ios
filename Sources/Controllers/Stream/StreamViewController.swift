@@ -66,7 +66,7 @@ public class StreamViewController: BaseElloViewController {
     private let defaultNoResultsTopConstant: CGFloat = 113
     var canLoadNext = false
 
-    var streamables:[Streamable]?
+    var streamables: [Streamable]?
 
     var currentJSONables = [JSONAble]()
 

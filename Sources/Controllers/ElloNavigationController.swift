@@ -11,10 +11,10 @@ public let externalWebNotification = TypedNotification<String>(name: "externalWe
 public class ElloNavigationController: UINavigationController {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
-    var postChangedNotification:NotificationObserver?
-    var relationshipChangedNotification:NotificationObserver?
-    var rootViewControllerName : String?
-    public var currentUser : User? {
+    var postChangedNotification: NotificationObserver?
+    var relationshipChangedNotification: NotificationObserver?
+    var rootViewControllerName: String?
+    public var currentUser: User? {
         didSet { didSetCurrentUser() }
     }
 

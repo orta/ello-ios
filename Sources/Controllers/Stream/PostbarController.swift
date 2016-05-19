@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PostbarDelegate : NSObjectProtocol {
+public protocol PostbarDelegate: NSObjectProtocol {
     func viewsButtonTapped(indexPath: NSIndexPath)
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)

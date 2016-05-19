@@ -27,7 +27,7 @@ public class AppSetup {
         }
     }
 
-    public class var sharedState : AppSetup {
+    public class var sharedState: AppSetup {
         struct Static {
             static let instance = AppSetup()
         }

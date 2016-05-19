@@ -134,7 +134,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         return findViewController { vc in vc is SettingsContainerViewController } as! SettingsContainerViewController?
     }
 
-    func showNavBars(scrollToBottom : Bool) {
+    func showNavBars(scrollToBottom: Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
         }

@@ -67,7 +67,7 @@ public extension AutoCompleteViewController {
         }
     }
 
-    func showAutoCompleteLoadFailure(error: NSError, statusCode:Int?) {
+    func showAutoCompleteLoadFailure(error: NSError, statusCode: Int?) {
         let message = InterfaceString.GenericError
         let alertController = AlertViewController(message: message)
         let action = AlertAction(title: InterfaceString.OK, style: .Dark, handler: nil)

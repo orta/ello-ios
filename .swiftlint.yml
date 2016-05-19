@@ -1,6 +1,6 @@
 disabled_rules:
   # - closing_brace
-  - colon
+  # - colon
   - comma
   - conditional_binding_cascade
   - control_statement

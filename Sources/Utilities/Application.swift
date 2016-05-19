@@ -39,7 +39,7 @@ public class Application {
     }
 
     public init() {
-        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: #selector(Application.didChangeStatusBarFrame(_:)), name: UIApplicationDidChangeStatusBarFrameNotification, object: nil)
         center.addObserver(self, selector: #selector(Application.didChangeStatusBarOrientation(_:)), name: UIApplicationDidChangeStatusBarOrientationNotification, object: nil)
         center.addObserver(self, selector: #selector(Application.didEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
@@ -58,17 +58,17 @@ public class Application {
     }
 
     deinit {
-        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.removeObserver(self)
     }
 
     @objc
-    func didChangeStatusBarFrame(notification : NSNotification) {
+    func didChangeStatusBarFrame(notification: NSNotification) {
         postNotification(Notifications.DidChangeStatusBarFrame, value: self)
     }
 
     @objc
-    func didChangeStatusBarOrientation(notification : NSNotification) {
+    func didChangeStatusBarOrientation(notification: NSNotification) {
         if let orientationInt = notification.userInfo?[UIApplicationStatusBarOrientationUserInfoKey] as? Int,
             orientation = UIInterfaceOrientation(rawValue: orientationInt) {
             postNotification(Notifications.DidChangeStatusBarOrientation, value: orientation)
@@ -76,67 +76,67 @@ public class Application {
     }
 
     @objc
-    func didEnterBackground(notification : NSNotification) {
+    func didEnterBackground(notification: NSNotification) {
         postNotification(Notifications.DidEnterBackground, value: self)
     }
 
     @objc
-    func didFinishLaunching(notification : NSNotification) {
+    func didFinishLaunching(notification: NSNotification) {
         postNotification(Notifications.DidFinishLaunching, value: self)
     }
 
     @objc
-    func didReceiveMemoryWarning(notification : NSNotification) {
+    func didReceiveMemoryWarning(notification: NSNotification) {
         postNotification(Notifications.DidReceiveMemoryWarning, value: self)
     }
 
     @objc
-    func protectedDataDidBecomeAvailable(notification : NSNotification) {
+    func protectedDataDidBecomeAvailable(notification: NSNotification) {
         postNotification(Notifications.ProtectedDataDidBecomeAvailable, value: self)
     }
 
     @objc
-    func protectedDataWillBecomeUnavailable(notification : NSNotification) {
+    func protectedDataWillBecomeUnavailable(notification: NSNotification) {
         postNotification(Notifications.ProtectedDataWillBecomeUnavailable, value: self)
     }
 
     @objc
-    func significantTimeChange(notification : NSNotification) {
+    func significantTimeChange(notification: NSNotification) {
         postNotification(Notifications.SignificantTimeChange, value: self)
     }
 
     @objc
-    func userDidTakeScreenshot(notification : NSNotification) {
+    func userDidTakeScreenshot(notification: NSNotification) {
         postNotification(Notifications.UserDidTakeScreenshot, value: self)
     }
 
     @objc
-    func willChangeStatusBarOrientation(notification : NSNotification) {
+    func willChangeStatusBarOrientation(notification: NSNotification) {
         postNotification(Notifications.WillChangeStatusBarOrientation, value: self)
     }
 
     @objc
-    func willChangeStatusBarFrame(notification : NSNotification) {
+    func willChangeStatusBarFrame(notification: NSNotification) {
         postNotification(Notifications.WillChangeStatusBarFrame, value: self)
     }
 
     @objc
-    func willEnterForeground(notification : NSNotification) {
+    func willEnterForeground(notification: NSNotification) {
         postNotification(Notifications.WillEnterForeground, value: self)
     }
 
     @objc
-    func willResignActive(notification : NSNotification) {
+    func willResignActive(notification: NSNotification) {
         postNotification(Notifications.WillResignActive, value: self)
     }
 
     @objc
-    func willTerminate(notification : NSNotification) {
+    func willTerminate(notification: NSNotification) {
         postNotification(Notifications.WillTerminate, value: self)
     }
 
     @objc
-    func sizeCategoryDidChange(notification : NSNotification) {
+    func sizeCategoryDidChange(notification: NSNotification) {
         postNotification(Notifications.SizeCategoryDidChange, value: self)
     }
 }

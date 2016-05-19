@@ -10,18 +10,18 @@ import WebKit
 
 public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
-    public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> Void
+    public typealias StreamContentReady = (indexPaths: [NSIndexPath]) -> Void
     public typealias StreamFilter = (StreamCellItem -> Bool)?
 
-    public var streamKind:StreamKind
+    public var streamKind: StreamKind
     public var currentUser: User?
 
     // these are the items assigned from the parent controller
-    public var streamCellItems:[StreamCellItem] = []
+    public var streamCellItems: [StreamCellItem] = []
 
     // these are either the same as streamCellItems (no filter) or if a filter
     // is applied this stores the filtered items
-    public private(set) var visibleCellItems:[StreamCellItem] = []
+    public private(set) var visibleCellItems: [StreamCellItem] = []
 
     // if a filter is added or removed, we update the items
     public var streamFilter: StreamFilter {
@@ -52,7 +52,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public let inviteCache = InviteCache()
 
     public init(
-        streamKind:StreamKind,
+        streamKind: StreamKind,
         textSizeCalculator: StreamTextCellSizeCalculator,
         notificationSizeCalculator: StreamNotificationCellSizeCalculator,
         profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator,
@@ -124,7 +124,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems.safeValue(indexPath.item)
     }
 
-    public func cellItemsForPost(post:Post) -> [StreamCellItem] {
+    public func cellItemsForPost(post: Post) -> [StreamCellItem] {
         var tmp = [StreamCellItem]()
         temporarilyUnfilter {
             tmp = self.visibleCellItems.reduce([]) { arr, item in
@@ -207,7 +207,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
-    public func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
+    public func heightForIndexPath(indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
         if !isValidIndexPath(indexPath) { return 0 }
 
         // alway try to return a calculated value before the default
@@ -219,12 +219,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
-    public func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
+    public func isFullWidthAtIndexPath(indexPath: NSIndexPath) -> Bool {
         if !isValidIndexPath(indexPath) { return true }
         return visibleCellItems[indexPath.item].type.isFullWidth
     }
 
-    public func groupForIndexPath(indexPath:NSIndexPath) -> String {
+    public func groupForIndexPath(indexPath: NSIndexPath) -> String {
         if !isValidIndexPath(indexPath) { return "0" }
 
         return (visibleCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
@@ -622,7 +622,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             arrayIndex = streamCellItems.count
         }
 
-        var indexPaths:[NSIndexPath] = []
+        var indexPaths: [NSIndexPath] = []
 
         for (index, cellItem) in cellItems.enumerate() {
             indexPaths.append(NSIndexPath(forItem: startingIndex + index, inSection: startingIndexPath.section))
@@ -667,7 +667,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return indexPath.item >= 0 &&  indexPath.item < visibleCellItems.count && indexPath.section == 0
     }
 
-    private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
+    private func calculateCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
         let textCells = filterTextCells(cellItems)
         let imageCells = filterImageCells(cellItems)
         let notificationElements = cellItems.filter {

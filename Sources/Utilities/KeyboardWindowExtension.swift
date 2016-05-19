@@ -11,7 +11,7 @@ import UIKit
 
 public extension Keyboard {
     @objc
-    func willShow(notification : NSNotification) {
+    func willShow(notification: NSNotification) {
         active = true
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
@@ -23,7 +23,7 @@ public extension Keyboard {
     }
 
     @objc
-    func willHide(notification : NSNotification) {
+    func willHide(notification: NSNotification) {
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         bottomInset = 0

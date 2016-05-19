@@ -29,7 +29,7 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    enum Notifications : String {
+    enum Notifications: String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
     }
 
@@ -112,7 +112,7 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()

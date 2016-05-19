@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class NotificationsFilterBar : UIView {
+public class NotificationsFilterBar: UIView {
 
     struct Size {
-        static let height : CGFloat = 64
+        static let height: CGFloat = 64
     }
 
-    var buttons : [UIButton] {
+    var buttons: [UIButton] {
         return self.subviews.filter { $0 as? UIButton != nil } as! [UIButton]
     }
-    var buttonPadding : CGFloat = 1
+    var buttonPadding: CGFloat = 1
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,9 +37,9 @@ public class NotificationsFilterBar : UIView {
 
         let buttons = self.buttons
         if buttons.count > 0 {
-            var x : CGFloat = 0
-            let y : CGFloat = 20
-            let w : CGFloat = (self.frame.size.width - buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
+            var x: CGFloat = 0
+            let y: CGFloat = 20
+            let w: CGFloat = (self.frame.size.width - buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
             for button in buttons {
                 let frame = CGRect(x: x, y: y, width: w, height: self.frame.size.height - y)
                 button.frame = frame
@@ -48,7 +48,7 @@ public class NotificationsFilterBar : UIView {
         }
     }
 
-    public func selectButton(selectedButton : UIButton) {
+    public func selectButton(selectedButton: UIButton) {
         for button in buttons {
             button.selected = button == selectedButton
         }

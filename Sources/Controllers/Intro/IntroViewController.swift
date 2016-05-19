@@ -7,7 +7,7 @@ import Foundation
 
 public class IntroViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    var pageViewController : UIPageViewController?
+    var pageViewController: UIPageViewController?
     var viewControllers: [IntroPageController] = []
     var pageControl:UIPageControl = UIPageControl()
 
@@ -131,7 +131,7 @@ public class IntroViewController: UIViewController, UIPageViewControllerDataSour
         return viewControllerAtIndex(index)
     }
 
-    func viewControllerAtIndex(index : Int) -> UIViewController? {
+    func viewControllerAtIndex(index: Int) -> UIViewController? {
 
         if index >= viewControllers.count {
             return nil

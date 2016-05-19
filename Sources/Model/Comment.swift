@@ -99,7 +99,7 @@ public final class ElloComment: JSONAble, Authorable {
 
 // MARK: JSONAble
 
-    override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+    override class public func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.CommentFromJSON.rawValue)
         // create comment

@@ -11,7 +11,7 @@ import UIKit
 
 public struct NotificationAttributedTitle {
 
-    static private func attrs(addlAttrs : [String : AnyObject] = [:]) -> [String : AnyObject] {
+    static private func attrs(addlAttrs: [String : AnyObject] = [:]) -> [String : AnyObject] {
         let attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.defaultFont(),
             NSForegroundColorAttributeName: UIColor.greyA(),

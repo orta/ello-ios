@@ -12,8 +12,8 @@ public struct StreamTextCellPresenter {
     static let repostMargin = CGFloat(30)
 
     static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)

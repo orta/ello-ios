@@ -29,7 +29,7 @@ public protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
         isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool
 }
 
-public class StreamCollectionViewLayout : UICollectionViewLayout {
+public class StreamCollectionViewLayout: UICollectionViewLayout {
 
     enum Direction {
         case ShortestFirst
@@ -37,27 +37,27 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         case RightToLeft
     }
 
-    var columnCount : Int {
+    var columnCount: Int {
         didSet { invalidateLayout() }
     }
 
-    var minimumColumnSpacing : CGFloat {
+    var minimumColumnSpacing: CGFloat {
         didSet { invalidateLayout() }
     }
 
-    var minimumInteritemSpacing : CGFloat {
+    var minimumInteritemSpacing: CGFloat {
         didSet { invalidateLayout() }
     }
 
-    var sectionInset : UIEdgeInsets {
+    var sectionInset: UIEdgeInsets {
         didSet { invalidateLayout() }
     }
 
-    var itemRenderDirection : Direction {
+    var itemRenderDirection: Direction {
         didSet { invalidateLayout() }
     }
 
-    weak var delegate : StreamCollectionViewLayoutDelegate? {
+    weak var delegate: StreamCollectionViewLayoutDelegate? {
         get {
             return collectionView!.delegate as? StreamCollectionViewLayoutDelegate
         }
@@ -164,7 +164,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
                 yOffset = columnHeights[currentColumIndex]
              }
 
-            var itemHeight : CGFloat = 0.0
+            var itemHeight: CGFloat = 0.0
 
             if let height = delegate?.collectionView(self.collectionView!, layout: self, heightForItemAtIndexPath: indexPath, numberOfColumns: calculatedColumnCount) {
                 itemHeight = height
@@ -203,7 +203,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         return sectionItemAttributes[indexPath.section][indexPath.item]
     }
 
-    override public func layoutAttributesForElementsInRect (rect : CGRect) -> [UICollectionViewLayoutAttributes] {
+    override public func layoutAttributesForElementsInRect (rect: CGRect) -> [UICollectionViewLayoutAttributes] {
         var begin = 0
         var end = unionRects.count
         var attrs = [UICollectionViewLayoutAttributes]()
@@ -235,7 +235,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         return UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "profileHeader", withIndexPath: indexPath)
     }
 
-    override public func shouldInvalidateLayoutForBoundsChange (newBounds : CGRect) -> Bool {
+    override public func shouldInvalidateLayoutForBoundsChange (newBounds: CGRect) -> Bool {
         let oldBounds = collectionView!.bounds
         return CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)
     }
@@ -248,7 +248,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         return columnHeights.indexOf(columnHeights.maxElement()!) ?? 0
     }
 
-    private func nextColumnIndexForItem (item : NSInteger) -> Int {
+    private func nextColumnIndexForItem (item: NSInteger) -> Int {
         switch (itemRenderDirection) {
         case .ShortestFirst: return shortestColumnIndex()
         case .LeftToRight: return (item % columnCount)
