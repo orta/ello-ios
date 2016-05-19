@@ -148,6 +148,7 @@ public extension ElloTextFieldView {
         styleAsUsernameField(usernameView.textField)
     }
     class func styleAsUsernameField(textField: UITextField) {
+        styleCommonField(textField)
         textField.returnKeyType = .Next
         textField.keyboardType = .ASCIICapable
     }
