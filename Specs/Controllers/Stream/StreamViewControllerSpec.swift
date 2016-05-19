@@ -221,11 +221,11 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as UserDelegate).notTo(beNil())
                 }
 
-                describe("userTappedAvatar(_:)") {
+                describe("userTappedAuthor(_:)") {
 
                     xit("presents a ProfileViewController") {
                         let cell = controller.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0))
-                        controller.userTappedAvatar(cell!)
+                        controller.userTappedAuthor(cell!)
 
                         expect(controller.navigationController?.topViewController).to(beAKindOf(ProfileViewController.self))
                     }

@@ -33,7 +33,7 @@ public protocol StreamScrollDelegate: class {
 }
 
 public protocol UserDelegate: class {
-    func userTappedAvatar(cell: UICollectionViewCell)
+    func userTappedAuthor(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
     func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
     func userTappedParam(param: String)
@@ -745,7 +745,7 @@ extension StreamViewController: UserDelegate {
         userTappedDelegate?.userTapped(user)
     }
 
-    public func userTappedAvatar(cell: UICollectionViewCell) {
+    public func userTappedAuthor(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell),
            user = dataSource.userForIndexPath(indexPath)
         {

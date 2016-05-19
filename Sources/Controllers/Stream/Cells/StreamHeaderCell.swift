@@ -388,11 +388,11 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func userTapped(sender: AvatarButton) {
-        userDelegate?.userTappedAvatar(self)
+        userDelegate?.userTappedAuthor(self)
     }
 
     @IBAction func usernameTapped(sender: UIButton) {
-        userDelegate?.userTappedAvatar(self)
+        userDelegate?.userTappedAuthor(self)
     }
 
     @IBAction func flagButtonTapped(sender: StreamFooterButton) {
@@ -452,7 +452,7 @@ extension StreamHeaderCell {
 
 extension StreamHeaderCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: ElloAttributedObject) {
-        userDelegate?.userTappedAvatar(self)
+        userDelegate?.userTappedAuthor(self)
     }
     func textViewTappedDefault() {}
 }

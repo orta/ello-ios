@@ -322,7 +322,7 @@ extension NotificationCell {
     }
 
     public func avatarTapped() {
-        userDelegate?.userTappedAvatar(self)
+        userDelegate?.userTappedAuthor(self)
     }
 
 }
