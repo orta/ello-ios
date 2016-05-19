@@ -1,7 +1,7 @@
 disabled_rules:
   # - closing_brace
   # - colon
-  - comma
+  # - comma
   - conditional_binding_cascade
   - control_statement
   - empty_count

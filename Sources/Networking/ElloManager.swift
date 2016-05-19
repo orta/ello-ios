@@ -14,12 +14,12 @@ public struct ElloManager {
         var policyDict = [String: ServerTrustPolicy]()
         // make Charles plays nice in the sim by not adding a policy
         if !AppSetup.sharedState.isSimulator {
-            policyDict["ello.co"] = .PinPublicKeys(
+            policyDict["ellosss.co"] = .PinPublicKeys(
                 publicKeys: ServerTrustPolicy.publicKeysInBundle(),
                 validateCertificateChain: true,
                 validateHost: true
             )
-            policyDict["ello.ninja"] = .PinPublicKeys(
+            policyDict["elloss.ninja"] = .PinPublicKeys(
                 publicKeys: ServerTrustPolicy.publicKeysInBundle(),
                 validateCertificateChain: true,
                 validateHost: true
