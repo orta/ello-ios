@@ -75,7 +75,6 @@ public class AppViewController: BaseElloViewController {
 
     public override func didSetCurrentUser() {
         ElloWebBrowserViewController.currentUser = currentUser
-        ElloProvider.currentUser = currentUser
     }
 
 // MARK: - Private
@@ -119,23 +118,16 @@ public class AppViewController: BaseElloViewController {
         let profileService = ProfileService()
         profileService.loadCurrentUser(
             success: { user in
-                let nsfwService = NSFWService()
-                nsfwService.loadNSFWPolicy({ (policy) in
-                        ElloProvider.nsfwPolicy = policy
-                        self.logoView.stopAnimatingLogo()
-                        self.currentUser = user
+                self.logoView.stopAnimatingLogo()
+                self.currentUser = user
 
-                        let shouldShowOnboarding = !Onboarding.shared().hasSeenLatestVersion()
-                        if shouldShowOnboarding {
-                            self.showOnboardingScreen(user)
-                        }
-                        else {
-                            self.showMainScreen(user)
-                        }
-                    },
-                    failure: { error in
-                        self.failedToLoadCurrentUser(failureCompletion, error: error)
-                    })
+                let shouldShowOnboarding = !Onboarding.shared().hasSeenLatestVersion()
+                if shouldShowOnboarding {
+                    self.showOnboardingScreen(user)
+                }
+                else {
+                    self.showMainScreen(user)
+                }
             },
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failureCompletion, error: error)

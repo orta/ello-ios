@@ -31,7 +31,7 @@ public struct ElloProvider_Specs {
         let method = target.method
         let parameters = target.parameters
         let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
-        return endpoint.endpointByAddingHTTPHeaderFields(target.headers(nil, policy: nil))
+        return endpoint.endpointByAddingHTTPHeaderFields(target.headers())
     }
 
     static func recordedEndpointsClosure(recordings: [RecordedResponse]) -> (target: ElloAPI) -> Endpoint<ElloAPI> {
@@ -59,7 +59,7 @@ public struct ElloProvider_Specs {
             let method = target.method
             let parameters = target.parameters
             let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
-            return endpoint.endpointByAddingHTTPHeaderFields(target.headers(nil, policy: nil))
+            return endpoint.endpointByAddingHTTPHeaderFields(target.headers())
         }
     }
 
