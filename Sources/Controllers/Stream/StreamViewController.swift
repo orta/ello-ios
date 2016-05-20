@@ -22,7 +22,11 @@ public protocol SimpleStreamDelegate: class {
 
 public protocol StreamImageCellDelegate: class {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
-    func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
+}
+
+public protocol StreamEditingDelegate: class {
+    func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
+    func cellLongPressed(cell: UICollectionViewCell)
 }
 
 @objc
@@ -35,7 +39,6 @@ public protocol StreamScrollDelegate: class {
 public protocol UserDelegate: class {
     func userTappedAvatar(cell: UICollectionViewCell)
     func userTappedText(cell: UICollectionViewCell)
-    func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint)
     func userTappedParam(param: String)
 }
 
@@ -538,6 +541,7 @@ public class StreamViewController: BaseElloViewController {
 
         // set delegates
         dataSource.imageDelegate = self
+        dataSource.editingDelegate = self
         dataSource.inviteDelegate = self
         dataSource.simpleStreamDelegate = self
         dataSource.userDelegate = self
@@ -666,50 +670,8 @@ extension StreamViewController: StreamCollectionViewLayoutDelegate {
     }
 }
 
-// MARK: StreamViewController: StreamImageCellDelegate
-extension StreamViewController: StreamImageCellDelegate {
-    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
-        let indexPath = collectionView.indexPathForCell(cell)
-        let post = indexPath.flatMap(dataSource.postForIndexPath)
-        let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
-
-        if streamKind.isGridView || cell.isGif {
-            if let post = post {
-                postTappedDelegate?.postTapped(post)
-            }
-        }
-        else if let imageViewer = imageViewer {
-            imageViewer.imageTapped(imageView, imageURL: cell.presentedImageUrl)
-            if let post = post,
-                    asset = imageAsset {
-                Tracker.sharedTracker.viewedImage(asset, post: post)
-            }
-        }
-    }
-
-    public func imageDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
-        cellDoubleTapped(cell, location: location)
-    }
-}
-
-// MARK: StreamViewController: Commenting
-extension StreamViewController {
-    public func createCommentTapped(post: Post) {
-        createPostDelegate?.createComment(post, text: nil, fromController: self)
-    }
-}
-
-// MARK: StreamViewController: UserDelegate
-extension StreamViewController: UserDelegate {
-
-    public func userTappedText(cell: UICollectionViewCell) {
-        if streamKind.tappingTextOpensDetail {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
-            }
-        }
-    }
-
+// MARK: StreamViewController: StreamEditingDelegate
+extension StreamViewController: StreamEditingDelegate {
     public func cellDoubleTapped(cell: UICollectionViewCell, location: CGPoint) {
         if let path = collectionView.indexPathForCell(cell),
             post = dataSource.postForIndexPath(path),
@@ -737,6 +699,64 @@ extension StreamViewController: UserDelegate {
             if !post.loved {
                 let footerCell = collectionView.cellForItemAtIndexPath(footerPath) as? StreamFooterCell
                 postbarController?.lovesButtonTapped(footerCell, indexPath: footerPath)
+            }
+        }
+    }
+
+    public func cellLongPressed(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell),
+            post = dataSource.postForIndexPath(indexPath),
+            currentUser = currentUser
+        where currentUser.isOwnPost(post)
+        {
+            createPostDelegate?.editPost(post, fromController: self)
+        }
+        else if let indexPath = collectionView.indexPathForCell(cell),
+            comment = dataSource.commentForIndexPath(indexPath),
+            currentUser = currentUser
+            where currentUser.isOwnComment(comment)
+        {
+            createPostDelegate?.editComment(comment, fromController: self)
+        }
+    }
+}
+
+// MARK: StreamViewController: StreamImageCellDelegate
+extension StreamViewController: StreamImageCellDelegate {
+    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+        let indexPath = collectionView.indexPathForCell(cell)
+        let post = indexPath.flatMap(dataSource.postForIndexPath)
+        let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
+
+        if streamKind.isGridView || cell.isGif {
+            if let post = post {
+                postTappedDelegate?.postTapped(post)
+            }
+        }
+        else if let imageViewer = imageViewer {
+            imageViewer.imageTapped(imageView, imageURL: cell.presentedImageUrl)
+            if let post = post,
+                    asset = imageAsset {
+                Tracker.sharedTracker.viewedImage(asset, post: post)
+            }
+        }
+    }
+}
+
+// MARK: StreamViewController: Commenting
+extension StreamViewController {
+    public func createCommentTapped(post: Post) {
+        createPostDelegate?.createComment(post, text: nil, fromController: self)
+    }
+}
+
+// MARK: StreamViewController: UserDelegate
+extension StreamViewController: UserDelegate {
+
+    public func userTappedText(cell: UICollectionViewCell) {
+        if streamKind.tappingTextOpensDetail {
+            if let indexPath = collectionView.indexPathForCell(cell) {
+                collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
             }
         }
     }

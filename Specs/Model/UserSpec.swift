@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+@testable
 import Ello
 import Quick
 import Nimble
@@ -14,8 +15,45 @@ import Nimble
 class UserSpec: QuickSpec {
     override func spec() {
         describe("User") {
-            describe("+fromJSON:") {
+            describe("isOwnPost(_:)") {
+                let subject: User = stub(["id": "correctId"])
+                it("should return true if post's author is the current user") {
+                    let post: Post = stub(["authorId": "correctId"])
+                    expect(subject.isOwnPost(post)) == true
+                }
+                it("should return false if post's author is not the user") {
+                    let post: Post = stub(["authorId": "WRONG ID"])
+                    expect(subject.isOwnPost(post)) == false
+                }
+            }
 
+            describe("isOwnComment(_:)") {
+                let subject: User = stub(["id": "correctId"])
+                it("should return true if comment's author is the current user") {
+                    let comment: ElloComment = stub(["authorId": "correctId"])
+                    expect(subject.isOwnComment(comment)) == true
+                }
+                it("should return false if comment's author is not the user") {
+                    let comment: ElloComment = stub(["authorId": "WRONG ID"])
+                    expect(subject.isOwnComment(comment)) == false
+                }
+            }
+
+            describe("isOwnParentPost(_:)") {
+                let subject: User = stub(["id": "correctId"])
+                it("should return true if comment parentPost's author is the current user") {
+                    let post: Post = stub(["authorId": "correctId"])
+                    let comment: ElloComment = stub(["loadedFromPost": post])
+                    expect(subject.isOwnParentPost(comment)) == true
+                }
+                it("should return false if comment parentPost's author is not the user") {
+                    let post: Post = stub(["authorId": "WRONG ID"])
+                    let comment: ElloComment = stub(["loadedFromPost": post])
+                    expect(subject.isOwnParentPost(comment)) == false
+                }
+            }
+
+            describe("+fromJSON:") {
                 it("parses correctly") {
                     let data = stubbedJSONData("users_user_details", "users")
                     let user = User.fromJSON(data) as! User

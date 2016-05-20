@@ -18,6 +18,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     var userDelegate: UserDelegate?
+    var streamEditingDelegate: StreamEditingDelegate?
     var webContentReady: WebContentReady?
 
     override public func awakeFromNib() {
@@ -30,6 +31,10 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
         doubleTapGesture.numberOfTapsRequired = 2
         doubleTapGesture.addTarget(self, action: #selector(doubleTapped(_:)))
         webView.addGestureRecognizer(doubleTapGesture)
+
+        let longPressGesture = UILongPressGestureRecognizer()
+        longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
+        webView.addGestureRecognizer(longPressGesture)
     }
 
     public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer _: UIGestureRecognizer) -> Bool {
@@ -38,7 +43,13 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate, UIGestureR
 
     @IBAction func doubleTapped(gesture: UIGestureRecognizer) {
         let location = gesture.locationInView(nil)
-        userDelegate?.cellDoubleTapped(self, location: location)
+        streamEditingDelegate?.cellDoubleTapped(self, location: location)
+    }
+
+    @IBAction func longPressed(gesture: UIGestureRecognizer) {
+        if gesture.state == .Began {
+            streamEditingDelegate?.cellLongPressed(self)
+        }
     }
 
     func onWebContentReady(handler: WebContentReady?) {

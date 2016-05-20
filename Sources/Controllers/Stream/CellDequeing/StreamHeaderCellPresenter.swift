@@ -38,10 +38,10 @@ public struct StreamHeaderCellPresenter {
             if let currentUser = currentUser,
                 comment = streamCellItem.jsonable as? ElloComment
             {
-                if comment.authorId == currentUser.id {
+                if currentUser.isOwnComment(comment) {
                     cell.ownComment = true
                 }
-                else if comment.loadedFromPost?.authorId == currentUser.id {
+                else if currentUser.isOwnParentPost(comment) {
                     cell.ownPost = true
                 }
             }

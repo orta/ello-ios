@@ -38,6 +38,7 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet public weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
+    weak var streamEditingDelegate: StreamEditingDelegate?
     public var isGif = false
     public typealias OnHeightMismatch = (CGFloat) -> Void
     public var onHeightMismatch: OnHeightMismatch?
@@ -75,6 +76,10 @@ public class StreamImageCell: StreamRegionableCell {
         singleTapGesture.addTarget(self, action: #selector(imageTapped))
         singleTapGesture.requireGestureRecognizerToFail(doubleTapGesture)
         imageButton.addGestureRecognizer(singleTapGesture)
+
+        let longPressGesture = UILongPressGestureRecognizer()
+        longPressGesture.addTarget(self, action: #selector(imageLongPressed(_:)))
+        imageButton.addGestureRecognizer(longPressGesture)
     }
 
     public func setImageURL(url: NSURL) {
@@ -178,6 +183,12 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBAction func imageDoubleTapped(gesture: UIGestureRecognizer) {
         let location = gesture.locationInView(nil)
-        streamImageCellDelegate?.imageDoubleTapped(self, location: location)
+        streamEditingDelegate?.cellDoubleTapped(self, location: location)
+    }
+
+    @IBAction func imageLongPressed(gesture: UIGestureRecognizer) {
+        if gesture.state == .Began {
+            streamEditingDelegate?.cellLongPressed(self)
+        }
     }
 }

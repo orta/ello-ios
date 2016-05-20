@@ -43,6 +43,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var notificationDelegate: NotificationDelegate?
     weak public var webLinkDelegate: WebLinkDelegate?
     weak public var imageDelegate: StreamImageCellDelegate?
+    weak public var editingDelegate: StreamEditingDelegate?
     weak public var userDelegate: UserDelegate?
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var simpleStreamDelegate: SimpleStreamDelegate?
@@ -245,14 +246,17 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! DiscoverStreamPickerCell).discoverStreamPickerDelegate = discoverStreamPickerDelegate
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
+                (cell as! StreamFooterCell).streamEditingDelegate = editingDelegate
             case .CreateComment:
                 (cell as! StreamCreateCommentCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
                 (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
+                (cell as! StreamHeaderCell).streamEditingDelegate = editingDelegate
             case .Image:
                 (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
+                (cell as! StreamImageCell).streamEditingDelegate = editingDelegate
             case .InviteFriends:
                 (cell as! StreamInviteFriendsCell).inviteDelegate = inviteDelegate
                 (cell as! StreamInviteFriendsCell).inviteCache = inviteCache
@@ -269,6 +273,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .Text:
                 (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
                 (cell as! StreamTextCell).userDelegate = userDelegate
+                (cell as! StreamTextCell).streamEditingDelegate = editingDelegate
             case .UserAvatars:
                 (cell as! UserAvatarsCell).simpleStreamDelegate = simpleStreamDelegate
                 (cell as! UserAvatarsCell).userDelegate = userDelegate

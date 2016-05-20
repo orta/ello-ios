@@ -73,6 +73,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
     public weak var postbarDelegate: PostbarDelegate?
     public weak var userDelegate: UserDelegate?
+    public weak var streamEditingDelegate: StreamEditingDelegate?
 
     var avatarHeight: CGFloat = 60.0 {
         didSet { setNeedsDisplay() }
@@ -148,8 +149,12 @@ public class StreamHeaderCell: UICollectionViewCell {
         styleUsernameButton()
         styleTimestampLabel()
 
-        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(StreamHeaderCell.postTapped(_:)))
+        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(postTapped(_:)))
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
+
+        let longPressGesture = UILongPressGestureRecognizer()
+        longPressGesture.addTarget(self, action: #selector(longPressed(_:)))
+        contentView.addGestureRecognizer(longPressGesture)
 
         replyButton.setTitle("", forState: .Normal)
         replyButton.setImages(.Reply)
@@ -420,6 +425,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         Tracker.sharedTracker.commentBarVisibilityChanged(isOpen)
     }
 
+    @IBAction func longPressed(gesture: UIGestureRecognizer) {
+        if gesture.state == .Began {
+            streamEditingDelegate?.cellLongPressed(self)
+        }
+    }
 }
 
 extension StreamHeaderCell {
