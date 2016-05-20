@@ -92,7 +92,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                 }
                 it("hides repostAuthor") {
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                    expect(cell.repostedByLabel.hidden) == true
+                    expect(cell.repostedByButton.hidden) == true
                     expect(cell.repostIconView.hidden) == true
                 }
 
@@ -163,7 +163,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                 context("gridLayout streamKind") {
                     it("only shows author") {
                         StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.repostedByLabel.hidden) == true
+                        expect(cell.repostedByButton.hidden) == true
                         expect(cell.repostIconView.hidden) == true
                     }
                 }
@@ -171,8 +171,8 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                 context("not-gridLayout streamKind") {
                     it("shows author and repostAuthor") {
                         StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.repostedByLabel.text) == "by @ello"
-                        expect(cell.repostedByLabel.hidden) == false
+                        expect(cell.repostedByButton.currentTitle) == "by @ello"
+                        expect(cell.repostedByButton.hidden) == false
                         expect(cell.repostIconView.hidden) == false
                     }
                 }

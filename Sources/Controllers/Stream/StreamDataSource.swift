@@ -97,6 +97,16 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return nil
     }
 
+    public func reposterForIndexPath(indexPath: NSIndexPath) -> User? {
+        if let item = visibleStreamCellItem(at: indexPath) {
+            if let authorable = item.jsonable as? Authorable {
+                return authorable.author
+            }
+            return item.jsonable as? User
+        }
+        return nil
+    }
+
     public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
         let item = visibleStreamCellItem(at: indexPath)
 

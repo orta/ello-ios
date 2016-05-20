@@ -54,6 +54,6 @@ public class UserListItemCell: UICollectionViewCell {
     }
 
     @IBAction func userTapped(sender: AvatarButton) {
-        userDelegate?.userTappedAvatar(self)
+        userDelegate?.userTappedAuthor(self)
     }
 }
