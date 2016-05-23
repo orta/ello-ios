@@ -55,7 +55,7 @@ extension UIImagePickerController {
             }
             alertController.addAction(libraryAction)
 
-            let cancelAction = AlertAction(title: InterfaceString.ImagePicker.NoSourceAvailable, style: .Light) { _ in
+            let cancelAction = AlertAction(title: InterfaceString.Cancel, style: .Light) { _ in
                 Tracker.sharedTracker.addImageCanceled()
             }
             alertController.addAction(cancelAction)
@@ -64,7 +64,7 @@ extension UIImagePickerController {
             callback(.elloPhotoLibraryPickerController)
             return nil
         } else {
-            alertController = AlertViewController(message: InterfaceString.Cancel)
+            alertController = AlertViewController(message: InterfaceString.ImagePicker.NoSourceAvailable)
 
             let cancelAction = AlertAction(title: InterfaceString.OK, style: .Light, handler: .None)
             alertController.addAction(cancelAction)
