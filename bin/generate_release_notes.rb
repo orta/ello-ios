@@ -1,38 +1,20 @@
-#!/usr/bin/env ruby
-
-require 'bundler/setup'
-require 'dotenv'
 require 'git'
 require 'octokit'
 require 'yaml'
 
-# load .env vars
-Dotenv.load
 
 class GenerateReleaseNotes
 
-  def initialize(repo_name, previous_sha_file, access_token)
+  def initialize(repo_name, previous_sha_file, access_token, audience)
     return puts 'You must supply a valid github API token' unless access_token && access_token.length > 0
+
     @repo_name = repo_name
+    @previous_sha_file = previous_sha_file
+    @access_token = access_token
     @pull_request_notes = ['RELEASE NOTES']
     # Grab out previous sha
-    @previous_sha_file = previous_sha_file
     @previous_sha_yaml = YAML::load_file(@previous_sha_file)
-    set_versions
-    # create github api client
-    @client = Octokit::Client.new(access_token: access_token)
-    # create git
-    @git = Git.open('./')
-    commits = @git.log(100)
-    @newest_sha = commits.first.sha
-    # start creating the notes
-    scan_commits commits
-    # update the notes
-    update_release_notes
-  end
-
-  # grab out build verion info
-  def set_versions
+    @audience = audience
     @release_version = `/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "Support/Info.plist"`.strip()
     @number_of_commits = `git rev-list master | wc -l | tr -d ' '`.strip()
   end
@@ -52,7 +34,16 @@ class GenerateReleaseNotes
     end
   end
 
-  def update_release_notes
+  def create_release_notes
+    # create github api client
+    @client = Octokit::Client.new(access_token: @access_token)
+    # create git
+    @git = Git.open('./')
+    commits = @git.log(100)
+    @newest_sha = commits.first.sha
+    # start creating the notes
+    scan_commits commits
+
     # new release notes
     release_notes = "### Ello Build #{@release_version}(#{@number_of_commits}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
     release_notes << <<-EOF
@@ -64,7 +55,7 @@ class GenerateReleaseNotes
     `mkdir Build`
     File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes.gsub(/(#+ )/, "") }
 
-    if ARGV[0] && ARGV[0].split(',').include?("testers")
+    if @audience && @audience.split(',').include?("testers")
       # prepend new contents into release-notes
       old = File.open('release-notes.md', 'a')
       new = File.open('release-notes.new.md', 'w')
@@ -83,6 +74,3 @@ class GenerateReleaseNotes
   end
 
 end
-
-GenerateReleaseNotes.new('ello/ello-ios', 'bin/previous-sha.yml', ENV['GITHUB_API_TOKEN'])
-

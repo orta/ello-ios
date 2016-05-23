@@ -30,7 +30,7 @@ public struct ElloKeychain: KeychainType {
     public var keychain: Keychain
 
     public init() {
-        let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "3D5U9ESH74"
+        let appIdentifierPrefix = NSBundle.mainBundle().objectForInfoDictionaryKey("AppIdentifierPrefix") as? String ?? "ABC12345"
         keychain = Keychain(service: "co.ello.Ello", accessGroup: "\(appIdentifierPrefix).co.ello.Ello")
     }
 

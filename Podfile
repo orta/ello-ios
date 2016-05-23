@@ -30,10 +30,12 @@ def ello_app_pods
 end
 
 def common_pods
-  if ['s', 'colinta', 'rynbyjn', 'jayzeschin', 'mkitt', 'justin-holmes', 'CI', 'travis'].include?(ENV['USER'])
+  if ENV['ELLO_STAFF']
     pod 'ElloUIFonts', '~> 1.1.0'
+    pod 'ElloCerts', '~> 1.0.0'
   else
     pod 'ElloOSSUIFonts', '~> 1.0.0'
+    pod 'ElloCerts', '~> 1.0.0'
   end
   pod 'MBProgressHUD', '~> 0.9.0'
   pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
@@ -85,7 +87,6 @@ plugin 'cocoapods-keys', {
     'ClientSecret',
     'CrashlyticsKey',
     'Domain',
-    'FirebaseKey',
     'HttpProtocol',
     'Salt',
     'SegmentKey',

@@ -8,22 +8,18 @@
 
 import Foundation
 import Alamofire
+import ElloCerts
+
 
 public struct ElloManager {
     public static var serverTrustPolicies: [String: ServerTrustPolicy] {
-        var policyDict = [String: ServerTrustPolicy]()
-        // make Charles plays nice in the sim by not adding a policy
-        if !AppSetup.sharedState.isSimulator {
-            policyDict["ello.co"] = .PinPublicKeys(
-                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
-                validateCertificateChain: true,
-                validateHost: true
-            )
-            policyDict["ello.ninja"] = .PinPublicKeys(
-                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
-                validateCertificateChain: true,
-                validateHost: true
-            )
+        let policyDict: [String: ServerTrustPolicy]
+        if AppSetup.sharedState.isSimulator {
+            // make Charles plays nice in the sim by not setting a policy
+            policyDict = [:]
+        }
+        else {
+            policyDict = ElloCerts.policy
         }
         return policyDict
     }
