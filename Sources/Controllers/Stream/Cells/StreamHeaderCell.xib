@@ -40,6 +40,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="591" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" id="JtJ-e8-xTH" userLabel="goToPostView">
+                                        <rect key="frame" x="342" y="0.0" width="248" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xgh-dM-cqB" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="8" y="8" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -48,11 +53,6 @@
                                             <action selector="userTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="yia-2S-jH7"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" id="JtJ-e8-xTH" userLabel="goToPostView">
-                                        <rect key="frame" x="342" y="0.0" width="248" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="imV-Ww-GEq" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="561" y="0.0" width="30" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
