@@ -90,16 +90,25 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     }
 
     var messageHeight: CGFloat = 0
+    private var _messageHtml = ""
+    private var messageVisible = false
     var messageHtml: String? {
-        willSet {
-            if newValue != messageHtml {
-                if let value = newValue {
-                    messageWebView.alpha = 0.0
+        get { return _messageHtml }
+        set {
+            if let value = newValue {
+                messageVisible = true
+                if value != _messageHtml {
+                    messageWebView.hidden = true
                     messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 }
                 else {
-                    messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+                    messageWebView.hidden = false
                 }
+                _messageHtml = value
+            }
+            else {
+                messageWebView.hidden = true
+                messageVisible = false
             }
         }
     }
@@ -230,10 +239,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
 
         var createdAtY = titleTextView.frame.maxY + Size.InnerMargin
 
-        if messageHtml == nil {
-            messageWebView.frame = .zero
-        }
-        else {
+        if messageVisible {
             createdAtY += messageHeight + Size.CreatedAtMargin
             let remainingHeight = outerFrame.height - Size.InnerMargin - titleTextView.frame.height
             messageWebView.frame = titleTextView.frame.fromBottom()
@@ -263,6 +269,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     override public func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
+        messageWebView.hidden = true
         avatarButton.pin_cancelImageDownload()
         avatarButton.setImage(nil, forState: .Normal)
         notificationImageView.pin_cancelImageDownload()
@@ -286,8 +293,8 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        if messageHtml != nil {
-            messageWebView.alpha = 1.0
+        if messageVisible {
+            messageWebView.hidden = !messageVisible
         }
         webContentReady?(webView: webView)
         messageHeight = webView.windowContentSize()?.height ?? 0
