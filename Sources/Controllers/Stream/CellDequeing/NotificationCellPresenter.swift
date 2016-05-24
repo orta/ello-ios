@@ -38,10 +38,7 @@ public struct NotificationCellPresenter {
             cell.canBackFollow = notification.canBackFollow
             cell.post = notification.activity.subject as? Post
             cell.comment = notification.activity.subject as? ElloComment
-
-            if let textRegion = notification.textRegion {
-                cell.messageHtml = textRegion.content
-            }
+            cell.messageHtml = notification.textRegion?.content
 
             if let imageRegion = notification.imageRegion {
                 let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
