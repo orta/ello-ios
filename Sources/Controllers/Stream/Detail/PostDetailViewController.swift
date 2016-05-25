@@ -118,7 +118,7 @@ public class PostDetailViewController: StreamableViewController {
             if isOwnPost() {
                 elloNavigationItem.rightBarButtonItems = [
                     UIBarButtonItem(image: .XBox, target: self, action: #selector(PostDetailViewController.deletePost)),
-                    UIBarButtonItem(image: .Pencil, target: self, action: #selector(PostDetailViewController.editPost(_:fromController:))),
+                    UIBarButtonItem(image: .Pencil, target: self, action: #selector(PostDetailViewController.editPostAction)),
                 ]
             }
             else {
@@ -268,7 +268,7 @@ public class PostDetailViewController: StreamableViewController {
         flagger.displayFlaggingSheet()
     }
 
-    public func editPost() {
+    public func editPostAction() {
         guard let post = post where isOwnPost() else {
             return
         }
