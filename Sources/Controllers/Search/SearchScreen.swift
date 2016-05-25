@@ -223,7 +223,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             height: buttonHeight
             ))
         button.setTitle(InterfaceString.Search.FindFriendsButton, forState: .Normal)
-        button.addTarget(self, action: #selector(SearchScreenDelegate.findFriendsTapped), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(findFriendsTapped), forControlEvents: .TouchUpInside)
         button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
         let label = ElloLabel()
@@ -277,12 +277,12 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     @objc
-    private func findFriendsTapped() {
+    func findFriendsTapped() {
         delegate?.findFriendsTapped()
     }
 
     @objc
-    private func searchFieldDidChange() {
+    func searchFieldDidChange() {
         delegate?.searchFieldWillChange()
         let text = searchField.text ?? ""
         if text.characters.count == 0 {
