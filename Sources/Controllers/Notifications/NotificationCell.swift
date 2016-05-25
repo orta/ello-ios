@@ -89,9 +89,9 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         get { return !relationshipControl.hidden }
     }
 
-    var messageHeight: CGFloat = 0
-    private var _messageHtml = ""
     private var messageVisible = false
+    private var _messageHtml = ""
+    var messageHeight: CGFloat = 0
     var messageHtml: String? {
         get { return _messageHtml }
         set {
