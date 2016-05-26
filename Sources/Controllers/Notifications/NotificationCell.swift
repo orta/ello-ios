@@ -27,6 +27,7 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         static let AvatarSize = CGFloat(30)
         static let ImageWidth = CGFloat(87)
         static let InnerMargin = CGFloat(10)
+        static let CreatedAtMargin = CGFloat(-5)
         static let CreatedAtHeight = CGFloat(10)
 
         // height of created at and margin from title / notification text
@@ -88,16 +89,26 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         get { return !relationshipControl.hidden }
     }
 
+    private var messageVisible = false
+    private var _messageHtml = ""
+    var messageHeight: CGFloat = 0
     var messageHtml: String? {
-        willSet {
-            if newValue != messageHtml {
-                if let value = newValue {
-                    messageWebView.alpha = 0.0
+        get { return _messageHtml }
+        set {
+            if let value = newValue {
+                messageVisible = true
+                if value != _messageHtml {
+                    messageWebView.hidden = true
                     messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 }
                 else {
-                    messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+                    messageWebView.hidden = false
                 }
+                _messageHtml = value
+            }
+            else {
+                messageWebView.hidden = true
+                messageVisible = false
             }
         }
     }
@@ -196,9 +207,16 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     private func setUser(user: User?) {
         avatarButton.setUser(user)
 
-        relationshipControl.userId = user?.id ?? ""
-        relationshipControl.userAtName = user?.atName ?? ""
-        relationshipControl.relationshipPriority = user?.relationshipPriority ?? RelationshipPriority.None
+        if let user = user {
+            relationshipControl.userId = user.id
+            relationshipControl.userAtName = user.atName
+            relationshipControl.relationshipPriority = user.relationshipPriority
+        }
+        else {
+            relationshipControl.userId = ""
+            relationshipControl.userAtName = ""
+            relationshipControl.relationshipPriority = RelationshipPriority.None
+        }
     }
 
     override public func layoutSubviews() {
@@ -226,9 +244,15 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         let tvSize = titleTextView.sizeThatFits(CGSize(width: titleWidth, height: .max))
         titleTextView.frame.size.height = ceil(tvSize.height)
 
-        var createdAtY = outerFrame.maxY - Size.CreatedAtHeight
-        if !relationshipControl.hidden || !replyButton.hidden {
-            createdAtY -= Size.ButtonMargin + Size.ButtonHeight
+        var createdAtY = titleTextView.frame.maxY + Size.InnerMargin
+
+        if messageVisible {
+            createdAtY += messageHeight + Size.CreatedAtMargin
+            let remainingHeight = outerFrame.height - Size.InnerMargin - titleTextView.frame.height
+            messageWebView.frame = titleTextView.frame.fromBottom()
+                .withWidth(titleWidth)
+                .shiftDown(Size.InnerMargin)
+                .withHeight(remainingHeight)
         }
 
         createdAtLabel.frame = CGRect(
@@ -241,29 +265,18 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
         let replyButtonWidth = replyButton.intrinsicContentSize().width
         replyButton.frame = CGRect(
             x: createdAtLabel.frame.x,
-            y: outerFrame.maxY - Size.ButtonHeight,
+            y: createdAtY + Size.CreatedAtHeight + Size.InnerMargin,
             width: replyButtonWidth,
             height: Size.ButtonHeight
             )
         let relationshipControlWidth = relationshipControl.intrinsicContentSize().width
         relationshipControl.frame = replyButton.frame.withWidth(relationshipControlWidth)
-
-        if messageHtml == nil {
-            messageWebView.frame = CGRectZero
-        }
-        else {
-            let remainingHeight = outerFrame.height - Size.InnerMargin - titleTextView.frame.height
-            messageWebView.frame = titleTextView.frame.fromBottom()
-                .withWidth(titleWidth)
-                .shiftDown(Size.InnerMargin)
-                .withHeight(remainingHeight)
-        }
     }
 
     override public func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
-        messageHtml = nil
+        messageWebView.hidden = true
         avatarButton.pin_cancelImageDownload()
         avatarButton.setImage(nil, forState: .Normal)
         notificationImageView.pin_cancelImageDownload()
@@ -287,8 +300,17 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        messageWebView.alpha = 1.0
+        if messageVisible {
+            messageWebView.hidden = !messageVisible
+        }
         webContentReady?(webView: webView)
+        if let height = webView.windowContentSize()?.height {
+            messageHeight = height
+        }
+        else {
+            messageHeight = 0
+        }
+        setNeedsLayout()
     }
 }
 

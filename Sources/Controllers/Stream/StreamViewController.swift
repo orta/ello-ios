@@ -237,8 +237,13 @@ public class StreamViewController: BaseElloViewController {
     }
 
     public func appendStreamCellItems(items: [StreamCellItem]) {
+        let prevCount = dataSource.visibleCellItems.count
         dataSource.appendStreamCellItems(items)
-        collectionView.reloadData()
+        var indexPaths: [NSIndexPath] = []
+        for i in 0..<items.count {
+            indexPaths.append(NSIndexPath(forItem: prevCount + i, inSection: 0))
+        }
+        collectionView.insertItemsAtIndexPaths(indexPaths)
     }
 
     public func appendUnsizedCellItems(items: [StreamCellItem], withWidth: CGFloat?, completion: StreamDataSource.StreamContentReady? = nil) {
