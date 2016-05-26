@@ -8,15 +8,28 @@
 
 // MARK: UITextViewDelegate
 extension OmnibarScreen: UITextViewDelegate {
-    private func throttleAutoComplete(textView: UITextView, range: NSRange) {
+    private func throttleAutoComplete(textView: UITextView, text: String, range: NSRange) {
+        let autoComplete = AutoComplete()
+        let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
+        let mightMatch = autoComplete.eagerCheck(text, location: location)
+        if mightMatch && textView.autocorrectionType == .Yes {
+            textView.spellCheckingType = .No
+            textView.autocorrectionType = .No
+            textView.resignFirstResponder()
+            textView.becomeFirstResponder()
+        }
+        else if !mightMatch && textView.autocorrectionType == .No {
+            textView.spellCheckingType = .Yes
+            textView.autocorrectionType = .Yes
+            textView.resignFirstResponder()
+            textView.becomeFirstResponder()
+        }
+
         self.autoCompleteThrottle { [weak self] in
-            let autoComplete = AutoComplete()
             // deleting characters yields a range.length > 0, go back 1 character for deletes
-            let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
-            let text = textView.text
             if let match = autoComplete.check(text, location: location) {
                 self?.autoCompleteVC.load(match) { count in
-                    if text != textView.text { return }
+                    guard text == textView.text else { return }
 
                     if count > 0 {
                         self?.showAutoComplete(textView, count: count)
@@ -31,13 +44,16 @@ extension OmnibarScreen: UITextViewDelegate {
         }
     }
 
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+    public func textView(textView: UITextView, shouldChangeTextInRange nsrange: NSRange, replacementText: String) -> Bool {
         if autoCompleteShowing && emojiKeyboardShowing() {
             return false
         }
 
-        throttleAutoComplete(textView, range: range)
-        nextTick { self.textViewDidChange(textView) }
+        var text = textView.text
+        if let range = text.rangeFromNSRange(nsrange) {
+            text.replaceRange(range, with: replacementText)
+        }
+        self.throttleAutoComplete(textView, text: text, range: nsrange)
         return true
     }
 
@@ -99,7 +115,7 @@ extension OmnibarScreen: UITextViewDelegate {
     func hideAutoComplete(textView: UITextView) {
         if autoCompleteShowing {
             autoCompleteShowing = false
-            textView.autocorrectionType = .Yes
+            textView.spellCheckingType = .Yes
             textView.inputAccessoryView = keyboardButtonView
             textView.resignFirstResponder()
             textView.becomeFirstResponder()
@@ -109,6 +125,7 @@ extension OmnibarScreen: UITextViewDelegate {
     private func showAutoComplete(textView: UITextView, count: Int) {
         if !autoCompleteShowing {
             autoCompleteShowing = true
+            textView.spellCheckingType = .No
             textView.autocorrectionType = .No
             let container = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 1))
             container.addSubview(autoCompleteContainer)
