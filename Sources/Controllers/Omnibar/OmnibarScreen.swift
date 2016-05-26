@@ -307,6 +307,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.selectable = true
         textView.delegate = self
         textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        textView.spellCheckingType = .Yes
         textView.autocorrectionType = .Yes
     }
 
