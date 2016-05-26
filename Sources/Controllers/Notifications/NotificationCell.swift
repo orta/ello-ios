@@ -207,9 +207,16 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     private func setUser(user: User?) {
         avatarButton.setUser(user)
 
-        relationshipControl.userId = user?.id ?? ""
-        relationshipControl.userAtName = user?.atName ?? ""
-        relationshipControl.relationshipPriority = user?.relationshipPriority ?? RelationshipPriority.None
+        if let user = user {
+            relationshipControl.userId = user.id
+            relationshipControl.userAtName = user.atName
+            relationshipControl.relationshipPriority = user.relationshipPriority
+        }
+        else {
+            relationshipControl.userId = ""
+            relationshipControl.userAtName = ""
+            relationshipControl.relationshipPriority = RelationshipPriority.None
+        }
     }
 
     override public func layoutSubviews() {
