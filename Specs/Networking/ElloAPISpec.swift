@@ -260,6 +260,8 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
                             expect(endpoint.headers()["Accept-Language"]) == ""
+                            expect(endpoint.headers()["Accept"]) == "application/json"
+                            expect(endpoint.headers()["Content-Type"]) == "application/json"
                         }
                     }
                 }
@@ -327,83 +329,6 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
                             expect(endpoint.headers()["Authorization"]) == AuthToken().tokenWithBearer ?? ""
-                        }
-                    }
-                }
-            }
-
-            describe("encoding") {
-
-                context("Moya.ParameterEncoding.JSON endpoints") {
-                    let endpoints: [ElloAPI] = [
-                        .AnonymousCredentials,
-                        .Auth(email: "", password: ""),
-                        .Availability(content: [:]),
-                        .CreateComment(parentPostId: "", body: [:]),
-                        .CreateLove(postId: ""),
-                        .CreatePost(body: [:]),
-                        .DeleteComment(postId: "", commentId: ""),
-                        .DeleteLove(postId: ""),
-                        .DeletePost(postId: ""),
-                        .DeleteSubscriptions(token: NSData()),
-                        .FindFriends(contacts: [:]),
-                        .FlagComment(postId: "", commentId: "", kind: ""),
-                        .FlagPost(postId: "", kind: ""),
-                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
-                            return ElloAPI.Auth(email: "", password: "")
-                        }),
-                        .InviteFriends(contact: ""),
-                        .Join(email: "", username: "", password: "", invitationCode: ""),
-                        .ProfileUpdate(body: [:]),
-                        .ProfileDelete,
-                        .PushSubscriptions(token: NSData()),
-                        .ReAuth(token: ""),
-                        .Relationship(userId: "", relationship: ""),
-                        .RelationshipBatch(userIds: [""], relationship: ""),
-                        .RePost(postId: ""),
-                    ]
-                    for endpoint in endpoints {
-                        it("\(endpoint) returns .JSON and Content-Type: application/json") {
-                            expect(endpoint.encoding) == Moya.ParameterEncoding.JSON
-                            expect(endpoint.headers()["Content-Type"]) == "application/json"
-                        }
-                    }
-                }
-
-                context("Moya.ParameterEncoding.URL endpoints") {
-                    let endpoints: [ElloAPI] = [
-                        .AmazonCredentials,
-                        .AwesomePeopleStream,
-                        .CommunitiesStream,
-                        .Discover(type: .Trending, perPage: 0),
-                        .EmojiAutoComplete(terms: ""),
-                        .FriendStream,
-                        .FriendNewContent(createdAt: NSDate()),
-                        .InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
-                            return ElloAPI.FriendStream
-                        }),
-                        .Loves(userId: ""),
-                        .NoiseStream,
-                        .NoiseNewContent(createdAt: NSDate()),
-                        .NotificationsNewContent(createdAt: NSDate()),
-                        .NotificationsStream(category: ""),
-                        .PostComments(postId: ""),
-                        .PostDetail(postParam: "", commentCount: 10),
-                        .PostLovers(postId: ""),
-                        .PostReposters(postId: ""),
-                        .CurrentUserStream,
-                        .ProfileToggles,
-                        .SearchForUsers(terms: ""),
-                        .SearchForPosts(terms: ""),
-                        .UserStream(userParam: ""),
-                        .UserStreamFollowers(userId: ""),
-                        .UserStreamFollowing(userId: ""),
-                        .UserNameAutoComplete(terms: "")
-                    ]
-                    for endpoint in endpoints {
-                        it("\(endpoint) returns .URL and IS NOT Content-Type: application/json") {
-                            expect(endpoint.encoding) == Moya.ParameterEncoding.URL
-                            expect(endpoint.headers()["Content-Type"] ?? "") != "application/json"
                         }
                     }
                 }
