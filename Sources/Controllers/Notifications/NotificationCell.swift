@@ -297,7 +297,12 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
             messageWebView.hidden = !messageVisible
         }
         webContentReady?(webView: webView)
-        messageHeight = webView.windowContentSize()?.height ?? 0
+        if let height = webView.windowContentSize()?.height {
+            messageHeight = height
+        }
+        else {
+            messageHeight = 0
+        }
         setNeedsLayout()
     }
 }
