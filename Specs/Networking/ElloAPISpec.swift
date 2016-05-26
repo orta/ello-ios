@@ -260,7 +260,7 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
                             expect(endpoint.headers()["Accept-Language"]) == ""
-                            expect(endpoint.headers()["Accept"]) == "application/vnd.api+json"
+                            expect(endpoint.headers()["Accept"]) == "application/json"
                             expect(endpoint.headers()["Content-Type"]) == "application/json"
                         }
                     }
