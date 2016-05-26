@@ -26,20 +26,23 @@ extension OmnibarScreen: UITextViewDelegate {
         }
 
         self.autoCompleteThrottle { [weak self] in
+            guard let wSelf = self else { return }
+
             // deleting characters yields a range.length > 0, go back 1 character for deletes
             if let match = autoComplete.check(text, location: location) {
-                self?.autoCompleteVC.load(match) { count in
+                wSelf.autoCompleteVC.load(match) { [weak self] count in
+                    guard let wSelf = self else { return }
                     guard text == textView.text else { return }
 
                     if count > 0 {
-                        self?.showAutoComplete(textView, count: count)
+                        wSelf.showAutoComplete(textView, count: count)
                     }
                     else if count == 0 {
-                        self?.hideAutoComplete(textView)
+                        wSelf.hideAutoComplete(textView)
                     }
                 }
             } else {
-                self?.hideAutoComplete(textView)
+                wSelf.hideAutoComplete(textView)
             }
         }
     }
