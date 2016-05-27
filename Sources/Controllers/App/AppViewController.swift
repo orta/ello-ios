@@ -23,7 +23,7 @@ protocol HasAppController {
 public class AppViewController: BaseElloViewController {
     @IBOutlet weak public var scrollView: UIScrollView!
     weak public var logoView: ElloLogoView!
-    @IBOutlet weak public var socialRevolution: UILabel!
+    @IBOutlet weak public var tagLine: UILabel!
     @IBOutlet weak public var signInButton: LightElloButton!
     @IBOutlet weak public var joinButton: ElloButton!
 
@@ -144,14 +144,14 @@ public class AppViewController: BaseElloViewController {
         animate(animated: animated) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
-            self.socialRevolution.alpha = 1.0
+            self.tagLine.alpha = 1.0
         }
     }
 
     private func hideButtons() {
         self.joinButton.alpha = 0.0
         self.signInButton.alpha = 0.0
-        self.socialRevolution.alpha = 0.0
+        self.tagLine.alpha = 0.0
     }
 
     private func setupNotificationObservers() {

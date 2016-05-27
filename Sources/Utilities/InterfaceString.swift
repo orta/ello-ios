@@ -17,15 +17,15 @@ public struct InterfaceString {
             static let Notifications = NSLocalizedString("Notifications", comment: "Notifications pop up title")
             static let Stream = NSLocalizedString("Streams", comment: "Stream pop up title")
             static let Profile = NSLocalizedString("Your Profile", comment: "Profile pop up title")
-            static let Omnibar = NSLocalizedString("Post", comment: "Omnibar pop up title")
+            static let Omnibar = NSLocalizedString("Post (Omnibar)", comment: "Omnibar pop up title")
         }
 
         public struct PopupText {
-            static let Discover = NSLocalizedString("Find friends and creators. View beautiful art & inspiring stories.", comment: "Discover pop up text")
-            static let Notifications = NSLocalizedString("Stay up to date with real-time alerts.", comment: "Notifications pop up text")
-            static let Stream = NSLocalizedString("View posts by everyone you follow. Keep them organized in Following & Starred.", comment: "Stream pop up text")
-            static let Profile = NSLocalizedString("Everything you’ve posted in one place. Settings too!", comment: "Profile pop up text")
-            static let Omnibar = NSLocalizedString("Text, images, links & GIFs from one easy place.", comment: "Omnibar pop up text")
+            static let Discover = NSLocalizedString("Explore creators and communities.\nExperience the promise of the internet.", comment: "Discover pop up text")
+            static let Notifications = NSLocalizedString("Keep it fresh with real-time alerts.", comment: "Notifications pop up text")
+            static let Stream = NSLocalizedString("Two streams: Following & Starred.\nUse them however you like.", comment: "Stream pop up text")
+            static let Profile = NSLocalizedString("Everything you create in one place.\nSettings too.", comment: "Profile pop up text")
+            static let Omnibar = NSLocalizedString("Share text, links, images, GIFs and more.", comment: "Omnibar pop up text")
         }
     }
 
@@ -76,8 +76,7 @@ public struct InterfaceString {
         static let Prompt = NSLocalizedString("Search Ello", comment: "search ello prompt")
         static let Posts = NSLocalizedString("Posts", comment: "Posts search toggle")
         static let People = NSLocalizedString("People", comment: "People search toggle")
-        static let FindFriendsButton = NSLocalizedString("Find your friends", comment: "Find your friends button title")
-        static let FindFriendsPrompt = NSLocalizedString("Ello is better with friends.\nFind or invite yours:", comment: "Ello is better with friends button title")
+        static let FindFriendsPrompt = NSLocalizedString("Help grow the Ello community.\nShare the experience.", comment: "Search zero state button title")
         static let NoMatches = NSLocalizedString("We couldn't find any matches.", comment: "No search results found title")
         static let TryAgain = NSLocalizedString("Try another search?", comment: "No search results found body")
     }
@@ -193,9 +192,9 @@ public struct InterfaceString {
     }
 
     public struct PushNotifications {
-        static let PermissionPrompt = NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can adjust this in your settings.\n", comment: "Turn on Push Notifications prompt")
-        static let PermissionYes = NSLocalizedString("Yes Please", comment: "Allow")
-        static let PermissionNo = NSLocalizedString("No Thanks", comment: "Disallow")
+        static let PermissionPrompt = NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can makes changes in your settings.\n", comment: "Turn on Push Notifications prompt")
+        static let PermissionYes = NSLocalizedString("Yes please", comment: "Allow")
+        static let PermissionNo = NSLocalizedString("No thanks", comment: "Disallow")
     }
 
     public struct Friends {
@@ -206,7 +205,7 @@ public struct InterfaceString {
         static let AccessDenied = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.", comment: "Access to contacts denied by user")
         static let AccessRestricted = NSLocalizedString("Access to your contacts has been denied by the system.", comment: "Access to contacts denied by system")
 
-        static let FindAndInvite = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
+        static let FindAndInvite = NSLocalizedString("Find & invite your contacts", comment: "Find & invite")
         static let SearchPrompt = NSLocalizedString("Name or email", comment: "Find friends prompt")
 
         static let Resend = NSLocalizedString("Re-send", comment: "invite friends cell re-send")
@@ -260,30 +259,32 @@ public struct InterfaceString {
     }
 
     public struct Onboard {
-        static let ChooseAvatar = NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button")
-        static let ChooseHeader = NSLocalizedString("Choose Your Header", comment: "Choose your header button")
-
-        public struct FindYourFriends {
-            static let Title = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
-            static let Description = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
-            static let NoResultsTitle = NSLocalizedString("Find your friends!", comment: "Import friends no results title")
-            static let NoResultsBody = NSLocalizedString("Thanks. We didn’t find any of your friends.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover and Search screen.", comment: "Import friends no results body.")
-        }
-        public struct AwesomePeople {
-            static let Title = NSLocalizedString("Follow some awesome people.", comment: "Awesome People Selection Header text")
-            static let Description = NSLocalizedString("Ello is full of interesting and creative people committed to building a positive community.", comment: "Awesome People Selection Description text")
-        }
-        public struct Community {
-            static let Title = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
-            static let Description = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
-        }
-        public struct CoverImage {
-            static let Title = NSLocalizedString("Customize your profile.", comment: "Header Image Selection text")
-            static let Description = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
-        }
         static let PickAnotherImage = NSLocalizedString("Pick Another", comment: "Pick another button")
         static let UploadFailed = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "image upload failed during onboarding message")
         static let RelationshipFailed = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "relationship status update failed during onboarding message")
+
+        public struct Community {
+            static let Title = NSLocalizedString("Creative communities.", comment: "Community Selection Header text")
+            static let Description = NSLocalizedString("Follow the communities that interest you.", comment: "Community Selection Body text")
+        }
+        public struct AwesomePeople {
+            static let Title = NSLocalizedString("Talented creators.", comment: "Creators Selection Header text")
+            static let Description = NSLocalizedString("Follow some of Ello’s top creators.", comment: "Creators Selection Body text")
+        }
+        public struct FindYourFriends {
+            static let Title = NSLocalizedString("Connect with your contacts.", comment: "Find Friends Header text")
+            static let Description = NSLocalizedString("See who’s on Ello.", comment: "Find Friends Body text")
+            static let NoResultsTitle = NSLocalizedString("Find your friends!", comment: "Import friends no results title")
+            static let NoResultsBody = NSLocalizedString("Thanks. We didn’t find any of your friends.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover and Search screen.", comment: "Import friends no results body.")
+        }
+        public struct Avatar {
+            static let Button = NSLocalizedString("Select your profile avatar", comment: "Choose avatar button")
+        } 
+        public struct CoverImage {
+            static let Button = NSLocalizedString("Select your header image", comment: "Choose header image button")
+            static let Title = NSLocalizedString("Create your profile.", comment: "Header Image Selection text")
+            static let Description = NSLocalizedString("Make it rad.", comment: "Header Image Selection text")
+        }
         public struct Profile {
             static let Name = NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text")
             static let Bio = NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text")

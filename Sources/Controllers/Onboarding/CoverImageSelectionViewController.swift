@@ -110,7 +110,7 @@ private extension CoverImageSelectionViewController {
             height: 50
             ))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
-        chooseImageButton.setTitle(InterfaceString.Onboard.ChooseHeader, forState: .Normal)
+        chooseImageButton.setTitle(InterfaceString.Onboard.CoverImage.Button, forState: .Normal)
         chooseImageButton.addTarget(self, action: #selector(OnboardingUploadImageViewController.chooseImageTapped), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton

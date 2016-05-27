@@ -222,7 +222,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             width: containerFrame.width - margins.left - margins.right,
             height: buttonHeight
             ))
-        button.setTitle(InterfaceString.Search.FindFriendsButton, forState: .Normal)
+        button.setTitle(InterfaceString.Friends.FindAndInvite, forState: .Normal)
         button.addTarget(self, action: #selector(findFriendsTapped), forControlEvents: .TouchUpInside)
         button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
