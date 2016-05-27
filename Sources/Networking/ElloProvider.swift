@@ -34,7 +34,7 @@ public class ElloProvider {
 
         let method = target.method
         let parameters = target.parameters
-        let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters)
+        let endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponseClosure: sampleResponseClosure, method: method, parameters: parameters, parameterEncoding: .JSON)
         return endpoint.endpointByAddingHTTPHeaderFields(target.headers())
     }
 
