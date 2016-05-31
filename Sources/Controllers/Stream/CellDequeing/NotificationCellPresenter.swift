@@ -19,11 +19,10 @@ public struct NotificationCellPresenter {
             let notification = streamCellItem.jsonable as? Notification
         {
             cell.onWebContentReady { webView in
-                if let actualHeight = webView.windowContentSize()?.height {
-                    if actualHeight != streamCellItem.calculatedWebHeight {
-                        StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
-                        postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
-                    }
+                if let actualHeight = webView.windowContentSize()?.height
+                where actualHeight != streamCellItem.calculatedWebHeight {
+                    StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
+                    postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
                 }
             }
             cell.onHeightMismatch = { _ in
