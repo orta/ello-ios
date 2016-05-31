@@ -50,6 +50,14 @@ public class ElloButton: UIButton {
         updateStyle()
     }
 
+    public override func titleRectForContentRect(contentRect: CGRect) -> CGRect {
+        var titleRect = super.titleRectForContentRect(contentRect)
+        let delta: CGFloat = 4
+        titleRect.size.height += 2 * delta
+        titleRect.origin.y -= delta
+        return titleRect
+    }
+
 }
 
 public class LightElloButton: ElloButton {

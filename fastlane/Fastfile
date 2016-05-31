@@ -73,13 +73,13 @@ platform :ios do
 
     # setup the production configuration
     sh "bundle exec rake generate:staging_keys"
-    
-    cert( 
+
+    cert(
       output_path: ENV["CERTS_OUTPUT_PATH"]
     )
-    
+
     udid = sigh(
-      app_identifier: ENV["PROD_APP_ID"], 
+      app_identifier: ENV["PROD_APP_ID"],
       output_path: ENV["PROFILE_PATH"],
       development: false
     )
@@ -87,7 +87,7 @@ platform :ios do
     ENV["PROFILE_UDID"] = udid
 
     share_udid = sigh(
-      app_identifier: ENV["SHARE_EXTENSION_PROD_APP_ID"], 
+      app_identifier: ENV["SHARE_EXTENSION_PROD_APP_ID"],
       output_path: ENV["PROFILE_PATH"],
       development: false
     )
@@ -119,13 +119,13 @@ platform :ios do
 
     # setup the production configuration
     sh "bundle exec rake generate:prod_keys"
-    
-    cert( 
+
+    cert(
       output_path: ENV["CERTS_OUTPUT_PATH"]
     )
-    
+
     udid = sigh(
-      app_identifier: ENV["PROD_APP_ID"], 
+      app_identifier: ENV["PROD_APP_ID"],
       output_path: ENV["PROFILE_PATH"],
       development: false
     )
@@ -137,13 +137,13 @@ platform :ios do
       sdk: "iphoneos",
       clean: true
     )
-    
+
     deliver(
       submit_for_review: false,
       skip_screenshots: true,
       skip_metadata: true,
       automatic_release: false,
-      app_identifier: ENV["PROD_APP_ID"], 
+      app_identifier: ENV["PROD_APP_ID"],
       ipa: ENV["IPA_PATH"],
       force: true
     )
@@ -159,7 +159,7 @@ platform :ios do
       release_notes_task: "bundle exec rake generate:release_notes_devs"
     )
   end
-  
+
   lane :donut_testers do
     donut(
       groups: 'ios-devs,testers',
@@ -168,7 +168,7 @@ platform :ios do
   end
 
   ######################### PRIVATE LANES #########################
-  
+
   desc "Submit a Donut Build to Crashlytics"
   desc "This will also make sure the profile is up to date"
   private_lane :donut do |options|
@@ -179,18 +179,18 @@ platform :ios do
 
     # setup the production configuration
     sh "bundle exec rake generate:staging_keys"
-    
-    cert( 
+
+    cert(
       output_path: ENV["CERTS_OUTPUT_PATH"]
     )
-    
+
     udid = sigh(
-      app_identifier: ENV["DONUT_APP_ID"], 
-      adhoc: true, 
+      app_identifier: ENV["DONUT_APP_ID"],
+      adhoc: true,
       output_path: ENV["PROFILE_PATH"],
       development: true
     )
-    
+
     # use the UDID of the newly created provisioning profile
     ENV["PROFILE_UDID"] = udid
 

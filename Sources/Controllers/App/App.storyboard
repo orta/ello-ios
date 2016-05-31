@@ -49,8 +49,8 @@
                                     <constraint firstAttribute="height" constant="20" id="ORD-ni-eLn"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be inspired." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5v7-fv-xfg" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="107" y="442" width="79" height="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Creators Network." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5v7-fv-xfg" userLabel="The Creators Network" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="107" y="442" width="151" height="14"/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -60,7 +60,7 @@
                                     <constraint firstAttribute="height" constant="49" id="XXd-DL-hyY"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="386" id="bj9-6w-ZQk"/>
                                 </constraints>
-                                <state key="normal" title="Login">
+                                <state key="normal" title="Log in">
                                     <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -75,7 +75,7 @@
                                     <constraint firstAttribute="height" constant="49" id="fVh-7e-laF"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="386" id="yjY-Cb-vma"/>
                                 </constraints>
-                                <state key="normal" title="Sign Up">
+                                <state key="normal" title="Sign up">
                                     <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -110,7 +110,7 @@
                         <outlet property="logoView" destination="uOJ-2N-oiq" id="bYG-hj-BVV"/>
                         <outlet property="scrollView" destination="bLV-3Z-xbe" id="7uO-NK-vwQ"/>
                         <outlet property="signInButton" destination="t6E-jK-cus" id="hXi-hR-Pgr"/>
-                        <outlet property="socialRevolution" destination="5v7-fv-xfg" id="GU2-2w-eN5"/>
+                        <outlet property="tagLine" destination="5v7-fv-xfg" id="GU2-2w-eN5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkN-xz-XJH" userLabel="First Responder" sceneMemberID="firstResponder"/>
