@@ -99,11 +99,11 @@ public class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
                 messageVisible = true
                 if value != _messageHtml {
                     messageWebView.hidden = true
-                    messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 }
                 else {
                     messageWebView.hidden = false
                 }
+                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 _messageHtml = value
             }
             else {
