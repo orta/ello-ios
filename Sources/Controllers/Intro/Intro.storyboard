@@ -29,8 +29,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Ello. The Creators Network." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ9-jb-lJX" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="20" y="84" width="289" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Creators Network." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ9-jb-lJX" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="84" width="164" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="213" id="CA7-us-vsQ"/>
                                 </constraints>
@@ -44,12 +44,12 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgg-9n-x2U" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="20" y="109" width="379" height="120"/>
+                                <rect key="frame" x="20" y="142" width="379" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="ZXz-Xi-Wt7"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Create. Share. Connect. Join a community designed and built for creators, by creators.">
+                                    <fragment content="Welcome to the future.">
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="18" name="AtlasGrotesk-Bold"/>
@@ -58,6 +58,11 @@
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ZXz-Xi-Wt7"/>
+                                    </mask>
+                                </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="atb-xi-cpq">
                                 <rect key="frame" x="124" y="282" width="166" height="166"/>
@@ -72,10 +77,10 @@
                             <constraint firstAttribute="centerX" secondItem="atb-xi-cpq" secondAttribute="centerX" id="6xg-SL-gRS"/>
                             <constraint firstItem="lQ9-jb-lJX" firstAttribute="top" secondItem="Pnu-vv-UTj" secondAttribute="bottom" constant="64" id="8H1-Ro-PdV"/>
                             <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="lQ9-jb-lJX" secondAttribute="leading" id="Kqw-OR-ckk"/>
-                            <constraint firstItem="Xgg-9n-x2U" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="5" id="TAV-q7-KSc"/>
+                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="178" id="ODB-N3-xRh"/>
+                            <constraint firstItem="Xgg-9n-x2U" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="38" id="TAV-q7-KSc"/>
                             <constraint firstAttribute="trailing" secondItem="Xgg-9n-x2U" secondAttribute="trailing" constant="15" id="n7p-OG-hS7"/>
                             <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="Mde-Jq-y6k" secondAttribute="leadingMargin" id="sTG-eT-vN0"/>
-                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="Xgg-9n-x2U" secondAttribute="bottom" constant="53" id="tLu-c3-JpI"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
