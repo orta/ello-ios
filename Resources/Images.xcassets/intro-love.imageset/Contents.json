@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "Onboarding-Love-750.jpg"
+      "filename" : "Onboarding-Love-750.jpg",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "Onboarding-Love-1536.jpg"
+      "filename" : "Onboarding-Love-1536.jpg",
+      "scale" : "3x"
     }
   ],
   "info" : {

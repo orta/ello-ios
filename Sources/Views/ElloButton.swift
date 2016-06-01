@@ -159,3 +159,20 @@ public class RoundedElloButton: ElloButton {
         layer.cornerRadius = min(frame.height, frame.width) / 2
     }
 }
+
+public class GreenElloButton: ElloButton {
+
+    override func updateStyle() {
+        backgroundColor = enabled ? UIColor.greenD1() : UIColor.greyF1()
+    }
+
+    override func sharedSetup() {
+        titleLabel?.font = UIFont.defaultFont()
+        titleLabel?.numberOfLines = 1
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.grey6(), forState: .Highlighted)
+        setTitleColor(UIColor.greyA(), forState: .Disabled)
+        layer.cornerRadius = 5
+    }
+
+}

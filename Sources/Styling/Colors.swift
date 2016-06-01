@@ -12,6 +12,7 @@ private struct ElloColors {
     static let grey231F20: UIColor = UIColor(hex: 0x231F20)
     static let grey3: UIColor = UIColor(hex: 0x333333)
     static let grey4D: UIColor = UIColor(hex: 0x4D4D4D)
+    static let greenD1: UIColor = UIColor(hex: 0x00D100)
     static let grey5: UIColor = UIColor(hex: 0x555555)
     static let grey6: UIColor = UIColor(hex: 0x666666)
     static let greyA: UIColor = UIColor(hex: 0xAAAAAA)
@@ -62,6 +63,9 @@ public extension UIColor {
     class func greyF1() -> UIColor { return ElloColors.greyF1 }
     class func greyF2() -> UIColor { return ElloColors.greyF2 }
     class func grey4D() -> UIColor { return ElloColors.grey4D }
+
+    // get started button background
+    class func greenD1() -> UIColor { return ElloColors.greenD1 }
 
     // explains itself
     class func modalBackground() -> UIColor { return ElloColors.modalBackground }
