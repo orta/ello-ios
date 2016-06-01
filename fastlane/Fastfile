@@ -36,6 +36,7 @@ platform :ios do
     required_env = {
       "FL_VERSION_NUMBER_VERSION_NUMBER" => "current build number",
       "PROD_APP_ID" =>                      "co.ello.Ello",
+      "SHARE_EXTENSION_PROD_APP_ID" =>      "co.ello.Ello.ShareExtension",
       "DONUT_APP_ID" =>                     "co.ello.ElloStage",
       "RAINBOW_APP_ID" =>                   "co.ello.ElloDev",
       "CERTS_OUTPUT_PATH" =>                "./certs",
