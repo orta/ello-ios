@@ -45,8 +45,8 @@ public class ElloButton: UIButton {
     func sharedSetup() {
         titleLabel?.font = UIFont.defaultFont()
         titleLabel?.numberOfLines = 1
-        setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        setTitleColor(UIColor.greyA(), forState: .Disabled)
+        setTitleColor(.whiteColor(), forState: .Normal)
+        setTitleColor(.greyA(), forState: .Disabled)
         updateStyle()
     }
 
@@ -69,9 +69,9 @@ public class LightElloButton: ElloButton {
     override func sharedSetup() {
         titleLabel?.font = UIFont.defaultFont()
         titleLabel?.numberOfLines = 1
-        setTitleColor(UIColor.grey6(), forState: .Normal)
-        setTitleColor(UIColor.blackColor(), forState: .Highlighted)
-        setTitleColor(UIColor.greyC(), forState: .Disabled)
+        setTitleColor(.grey6(), forState: .Normal)
+        setTitleColor(.blackColor(), forState: .Highlighted)
+        setTitleColor(.greyC(), forState: .Disabled)
     }
 
 }
@@ -101,10 +101,10 @@ public class WhiteElloButton: ElloButton {
     override func sharedSetup() {
         super.sharedSetup()
         titleLabel?.font = UIFont.defaultFont()
-        setTitleColor(UIColor.blackColor(), forState: .Normal)
-        setTitleColor(UIColor.grey6(), forState: .Highlighted)
-        setTitleColor(UIColor.greyC(), forState: .Disabled)
-        setTitleColor(UIColor.whiteColor(), forState: .Selected)
+        setTitleColor(.blackColor(), forState: .Normal)
+        setTitleColor(.grey6(), forState: .Highlighted)
+        setTitleColor(.greyC(), forState: .Disabled)
+        setTitleColor(.whiteColor(), forState: .Selected)
     }
 }
 
@@ -130,7 +130,7 @@ public class OutlineElloButton: WhiteElloButton {
 
 
 public class RoundedElloButton: ElloButton {
-    var borderColor: UIColor = UIColor.blackColor() {
+    var borderColor: UIColor = .blackColor() {
         didSet {
             updateOutline()
         }
@@ -138,11 +138,11 @@ public class RoundedElloButton: ElloButton {
 
     override public func sharedSetup() {
         super.sharedSetup()
-        setTitleColor(UIColor.blackColor(), forState: .Normal)
-        setTitleColor(UIColor.grey6(), forState: .Highlighted)
-        setTitleColor(UIColor.greyC(), forState: .Disabled)
+        setTitleColor(.blackColor(), forState: .Normal)
+        setTitleColor(.grey6(), forState: .Highlighted)
+        setTitleColor(.greyC(), forState: .Disabled)
         layer.borderWidth = 1
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = .clearColor()
         updateOutline()
     }
 
@@ -158,4 +158,21 @@ public class RoundedElloButton: ElloButton {
         super.layoutSubviews()
         layer.cornerRadius = min(frame.height, frame.width) / 2
     }
+}
+
+public class GreenElloButton: ElloButton {
+
+    override func updateStyle() {
+        backgroundColor = enabled ? .greenD1() : .greyF1()
+    }
+
+    override func sharedSetup() {
+        titleLabel?.font = UIFont.defaultFont()
+        titleLabel?.numberOfLines = 1
+        setTitleColor(.whiteColor(), forState: .Normal)
+        setTitleColor(.grey6(), forState: .Highlighted)
+        setTitleColor(.greyA(), forState: .Disabled)
+        layer.cornerRadius = 5
+    }
+
 }

@@ -29,8 +29,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Ello. The Creators Network." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ9-jb-lJX" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="20" y="84" width="289" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Creators Network." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ9-jb-lJX" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="84" width="164" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="213" id="CA7-us-vsQ"/>
                                 </constraints>
@@ -42,22 +42,6 @@
                                         <exclude reference="CA7-us-vsQ"/>
                                     </mask>
                                 </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgg-9n-x2U" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="20" y="109" width="379" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="ZXz-Xi-Wt7"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Create. Share. Connect. Join a community designed and built for creators, by creators.">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="18" name="AtlasGrotesk-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="atb-xi-cpq">
                                 <rect key="frame" x="124" y="282" width="166" height="166"/>
@@ -71,16 +55,12 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="atb-xi-cpq" secondAttribute="centerX" id="6xg-SL-gRS"/>
                             <constraint firstItem="lQ9-jb-lJX" firstAttribute="top" secondItem="Pnu-vv-UTj" secondAttribute="bottom" constant="64" id="8H1-Ro-PdV"/>
-                            <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="lQ9-jb-lJX" secondAttribute="leading" id="Kqw-OR-ckk"/>
-                            <constraint firstItem="Xgg-9n-x2U" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="5" id="TAV-q7-KSc"/>
-                            <constraint firstAttribute="trailing" secondItem="Xgg-9n-x2U" secondAttribute="trailing" constant="15" id="n7p-OG-hS7"/>
-                            <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="Mde-Jq-y6k" secondAttribute="leadingMargin" id="sTG-eT-vN0"/>
-                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="Xgg-9n-x2U" secondAttribute="bottom" constant="53" id="tLu-c3-JpI"/>
+                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="178" id="ODB-N3-xRh"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="lQ9-jb-lJX" secondAttribute="leading" id="eGA-gC-lbK"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="discoverLabel" destination="Xgg-9n-x2U" id="CZV-gD-gcJ"/>
                         <outlet property="elloLogoImage" destination="atb-xi-cpq" id="Rcf-aa-zdm"/>
                         <outlet property="welcomeLabel" destination="lQ9-jb-lJX" id="hfO-gp-aWJ"/>
                     </connections>
@@ -104,7 +84,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-friends" translatesAutoresizingMaskIntoConstraints="NO" id="L62-1i-7LL">
                                 <rect key="frame" x="0.0" y="184" width="414" height="552"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The promise the of the internet." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3o-Xl-aAK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your work and ideas." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3o-Xl-aAK">
                                 <rect key="frame" x="15" y="84" width="384" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -185,16 +165,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your work &amp; ideas." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcW-uY-4JN" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The promise of the internet." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcW-uY-4JN" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="84" width="384" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-love" translatesAutoresizingMaskIntoConstraints="NO" id="SRt-MA-l0Q">
-                                <rect key="frame" x="0.0" y="184" width="414" height="552"/>
+                                <rect key="frame" x="0.0" y="194" width="414" height="463"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsN-Mj-FcD" userLabel="Get started Button" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsN-Mj-FcD" userLabel="Get started Button" customClass="GreenElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="672" width="384" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="384" id="LOK-KA-ErG"/>
@@ -211,15 +191,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="YsN-Mj-FcD" secondAttribute="bottom" constant="15" id="5kh-km-Bib"/>
-                            <constraint firstItem="SRt-MA-l0Q" firstAttribute="height" secondItem="JnB-il-3m7" secondAttribute="height" multiplier="0.75" id="968-kp-Jb1"/>
+                            <constraint firstItem="SRt-MA-l0Q" firstAttribute="height" secondItem="JnB-il-3m7" secondAttribute="height" multiplier="0.75" constant="-89" id="968-kp-Jb1"/>
                             <constraint firstItem="SRt-MA-l0Q" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" id="CVM-Oo-Zd1"/>
                             <constraint firstAttribute="trailing" secondItem="SRt-MA-l0Q" secondAttribute="trailing" id="Eq9-2P-Rph"/>
                             <constraint firstItem="YsN-Mj-FcD" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" priority="999" constant="15" id="GRD-WC-vVI"/>
                             <constraint firstAttribute="centerX" secondItem="YsN-Mj-FcD" secondAttribute="centerX" id="LGp-b2-77S"/>
+                            <constraint firstItem="YsN-Mj-FcD" firstAttribute="top" secondItem="SRt-MA-l0Q" secondAttribute="bottom" constant="15" id="ZU0-Jg-DWv"/>
                             <constraint firstAttribute="trailing" secondItem="lcW-uY-4JN" secondAttribute="trailing" constant="15" id="cYB-Lu-1cX"/>
                             <constraint firstItem="lcW-uY-4JN" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" constant="15" id="mnJ-Iv-T3T"/>
                             <constraint firstItem="lcW-uY-4JN" firstAttribute="top" secondItem="JnB-il-3m7" secondAttribute="top" constant="84" id="n1R-MC-Jyi"/>
-                            <constraint firstAttribute="bottom" secondItem="SRt-MA-l0Q" secondAttribute="bottom" id="vbL-at-drh"/>
                             <constraint firstAttribute="trailing" secondItem="YsN-Mj-FcD" secondAttribute="trailing" priority="999" constant="15" id="wgd-Fy-rxK"/>
                         </constraints>
                     </view>
@@ -238,6 +218,6 @@
         <image name="ello-logo" width="166" height="166"/>
         <image name="intro-friends" width="375" height="375"/>
         <image name="intro-inspired" width="375" height="375"/>
-        <image name="intro-love" width="375" height="375"/>
+        <image name="intro-love" width="375" height="394"/>
     </resources>
 </document>

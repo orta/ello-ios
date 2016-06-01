@@ -19,11 +19,11 @@ public struct NotificationAttributedTitle {
         return attrs + addlAttrs
     }
 
-    static private func style(text: String) -> NSAttributedString {
+    static private func styleText(text: String) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs())
     }
 
-    static private func style(user: User?) -> NSAttributedString {
+    static private func styleUser(user: User?) -> NSAttributedString {
         if let user = user {
             return NSAttributedString(string: user.atName, attributes: attrs([
                 ElloAttributedText.Link: "user",
@@ -32,11 +32,11 @@ public struct NotificationAttributedTitle {
             ]))
         }
         else {
-            return style("Someone")
+            return styleText("Someone")
         }
     }
 
-    static private func style(text: String, _ post: Post) -> NSAttributedString {
+    static private func stylePost(text: String, _ post: Post) -> NSAttributedString {
         let attrs = self.attrs([
             ElloAttributedText.Link: "post",
             ElloAttributedText.Object: post,
@@ -45,7 +45,7 @@ public struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs)
     }
 
-    static private func style(text: String, _ comment: ElloComment) -> NSAttributedString {
+    static private func styleComment(text: String, _ comment: ElloComment) -> NSAttributedString {
         let attrs = self.attrs([
             ElloAttributedText.Link: "comment",
             ElloAttributedText.Object: comment,
@@ -58,54 +58,54 @@ public struct NotificationAttributedTitle {
         switch kind {
             case .RepostNotification:
                 if let post = subject as? Post {
-                    return style(author)
-                        .append(style(" reposted your "))
-                        .append(style("post", post))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" reposted your "))
+                        .append(stylePost("post", post))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" reposted your post."))
+                    return styleUser(author)
+                        .append(styleText(" reposted your post."))
                 }
             case .NewFollowedUserPost:
-                return style("You started following ")
-                    .append(style(author))
-                    .append(style("."))
+                return styleText("You started following ")
+                    .append(styleUser(author))
+                    .append(styleText("."))
             case .NewFollowerPost:
-                return style(author)
-                    .append(style(" started following you."))
+                return styleUser(author)
+                    .append(styleText(" started following you."))
             case .PostMentionNotification:
                 if let post = subject as? Post {
-                    return style(author)
-                        .append(style(" mentioned you in a "))
-                        .append(style("post", post))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" mentioned you in a "))
+                        .append(stylePost("post", post))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" mentioned you in a post."))
+                    return styleUser(author)
+                        .append(styleText(" mentioned you in a post."))
                 }
             case .CommentNotification:
                 if let comment = subject as? ElloComment {
-                    return style(author)
-                        .append(style(" commented on your "))
-                        .append(style("post", comment))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" commented on your "))
+                        .append(styleComment("post", comment))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" commented on a post."))
+                    return styleUser(author)
+                        .append(styleText(" commented on a post."))
                 }
             case .CommentMentionNotification:
                 if let comment = subject as? ElloComment {
-                    return style(author)
-                        .append(style(" mentioned you in a "))
-                        .append(style("comment", comment))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" mentioned you in a "))
+                        .append(styleComment("comment", comment))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" mentioned you in a comment."))
+                    return styleUser(author)
+                        .append(styleText(" mentioned you in a comment."))
                 }
             case .CommentOnOriginalPostNotification:
                 if let comment = subject as? ElloComment,
@@ -113,56 +113,56 @@ public struct NotificationAttributedTitle {
                     let repostAuthor = repost.author,
                     let source = repost.repostSource
                 {
-                    return style(author)
-                        .append(style(" commented on "))
-                        .append(style(repostAuthor))
-                        .append(style("’s "))
-                        .append(style("repost", repost))
-                        .append(style(" of your "))
-                        .append(style("post", source))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" commented on "))
+                        .append(styleUser(repostAuthor))
+                        .append(styleText("’s "))
+                        .append(stylePost("repost", repost))
+                        .append(styleText(" of your "))
+                        .append(stylePost("post", source))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" commented on your post"))
+                    return styleUser(author)
+                        .append(styleText(" commented on your post"))
                 }
             case .CommentOnRepostNotification:
                 if let comment = subject as? ElloComment {
-                    return style(author)
-                        .append(style(" commented on your "))
-                        .append(style("repost", comment))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" commented on your "))
+                        .append(styleComment("repost", comment))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author)
-                        .append(style(" commented on your repost"))
+                    return styleUser(author)
+                        .append(styleText(" commented on your repost"))
                 }
             case .InvitationAcceptedPost:
-                return style(author)
-                    .append(style(" accepted your invitation."))
+                return styleUser(author)
+                    .append(styleText(" accepted your invitation."))
             case .LoveNotification:
                 if let love = subject as? Love,
                     let post = love.post
                 {
-                    return style(author)
-                        .append(style(" loved your "))
-                        .append(style("post", post))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" loved your "))
+                        .append(stylePost("post", post))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author).append(style(" loved your post."))
+                    return styleUser(author).append(styleText(" loved your post."))
                 }
             case .LoveOnRepostNotification:
                 if let love = subject as? Love,
                     let post = love.post
                 {
-                    return style(author)
-                        .append(style(" loved your "))
-                        .append(style("repost", post))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" loved your "))
+                        .append(stylePost("repost", post))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author).append(style(" loved your repost."))
+                    return styleUser(author).append(styleText(" loved your repost."))
                 }
             case .LoveOnOriginalPostNotification:
                 if let love = subject as? Love,
@@ -170,20 +170,20 @@ public struct NotificationAttributedTitle {
                     let repostAuthor = repost.author,
                     let source = repost.repostSource
                 {
-                    return style(author)
-                        .append(style(" loved "))
-                        .append(style(repostAuthor))
-                        .append(style("’s "))
-                        .append(style("repost", repost))
-                        .append(style(" of your "))
-                        .append(style("post", source))
-                        .append(style("."))
+                    return styleUser(author)
+                        .append(styleText(" loved "))
+                        .append(styleUser(repostAuthor))
+                        .append(styleText("’s "))
+                        .append(stylePost("repost", repost))
+                        .append(styleText(" of your "))
+                        .append(stylePost("post", source))
+                        .append(styleText("."))
                 }
                 else {
-                    return style(author).append(style(" loved a repost of your post."))
+                    return styleUser(author).append(styleText(" loved a repost of your post."))
                 }
             case .WelcomeNotification:
-                return style("Welcome to Ello!")
+                return styleText("Welcome to Ello!")
             default:
                 return NSAttributedString(string: "")
         }
