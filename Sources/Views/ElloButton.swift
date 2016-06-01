@@ -19,7 +19,7 @@ public class ElloButton: UIButton {
     }
 
     func updateStyle() {
-        backgroundColor = enabled ? .blackColor() : .grey231F20()
+        backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
     }
 
     required override public init(frame: CGRect) {
@@ -63,7 +63,7 @@ public class ElloButton: UIButton {
 public class LightElloButton: ElloButton {
 
     override func updateStyle() {
-        backgroundColor = enabled ? .greyE5() : .greyF1()
+        backgroundColor = enabled ? UIColor.greyE5() : UIColor.greyF1()
     }
 
     override func sharedSetup() {
@@ -88,13 +88,13 @@ public class WhiteElloButton: ElloButton {
 
     override func updateStyle() {
         if !enabled {
-            backgroundColor = .greyA()
+            backgroundColor = UIColor.greyA()
         }
         else if selected {
-            backgroundColor = .blackColor()
+            backgroundColor = UIColor.blackColor()
         }
         else {
-            backgroundColor = .whiteColor()
+            backgroundColor = UIColor.whiteColor()
         }
     }
 
@@ -112,7 +112,7 @@ public class OutlineElloButton: WhiteElloButton {
 
     override func sharedSetup() {
         super.sharedSetup()
-        backgroundColor = .whiteColor()
+        backgroundColor = UIColor.whiteColor()
         updateOutline()
     }
 
@@ -147,7 +147,7 @@ public class RoundedElloButton: ElloButton {
     }
 
     override func updateStyle() {
-        backgroundColor = enabled ? .clearColor() : .grey231F20()
+        backgroundColor = enabled ? UIColor.clearColor() : UIColor.grey231F20()
     }
 
     func updateOutline() {
