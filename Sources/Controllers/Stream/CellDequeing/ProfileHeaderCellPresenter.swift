@@ -48,9 +48,13 @@ public struct ProfileHeaderCellPresenter {
             {
                 cell.setAvatar(cachedImage)
             }
-            else if let url = user.avatar?.original?.url ?? user.avatar?.optimized?.url {
+            else if let url = user.avatar?.original?.url
+            where !user.postsAdultContent || currentUser?.viewsAdultContent == true {
                 cell.setAvatarURL(url)
             }
+            else if let url = user.avatarURL {
+                cell.setAvatarURL(url)
+            } 
 
             cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
             if let height = streamCellItem.calculatedWebHeight {
