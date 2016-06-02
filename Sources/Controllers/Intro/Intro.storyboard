@@ -43,20 +43,33 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="atb-xi-cpq">
-                                <rect key="frame" x="124" y="282" width="166" height="166"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RhS-it-T4p">
+                                <rect key="frame" x="0.0" y="112" width="414" height="624"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="atb-xi-cpq">
+                                        <rect key="frame" x="124" y="229" width="166" height="166"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="166" id="W0S-yw-lA8"/>
+                                            <constraint firstAttribute="width" constant="166" id="gvZ-7z-Ia0"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="166" id="W0S-yw-lA8"/>
-                                    <constraint firstAttribute="width" constant="166" id="gvZ-7z-Ia0"/>
+                                    <constraint firstItem="atb-xi-cpq" firstAttribute="centerY" secondItem="RhS-it-T4p" secondAttribute="centerY" id="9Nw-Om-kng"/>
+                                    <constraint firstItem="atb-xi-cpq" firstAttribute="centerX" secondItem="RhS-it-T4p" secondAttribute="centerX" id="qrI-Bn-OI3"/>
                                 </constraints>
-                            </imageView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="atb-xi-cpq" secondAttribute="centerX" id="6xg-SL-gRS"/>
                             <constraint firstItem="lQ9-jb-lJX" firstAttribute="top" secondItem="Pnu-vv-UTj" secondAttribute="bottom" constant="64" id="8H1-Ro-PdV"/>
-                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="178" id="ODB-N3-xRh"/>
+                            <constraint firstItem="xmC-WG-1dq" firstAttribute="top" secondItem="RhS-it-T4p" secondAttribute="bottom" id="Phb-2Q-ZCh"/>
                             <constraint firstAttribute="leadingMargin" secondItem="lQ9-jb-lJX" secondAttribute="leading" id="eGA-gC-lbK"/>
+                            <constraint firstItem="RhS-it-T4p" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="8" id="fuz-ae-TCD"/>
+                            <constraint firstItem="RhS-it-T4p" firstAttribute="leading" secondItem="Mde-Jq-y6k" secondAttribute="leadingMargin" constant="-20" id="imU-fn-mL4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="RhS-it-T4p" secondAttribute="trailing" constant="-20" id="jDY-dt-LOz"/>
+                            <constraint firstItem="RhS-it-T4p" firstAttribute="top" secondItem="Pnu-vv-UTj" secondAttribute="bottom" constant="92" id="xVn-dp-kK2"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
@@ -165,42 +178,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-love" translatesAutoresizingMaskIntoConstraints="NO" id="SRt-MA-l0Q">
+                                <rect key="frame" x="0.0" y="184" width="414" height="552"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The promise of the internet." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcW-uY-4JN" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="84" width="384" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-love" translatesAutoresizingMaskIntoConstraints="NO" id="SRt-MA-l0Q">
-                                <rect key="frame" x="0.0" y="194" width="414" height="463"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsN-Mj-FcD" userLabel="Get started Button" customClass="GreenElloButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="672" width="384" height="49"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LwA-sj-Jg4" userLabel="Button container">
+                                <rect key="frame" x="0.0" y="657" width="414" height="79"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsN-Mj-FcD" userLabel="Get started Button" customClass="GreenElloButton" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="15" y="15" width="384" height="49"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="384" id="LOK-KA-ErG"/>
+                                            <constraint firstAttribute="height" constant="49" id="vYa-KY-AeO"/>
+                                        </constraints>
+                                        <state key="normal" title="Get started">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTouchGetStarted:" destination="wI7-5z-elW" eventType="touchUpInside" id="lNe-Ya-Ugl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="384" id="LOK-KA-ErG"/>
-                                    <constraint firstAttribute="height" constant="49" id="vYa-KY-AeO"/>
+                                    <constraint firstAttribute="bottom" secondItem="YsN-Mj-FcD" secondAttribute="bottom" constant="15" id="CtX-kU-bdB"/>
+                                    <constraint firstItem="YsN-Mj-FcD" firstAttribute="centerX" secondItem="LwA-sj-Jg4" secondAttribute="centerX" id="JGK-Bl-lDh"/>
+                                    <constraint firstItem="YsN-Mj-FcD" firstAttribute="centerY" secondItem="LwA-sj-Jg4" secondAttribute="centerY" id="K4K-ob-tvg"/>
+                                    <constraint firstAttribute="height" constant="79" id="aA0-1S-6OK"/>
+                                    <constraint firstAttribute="trailing" secondItem="YsN-Mj-FcD" secondAttribute="trailing" constant="15" id="dEr-R2-WUa"/>
+                                    <constraint firstAttribute="width" secondItem="YsN-Mj-FcD" secondAttribute="width" priority="750" constant="30" id="oqh-jB-Nsn"/>
+                                    <constraint firstItem="YsN-Mj-FcD" firstAttribute="leading" secondItem="LwA-sj-Jg4" secondAttribute="leading" constant="15" id="tT3-3C-lo3"/>
+                                    <constraint firstItem="YsN-Mj-FcD" firstAttribute="top" secondItem="LwA-sj-Jg4" secondAttribute="top" constant="15" id="ygl-da-BHZ"/>
                                 </constraints>
-                                <state key="normal" title="Get started">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTouchGetStarted:" destination="wI7-5z-elW" eventType="touchUpInside" id="lNe-Ya-Ugl"/>
-                                </connections>
-                            </button>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="K4K-ob-tvg"/>
+                                        <exclude reference="dEr-R2-WUa"/>
+                                        <exclude reference="tT3-3C-lo3"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="YsN-Mj-FcD" secondAttribute="bottom" constant="15" id="5kh-km-Bib"/>
-                            <constraint firstItem="SRt-MA-l0Q" firstAttribute="height" secondItem="JnB-il-3m7" secondAttribute="height" multiplier="0.75" constant="-89" id="968-kp-Jb1"/>
+                            <constraint firstItem="LwA-sj-Jg4" firstAttribute="width" secondItem="JnB-il-3m7" secondAttribute="width" id="3G3-ms-ebp"/>
+                            <constraint firstItem="jz7-w2-zN1" firstAttribute="top" secondItem="LwA-sj-Jg4" secondAttribute="bottom" id="6xG-hf-cUT"/>
+                            <constraint firstItem="SRt-MA-l0Q" firstAttribute="height" secondItem="JnB-il-3m7" secondAttribute="height" multiplier="0.75" id="968-kp-Jb1"/>
                             <constraint firstItem="SRt-MA-l0Q" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" id="CVM-Oo-Zd1"/>
                             <constraint firstAttribute="trailing" secondItem="SRt-MA-l0Q" secondAttribute="trailing" id="Eq9-2P-Rph"/>
-                            <constraint firstItem="YsN-Mj-FcD" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" priority="999" constant="15" id="GRD-WC-vVI"/>
-                            <constraint firstAttribute="centerX" secondItem="YsN-Mj-FcD" secondAttribute="centerX" id="LGp-b2-77S"/>
-                            <constraint firstItem="YsN-Mj-FcD" firstAttribute="top" secondItem="SRt-MA-l0Q" secondAttribute="bottom" constant="15" id="ZU0-Jg-DWv"/>
+                            <constraint firstItem="jz7-w2-zN1" firstAttribute="top" secondItem="SRt-MA-l0Q" secondAttribute="bottom" id="QCN-X0-S45"/>
+                            <constraint firstItem="LwA-sj-Jg4" firstAttribute="centerX" secondItem="JnB-il-3m7" secondAttribute="centerX" id="XSP-6f-6mh"/>
                             <constraint firstAttribute="trailing" secondItem="lcW-uY-4JN" secondAttribute="trailing" constant="15" id="cYB-Lu-1cX"/>
                             <constraint firstItem="lcW-uY-4JN" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" constant="15" id="mnJ-Iv-T3T"/>
                             <constraint firstItem="lcW-uY-4JN" firstAttribute="top" secondItem="JnB-il-3m7" secondAttribute="top" constant="84" id="n1R-MC-Jyi"/>
-                            <constraint firstAttribute="trailing" secondItem="YsN-Mj-FcD" secondAttribute="trailing" priority="999" constant="15" id="wgd-Fy-rxK"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
